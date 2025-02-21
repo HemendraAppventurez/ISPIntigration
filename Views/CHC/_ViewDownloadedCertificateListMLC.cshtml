@@ -1,0 +1,52 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.MLCNomineeModel>
+@using OTPL_Imp
+<style>
+    .webgrid-header a
+    {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+             
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex), 
+            grid.Column("nomineeName", header: "Name"),
+            grid.Column("mobileNumber", header: "Mobile Number"),
+            grid.Column("idProofName", header: "Id Proof Name"),
+            grid.Column(columnName: "idProofFilePath", header: "Id Proof", format: @<text>
+                        @if (string.IsNullOrEmpty(@item.idProofFilePath))
+                        {
+                            <span>&nbsp;</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.Content(item.idProofFilePath)" target="_blank" title="Download Id Proof"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                        </text>), 
+        grid.Column("downloadedDate", header: "Downloaded Date"),
+           grid.Column("downloadType", header: "Downloaded Type")
+           ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight:600;font-size:18px;">No record found !</span>
+        </div>
+    </div>
+}

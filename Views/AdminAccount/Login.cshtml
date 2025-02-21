@@ -1,0 +1,133 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.AdminLoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AdminAccountLayout.cshtml";
+}
+
+<script type="text/javascript">
+    function RefreshCaptcha() {
+        var img = document.getElementById("imgCaptcha");
+        img.src = '@Url.Action("GetCaptchaimage", "AdminAccount")' + "?query=" + Math.random();
+    }
+</script>
+
+<div class="col-md-6 lg-left">
+    <div class="instruction">
+        <h3>पंजीकृत संस्थानों के लिए लॉगिन निर्देश </h3>
+        <h4>पहले से पंजीकृत संस्थानों के लिए लॉगिन निर्देश</h4>
+        <div class="nano-content" id="demo">
+            <ul>
+                <li>संस्थान अपना रजिस्टरड <strong>"User ID", "Password"</strong> और <strong>"Captcha"</strong> भरकर <strong>"Login"</strong> बटन पर क्लिक करें।</li>
+                <li><strong>"Login"</strong> बटन पर क्लिक करने के उपरांत आपको <strong>" Dashboard"</strong> प्रदर्शित होने लगेगा|</li>
+                <li>यदि आप उपयुक्त जानकारी दुबारा भरना चाहते है तो “Reset” बटन पर क्लिक करे |</li> 
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 bg-color">
+    <div class="row">
+        <div class="lg-right">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#Login">Login</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="Login" class="tab-pane fade in active">
+                    @using (Html.BeginForm("Login", "AdminAccount", FormMethod.Post, new { @id = "frmLogin" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="login-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group on-focus">
+                                        <label>User ID<span style="color: red;">*</span></label>
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "User ID", @autocomplete = "off", @readonly = "readonly", @onfocus = "this.removeAttribute('readonly');" })
+                                        <div class="tool-tip  slideIn">Enter User ID</div>
+                                        @Html.ValidationMessageFor(m => m.UserName)
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group on-focus">
+                                        <label>Password<span style="color: red;">*</span></label>
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @type = "password", @autocomplete = "off", @onchange = "ConvertPassword(this.id)" })
+                                        <div class="tool-tip  slideIn">Enter Your Password</div>
+                                        @Html.ValidationMessageFor(m => m.Password)
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-5" style="padding: 0; margin: 0;">
+                                        <label>Captcha<span style="color: red;">*</span></label>
+                                        @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control captcha-text", autocomplete = "off", placeholder = "captcha" })
+                                    </div>
+                                    <div class="col-md-7 smalltext" style="padding-right: 0px;">
+                                        <label>&nbsp;</label>
+                                        <div class="captcha">
+                                            <img src='@Url.Action("GetCaptchaimage", "AdminAccount")' style="border:solid 1px" id="imgCaptcha" class="captchimg" />
+                                            <a href="javascript:void()" onclick="javascript: RefreshCaptcha();">
+                                                <img src="~/Images/refresh.png" alt="Refresh Captcha" title="Refresh Captcha" /></a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12" style="padding: 0">
+                                        @Html.ValidationMessageFor(m => m.Captcha)
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                @Html.HiddenFor(m => m.seed)
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-warning btn-block">Login</button> 
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="button" value="Reset" id="btnReset" class="btn btn-default btn-block" />
+                                    </div>
+                                </div>
+                                @*<div class="col-md-5"><a href="@Url.Action("ForgotPassword", "AdminAccount")">Forgot Password ?</a></div>
+                                <div class="col-md-7 text-right"><a href="@Url.Action("Registration", "AdminAccount")">For New Registration</a></div>*@
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+
+            if ('@ViewBag.MsgStatus' != 'success') {
+                $("#Captcha").val('');
+            }
+        }
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success"); 
+        }
+
+        $("#btnReset").click(function () {
+            $("#Password").val('');
+            $("#Captcha").val('');
+            $("#UserName").val('');
+            $(".field-validation-error").empty();
+        });
+
+    });
+
+    function ConvertPassword(obj) {
+        var pwd = $('#' + obj).val();
+        var seed = $('#seed').val();
+
+        var pwdVal = MD5(pwd);
+        var addseed = MD5(pwdVal.toUpperCase() + seed)
+
+        $('#' + obj).val(addseed);
+    }
+
+</script>

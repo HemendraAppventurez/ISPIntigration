@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "RegistrationInstructions";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .page-instraction {
+        min-height: 675px;
+    }
+</style>
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>असफल परिवार नियोजन प्रमाणपत्र<span class="small">Unsuccessful Family Planning Instructions</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 page-instraction">
+                            <h4>Procedure to Fill Application Form</h4>
+                            <ul>
+                                <li>Before filling this form, Kindly arrange the Scan Copy of following documents ready with you:-
+                                    <ul>
+                                        <li>OPD Receipt Of Health Unit</li>
+                                        <li>USG Report & Black Films</li>
+                                        <li>UPT Report</li>
+                                        <li>Antenatal Card</li>
+                                        <li>Certificate Of Sterilization</li>
+                                    </ul>
+                                    <strong>Note:- </strong>
+                                    <ul>
+                                        <li>All files should be uploaded in jpg/pdf format and maximum file size allowed up to (2MB)</li>
+                                        <li>Fields marked with * are mandatory.</li>
+                                    </ul>
+                                </li>
+                                <li>Fill all the required fields & attached the relevant documents then click on “Save” button. </li>
+                                <li>A preview page will appear, now check all the details carefully filled by you</li>
+                                <li>If every details is correct & no change is required then click on “Submit” button.</li>
+                                <li>You have to download the affidavit and after completing the formalities of   affidavit upload it to final submission of application form. </li>
+                                <li>After final submission of application form, Note down your Application Reference number for future use.</li>
+                                <li>You will be redirected to the new window. You have two options in New Window, one is “Print your Submitted Application” and “View application form Status” tab. </li>
+                                <li>You can use “Print your submitted Application” tab to print the form.</li>
+                                <li>You can check the current status of your application by clicking on the “View Submitted Application Status” </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 page-instraction">
+                            <h4>Terms & Conditions</h4>
+                            <ul>
+                                <li>Those applicants whose sterilization operation is unsuccessful can request for the Payment of Unsuccessful Family Planning. </li>
+                                <li>Claim amount of the Unsuccessful Family Planning will be calculated on the basis of compensation category chosen by citizen/applicant. </li>
+                                <li>In case of death due to sterilization of the person, any relative/dependent or spouse of the death person can claim for the payment. </li>
+                                <li>Applicant must download the system generated affidavit, get it attested by the department and upload the attested affidavit to finally submit the application form. </li>
+                                <li>Applicant`s request will be forwarded to the Community Health Centre/District Hospital by the Chief Medical Officer for further verification. Community Health Centre/District Hospital can approve/cancel the application on basis of their inspection. </li>
+                                <li>Once the application form verified by the Chief Medical Officer or Community Health Centre/District Hospital, then inspection meeting will be scheduled with the committee members. Applicants must be physically available for the inspection meeting. </li>
+                                <li>Applicant`s application can be cancel by the Chief Medical Officer/Associate Chief Medical Officer, if any information provided by the applicant found incorrect. </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <b>I have read and Understood all the Terms & Conditions regarding the applications Process.</b><br />
+                                <br />
+                                <b>
+                                    <label>
+                                        <input id="chkConfirm" name="chkConfirm" type="checkbox" />
+                                        I Agree</label></b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input name="btnProceed" value="Proceed" onclick="return proceedToRegistration();" disabled="disabled" id="btnProceed" class="btn btn-warning btn-block btn-lg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#chkConfirm').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#btnProceed').removeAttr('disabled');
+            } else {
+                $('#btnProceed').attr('disabled', 'disabled');
+            }
+        });
+    });
+
+    function proceedToRegistration() {
+
+        if ($('#chkConfirm').is(':checked')) {
+            var url = '@Url.Action("FAPRegistration", "FAP")';
+            window.location.href = url;
+        } else {
+            swal("", "First select Agree, Then Proceed To Registration !", "warning");
+            return false;
+        }
+    }
+
+</script>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "DICDashBoard";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>विकलांगता प्रमाणपत्र डैशबोर्ड<span class="small">Disability Certificate  Dashboard</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-90 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12 col-md-offset-2 col-sm-offset-2">
+            <ul class="circle">
+                 <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("DisabilityCertificate", "DIC", new {RegType=@OTPL_Imp.CustomCryptography.Encrypt("new") })" class="red">
+                        <img src="@Url.Content("~/images/print_icon.png")"><br />
+                        New Application
+                    </a>
+                </li> 
+               @*  <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("PrintApplicationForm", "DIC", new {registrationNo=ViewBag.RegisNo })" class="red" target="_blank">
+                        <img src="@Url.Content("~/images/print_icon.png")"><br />
+                        Print of Submitted Application
+                    </a>
+                </li> *@
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ViewDICList", "DIC")" class="indigo">
+                         <img src="@Url.Content("~/images/view_icon.png")"><br />
+                        Status of Submitted Application
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("DisabilityCertificate", "DIC",new {RegType=@OTPL_Imp.CustomCryptography.Encrypt("renew") })" class="red">
+                        <img src="@Url.Content("~/images/medical-records.png")">
+                        <br />
+                      Renew Application
+                    </a>
+                </li>
+               
+            </ul>
+        </div>
+    </div>
+</div>
+

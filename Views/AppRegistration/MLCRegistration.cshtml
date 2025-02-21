@@ -1,0 +1,748 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MLCModel
+@{
+    ViewBag.Title = "MLCRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .css-serial
+    {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before
+        {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Application For Issuance of Medico - Legal <strong>Certificate</strong></h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+
+    @using (Html.BeginForm("MLCRegistration", "appRegistration", FormMethod.Post, new { @id = "frmMedicoLegalCertificate" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.step)
+        @Html.HiddenFor(m => m.stepValue)
+        @Html.HiddenFor(m => m.regisIdMLC)
+        <div class="row">
+
+            @if (Model.step == 0 || Model.stepValue == 0)
+            {
+                <div class="divStep1">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 1</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Brought By</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Brought by Name <span class="star spanRequiredIdentityUnknown">*</span></label>
+                                            @Html.TextBoxFor(m => m.fullName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Patient Brought By <span class="star">*</span></label>
+                                            <div class="rbtnAppFor form-control">
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(m => m.patientBroughtBy, "Police")
+                                                    Police
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(m => m.patientBroughtBy, "Relative")
+                                                    Relative
+                                                </label>
+                                                <label class="radio-inline">
+                                                    @Html.RadioButtonFor(m => m.patientBroughtBy, "Unknown")
+                                                    Unknown
+                                                </label>
+                                                <br />
+
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.patientBroughtBy, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 divPoliceId" style="display: none">
+                                        <div class="form-group">
+                                            <label>Police Id <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.idNo, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.idNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 divPoliceId" style="display: none">
+                                        <div class="form-group">
+                                            <label>FIR No. <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.FIRno, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.FIRno, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 ShowHideRelation" style="display: none">
+                                        <div class="form-group">
+                                            <label>Relation With Person<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.broughtByPersonrelation, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.broughtByPersonrelation, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                    <div class="col-md-4 ShowIdentity" style="display: none">
+                                        <div class="form-group">
+                                            <label>Id Type <span class="text-danger spanRequiredIdentity">*</span></label>
+                                            @Html.DropDownListFor(m => m.idTypeId, (IEnumerable<SelectListItem>)ViewBag.IdType, "--Select--", new { @class = "form-control", @onchange = "onChangeIdType(this);" })
+                                            @Html.ValidationMessageFor(m => m.idTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 ShowIdentity" style="display: none">
+                                        <div class="form-group">
+                                            <label>Id Number <span class="star spanRequiredIdentity">*</span></label>
+                                            @Html.TextBoxFor(m => m.idNumber, new { @class = "form-control", @onchange = "onBlurIdNumber();" })
+                                            @Html.ValidationMessageFor(m => m.idNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Mobile Number <span class="star spanRequiredIdentityUnknown">*</span></label>
+                                            @Html.TextBoxFor(m => m.appmobileNo, new { @class = "form-control", @maxlength = 10, @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.appmobileNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Email Address</label>
+                                            @Html.TextBoxFor(m => m.emailId, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Designation</label>
+                                            @Html.TextBoxFor(m => m.broughtByDesignation, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.broughtByDesignation, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Address <span class="star">*</span></label>
+                                            @Html.TextAreaFor(m => m.broughtByaddress, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.broughtByaddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>State <span class="text-danger">*</span></label>
+                                            @Html.DropDownListFor(m => m.broughtBystateId, (IEnumerable<SelectListItem>)ViewBag.State, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                            @Html.ValidationMessageFor(m => m.broughtBystateId, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(m => m.broughtBystateId)
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>District <span class="text-danger">*</span></label>
+                                            @Html.DropDownListFor(m => m.broughtBydistrictId, (IEnumerable<SelectListItem>)ViewBag.BroughtByDistrict, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                            @Html.ValidationMessageFor(m => m.broughtBydistrictId, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(m => m.broughtBydistrictId)
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Pin Code </label>
+                                            @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", @maxlength = 6, @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.pinCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Medico-Legal Date<span class="text-danger">*</span></label>
+                                            @Html.TextBoxFor(m => m.MLCDate, new { @class = "datepicker-here form-control", tabindex = "4", @readonly = "true", @data_language = "en", @placeholder = "dd/mm/yyyy" })
+                                            @Html.ValidationMessageFor(m => m.MLCDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div> 
+
+                                    <div class="col-md-4">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="form-group">
+                                                <label>Medico-Legal Time<span class="text-danger">*</span></label> 
+                                                @Html.TextBoxFor(m => m.MLCtime, new { @class = "form-control timepicker", @placeholder = "HH:MM AM/PM" })
+                                                @Html.ValidationMessageFor(m => m.MLCtime, "", new { @class = "text-danger" }) 
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+            else if (Model.step == 1 || Model.stepValue == 1)
+            {
+                <div class="divStep2">
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 2</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Patient's Details</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Patient`s Name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patientName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.patientName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>S/O D/O W/O <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patientFatherName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.patientFatherName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Age About</label>
+                                            @Html.TextBoxFor(m => m.age, new { @class = "form-control", @onkeypress = "return isNumberKey(event);", @maxlength = 3 })
+                                            @Html.ValidationMessageFor(m => m.age, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                     <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label style="display: block" class="margin-bottom-10">Gender <span class="star">*</span> </label>
+                                            <div class="form-control">
+                                                <label>@Html.RadioButtonFor(m => m.patientGender, "Male") Male</label>
+                                                <label>@Html.RadioButtonFor(m => m.patientGender, "Female") Female</label>
+                                                <label>@Html.RadioButtonFor(m => m.patientGender, "TransGender") TransGender</label>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.patientGender, "", new { @class = "text-danger" })
+                                    </div>
+                                   
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Occupation </label>
+                                            @Html.TextBoxFor(m => m.occupation, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Address <span class="star">*</span></label>
+                                            @Html.TextAreaFor(m => m.address, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                     <div class="clearfix"></div>
+                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>State <span class="text-danger">*</span></label>
+                                            @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                            @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(m => m.stateId)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>District <span class="star">*</span></label>
+                                            @Html.DropDownListFor(m => m.districtId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                            @Html.ValidationMessageFor(m => m.districtId, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(m => m.districtId)
+                                        </div>
+                                    </div>
+                                    
+                                  @*  <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Tehsil</label>
+                                            @Html.TextBoxFor(m => m.tehsilName, new { @class = "form-control"})
+                                            @Html.ValidationMessageFor(m => m.tehsilName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Tehsil</label>
+                                            @Html.TextBoxFor(m => m.tehsilName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.tehsilName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                     <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Area/Road Name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.areaRoadName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.areaRoadName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Police station <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.policeStation, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.policeStation, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Details <span class="star">*</span></label>
+                                            @Html.TextAreaFor(m => m.details, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.details, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                     <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>OPD Number <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.OPDNumber, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.OPDNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label style="display: block" class="margin-bottom-10">Medico-Legal Type<span class="star">*</span></label>
+                                            <div class="form-control">
+                                                <label>@Html.RadioButtonFor(m => m.medicoLegalType, "Police") Police</label>
+                                                <label>@Html.RadioButtonFor(m => m.medicoLegalType, "Private") Private</label>
+                                                <label>@Html.RadioButtonFor(m => m.medicoLegalType, "Accidental") Accidental</label>
+                                                <label>@Html.RadioButtonFor(m => m.medicoLegalType, "Other") Other</label>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.medicoLegalType, "", new { @class = "text-danger" })
+                                    </div>
+                                   
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Mark Of Identification <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.markOfIdentification, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.markOfIdentification, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+            else if (Model.step == 2 || Model.stepValue == 2)
+            {
+                <div class="divStep3">
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 3</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Injury Details</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Doctor Name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.doctorName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.doctorName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Designation<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.Designation, new { @Value = "", @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Designation, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Seniority No.<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.seniorityNo, new { @Value = "", @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.seniorityNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Number of days for rest</label>
+                                            @Html.TextBoxFor(m => m.restDays, "{0:#.#}", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.restDays, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered css-serial tbUser">
+                                        <thead>
+                                            <tr>
+                                                <th width="6%" class="text-center">S.No.</th>
+                                                <th class="text-center">Injury Detail</th>
+                                                <th width="12%">Delete Record</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td>@Html.TextBoxFor(m => m.enquiryDetails, "", new { @class = "form-control alphaN", @style = "height:45px" })
+                                                </td>
+                                                <td align="center" class="padding-top-10">
+                                                    <span>
+                                                        <button id="btndel" onclick="DeleteRow(this);" type="button"><i class="fa fa-trash fa-2x text-warning"></i></button>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button id="btnadd" type="button" class="btn btn-info btn-md pull-right">Add More</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            }
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                @if ((Model.stepValue == -1 || Model.stepValue > 0) && Model.step != 0)
+                                {
+                                   
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <a href="@Url.Action("MLCRegistration", "appRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdMLC.ToString()), stepValue = Convert.ToInt32(Session["stepValue"]) - 1 })" class="btn btn-block btn-success">Back</a>
+                                    </div>
+                                
+                                }
+
+                                <div class="col-md-3 ">
+                                    <button type="submit" class="btn btn-block btn-primary" id="btnsubmit">@ViewBag.Submit</button>
+                                </div>
+                                <div class="col-md-2"><a href="@Url.Action("MLCRegistration", "AppRegistration")" class="btn btn-block btn-warning">Reset</a> </div>
+                                @if (Model.step < 3 && Model.step != 0 && Model.step - 1 >= Model.stepValue && Model.stepValue != -1)
+                                {
+                                    <div class="col-md-2 ">
+                                        <a href="@Url.Action("MLCRegistration", "appRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdMLC.ToString()), stepValue = (Convert.ToInt32(Session["stepValue"]) + 1) })" class="btn btn-block btn-success">Next</a>
+                                    </div>  
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+ 
+@*<script src="~/js/inputmask.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('input[id$="MLCtime"]').inputmask(
+        "hh:mm t", {
+            mask: "h:s t\\m",
+            placeholder: "hh:mm",
+            insertMode: false,
+            showMaskOnHover: false,
+            hourFormat: 12
+        });
+
+    });
+</script>*@
+
+<script src="~/Scripts/AuditScripts.js"></script>
+<script>
+
+    $(function () {
+         
+        addEvent();
+
+        if ($('input[name="patientBroughtBy"]:checked').val() == "Police") {
+           
+            debugger;
+            $('.divPoliceId').show();
+        }
+        else if ($('input[name="patientBroughtBy"]:checked').val() == "Relative") {
+            debugger;
+            $('.ShowHideRelation').show();
+            $('.ShowIdentity').show();
+            $('.spanRequiredIdentity').show();
+            //$("#idTypeId").rules("remove", "required");
+            //$("#idNumber").rules("remove", "required");
+        }
+        else if ($('input[name="patientBroughtBy"]:checked').val() == "Unknown") {
+            debugger;
+            $('.ShowIdentity').show();
+            $('.spanRequiredIdentity').hide();
+            $('.spanRequiredIdentityUnknown').hide();
+            $("#fullName").rules("remove", "required");
+            $("#idTypeId").rules("remove", "required");
+            $("#idNumber").rules("remove", "required");
+            $("#appmobileNo").rules("remove", "required");
+
+        }
+
+
+        if ('@TempData["Message"]' != '' && '@TempData["status"]' != '') {
+            swal("", '@TempData["Message"]', '@TempData["status"]');
+        }
+
+        binddropdown('@Model.broughtBystateId', "S");
+        binddPatientropdown('@Model.stateId', "S");
+
+        if ('@Model.MLCtime' == '')
+        {
+            $('#MLCtime').val('');
+        } 
+    });
+
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#MLCDate').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    $('input[name="patientBroughtBy"]').change(function () {
+
+        $('.divPoliceId').hide();
+        $('#idNo').val('');
+        $('#FIRno').val('');
+        $('.ShowHideRelation').hide();
+        $('#broughtByPersonrelation').val('');
+        $('.ShowIdentity').hide();
+        $('#idNumber').val('');
+        $('#idTypeId').val('');
+        $('.spanRequiredIdentity').show();
+        $("#fullName").rules("add", "required");
+        $("#idTypeId").rules("add", "required");
+        $("#idNumber").rules("add", "required");
+        $("#appmobileNo").rules("add", "required");
+
+        if (this.value == "Police") {
+            $('.divPoliceId').show();
+            $('.spanRequiredIdentityUnknown').show();
+        }
+        else if (this.value == "Relative") {
+            $('.ShowHideRelation').show();
+            $('.ShowIdentity').show();
+            $('.spanRequiredIdentity').show();
+            $('.spanRequiredIdentityUnknown').show();
+            //$("#idTypeId").rules("remove", "required");
+            //$("#idNumber").rules("remove", "required");
+        }
+        else if (this.value == "Unknown") {
+            $('.ShowIdentity').show();
+            $('.spanRequiredIdentity').hide();
+            $('.spanRequiredIdentityUnknown').hide();
+            $("#fullName").rules("remove", "required");
+            $("#idTypeId").rules("remove", "required");
+            $("#idNumber").rules("remove", "required");
+            $("#appmobileNo").rules("remove", "required");
+        }
+
+    });
+
+    function onChangeIdType(obj) {
+
+        if ($('input[name=patientBroughtBy]:checked').val() == 'Relative') {
+            if ($(obj).val() != '') {
+                $("#idNumber").rules("add", "required");
+            }
+            else {
+                $("#idNumber").rules("remove", "required");
+            }
+        }
+    }
+
+    function onBlurIdNumber() {
+
+        if ($('input[name=patientBroughtBy]:checked').val() == 'Relative') {
+            if ($("#idNumber").val().trim() != '') {
+                $("#idTypeId").rules("add", "required");
+            }
+            else {
+                $("#idTypeId").rules("remove", "required");
+            }
+        }
+    }
+
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    var rowCount = 0;
+
+    $("#btnadd").click(function () {
+
+        var markup = "<tr><td></td><td><input type='text' id='enquiryDetails' name='enquiryDetails' class ='form-control alphaN' style ='height:45px'></td>  <td align='center' class='padding-top-10'><span><button id='btndel' onclick='DeleteRow(this);' type='button' ><i class='fa fa-trash fa-2x text-warning'></i></button></span></td></tr>";
+        $("table tbody").append(markup);
+        rowCount++;
+
+        addEvent();
+    });
+     
+    function DeleteRow(obj) {
+        if (rowCount > 0) {
+            $(obj).closest('tr').remove();
+            rowCount--;
+            check = 1;
+        }
+        else {
+            swal("", "You Can't Delete ", "warning");
+        }
+    }
+    $("#btnsubmit").click(function () {
+
+        var _Enquirydetail = '';
+        var fill = '';
+
+        var val = $('#frmMedicoLegalCertificate').validate();
+        val.form();
+        val.showErrors();
+        if (val.valid()) {
+            $(".tbUser tr:gt(0)").each(function (index, obj) {
+                var currRow = $(this);
+                index = index + 1;
+
+                _Enquirydetail = currRow.find('td:eq(1)').find('input[type=text]').val();
+
+                if (_Enquirydetail == '' && index == 1) {
+                    swal("", "Injury Detail is required !", "warning");
+                    fill = 'yes';
+                    return false;
+                }
+            });
+        }
+
+        if (fill == 'yes') {
+            return false;
+        }
+        else {
+            return true;
+        }
+    });
+
+    $("#broughtBystateId").change(function () {
+        binddropdown($(this).val(), "C");
+    });
+
+    function binddropdown(stateId, type) {
+
+        $.ajax({
+            url: '@Url.Action("BindDistricDropdownlist", "appRegistration")',
+            data: { stateId: stateId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $("#broughtBydistrictId").empty();
+                $("#broughtBydistrictId").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#broughtBydistrictId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+
+                if (type == "S") {
+                    $("#broughtBydistrictId").val(@Model.broughtBydistrictId);
+            }
+            },
+            error: function (xhr, status) {
+                //alert(status);
+                $("#broughtBydistrictId").empty();
+                $("#broughtBydistrictId").append('<option value="">--Select--</option>');
+            }
+        });
+}
+
+    $("#stateId").change(function () {
+        binddPatientropdown($(this).val(), "C");
+    });
+
+    function binddPatientropdown(stateId, type) {
+
+        $.ajax({
+            url: '@Url.Action("BindDistricDropdownlist", "appRegistration")',
+            data: { stateId: stateId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $("#districtId").empty();
+                $("#districtId").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#districtId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+
+                if (type == "S") {
+                    $("#districtId").val(@Model.districtId);
+            }
+            },
+            error: function (xhr, status) {
+                //alert(status);
+                $("#districtId").empty();
+                $("#districtId").append('<option value="">--Select--</option>');
+            }
+        });
+}
+
+</script>

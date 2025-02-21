@@ -1,0 +1,555 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ReportsModel
+@{
+    ViewBag.Title = "ProcessCountReportAdmin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    SessionManager SMOBj = new SessionManager();
+}
+
+
+@using CCSHealthFamilyWelfareDept.Models;
+@{
+    
+    int i = 1, totalPage = 1;
+}
+
+@using (Html.BeginForm("ProcessCountReportAdmin", "Report", FormMethod.Post, new { @id = "frmCountCertificate" }))
+{
+    <section>
+        <div class="content-title">
+            <h3 class="main-title">Count Process <strong>Report</strong></h3>
+        </div>
+        <div id="content" class="dashboard padding-20 margin-bottom-50">
+            <div class="row">
+
+                <div class="col-md-12" id="FilterDiv">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4></h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-3 a" style="display: none">
+                                    <div class="form-group">
+                                        <label>Application <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.appTypeId, (IEnumerable<SelectListItem>)ViewBag.Application, "--select--", new { @class = "form-control", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.appTypeId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.appTypeId)
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 d" style="display: none">
+                                    <div class="">
+                                        <label>District <span class="star">*</span></label>
+                                        <span id="spanmember" style="display: none" class="text-danger">Please select Atleast One DIstrict</span>
+                                        <div class="example">
+                                            @Html.DropDownListFor(m => m.DistrictIds, (IEnumerable<SelectListItem>)ViewBag.District, new { @multiple = "multiple", @class = "reasondropdown ddlmultiple" })
+                                            @Html.ValidationMessageFor(m => m.DistrictId)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>From<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fromDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.fromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>To <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.toDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.toDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" id="FilterDivButton">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-4">
+                                        <input type="submit" id="btnsearch" value="Search" class="btn btn-block btn-success" />
+                                        @Html.HiddenFor(m => m.RptType)
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("ProcessCountReportAdmin", "Report")" class="btn btn-block btn-warning">Reset</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                @{
+    List<ReportsModel> rows = ViewData["ProcessCountReportList"] as List<ReportsModel>;
+
+    if (rows != null && rows.Count > 0)
+    {
+                    <div class="col-md-12" id="FilterDivTotalList">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4></h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <table border="1" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                                        <thead>
+                                            <tr>
+                                                <td rowspan="3"><strong>S. No</strong></td>
+                                                @if (!String.IsNullOrEmpty(rows.FirstOrDefault().Module))
+                                                {
+                                                    <td rowspan="3"><strong>Service Name</strong></td>
+                                                }
+                                                else
+                                                { 
+                                                    <td rowspan="3"><strong>District    Wise CMO Office</strong></td>
+                                                }
+
+                                                <td colspan="3"><strong>No. of Applications    Received Through</strong></td>
+
+                                                <td colspan="3"><strong>STEP - 1</strong> </td>
+                                                <td><strong>STEP - 2</strong></td>
+                                                <td><strong>STEP - 3</strong></td>
+                                                <td colspan="2"><strong>STEP - 4</strong></td>
+                                                <td><strong>STEP - 5</strong></td>
+                                                <td rowspan="3"><strong>No. of  Applications Pending </strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2"><strong>Health Portal</strong></td>
+                                                <td rowspan="2"><strong>E-district</strong></td>
+                                                <td rowspan="2" style="font-weight: 900; font-size: 15px;"><strong>Total</strong></td>
+                                                <td colspan="3"><strong>No.    of Applications</strong></td>
+                                                <td rowspan="2"><strong>No.    of Inspections Scheduled</strong></td>
+                                                <td rowspan="2"><strong>No.    of Inspection
+                    <br />
+                                                    Reports Uploaded</strong></td>
+                                                <td colspan="2"><strong>Final Status of Registration</strong> </td>
+                                                <td rowspan="2"><strong>No. of Certificates Issued</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Scrutnized</strong></td>
+                                                <td><strong>Rejected</strong></td>
+                                                <td><strong>Accepted</strong></td>
+                                                <td><strong>Rejected</strong></td>
+                                                <td><strong>Approved</strong></td>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            @foreach (var r in rows)
+                                            {
+            
+                                                <tr>
+                                                    <td><span>@i</span></td>
+                                                    @if (!String.IsNullOrEmpty(r.Module))
+                                                    {<td style="text-align: left;"><span>@r.Module</span></td> }
+                                                    else
+                                                    {<td style="text-align: left;"><span>@r.DistrictName</span></td> }
+
+                                                    <td><span>@r.citizen</span></td>
+                                                    <td><span>@r.cmo</span></td>
+                                                    <td style="text-align: center;">@Html.Raw(r.total > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("total"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.total + "</a>" : r.total.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Pending > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("pending"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Pending + "</a>" : r.Pending.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.ApplicationRejected > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step1Re"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.ApplicationRejected + "</a>" : r.ApplicationRejected.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Application_Accepted > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step1Accep"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Application_Accepted + "</a>" : r.Application_Accepted.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Inspection_Scheduled > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step2InsSch"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Inspection_Scheduled + "</a>" : r.Inspection_Scheduled.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Inspection_Rpt_uploaded > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step3InsRepUp"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Inspection_Rpt_uploaded + "</a>" : r.Inspection_Rpt_uploaded.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.InspectionRpt_Rejected > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step4Re"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.InspectionRpt_Rejected + "</a>" : r.InspectionRpt_Rejected.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Inspection_Rpt_Acc > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step4ReAccep"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Inspection_Rpt_Acc + "</a>" : r.Inspection_Rpt_Acc.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Certificate_Generated > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step5CertificateIssue"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Certificate_Generated + "</a>" : r.Certificate_Generated.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.TotalPending > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("TotalPending"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.TotalPending + "</a>" : r.TotalPending.ToString())</td>
+
+
+                                                </tr> i++;
+                                                      if (i == 20)
+                                                      {
+                                                          totalPage++;
+                                                <tr style="page-break-after: always;">
+                                                </tr>
+                                                      }
+                                                      else if (i == 48)
+                                                      {
+                                                          totalPage++;
+                                                <tr style="page-break-after: always;">
+                                                </tr>
+                                                      }
+                                            }
+
+                                            @{
+                                                <tr style="font-weight: 900; font-size: 15px;">
+                                                    <td>&nbsp;</td>
+                                                    <td style="font-weight: 900; font-size: 15px;"><strong>Total</strong></td>
+
+                                                    <td><span>@rows.Sum(r => r.citizen)</span></td>
+                                                    <td><span>@rows.Sum(m => m.cmo)</span></td>
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.total)</span></td>
+
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.Pending)</span></td>
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.ApplicationRejected)</span></td>
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.Application_Accepted)</span></td>
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.Inspection_Scheduled)</span></td>
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.Inspection_Rpt_uploaded)</span></td>
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.InspectionRpt_Rejected)</span></td>
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.Inspection_Rpt_Acc)</span></td>
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.Certificate_Generated)</span></td>
+
+                                                    <td style="text-align: center;"><span>@rows.Sum(m => m.TotalPending)</span></td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    }
+  
+                }
+            </div>
+        </div>
+    </section>
+    
+}
+<script src="~/js/bootstrap-multiselect.js"></script>
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+
+<script>
+
+    $(document).ready(function () {
+        debugger
+        if ('@TempData["RptType"]' == '1') {
+
+            $('.d').hide();
+            $('.a').hide();
+        }
+        else {
+            $('.d').show();
+            $('.a').show();
+        }
+        $('#DistrictIds').hide();
+        $('.ddlmultiple').multiselect({
+
+            includeSelectAllOption: true,
+            enableClickableOptGroups: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            nSelectedText: 'Reason Selected'
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#txtAppNumber").val('');
+            $("#ddlAppStatus").val('');
+            $("#txtAppDate").val('');
+            // $("#hdnInputRefresh").val('Refresh');
+            // var DistrictId = $("#hdnDistrictID").val();
+            //bindApplicationList(localStorage.getItem('reportName'), DistrictId);
+            //bindApplicationList();
+        });
+
+
+        //$("#btnSearch").click(function () {
+
+        //    var DistrictId = $("#hdnDistrictID").val();
+        //    bindApplicationList(localStorage.getItem('reportName'), DistrictId);
+        //    //bindApplicationList();
+        //});
+
+
+    });
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    $('#fromDate').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var mindate = new Date(selectedDate);
+            mindate.setDate(mindate.getDate() + 1);
+            $("#toDate").datepicker({ minDate: mindate, autoClose: true });
+        },
+        autoClose: true
+    });
+    $('#toDate').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var maxdate = new Date(selectedDate);
+            maxdate.setDate(maxdate.getDate() - 1);
+            $("#fromDate").datepicker({ maxDate: maxdate, autoClose: true });
+        },
+        autoClose: true
+    });
+    $("#btnsearch").click(function () {
+
+        //debugger;
+        //localStorage.removeItem('back');
+        // localStorage.removeItem('reportName');
+       @* var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#FilterDivTotalList').html(img);*@
+        $("#dvLoader").show();
+
+        if ('@TempData["RptType"]' != '1') {
+            if ($('#DistrictIds').val() == null || $('#DistrictIds').val() == '') {
+                $("#spanmember").show();
+                return false;
+            }
+            else {
+                $("#spanmember").hide();
+                return true;
+            }
+        }
+    });
+
+    //$('a').click(function(){
+
+    //    $("#dvLoader").show();
+    //    //$('<div class=loadingDiv>loading...</div>').prependTo(document.body); 
+    //});​
+
+
+ @*   function BindApplicationStatusList(regisIdNUH) {
+        var getUrl = window.location;
+        if (getUrl.host == '192.168.0.200:1018') {
+            var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+        } else if (getUrl.host == 'localhost:6411') {
+            var baseUrl = getUrl.protocol + "//" + getUrl.host
+        }
+        else {
+            var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+        }
+        // alert("Function Called '" + regisIdNUH + "'");
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetApplicationStatusList", "Report")',
+            data: { RegistrationID: regisIdNUH },
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                if (result != "") {
+
+                    //alert("Details Found....");
+                    $('#divViewAppDetails').html(result);
+
+                    $("#FilterDiv").hide();
+                    $("#FilterDivButton").hide();
+                    $("#FilterDivTotalList").hide();
+                    $('#contentList').parent().hide();
+                    $('#BtnBack').show();
+
+                    $("#divViewAppDetails").show();
+                    $("#dvLoader").hide();
+
+
+                }
+                else {
+                    $("#divViewAppDetails").hide();
+                    $('#BtnBack').hide();
+                }
+            }
+        });
+
+    }
+
+
+    function bindApplicationList(action, districtId) {
+
+        var IsnumericAction = $.isNumeric(action);
+        if (IsnumericAction == true) {
+            $("#txtAppNumber").val('');
+            $("#txtAppDate").val('');
+            $("#ddlAppStatus").val('');
+        }
+
+        if (action == 1) {
+            action = 'total';
+        }
+        if (action == 2) {
+            action = 'pending';
+        }
+
+        if (action == 3) {
+            action = 'TotalPending';
+        }
+
+        if (action == 4) {
+            action = 'Step1Re';
+        }
+        if (action == 5) {
+            action = 'Step1Accep';
+        }
+        if (action == 6) {
+            action = 'Step2InsSch';
+        }
+        if (action == 7) {
+            action = 'Step3InsRepUp';
+        }
+        if (action == 8) {
+            action = 'Step4Re';
+        }
+        if (action == 9) {
+            action = 'Step4ReAccep';
+        }
+        if (action == 10) {
+            action = 'Step5CertificateIssue';
+        }
+        var RefreshValue = $("#hdnInputRefresh").val();
+        if (RefreshValue == "Refresh") {
+            $("#txtAppNumber").val('');
+            $("#ddlAppStatus").val('');
+            $("#txtAppDate").val('');
+        }
+
+        localStorage.setItem('reportName', action);
+        if ('@SMOBj.AppNumber' != "") {
+            $("#txtAppNumber").val('@SMOBj.AppNumber');
+        }
+        var _registrationNo = $("#txtAppNumber").val().trim();
+        var _appDate = $("#txtAppDate").val().trim();
+        var _status = $("#ddlAppStatus").val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetApplicationCountList", "Report")',
+            data: { registrationNo: _registrationNo, appDate: _appDate, status: _status, ReportName: action, DistrictID: districtId },
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                if (result != "") {
+                    var rowNumber = 0;
+                    $('#PanelSearch').show();
+                    $('#tblCountList tbody').empty();
+                    $('#tblFAPList tbody').empty();
+                    $('#contentList').parent().show();
+                    $.each(result, function () {
+
+                        rowNumber = rowNumber + 1;
+                        if (action == "total") {
+                            var ReportName1 = "Total No. of Applications Received Through";
+                            $('#ReportHeading').text(ReportName1);
+                        }
+                        if (action == "TotalPending") {
+                            $("#ReportHeading").html('Total No. of Applications Pending');
+                        }
+                        if (action == "pending") {
+                            $("#ReportHeading").html('Step 1 Total No. of Applications Scrutnized');
+                        }
+                        if (action == "Step1Re") {
+                            $("#ReportHeading").html('Step 1 Total No. of Applications Rejected');
+                        }
+                        if (action == "Step1Accep") {
+                            $("#ReportHeading").html('Step 1 Total No. of Applications Accepted');
+                        }
+                        if (action == "Step2InsSch") {
+                            $("#ReportHeading").html('Step 2 Total No. of Inspections Scheduled');
+                        }
+                        if (action == "Step3InsRepUp") {
+                            $("#ReportHeading").html('Step 3 Total No. of Inspection Reports Uploaded');
+                        }
+                        if (action == "Step4Re") {
+                            $("#ReportHeading").html('Step 4 Total No. of Final Status of Registration Rejected');
+                        }
+                        if (action == "Step4ReAccep") {
+                            $("#ReportHeading").html('Step 4 Total No. of Final Status of Registration Approved');
+                        }
+                        if (action == "Step5CertificateIssue") {
+                            $("#ReportHeading").html('Step 5 Total No. of Certificates Issued');
+                        }
+                        if ('@SMOBj.AppTypeID' == 1) {
+
+                            var Td = "";
+                            if (this.notarizedAffidavitFilePath != "") {
+                                var FileAffidavit = this.notarizedAffidavitFilePath;
+                                var fileName = FileAffidavit.replace('~', '..');
+                                Td = "<td><a href='" + fileName + "' target='_blank' title='Download Affidavit'><i class='fa fa-download big'></i></a></td>";
+                            }
+                            else {
+                                Td = "<td></td>";
+                            }
+
+                            var regTD = "<td style=text-align: center;><span onclick='BindApplicationStatusList(" + this.RegistrationId + " );' style='color:blue;cursor:pointer'>" + this.registrationNo + "</span></td>"
+                            $('#tblCountList tbody').append("<tr>" + "<td>" + rowNumber + "</td>" + regTD + "<td>" + this.appliedDate + "</td>" + "<td>" + this.establishmentName + "</td>" + "<td>" + this.medicalEstablishment + "</td>" + "<td>" + this.UPMCI_SMF_Number + "</td>" + Td + "</tr>");
+                        }
+
+                        if ('@SMOBj.AppTypeID' == 2) {
+
+
+                            var Td = "";
+                            if (this.affidavitfilePath != "" && this.affidavitfilePath != null) {
+
+                                var FileAffidavit = this.affidavitfilePath;
+                                var fileName = FileAffidavit.replace('~', '..');
+                                Td = "<td><a href='" + fileName + "' target='_blank' title='Download Affidavit'><i class='fa fa-download big'></i></a></td>";
+                            }
+                            else {
+                                Td = "<td></td>";
+                            }
+
+                            var regTD = "<td style=text-align: center;><span onclick='BindApplicationStatusList(" + this.RegistrationId + " );' style='color:blue;cursor:pointer'>" + this.registrationNo + "</span></td>"
+                            $('#tblFAPList tbody').append("<tr>" + "<td>" + rowNumber + "</td>" + regTD + "<td>" + this.medicalEstablishment + "</td>" + "<td>" + this.claimantMobileNo + "</td>" + "<td>" + this.claimAmount + "</td>" + "<td>" + this.appliedDate + "</td>" + Td + "</tr>");
+
+                        }
+
+                        $("#hdnDistrictID").val(this.DistrictId);
+
+                    });
+
+                    var $el = $('#contentList');  //record the elem so you don't crawl the DOM everytime  
+                    var bottom = $el.position().top + $el.outerHeight(true); // passing "true" will also include the top and bottom margin
+                    $("#dvLoader").hide();
+
+                }
+                else {
+
+                    $('#tblCountList tbody').empty();
+                    $('#PanelSearch').hide();
+                    $('#contentList').parent().show();
+                    $('#tblCountList tbody').append("There is no record found");
+
+                }
+            }
+        });
+
+    }*@
+
+
+    function SubmitForm() {
+        debugger
+        localStorage.setItem('back', 1);
+        localStorage.setItem('reportName', localStorage.getItem('reportName'));
+        if ('@SMOBj.AppTypeID' != "" && '@SMOBj.AppTypeID' != 0) {
+            //debugger
+            var ApptypeId = '@SMOBj.AppTypeID';
+            var fromDate = '@SMOBj.FromDate';
+            var toDate = '@SMOBj.ToDate';
+            $("#appTypeId").val(ApptypeId);
+            $("#fromDate").val(fromDate);
+            $("#toDate").val(toDate);
+
+            $('#frmCountCertificate').submit(function () {
+                // debugger 
+                bindApplicationList(localStorage.getItem('reportName'), "");
+            });
+
+        }
+    }
+</script>

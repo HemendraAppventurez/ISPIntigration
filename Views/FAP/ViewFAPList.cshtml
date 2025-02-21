@@ -1,0 +1,76 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.FAPModel>
+@using OTPL_Imp
+@{
+    ViewBag.Title = "ViewFAPList";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .webgrid-header {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+<div class="content-title">
+    <h3 class="main-title">Status of applications for Unsuccessfull family planning<a href="@Url.Action("FamilyDashBoard", "FAP")" class="btn btn-info btn-md pull-right">Back</a>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+     <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+               Once your application form is approved by the Chief Medical Officer CMO, you will be notified by CMO through notification message about the sanction details.
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                    <div id="divDataList" class="table-responsive">
+                        @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column(columnName: "registrationNo", header: "Application No.", format: @<text><a  href="@Url.Action("FAPDetails", "FAP", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdFAP.ToString()) })">@item.registrationNo</a></text>),
+            grid.Column("requestDate", header: "Application Date", format: @<text>@DateTime.Parse(@item.requestDate).ToShortDateString()</text>),
+            grid.Column("claimantName", header: "Claimant Name"),
+            grid.Column("claimantMobileNo", header: "Mobile No"),
+            grid.Column("claimAmount", header: "Claim Amount"),
+            grid.Column("appliedStatus", header: "Status"),
+            grid.Column("RejectRemark", header: "Reject Remark"),
+            grid.Column("affidavitfilePath", header: "Affidavit", format: @<text><a href="@Url.Content(item.affidavitfilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download fa-2x"></i></a></text>)
+
+            ))
+                    </div>
+                }
+                else
+                {
+    
+                    <table class="table table-bordered norecord">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>No Record Found</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>

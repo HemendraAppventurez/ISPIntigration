@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "ViewDeathcertificateCHC";
+}
+@{
+    ViewBag.Title = "ViewDeathcertificateCHC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">बीमारी प्रमाणपत्र के पंजीकरण का आवेदन<span class="small display-block">Total Application of Medical Certificate(Death)..</span></div>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Application No.<span style="color:red">*</span></label>
+                                <input type="text" id="txtAppNumber" class="form-control" />
+                                   <span class="reqAppno" style="color:red"></span>
+                            </div>
+                        </div>
+                        @* <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Application Status</label>
+                                @Html.DropDownList("ddlAppStatus", (IEnumerable<SelectListItem>)ViewBag.DLLAppStatus, "--Select--", new { @class = "form-control" })
+                            </div>
+                        </div>*@
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Request Date <span style="color:red">*</span></label>
+                                <input type="text" id="txtRequestdate" placeholder="Date" class="form-control datepicker-here" data-language="en">
+                                 <span class="reqdate" style="color:red"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <a href="@Url.Action("ViewDeathcertificateCHC","CHC")" class="btn btn-block btn-danger">Refresh</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+       
+       <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                
+                    <div id="DIV-ApplicationList">
+                     @Html.Action("Partials_ViewCHCDeath", "CHC")
+                </div>
+            </div>
+        </div>
+   </div>
+          </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+    });
+    $(function () {
+        debugger;
+      
+
+        $("#btnSearch").click(function () {
+            debugger;
+           
+        
+            if ($("#txtAppNumber").val() != '') {
+                $('span.reqdate').text(" ");
+                $('span.reqAppno').text(" ");
+                bindDeathCertificate($("#txtAppNumber").val().trim(), $("#txtRequestdate").val().trim());
+            } else {
+                $('span.reqAppno').text("Required");
+            }
+            if ($("#txtRequestdate").val() != '') {
+                $('span.reqdate').text(" ");
+                $('span.reqAppno').text(" ");
+               bindDeathCertificate($("#txtAppNumber").val().trim(), $("#txtRequestdate").val().trim());
+            }
+            else {
+                if ($("#txtAppNumber").val() == '') {
+                    $('span.reqdate').text("Required");
+                }
+            }
+           
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#txtAppNumber").val('');
+            $("#txtRequestdate").val('');
+            $('span.reqdate').text(" ");
+            $('span.reqAppno').text(" ");
+           
+           
+        });
+    @*    var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);*@
+
+      
+    });
+
+    function bindDeathCertificate(_registrationNo, _requestdate) {
+        debugger;
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("Partials_ViewCHCDeath", "CHC")',
+            data: { regisno: _registrationNo, Reqdate: _requestdate },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+            var href = $('table').find('tfoot').find('a').attr('href').replace("Partials_ViewCHCDeath", "ViewDeathcertificateCHC");
+            $('table').find('tfoot').find('a').attr('href', href);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+</script>
+

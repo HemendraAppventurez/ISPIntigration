@@ -1,0 +1,597 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MERModel
+@{
+    ViewBag.Title = "_MedicalReimbursementMERReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .form-group label {
+        color: #333;
+        font-weight: 600;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title"><strong>Medical Reimbursement Details</strong>
+        <a href="javascript:history.back()" id="BtnBack" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top: 7px;">Back</a>
+    </h3>
+</div>
+
+<div class="col-md-12" style="margin-top:13px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Treatment Type</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Application No.</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.registrationNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>Treatment Type</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.treatmentName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+               </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Employee Detail</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+               
+                 <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Full Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.empfullName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Father Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.father_HusbandName
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Designation</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.designation
+                    </div>
+                    <div class="col-md-3">
+                        <label>Department Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.deptName
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">                   
+                   
+                     <div class="col-md-3">
+                        <label>Basic Salary/Wages Scale/Grade</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.basicSalary
+                    </div>
+                    <div class="col-md-3">
+                        <label>Aadhaar No.</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.manavSampda_AadharNo
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">                   
+                    
+                     
+                      <div class="col-md-3">
+                        <label>Date Of Birth</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.dob
+                    </div>
+                    <div class="col-md-3">
+                        <label>Gender</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.gender
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">                   
+                  
+                     
+                     <div class="col-md-3">
+                        <label>Mobile No</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.mobileNo
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+               
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>PPO detail</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+              
+                  <div class="form-group">
+                 <div class="col-md-3">
+                        <label>Retired from Employeement</label>
+                    </div>
+                        @if (@Model.isRetirement == true)
+                    {
+                    <div class="col-md-3">
+                       yes
+                    </div>
+                        }
+                      else
+                       {
+                    <div class="col-md-3">
+                       no
+                    </div>
+                        }
+                      @if (@Model.isRetirement == true)
+                    {
+                       <div class="col-md-3">
+                        <label>PPO No </label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ppotreament 
+
+                    </div>}
+                      </div>
+
+                <div class="clearfix"></div>
+             
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                 @if (@Model.isRetirement == true)
+                 {
+                     <h4>Address Of Your Treasury  </h4>
+                 }
+                 else
+                 {
+                     <h4>Address Of Current Posting </h4>
+                 }
+                
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                 <div class="form-group">
+                 <div class="col-md-3">
+                        <label>Office Name </label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.officeName
+                    </div>
+                       <div class="col-md-3">
+                        <label>Office Incharge Name </label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.officeInchargeName 
+
+                    </div>
+                      </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.postingAddress
+                    </div>
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.StateName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.postingDistrictName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Pincode</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.postingPinCode
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+              
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Permanent Address</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+              
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.permAddress
+                    </div>
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.StateName
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.permanentDistrictName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Pincode</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.permPinCode
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Patient`s Details</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Requesting Medical Reimbursement for </label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientType
+                    </div>
+                    <div class="col-md-3">
+                        <label>Hospital Type</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.hospitalType
+                    </div>
+                   
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                     <div class="col-md-3">
+                        <label>Patient Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Age</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientage
+                    </div>
+                   
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                     <div class="col-md-3">
+                        <label>Gender</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientgender
+                    </div>
+                    <div class="col-md-3">
+                        <label>Disease Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientdiseaseName
+                    </div>
+                                   
+                </div>
+                 <div class="clearfix"></div>
+                <div class="form-group">
+                      <div class="col-md-3">
+                        <label>Place where Disease Identified</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientplaceOfDisease
+                    </div>   
+                    <div class="col-md-3">
+                        <label>Hospital Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patienthospitalName
+                    </div>
+                  
+                </div>
+                 <div class="clearfix"></div>
+                <div class="form-group">
+                      <div class="col-md-3">
+                        <label>Doctor Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientdoctorName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Treatment Period From</label>
+                    </div>
+                    <div class="col-md-3">
+                        @DateTime.Parse(@Model.patienttreatmentFromDate).ToShortDateString()
+                    </div>
+                                   
+                </div>          
+                <div class="clearfix"></div>
+                <div class="form-group">
+                       <div class="col-md-3">
+                        <label>Treatment Period To</label>
+                    </div>
+                    <div class="col-md-3">
+                        @DateTime.Parse(@Model.patienttreatmentToDate).ToShortDateString()
+                    </div>  
+                    <div class="col-md-3">
+                        <label>Patient Aadhaar no</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientAadhaarNo
+                    </div>
+                                  
+                </div>
+                <div class="clearfix"></div>
+               <div class="form-group">
+                     <div class="col-md-3">
+                        <label>Relations with Employee</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.patientrelationsWithEmployee
+                    </div>     
+                </div>
+                 <div class="clearfix"></div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Advance Detail</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+               
+
+               <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Have you already taken Advance</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.isAdvanceTaken
+                    </div>
+                     @if (@Model.isAdvanceTaken=="Yes")
+                {
+                    <div class="col-md-3">
+                        <label>Amount</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.branchName
+                    </div>
+                     }
+                </div>
+                @if (@Model.isAdvanceTaken=="Yes")
+                {
+                <div class="clearfix"></div>
+                 <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Letter No</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.advanceLetterNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.advanceDate
+                    </div>
+                </div>
+                }
+                <div class="clearfix"></div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+
+
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Bank Detail Of Employee</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+               
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Bank Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.bankName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Branch Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.branchName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Account Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.accountNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>IFSC Code</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ifscCode
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@if (Model.MERModelList != null && Model.MERModelList.Count > 0)
+{
+    <div class="col-md-12">
+        <table class="table-user-information table table-bordered table-striped">
+            <thead>
+                <tr class="webgrid-header">
+                    <th scope="col">S No.</th>
+                    <th scope="col">Bill Name</th>
+                    <th scope="col">Bill No</th>
+                    <th scope="col">Bill Date</th>
+                    <th scope="col">Bill Amount</th>
+                    <th scope="col">Bill File</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @{
+    int rowNo = 1;
+                }
+                @foreach (var item in Model.MERModelList)
+                {
+                    
+                    <tr>
+                        <td class="white">@rowNo</td>
+                        <td>@item.BillName</td>
+                        <td>@item.billNo</td>
+                        <td>@DateTime.Parse(@item.billdate).ToShortDateString()</td>
+                        <td>@item.billAmount</td>
+                        @*<td>@item.billFilePath
+
+                        </td>*@
+                          <td>
+                         @if (@item.billFilePath == "Submitted By CMO")
+                {
+                           
+                @item.billFilePath
+                }
+                else
+                {
+                <a href="@Url.Content(@item.billFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                }
+                   </td>    
+                    </tr>
+                            rowNo++;
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<div class="clearfix"></div>
+
+<div class="form-group" style="float: right; margin-right: 82px; margin-top: 10px;">
+    <div class="col-md-4">
+        <a href="@Url.Action("GetViewApplicationStatusMER", "Report", new { registrationID = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdMER.ToString()) })" class="btn btn-primary btn-sm">View Application Process</a>
+
+    </div>
+</div>
+
+

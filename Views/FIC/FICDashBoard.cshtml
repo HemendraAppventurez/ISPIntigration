@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "FICDashBoard";
+Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>स्वास्थ्य प्रमाणपत्र डैशबोर्ड<span class="small">Fitness Certificate  Dashboard</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-90 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="circle">
+@*                 <li class="col-md-2 col-sm-6 col-xs-12"></li>*@
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("RegistrationInstructions", "FIC",new
+                                        {AppType=@OTPL_Imp.CustomCryptography.Encrypt("New"),
+                                        })" class="red" >
+                        <img src="@Url.Content("~/images/registration.png")"><br />                     
+                       General Fitness Application
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("RegistrationInstructions", "FIC",new
+                                        {AppType=@OTPL_Imp.CustomCryptography.Encrypt("Old"),
+                                        })" class="red" >
+                        <img src="@Url.Content("~/images/registration.png")"><br />
+                       Illness To Fitness Application 
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ViewFIC", "FIC")" class="indigo">
+                          <img src="@Url.Content("~/images/view_icon.png")"><br />                   
+                         View Application Form Status 
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

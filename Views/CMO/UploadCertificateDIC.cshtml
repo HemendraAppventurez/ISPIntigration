@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "UploadCertificateDIC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="divLoader" style="display:none;">
+    <img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:42%; margin-top:20%' />
+</div>
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">विकलांगता प्रमाणपत्र का स्वीकृत आवेदन<span class="small display-block">Approved Application of Issuance of Disability Certificate.</span></div>
+
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Upload Certificate</h4>
+                    </span>
+                </div>
+                @using (Html.BeginForm("UploadCertificateDIC", "CMO", FormMethod.Post, new { @id = "frmdata" }))
+                {
+       
+                    @Html.AntiForgeryToken()
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Upload  Certificate</label>
+                                    <input type="file" id="fileUploadCertificate" name="fileUploadCertificate" class="upload3" onchange="Fileupload(this)" />
+                                    <input type="hidden" name="hdnfileUploadCertificate" id="hdnfileUploadCertificate" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" id="btnupload" class="btn btn-block btn-success" >Upload</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <input type="reset" id="btnRefresh" class="btn btn-block btn-danger" value="Reset" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+    });
+
+    function Fileupload(obj) {
+        debugger;
+        var fileId = $(obj).attr("id");
+        var ext = obj.value.match(/\.(.+)$/)[1];
+
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+
+                var fileSize = ($("#" + fileId)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + fileId).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $('#divLoader').show();
+                    $.ajax({
+                        url: '@Url.Action("UploadCertificateFileDIC", "CMO")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            $('#divLoader').hide();
+                            if (response[1] == 'SNV') {
+                                swal("", 'Maximum 2 MB file size are allowed !', "warning");
+                            }
+                            else if (response[1] == 'TNV') {
+                                swal("", 'Only pdf and jpg files are allowed !', "warning");
+                            }
+                            else {
+                                $("#hdnfileUploadCertificate").val(response[1]);
+
+                            }
+                            return false;
+                        },
+                        error: function () {
+                            $('#divLoader').hide();
+                        }
+                    });
+
+                }
+                break;
+            default:
+                swal("", 'This is not an allowed file type only pdf and jpg  file valid for this', "warning");
+                this.value = '';
+                return false;
+        }
+
+    }
+
+    $("#btnupload").click(function () {
+        if ($("#fileUploadCertificate").val() != '') {
+            return true;
+        }
+        else {
+            swal("", 'Please choose a file', "warning");
+            return false;
+        }
+    });
+</script>

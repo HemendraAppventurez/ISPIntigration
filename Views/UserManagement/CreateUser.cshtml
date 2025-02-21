@@ -1,0 +1,202 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.UserModel
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .modal-dialog label
+    {
+        display: block;
+        position: relative;
+        font-weight: 600;
+    }
+
+        .modal-dialog label:after
+        {
+            content: ":";
+            float: right;
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    .modal-dialog h4
+    {
+        margin: 0;
+        color: #09707d;
+    }
+
+    .modal-dialog .panel-heading
+    {
+        padding: 0 15px 10px;
+    }
+
+    .modal-dialog .row
+    {
+        margin-bottom: 5px;
+    }
+</style>
+
+@using (Html.BeginForm("CreateUser", "UserManagement", FormMethod.Post, new { @id = "frmCreateUser" }))
+{
+    @Html.AntiForgeryToken()
+    <section>
+        <div class="content-title">
+            <h3 class="main-title">Create User</h3>
+        </div>
+        <div id="content" class="dashboard padding-20 margin-bottom-50">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>User Details</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fullName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>ID Proof <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.idProofId, (IEnumerable<SelectListItem>)ViewBag.IdProof, "--Select--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.idProofId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>ID Proof No. <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.idProofNo, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.idProofNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Designation <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.designation, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.designation, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mobile Number <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @maxlength = 10, @onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.mobileNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        @Html.TextBoxFor(m => m.emailId, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>User Id <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.userId, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.userId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Password <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.password, new { @class = "form-control", @type = "password", @placeholder = "Password" })
+                                        @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Confirm Password <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.confirmPassword, new { @class = "form-control", @type = "password", @placeholder = "Confirm Password" })
+                                        @Html.ValidationMessageFor(m => m.confirmPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div> 
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>CMO Office</label>
+                                        @Html.DropDownListFor(m => m.districtId, (IEnumerable<SelectListItem>)ViewBag.District, new { @class = "form-control", @readonly = "true" })
+                                        @Html.ValidationMessageFor(m => m.districtId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.districtId)
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-4">
+                                        <button type="submit" class="btn btn-block btn-primary">Save</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("CreateUser", "UserManagement")" class="btn btn-block btn-warning">Reset</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </section>
+    
+    
+}
+<script>
+    $(document).ready(function () {
+
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+
+        if ('@TempData["Message"]' != '') {
+            swal("", '@TempData["Message"]', 'success');
+        }
+    });
+
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#dob').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+</script>

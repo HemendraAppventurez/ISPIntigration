@@ -1,0 +1,170 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.ReportsModel>
+@using OTPL_Imp
+<style>
+    .webgrid-header a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .modal-dialog label::after {
+        content: none;
+    }
+</style>
+
+<script type="text/javascript">
+
+
+    //function OpenQueryModel(_medicalEstID) {
+
+    //    debugger
+    //    var MedicalEstID = _medicalEstID;
+    //    $("input[type=hidden][name=hiddentextID]").val(MedicalEstID);
+    //    $("#btnShowPopup").click();
+    //    setTimeout(function () {
+    //        $('.modal-body').scrollTop(0);
+    //    }, 300);
+    //}
+
+
+</script>
+
+
+@*<script type="text/javascript">
+
+
+
+
+    function SaveQueryByCMO() {
+
+        debugger
+
+        var QueryRaised = $("#txtQueryRaised").val();
+        if (QueryRaised == null || QueryRaised == "") {
+
+            swal("", "Please enter the query !", "warning");
+            return;
+        }
+        var RegiNUHID = $("input[type=hidden][name=hiddentextID]").val();
+        $.ajax({
+            url: '@Url.Action("SaveQueryDetailToApplicant", "CMO")',
+            data: { QueryRaised: QueryRaised, RegisNUHID: RegiNUHID },
+            type: 'GET',
+            dataType: 'HTML',
+            success: function (response) {
+                debugger
+                if (response != "0") {  
+                    swal({
+                        title: response,
+                        type: "success",
+                        //showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "OK",
+                        //cancelButtonText: "No, Cancel it !",
+                        closeOnConfirm: true
+                        //closeOnCancel: true
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            $('#Modalpopup').modal('hide');
+                            window.location.reload();
+                        }
+                    }); 
+                }
+                else {
+
+                    swal("", "Server is not responding");
+                }
+            }
+        })
+
+
+    }
+
+
+</script>*@
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");         
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+           // grid.Column("registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">@item.registrationNo</a></text>),
+            grid.Column("registrationNo", header: "Application No."),// format: @<text><a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">@item.registrationNo</a></text>),
+            grid.Column("appliedDate", header: "Application Date"),
+            grid.Column("establishmentName", header: "Establishment Name"),
+            grid.Column("medicalEstablishment", header: "Establishment Category"),
+            grid.Column("UPMCI_SMF_Number", header: "MCI/SMF No."),
+            grid.Column("UPMCI_SMF_Number", header: "MCI/SMF No."),
+            grid.Column(columnName: "notarizedAffidavitFilePath", header: "Affidavit", format: @<text>
+        @if (@item.notarizedAffidavitFilePath == "" || @item.notarizedAffidavitFilePath == "Submitted by CMO")
+        {
+            <label></label> 
+        }
+        else
+        {
+            <a href="@Url.Content(item.notarizedAffidavitFilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download big"></i></a>
+        }
+        </text>)
+
+
+
+                                                ))
+    </div>
+
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+}
+
+
+
+@*<button id="btnShowPopup" type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none;"></button>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" id="Modalpopup" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>Raised Query</strong></h4>
+            </div>
+            <div class="modal-body" style="max-height: 370px; overflow-y: auto;">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label>Query :&nbsp;<b><span class="text-danger">*</span></b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <textarea id="txtQueryRaised" name="txtQueryRaised" class="form-control"></textarea>
+                        </div>
+
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-4">
+                            <button type="button" onclick="SaveQueryByCMO();" class="btn btn-block btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+

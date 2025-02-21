@@ -1,0 +1,53 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.UserProfileModel>
+@using OTPL_Imp
+<style>
+    .webgrid-header a
+    {
+        color: white;
+        text-decoration: none;
+    }
+    #divDataList .table > thead > tr > th:last-child {
+        width:15%;
+    }
+     #divDataList .table > tbody > tr > td:last-child {
+        text-align:center;
+    }
+</style>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+             
+    <div id="divDataList" class="table-responsive">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "Sl.No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("DistrictName", header: "District Name"),
+            grid.Column("fullName", header: "CHC Name"),
+            grid.Column("userName", header: "Username"),
+            grid.Column("lastLoginDate", header: "Last Login On"),
+            grid.Column("changPasswordDate", header: "Password Changed On"), 
+            grid.Column(header:"Action",format:  @<text>
+                   
+                        <a href="@Url.Action("ChangePassword","UserManagement", new { profileId =@OTPL_Imp.CustomCryptography.Encrypt(@item.profileId.ToString()),roll =@OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString())})" aria-hidden="true">Change Password</a>
+                     
+                    </text>)
+            ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight:600;font-size:18px;">No record found !</span>
+        </div>
+    </div>
+}

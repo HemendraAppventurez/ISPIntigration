@@ -1,0 +1,62 @@
+﻿@model IList<CCSHealthFamilyWelfareDept.Models.CHCModel>
+@{
+    ViewBag.Title = "_ViewDeathcertificateCHC";
+   
+}
+
+<style>
+    .webgrid-header {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+@*<div class="content-title">
+    <h3 class="main-title">Death Certificate List<a href="@Url.Action("DECDashBoard", "DEC")" class="btn btn-info btn-md pull-right">Back</a></h3>
+     
+</div>*@
+
+
+            @if (Model != null && Model.Count() > 0)
+            {
+                WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                <div id="divDataList" class="table-responsive">
+                    @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount /     grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column(columnName: "registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("DCDetails", "CHC",new {registrationNo=@OTPL_Imp.CustomCryptography.Encrypt( @item.registrationNo),regisIdDEC= @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdDEC.ToString())})">@item.registrationNo</a></text>),
+            grid.Column("fullName", header: "Requester Name"),
+           
+            grid.Column("mobileNo", header: "Mobile Number"),
+            grid.Column("emailId", header: "Email"),
+            grid.Column("relationWithDeathPerson", header: "Relation With Death Person"),
+            grid.Column("deathPersonName", header: "Death Person Name"),
+            grid.Column("reqdate", header: "Request Date")
+         ))
+                </div>
+            }
+            else
+            {
+    
+                <table class="table table-bordered norecord">
+                    <thead class="bg-info">
+                        <tr>
+                            <th>No Record Found</th>
+                        </tr>
+                    </thead>
+                </table>
+            }
+      

@@ -1,0 +1,154 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.ReportsModel>
+@{
+    ViewBag.Title = "ProcessCountReportCMoffice";
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Untitled Document</title>
+    <style type="text/css">
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #f67171;
+            border: 1px solid #ef6262;
+        }
+
+        body {
+            font-family: Arial;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="text-align: right; padding: 5px;">
+        @if (TempData["RollID"].ToString() == "ADM")
+        {
+            <a href="@Url.Action("ProcessCountReport_AD", "Report")" class="btn btn-danger">Back</a>
+        }
+        else
+        {
+            <a href="@Url.Action("ProcessCountReportAdmin", "Report", new { RptType = @ViewBag.RptType })" class="btn btn-danger">Back</a>
+        }
+
+        <button type="button" class="btn btn-primary" data-print="modal" onclick="PrintDoc()">Print</button>
+    </div>
+    <div id="prodiv" style="text-align: center;">
+        <table border="0" cellpadding="2" cellspacing="0" width="100%">
+            <tr>
+                <td rowspan="2" style="width: 15%; text-align: left; vertical-align: top;">
+                    <img src="~/Images/up-logo-en.png" alt="logo" style="width: 90px;" />
+                </td>
+                <td style="font-size: 26px;"><strong>Department of Medical Health &amp; Family Welfare</strong></td>
+                <td rowspan="2" style="width: 15%;"></td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; padding-bottom: 20px;"><strong>Government of Uttar Pradesh</strong></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="font-size: 19px; text-decoration: underline; padding-bottom: 15px; border-top: 2px solid #000;"><strong>Details of Applications Received For Services Under Janhit Guarantee Adhiniyam, 2011</strong></td>
+            </tr>
+               <tr>
+                    <td colspan="3" style="font-size: 10pt; text-decoration: underline;"><strong>CM Service Wise Count Report</strong></td>
+                </tr>
+             <tr>
+                    <td colspan="3" style="font-size: 10pt; padding-bottom: 15px;">
+                        <span style="float: left;"><strong>Login of: </strong>Admin</span>
+                        <span style="float: right;"><strong>Report Code:-</strong>
+                            <label>CM-SWCR-01</label></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 10pt; padding-bottom: 15px;">
+                        <span style="float: left;"><strong>Report Period: </strong>@Model[0].fromDate <strong>To </strong>@Model[0].toDate</span>
+                        <span style="float: right;"><strong>Report Printed On:-</strong>
+                            <label>@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year</label></span>
+                    </td>
+                </tr>
+        </table>
+        <table border="1" cellpadding="3" cellspacing="0" width="100%" style="font-size: 13px;">
+            <tr>
+                <td align="center" style="width: 5%;"><strong>S. No</strong></td>
+                <td align="center"><strong>Service Name</strong></td>
+                <td align="center"><strong>Health Portal</strong></td>
+                <td align="center"><strong>E-District</strong></td>
+                <td align="center"><strong>Offline </strong></td>
+                <td align="center" style="font-weight:900; font-size:11pt;"><strong>Total</strong></td>
+                <td align="center"><strong>Resolved</strong></td>
+                <td align="center"><strong>Pending</strong></td>
+                <td align="center" style="width: 10%;"><strong>Pending Percentage</strong></td>
+            </tr>
+            @{int i = 1;}
+            @foreach (var v in Model)
+            {
+                <tr>
+                    <td align="center">@i</td>
+                    <td style="text-align:left;">@v.Module</td>
+                    <td align="center">@v.AppFromPortal</td>
+                    <td align="center">@v.AppNotFromPortal</td>
+                    <td align="center">0</td>
+                    <td align="center" style="font-weight:900; font-size:11pt;">@v.total</td>
+                    <td align="center">@v.Nistarit</td>
+                    <td align="center">@v.Lambit</td>
+                    <td align="center">@v.Percentage</td>
+                </tr> 
+                i++;
+            }
+        </table>
+        <div style="font-size: 12px; text-align: left; position: fixed; bottom: 5px; width: 99%;"><strong>Reprt Printed On : </strong> @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year  @TempData["time"].ToString()</div>
+        <div style="font-size: 12px; text-align: right; position: fixed; bottom: 5px; width: 99%;"><strong>Page</strong> 1 of 1</div>
+        <div style="font-size: 12px; text-align: center; position: fixed; bottom: 5px; width: 99%;">** This is a Software Generated Report **</div>
+    </div>
+    <script type="text/javascript">
+
+        function PrintDoc() {
+
+            var toPrint = document.getElementById('prodiv');
+
+            var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+            popupWin.document.open();
+
+            popupWin.document.write('<html><title>::Preview::</title> <style>body{font-family: Arial;} table td{padding:2; text-align:center;} .btn{dispaly:none;}</style></head><body onload="window.print()"> ')
+
+            popupWin.document.write(toPrint.innerHTML);
+
+            popupWin.document.write('</body></html>');
+
+            popupWin.document.close();
+
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,218 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ProcessType
+@{
+    ViewBag.Title = "AppliedApplicationNUH";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+    PermissionModel objPerm = new PermissionModel();
+    objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.MEE));
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">चिकित्सा प्रतिष्ठानों का पंजीकरण<span class="small display-block">Registration of Medical Establishments</span></div>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+
+    @if (objPerm.IsSrvProcessPer || SM.RollID == 2)
+    {
+        <h4 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">Application Process</h4>
+
+        using (Html.BeginForm("AppliedApplicationNUH", "CMO", FormMethod.Post))
+        {
+            if (SM.RollID == 8 || SM.RollID == 2)
+            {
+        <div class="col-md-12" id="FilterDiv">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4></h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>From<span class="star"></span></label>
+                                @Html.TextBoxFor(m => m.fromDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                @*@Html.ValidationMessageFor(m => m.fromDate, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>To <span class="star"></span></label>
+                                @Html.TextBoxFor(m => m.toDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                @*@Html.ValidationMessageFor(m => m.toDate, "", new { @class = "text-danger" })*@
+                                <span id="tdate"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="display: none;">
+                            <div class="form-group">
+                                <label>Year <span class="star"></span></label>
+                                @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @maxlength = "4", @onkeypress = "validate(event)" })
+                                @*@Html.ValidationMessageFor(m => m.toDate, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                        @if (SM.RollID == 8)
+                        {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>District <span class="star"></span></label>
+                                @Html.DropDownListFor(m => m.District, new SelectList(Model.DistrictList, "Id", "Name"), "--Select--", new { @class = "form-control" })
+                                @*@Html.ValidationMessageFor(m => m.toDate, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" id="FilterDivButton">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-4">
+                                <input type="submit" id="btnsearch" value="Search" class="btn btn-block btn-success" />
+
+                            </div>
+                            <div class="col-md-2">
+                                <a href="@Url.Action("AppliedApplicationNUH", "CMO")" class="btn btn-block btn-warning">Reset</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            }
+        }
+        
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="circle">
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ReceivedApplicationNUH", "CMO")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            1. कुल लंबित आवेदन 
+                      <span class="nmicon2">Total Pending Application </span>
+                            <span class="nmicon badge">@Model.totalAppReceived</span> </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("InProcessApplicationNUH", "CMO")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            2. आवेदन प्रक्रिया में है
+                      <span class="nmicon2">In-Process Application </span>
+                            <span class="nmicon badge">@Model.totalAppInProcess</span> </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ApprovedApplicationNUH", "CMO")" class="indigo">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            3. स्वीकृत आवेदन 
+                      <span class="nmicon2">Approved Application </span>
+                            <span class="nmicon badge">@Model.totalAppApproved</span> </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("RejectedApplicationNUH", "CMO")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            4. अस्वीकृत आवेदन 
+                      <span class="nmicon2">Rejected Application </span>
+                            <span class="nmicon badge">@Model.totalAppRejected</span> </a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+    }
+    @if (objPerm.IsSrvApplyPer || SM.RollID == 2)
+    {
+        <h4 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">Application Form - Counter Registration</h4>
+        
+        <div class="row">
+           @* <div class="col-md-12">
+                <div class="panel panel-default" style="margin-bottom: 5px;">
+                    <div class="panel-body" style="padding: 3px 10px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong>Note :-  <span class="text-danger">Kindly download and take print out of the  Affidavit format. Provide these format to the applicants according to the application form (New/Renewal) and ask to submit hardcopy of notarised Affidavit.</span></strong>
+                                <a href="@Url.Action("DownloadFileByPath", "CMO", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt("~/Content/NUHAffidavitFormat/Affidaite Renewable ME.pdf")) })" aria-hidden="true" class="btn btn-success pull-right" target="_blank">Download For Renewal</a>
+                                <a href="@Url.Action("DownloadFileByPath", "CMO", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt("~/Content/NUHAffidavitFormat/Affidavite New ME.pdf")) })" aria-hidden="true" class="btn btn-success pull-right" target="_blank">Download For New</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="col-md-12">
+                <ul class="circle">
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("NUHRegistration", "AppRegistration")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            New Application </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("SearchNUHDetails", "AppRegistration")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            Renew Application </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ViewNUHInComplete", "AppRegistration")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            Incomplete Application </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ViewNUHComplete", "AppRegistration")" class="indigo">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            Complete Application </a></li>
+                </ul>
+            </div>
+        </div>
+    }
+    @if (objPerm.IsSrvReportPer || SM.RollID == 2)
+    {
+    }
+</div>
+<div class="clearfix"></div>
+<script>
+
+    $("#Year").change(function () {
+        debugger;
+        var a = $("#Year").val();
+        if (a != null && a != undefined && a != "" && typeof (a) != undefined) {
+            $("#fromDate").val("");
+            $("#toDate").val("");
+            $("#fromDate").prop("disabled", true);
+            $("#toDate").prop("disabled", true);
+        }
+        else {
+            $("#fromDate").prop("disabled", false);
+            $("#toDate").prop("disabled", false);
+        }
+    });
+
+
+    $("#fromDate").datepicker({
+        onSelect: function (dateText) {
+            debugger;
+            var a = $("#toDate").val();
+            if (a != null && a != undefined && a != "" && typeof (a) != undefined) { }
+            else {
+                swal("", 'To Date is required !', "warning");
+            }
+
+        }
+    });
+
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+</script>

@@ -1,0 +1,140 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DECotpModel
+@{
+    ViewBag.Title = "VerifyMobile";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<div class="content-title">
+    <h3 class="main-title">Application Form for Death  <strong>Certificate</strong></h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm("VerifyMobile", "DEC", FormMethod.Post, new { @id = "frmDeathCertificate" }))
+    {
+  
+@*<div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <b>निम्नलिखित फ़ॉर्म भरकर “Submit” बटन पर क्लिक करें। “Submit” बटन पर क्लिक करने के उपरांत स्क्रीन पर एक पॉप-अप प्रदर्शित होगा, इस पॉप-अप में प्रदर्शित फ़ॉर्म को अच्छी तरह से पढ़ लें तथा “Confirm” बटन पर क्लिक करें। “Confirm” बटन पर क्लिक करने के उपरांत आपका आवेदन संबंधित डीएच (जिला अस्पताल)/ सीएचसी(सामुदायिक स्वास्थ्य केंद्र)/ पीएचसी(प्राथमिक स्वास्थ्य केंद्र) को भेजा जाएगा। अपने आवेदन की स्थिति को देखने हेतु “View Status” बटन पर क्लिक करें। </b>
+                </div>
+            </div>
+        </div>*@
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Mobile Verification</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                              <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", @readonly = "readonly" })
+
+                                        <span class="focus-border"><i></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>OTP</label>
+                                            @Html.TextBoxFor(m => m.Opt, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter OTP" , @onkeypress = "return isNumberKey(event);",@maxlength="6" })
+                                            @Html.ValidationMessageFor(m => m.Opt)
+                                        </div>
+                                    </div>
+                                 <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="submit" value="Verify" id="btnVerify" class="btn btn-warning btn-lg btn-block" />
+                                        </div>
+                                    </div>
+                                  <div class="col-md-6">
+                                        <div class="form-group">
+                                   
+                                        <a href="@Url.Action("VerifyMobile", "DEC",
+                                        new
+                                        {
+                                            userName = @OTPL_Imp.CustomCryptography.Encrypt("userName"),
+                                            type = @OTPL_Imp.CustomCryptography.Encrypt("ReSendOTP"),
+                                            RegisIdDEC = "RegisIdDEC",
+                                            RegisId = "RegisId"
+                                           
+                                        })" class="btn btn-block btn-success">Resend OTP</a>
+                                 
+
+                                              @*<input type="button" value="Resend OTP" id="btnSendOTP" class="btn btn-block btn-info" />*@
+                                        </div>
+                                    </div>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+      
+
+
+          
+          
+           
+            <div class="clearfix"></div>
+        </div>
+
+      
+
+    }
+</div>
+<div class="clearfix"></div>
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+
+        $("#btnSendOTP").click(function (event) {
+            $.ajax({
+                url: '@Url.Action("SendOTP", "DEC")',
+                type: 'GET',
+                dataType: 'html',
+                async: false,
+                success: function (result) {
+                    if (result == "S") {
+                        swal("", "OTP is send to your registered Mobile No.", "success");
+                    }
+                    else if (result == "OCE") {
+                        $("#btnSendOTP").hide();
+                        swal("", "You Reached Max Limit of OTP send please try after 24 hours.", "error");
+                    }
+                    else {
+                        swal("", result, "error");
+                    }
+                },
+                error: function (xhr, status) {
+                    alert(status);
+                }
+            });
+        });
+
+
+    });
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+</script>

@@ -1,0 +1,480 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DECModel
+@{
+    ViewBag.Title = "DECRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">Application For Issuance of Death Certificate</h3>
+
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+   @using (Html.BeginForm("DECRegistration", "appRegistration", FormMethod.Post, new { @id = "frmFitnessCertificate" }))
+    {
+         @Html.AntiForgeryToken()
+         @Html.HiddenFor(m => m.regisIdDEC)
+        @Html.HiddenFor(m => m.step)
+        @Html.HiddenFor(m => m.stepValue)   
+      
+      // @Html.HiddenFor(m =>m.stateId)
+      // @Html.HiddenFor(m =>m.districtid)
+       //@Html.HiddenFor(m =>m.pinCode)     
+    <div class="row">
+            @if (Model.step == 0 || Model.stepValue == 0)
+            {
+                <div class="divStep1">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 1</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Requester Details</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.fullName, new { @class = "form-control", tabindex = 1 })
+                                    @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mobile Number<span class="star">*</span> </label>
+                                    @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @maxlength = 10, tabindex = 2, @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.mobileNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>E-mail Address</label>
+                                    @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", tabindex = 3 })
+                                    @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Address<span class="star">*</span></label>
+                                    @Html.TextAreaFor(m => m.address, new { @class = "form-control", tabindex = 4 })
+                                    @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>State</label>
+                                    @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State,"--Select--", new { @class = "form-control" ,tabindex = "5" })
+                                    @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>District <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.districtid, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "6" })
+                                    @Html.ValidationMessageFor(m => m.districtid, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Pin code</label>
+                                    @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", @maxlength = "6", tabindex = "7", @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.pinCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Blood Relation With Deceased<span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.relationId, (IEnumerable<SelectListItem>)ViewBag.Relation,"--Select--", new { @class = "form-control" ,tabindex = "5" })
+                                    @Html.ValidationMessageFor(m => m.relationId, "", new { @class = "text-danger" })
+                                   @* @Html.TextBoxFor(m => m.relationWithDeathPerson, new { @class = "form-control", tabindex = "8" })
+                                    @Html.ValidationMessageFor(m => m.relationWithDeathPerson, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                      <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                   
+                                   
+                                       
+
+                                    <div class="col-md-3 ">
+                                        <button type="submit" class="btn btn-block btn-primary" id="btnsubmit">Save And Continue</button>
+                                    </div>
+                                    <div class="col-md-2"><a href="@Url.Action("DECRegistration", "AppRegistration")" class="btn btn-block btn-warning">Reset</a> </div>
+                                  @if (Model.stepValue == 0 && Model.step == 1)
+                                    {
+                                        <div class="col-md-2 ">
+                                            <a href="@Url.Action("DECRegistration", "appRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdDEC.ToString()), stepValue = (Convert.ToInt32(Session["stepValue"]) + 1) })" class="btn btn-block btn-success">Next</a>
+                                        </div>  
+                                  }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+                </div>
+              
+            }
+            else if (Model.step == 1 || Model.stepValue == 1)
+            {
+                <div class="divStep2">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 2</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Death Person's Detail</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Name of Deceased<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.deathPersonName, new { @class = "form-control", tabindex = "11"})
+                                    @Html.ValidationMessageFor(m => m.deathPersonName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Date of Death<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.dod, new { @class = "datepicker-here form-control", tabindex = "18", @data_language = "en",@readonly="true", @placeholder = "dd/mm/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.dod, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Gender<span class="star">*</span></label><br>
+                                    <div class = "form-control">
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.DeathPersonGender, "Male")
+                                        Male
+                                        </label>
+                                        <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.DeathPersonGender, "Female")
+                                        Female
+                                            </label>
+                                            <label class="radio-inline">
+                                         @Html.RadioButtonFor(m => m.DeathPersonGender, "Transgender")
+                                        Transgender
+                                    </label>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(m => m.DeathPersonGender, "", new { @class = "text-danger" })
+
+                            </div>
+                             <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Father's Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.fathersName, new { @class = "form-control", tabindex = "16"  })
+                                    @Html.ValidationMessageFor(m => m.fathersName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mother’s Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.motherName, new { @class = "form-control", tabindex = "17" })
+                                    @Html.ValidationMessageFor(m => m.motherName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Religion<span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.religionId, (IEnumerable<SelectListItem>)ViewBag.Religion, "--select--", new { @class = "form-control", tabindex = "14" })
+                                    @Html.ValidationMessageFor(m => m.religionId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            
+                             
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Aadhaar Number</label>
+                                    @Html.TextBoxFor(m => m.aadhaarNo, new { @class = "form-control", @maxlength = 12, tabindex = "12", @onkeypress = "return isNumberKey(event);"  })
+                                    @Html.ValidationMessageFor(m => m.aadhaarNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                             
+                             <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Marital Status<span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.maritalStatusId, (IEnumerable<SelectListItem>)ViewBag.maritalStatus, "--select--", new { @class = "form-control", tabindex = "13",@onchange="manageSpouse(this);" })
+                                    @Html.ValidationMessageFor(m => m.maritalStatusId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" id="divSpouseName" style="display:none;">
+                                <div class="form-group">
+                                    <label>Spouse Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.spouseName, new { @class = "form-control", tabindex = "15"  })
+                                    @Html.ValidationMessageFor(m => m.spouseName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                                </div>
+                             
+
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Address of Deceased Person</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label>Address of Deceased Person</label>
+                                </div>
+                                <div class="col-md-12 addressType">
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.addressType,"Same")
+                                        Same as Requester
+                                    </label>
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.addressType, "Other")
+                                        Other
+                                    </label>
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.addressType, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-3 diseaseName_Cause" style="display:none">
+                                    <div class="form-group">
+                                        <label>Address<span class="star">*</span></label>
+                                        @Html.TextAreaFor(m => m.deathPersonAddress, new { @class = "form-control", tabindex = "17" })
+                                        @Html.ValidationMessageFor(m => m.deathPersonAddress, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                    <div class="col-md-3 diseaseName_Cause" style="display:none">
+                                    <div class="form-group">
+                                        <label>State<span class="star">*</span></label>
+                                         @Html.DropDownListFor(m => m.deathPersonStateId, (IEnumerable<SelectListItem>)ViewBag.State,"--Select--", new { @class = "form-control" ,tabindex = "5" })
+                                       
+                                        @Html.ValidationMessageFor(m => m.deathPersonStateId, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                    <div class="col-md-3 diseaseName_Cause" style="display:none">
+                                    <div class="form-group">
+                                        <label>District<span class="star">*</span></label>
+                                       
+                                        @Html.DropDownListFor(m => m.deathPersonDistrictId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "6" })
+                                        @Html.ValidationMessageFor(m => m.deathPersonDistrictId, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                    <div class="col-md-3 diseaseName_Cause" style="display:none">
+                                    <div class="form-group">
+                                        <label>Pin Code</label>
+                                        @Html.TextBoxFor(m => m.deathPersonPinCode, new { @class = "form-control", tabindex = "17",@maxlength="6",@onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.deathPersonPinCode, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                      <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                   
+                                   
+                                       <div class="col-md-2 ">
+                                            <a href="@Url.Action("DECRegistration", "appRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdDEC.ToString()), stepValue = (Convert.ToInt32(Session["stepValue"])- 1) })" class="btn btn-block btn-success">Back</a>
+                                        </div>    
+
+                                    <div class="col-md-3 ">
+                                        <button type="submit" class="btn btn-block btn-primary" id="btnsubmit">Save</button>
+                                    </div>
+                                    <div class="col-md-2"><a href="@Url.Action("DECRegistration", "AppRegistration")" class="btn btn-block btn-warning">Reset</a> </div>
+                                 
+                                      
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            }
+          
+           
+        </div>
+       
+       <div> @Html.HiddenFor(m =>m.address) @Html.HiddenFor(m => m.stateId) @Html.HiddenFor(m => m.districtid)</div>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        debugger;
+      
+        if ('@ViewBag.msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", '@ViewBag.msg', '@ViewBag.MsgStatus');
+        }
+         if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+             swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+         if ('@TempData["distval"]' == '1') {
+
+            
+             binddist($("#stateId").val());
+         } 
+    });
+
+    var strMaxDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + ""; 
+
+    $('#dod').datepicker({
+        maxDate: new Date(strMaxDate),
+        autoClose: true
+    });
+
+    $('input[name="addressType"]').change(function () {
+        if (this.value == 'Same') {
+            debugger;
+            $('.diseaseName_Cause').show();
+            $('#deathPersonAddress').val($('#address').val());
+            var dstate = '@TempData["State"]';
+            $('#deathPersonStateId').val(dstate);
+            var dis = $('#districtid').val();
+            bindDeathdist(dstate);
+            $('#deathPersonPinCode').val(@TempData["pinCode"]);
+
+
+            $('#deathPersonAddress').attr('readonly', true);
+            $('#deathPersonAddress').addClass('input-disabled');
+            $("#deathPersonStateId").prop('disabled', true);
+            $("#deathPersonDistrictId").prop('disabled', true);
+            $('#deathPersonPinCode').attr('readonly', true);
+            $('#deathPersonPinCode').addClass('input-disabled');
+         
+        }
+        else {
+            $('.diseaseName_Cause').show();
+            $('#deathPersonAddress').val('');
+            $('#deathPersonStateId').val(0);
+            $('#deathPersonDistrictId').val(0);
+            $('#deathPersonPinCode').val('');
+            $('#deathPersonAddress').attr('readonly', false);
+            $('#deathPersonAddress').addClass('input-disabled');
+            $("#deathPersonStateId").prop('disabled', false);
+            $("#deathPersonDistrictId").prop('disabled', false);
+            $('#deathPersonPinCode').attr('readonly', false);
+            $('#deathPersonPinCode').addClass('input-disabled');
+        }
+    });
+    $("#deathPersonStateId").change(function () {
+        debugger;
+        bindDeathdist($(this).val());
+    })
+    function bindDeathdist(stateId) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindDistrictlistDEC", "AppRegistration")',
+            data: { stateId: stateId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+
+                $("#deathPersonDistrictId").empty();
+                $("#deathPersonDistrictId").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#deathPersonDistrictId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+                
+                var dis = '@TempData["dist"]';
+                $('#deathPersonDistrictId').val(dis);
+
+            },
+            error: function (xhr, status) {
+
+            }
+        });
+    }
+    
+    $("#stateId").change(function () {
+        debugger;
+        binddist($(this).val());
+    })
+   
+    
+    function binddist(stateId) {
+
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindDistrictlistDEC", "AppRegistration")',
+            data: { stateId: stateId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                
+                $("#districtid").empty();
+                $("#districtid").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#districtid").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+               
+                if ('@TempData["distval"]' == '1') {
+                    var appsubid = '@TempData["dist"]';// $('input[name=districtId]').val();
+                   
+                    $('#districtid').val(appsubid);
+                   
+                }
+            },
+            error: function (xhr, status) {
+
+            }
+        });
+    }
+</script>

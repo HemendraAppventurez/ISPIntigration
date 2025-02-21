@@ -1,0 +1,147 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.CountReportModel>
+@{
+    ViewBag.Title = "getDivisionServiceRollWiseCount";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+    int sNo = 0, rowSpan = 1;
+    string preValue = "";
+    
+}
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnBack").click(function () {
+            history.back();
+        })
+    })
+
+
+</script>
+
+<div class="container">
+    <div class="services-heading">
+        @if (Model.Select(m => m.rollId).FirstOrDefault() == 2)
+        {
+            <h2>District Wise CMO Service </h2>
+        }
+        else if (Model.Select(m => m.rollId).FirstOrDefault() == 5)
+        {
+            <h2>District Wise CMS(DH) Service </h2>
+        }
+        else if (Model.Select(m => m.rollId).FirstOrDefault() == 3)
+        {
+            <h2>District Wise CHC Service </h2>
+        }
+        <input type="button" value="Back" id="btnBack" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top: -40px;" />
+    </div>
+
+
+    @*<div class="col-md-12">
+            <div class="form-group" style="padding-bottom: 5px;">
+                <label class="bold">Service Name : </label>
+                @if (Model != null && Model.Count > 0)
+                {
+                    <label>@Model.Select(m => m.serviceName).FirstOrDefault()</label>
+                }
+            </div>
+
+            <div class="form-group" style="border-bottom: 1px solid #333; padding-bottom: 5px;">
+                <label class="bold">Division Name : </label>
+                @if (Model != null && Model.Count > 0)
+                {
+                    <label>@Model.Select(m => m.zoneName).FirstOrDefault()</label>
+                }
+            </div>
+
+             
+        </div>*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row" style="border-bottom: 1px solid #333; margin-bottom: 15px;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bold">Service Name : </label>
+                                <label>@Model.Select(m => m.serviceName).FirstOrDefault()</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group text-right">
+                                <label class="bold">Division : </label>
+                                <label>@Model.Select(m => m.zoneName).FirstOrDefault()</label>
+                            </div>
+                        </div>
+                        @*<div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="bold">Service Name : </label>
+                                    <label>@Model.serviceName</label>
+                                </div>
+                            </div>*@
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-striped table-fixed-header" style="border-collapse: collapse;" border="1">
+                                <thead class='header'>
+                                    <tr class="active">
+                                        <th style="width: 5%; text-align: center;">S.No.</th>
+                                        <th style="width: 12%; text-align: center;">District Name</th>
+                                        <th style="width: 12%; text-align: center;">Total Received</th>
+                                        <th style="width: 5%; text-align: center;">Approved</th>
+                                        <th style="width: 5%; text-align: center;">Rejected</th>
+                                        <th style="width: 17%; text-align: center;">Pending In-Time Limit</th>
+                                        <th style="width: 18%; text-align: center;">Pending After-Time Limit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.Count > 0)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                        
+                                        <tr>
+
+                                            @if (preValue != item.DistrictName)
+                                            {
+
+                                                sNo++;
+                                                rowSpan = Model.Where(m => m.DistrictName == item.DistrictName).Count();
+                                                <td rowspan="@rowSpan" style="text-align: center;" >@sNo</td>
+                                                <td rowspan="@rowSpan" style="text-align: center;">
+                                                    @item.DistrictName
+                                                </td>
+                        
+                                            }
+
+
+                                            <td style="text-align: center;">@Html.Raw(item.totalReceived > 0 ? "<a href=" + @Url.Action("getDistrictServiceRollApplicantDtl", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("0"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.totalReceived + "</a>" : item.totalReceived.ToString())</td>
+                                            <td style="text-align: center;">@Html.Raw(item.approved > 0 ? "<a href=" + @Url.Action("getDistrictServiceRollApplicantDtl", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("1"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.approved + "</a>" : item.approved.ToString())</td>
+                                            <td style="text-align: center;">@Html.Raw(item.rejected > 0 ? "<a href=" + @Url.Action("getDistrictServiceRollApplicantDtl", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("2"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.rejected + "</a>" : item.rejected.ToString())</td>
+                                            <td style="text-align: center;">@Html.Raw(item.pendingInTimeLimit > 0 ? "<a href=" + @Url.Action("getDistrictServiceRollApplicantDtl", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("3"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.pendingInTimeLimit + "</a>" : item.pendingInTimeLimit.ToString())</td>
+                                            <td style="text-align: center;">@Html.Raw(item.pendingOverTimeLimit > 0 ? "<a href=" + @Url.Action("getDistrictServiceRollApplicantDtl", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("4"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.pendingOverTimeLimit + "</a>" : item.pendingOverTimeLimit.ToString())</td>
+
+                                            @* <td style="text-align: center;">@item.totalReceived</td>
+                        <td style="text-align: center;">@item.approved</td>
+                        <td style="text-align: center;">@item.rejected</td>
+                        <td style="text-align: center;">@item.pendingInTimeLimit</td>
+                        <td style="text-align: center;">@item.pendingOverTimeLimit</td>*@
+
+                                        </tr>
+                                            preValue = item.DistrictName;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="8">Record Not Found</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

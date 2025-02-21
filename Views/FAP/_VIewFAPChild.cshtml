@@ -1,0 +1,37 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.FAPModel>
+<style>
+    /*.webgrid-header {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }*/
+
+    .webgrid-header a {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+    <div id="divDataList" class="table-responsive">
+        @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("childName", header: "Child Name"),
+            grid.Column("childAge", header: "child Age"),
+            grid.Column("gender", header: "Gender"),
+            grid.Column("maritalStatus", header: "Marital Status")
+
+            ))
+    </div>
+}

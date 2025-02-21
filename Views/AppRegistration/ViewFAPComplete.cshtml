@@ -1,0 +1,197 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.FAPModel>
+@using OTPL_Imp@{
+    ViewBag.Title = "ViewFAPComplete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .webgrid-header {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+<div class="content-title">
+    <h3 class="main-title">New Registration <a href="@Url.Action("FAPRegistration", "AppRegistration")" class="btn btn-info pull-right">New Registration</a></h3>
+</div>
+<div class="content-title">
+    <h3 class="main-title">  Completed Registration List<a href="@Url.Action("FAPRegistration", "AppRegistration")" class="btn btn-info pull-right">New Registration</a></h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @*<div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+             
+            </div>
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    @using(Html.BeginForm()){
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Application No.</label>
+                                <input type="text" id="txtAppNumber" name="applicationNo" class="form-control" />
+                            </div>
+                        </div>                      
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="submit" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <a href="@Url.Action("ViewFAPComplete","AppRegistration")" id="btnRefresh" class="btn btn-block btn-danger">Reset</a>
+                            </div>
+                        </div>
+                    </div>}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel-body">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                    <div id="divDataList" class="table-responsive">
+                        @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+
+                         grid.Column(columnName: "registrationNo", header: "Application No."),
+                         grid.Column("sterilizedName", header: "Strilized Person Name"),
+                         grid.Column("fatherName", header: "Father Name"),
+                         grid.Column("spouseName", header: "Spouce Name"),
+                         grid.Column("spouseAge", header: "Spouce Age"),
+                          grid.Column(header: "Affidavit", format: @<text>
+        @if (!string.IsNullOrEmpty(@item.affidavitfilePath) && item.affidavitfilePath != "Submitted by CMO")
+        {
+            <a href="@Url.Content(@item.affidavitfilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+        }
+        else
+        {
+           <form action="/AppRegistration/UploadAffidavit" enctype="multipart/form-data" method="post">
+              <input type="file" name="AffidavitFile" class="upload3" required/>
+               <input type="hidden" name="applicationId" value="@item.regisIdFAP" />
+                <input type="hidden" name="ApplicationNo" value="@item.registrationNo" />
+                <button type="submit" class="btn btn-primary">Submit</button>
+           </form>
+
+        }</text>)
+                        
+                     ))
+                    </div>
+                }
+                else
+                {
+    
+                    <table class="table table-bordered norecord">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>No Record Found</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if ('@TempData["Message"]' != '') {
+        swal("", '@TempData["Message"]', 'success');
+    }
+
+    if ('@TempData["Error"]' != '') {
+        swal("", '@TempData["Error"]', 'error');
+    }
+
+    if ('@TempData["Warning"]' != '') {
+        swal("", '@TempData["Warning"]', 'warning');
+    }
+
+    if ('@TempData["msg"]' != '') {
+        swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+     }
+</script>
+
+<script> 
+    function UploadFile(obj,id) {
+        debugger;
+        var fileId = $(obj).attr("id");
+        var ext = obj.value.match(/\.(.+)$/)[1];
+
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+
+                var fileSize = ($("#" + fileId)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + fileId).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "NUH")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            if (response[1] == 'SNV') {
+                                swal("", 'Maximum 2 MB file size are allowed !', "warning");
+                            }
+                            else if (response[1] == 'TNV') {
+                                swal("", 'Only pdf and jpg files are allowed !', "warning");
+                            }
+                            else {
+
+                                var url = '@Url.Content("~/Content/writereaddata/NUH/")' + response[0];
+                                $('#aAffidavit-'+id).removeAttr('href');
+                                $('#aAffidavit-' + id).attr('href', url);
+                                $('#aAffidavit-' + id).show();
+                                $("#" + fileId + "Path").val(response[1]);
+                            }
+                            return false;
+                        },
+                        error: function () {
+                        }
+                    });
+
+                }
+                break;
+            default:
+                swal("", 'This is not an allowed file type only pdf and jpg  file valid for this', "warning");
+                this.value = '';
+                return false;
+        }
+    }
+</script>

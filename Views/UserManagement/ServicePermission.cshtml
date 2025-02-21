@@ -1,0 +1,148 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.UserDetailsModel
+@{
+    ViewBag.Title = "ServicePermission";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .css-serial
+    {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before
+        {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+</style>
+
+@using (Html.BeginForm("ServicePermission", "UserManagement", FormMethod.Post, new { @id = "frmServicePermission" }))
+{
+    <section>
+        <div class="content-title">
+            <h3 class="main-title">Service Permission</h3>
+        </div>
+        <div id="content" class="dashboard padding-20 margin-bottom-50">
+            <div class="row">
+                <div class="divDetails">
+                    @Html.Partial("_UserDetails", Model);
+            @*@Html.Action("UserDetails", "UserManagement", new { userId = @ViewBag.UserId })*@
+        </div>
+        <div class="clearfix"></div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Services</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="tblServices" class="table table-bordered css-serial">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" class="text-center">S.No.</th>
+                                            <th width="50%">Service Name</th>
+                                            <th width="15%">Service Process</th>
+                                            <th width="15%">Service Apply</th>
+                                            <th width="15%">Service Report</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.PermissionList != null && Model.PermissionList.Count() > 0)
+                                        {
+                                            foreach (var item in Model.PermissionList)
+                                            {
+                                            <tr>
+                                                <td align="center">
+                                                    <input type="hidden" id="hdnServiceId_@item.serviceId" />
+                                                </td>
+                                                <td>@item.serviceName</td>
+                                                <td>
+                                                    <input type="checkbox" @(item.IsSrvProcessPer == true ? "checked='checked'" : "") />
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" @(item.IsSrvApplyPer == true ? "checked='checked'" : "") />
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" @(item.IsSrvReportPer == true ? "checked='checked'" : "") />
+                                                </td>
+                                            </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-4">
+                                        <input type="hidden" id="hdnServicesXML" name="hdnServicesXML" />
+                                        <input type="hidden" id="hdnUserId" name="hdnUserId" value="@ViewBag.UserId" />
+                                        <button type="submit" class="btn btn-block btn-primary" onclick="return fillServiceXML();">Save</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("ViewUser", "UserManagement")" class="btn btn-block btn-warning">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<script>
+    var serviceArr = [];
+
+    $(document).ready(function () {
+
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+
+        if ('@TempData["Message"]' != '') {
+            swal("", '@TempData["Message"]', '@TempData["MsgStatus"]');
+        }
+
+    });
+
+    function fillServiceXML() {
+
+        $('#tblServices tbody tr').each(function () {
+            
+            var ServiceId = $(this).find('td:eq(0)').find('input[type="hidden"]').attr('id').split('_')[1];
+            var IsSrvProcessPer = 0;
+            var IsSrvApplyPer = 0;
+            var IsSrvReportPer = 0;
+            if ($(this).find('td:eq(2)').find('input[type="checkbox"]').prop('checked')) {
+                IsSrvProcessPer = 1;
+            }
+            if ($(this).find('td:eq(3)').find('input[type="checkbox"]').prop('checked')) {
+                IsSrvApplyPer = 1;
+            }
+            if ($(this).find('td:eq(4)').find('input[type="checkbox"]').prop('checked')) {
+                IsSrvReportPer = 1;
+            }
+            var item = {};
+            item["ServiceId"] = ServiceId;
+            item["IsSrvProcessPer"] = IsSrvProcessPer;
+            item["IsSrvApplyPer"] = IsSrvApplyPer;
+            item["IsSrvReportPer"] = IsSrvReportPer;
+            serviceArr.push(item);
+
+        }); 
+
+        var json = JSON.stringify(serviceArr);
+        $('#hdnServicesXML').val(json); 
+    }
+</script>

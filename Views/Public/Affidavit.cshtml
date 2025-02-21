@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Affidavit";
+    Layout = "~/Views/Shared/_PublicLayout1.cshtml";
+}
+<style>
+    .online-services {
+        padding: 8px 0px 40px;
+    }
+</style>
+<div style="text-align: right; padding-bottom: 8px; width: 900px; margin: 0 auto;">
+    <a href="@Url.Action("DeclarationForm", "Public")" style="margin-left: 8px; border-radius: 4px; border: 1px solid #ef6262; background-color: #ef6262; color: #fff; padding: 3px 15px; display:inline-block; text-decoration:none;" onclick="FilterList()">Back</a>
+</div>
+<div style="width: 900px; margin: 0 auto; padding: 15px; background-color: #fff;">
+    <table border="0" style="width: 100%; border-collapse: collapse; font-family: 'Arial Unicode MS'; line-height: 2;">
+        <tbody>
+            <tr>
+                <td style="text-align: center" colspan="3">
+                    <div style="font-size: 1.35rem; font-weight: 600;">आवेदक का शपथ पत्र वर्ष 2022 से 2023 तक के पंजीकरण हेतु</div>
+                    <div style="font-size: 1.05rem; font-weight: 600;">समक्षः मुख्य चिकित्सा अधिकारी, लखनऊ</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center; border-bottom: 1px solid #000; padding: 3px;"></td>
+            </tr>
+            @*<tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <input id="txtRegisNo" type="text" placeholder="Registration No." style="border: 1px solid #858585; padding: 8px; border-radius: 4px;" />
+                    <button style="margin-left: 8px; border-radius: 4px; border: 1px solid #1270d3; background-color: #1874d3; color: #fff; padding: 8px 15px;" onclick="FilterList()">Search</button>
+                    <a style="margin-left: 8px; border-radius: 4px; border: 1px solid #ef6262; background-color: #ef6262; color: #fff; padding: 8px 15px; display:inline-block" href="@Url.Action("ClericalNUH", "Public")">Reset</a>
+                </td>
+            </tr>*@
+            <tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <p>प्रमाणित किया जाता है कि मै,  शपथी श्री <strong><u>अतुल कुमार खरबन्दा</u></strong> आयु  लगभग 60 वर्ष पुत्र <strong><u>श्री कुलदीप राय खरबन्दा</u></strong> निवासी <strong><u>विशाल खण्ड 3/112, गोमती नगर, लखनऊ-226010</u></strong> का हूँ तथा शपथपूर्वक निम्न बयान करता हूँ :-</p>
+                    <ol>
+                        <li>यह  कि शपथी <strong><u>अतुल कुमार खरबन्दा</u></strong> की  क्लीनिक <strong><u>274/376, 2nd स्ट्रीट,  राजेन्द्र नगर, लखनऊ</u></strong> पर स्थित है।</li>
+                        <li>यह  कि शपथी की यूनिट/प्रतिष्ठान <strong><u>किराये का</u></strong> है एवं उसमें बिजली की व्यवस्था है।</li>
+                        <li>यह  कि शपथी के क्लीनिक में शपथी द्वारा स्वयं प्रैक्टिस की जाती है। शपथी उत्तर प्रदेश  मेडिकल काउन्सिल में पंजीकृत है। जिनकी पंजीकरण संख्या <strong><u>29165</u></strong> है।</li>
+                        <li>यह  कि शपथी का क्लीनिक <strong><u>आवासीय एवं शहरी क्षेत्र</u></strong> में स्थित है।</li>
+                        <li>यह  कि शपथी उपरोक्त यूनिट/प्रतिष्ठान में क्लीनिक जिसके लिये पंजीकरण कराया गया है, में  उसके अतिरिक्त अन्य कोई कार्य सम्पादित नही करेगा। अगर ऐसा पाया गया तो कानूनी कार्यवाही  की पूर्ण जिम्मेदारी शपथी की होगी।</li>
+                    </ol>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2" style="text-align: center; width: 35%">
+                    <strong>शपथी</strong><br />
+                    <strong>(अतुल  कुमार खरबन्दा)</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong>स्थानः  लखनऊ।</strong><br />
+                    <strong>मोबाइल नम्बरः 9793844535</strong><br />
+                    <strong>दिनांक: 25.04.2022</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center;">
+                    <div style="font-size: 1.05rem; font-weight: 600;"><strong><u>सत्यापन</u></strong></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <p>
+                        <input type="checkbox" />&nbsp; मै शपथी <strong><u>अतुल कुमार खरबन्दा</u></strong> उपरोक्त शपथ-पत्र  की धारा-1 से 5 तक सत्यापित करता हूँ जो मेरे निजी ज्ञान में सत्य है। पंजीकरण आवेदन  पत्र में किसी भी तथ्य का न भ्रामक ढंग से लिखा गया है और न ही इसमें कुछ छिपाया गया  है। अगर कोई असत्य तथ्य संज्ञान में आता है तो कानूनी कार्यवाही के लिये शपथी पूर्ण  रूप से जिम्मेदार होगा।<br />
+                        आज दिनांक <strong><u>25.04.2022</u></strong> को अपने हस्ताक्षर  बनाकर सत्यापित किया।
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2" style="text-align: center; width: 35%">
+                    <strong>शपथी</strong><br />
+                    <strong>(अतुल  कुमार खरबन्दा)</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong>स्थानः  लखनऊ।</strong><br />
+                    <strong>मोबाइल नम्बरः 9793844535</strong><br />
+                    <br />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,619 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FAPModel
+@{
+    ViewBag.Title = "_FAPDetailReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .form-group label {
+        color: #333;
+        font-weight: 600;
+    }
+</style>
+<div class="content-title">
+    <h3 class="main-title"><strong>Unsuccessful Family Planning Details</strong>
+        <a href="javascript:history.back()" id="BtnBack" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top: 7px;">Back</a>
+    </h3>
+</div>
+<div class="col-md-12" style="margin-top: 13px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Compensation Category</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Application No.</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.registrationNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>Compensation Category</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.compensationCategoryName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Date of Released</label>
+                    </div>
+                    <div class="col-md-3">
+                        @DateTime.Parse(@Model.dateofReleased).ToShortDateString()
+                    </div>
+                    <div class="col-md-3">
+                        <label>Date when Admitted</label>
+                    </div>
+                    <div class="col-md-3">
+                        @DateTime.Parse(@Model.admittedDate).ToShortDateString()
+                    </div>
+
+
+
+
+                </div>
+                <div class="clearfix"></div>
+                @if (@Model.dateofDeath != null)
+                {
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>Date of Death</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.dateofDeath
+                        </div>
+
+
+                    </div> }
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Surgery Details</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Name of Health Unit</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.heathUnitName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Name of Doctor</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.doctorName
+                    </div>
+
+
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Date Of Operation</label>
+                    </div>
+                    <div class="col-md-3">
+                        @DateTime.Parse(@Model.operationDate).ToShortDateString()
+                    </div>
+                    <div class="col-md-3">
+                        <label>Details of Complications </label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.complicationsDetails
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Address </label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.heathUnitAddress
+                    </div>
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.stateName
+                    </div>
+
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.healthunitDistrictName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Type of Surgery</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.operationTypeName
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                @* <div class="clearfix"></div>
+
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Claimant's Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.claimantName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>*@
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Details of Sterilized Person</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Full Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.sterilizedName
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Date Of Birth</label>
+                    </div>
+                    @if (@Model.sterilizedDob != null)
+                    {
+                        <div class="col-md-3">
+                            @DateTime.Parse(@Model.sterilizedDob.ToString()).ToShortDateString()
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                            <label>NaN</label>
+                        </div>
+                    }
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Age</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.sterilizedAge
+                    </div>
+                    <div class="col-md-3">
+                        <label>Gender</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.sterilizedGender
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Father's Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.fatherName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Spouse Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.spouseName
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Spouse's Age</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.spouseAge
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mobile No</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        @Model.claimantMobileNo
+                    </div>
+
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Employement Type</label>
+                    </div>
+                    @if (@Model.emplomentName != "")
+                    {
+                        <div class="col-md-3">
+                            @Model.emplomentName
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                            <label>NaN</label>
+                        </div>
+                    }
+                    <div class="col-md-3">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.sterilizedAddress
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.stateName
+                    </div>
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.sterlizedDistrictName
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Claim Amount</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.claimAmount
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Realization for failure of Sterilization</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Date of issue reported at health unit</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.informationDate
+                    </div>
+                    <div class="col-md-3">
+                        <label>Confirmation Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.confirmationDate
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Name of Health Unit</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.sevakendraName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Doctor's Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.sevadoctorName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+</div>
+@if (Model.compensationCategoryName == "Death due to Sterilization")
+{
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Details of Claimant</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.claimantName
+                        </div>
+                        @if (@Model.claimantDob != null)
+                        {
+                            <div class="col-md-3">
+                                <label>Date of Birth</label>
+                            </div>
+                            <div class="col-md-3">
+                                @DateTime.Parse(@Model.claimantDob.ToString()).ToShortDateString()
+                            </div>
+                        }
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Present Age</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.claimantAge
+                        </div>
+                        <div class="col-md-3">
+                            <label>Relation with Sterilized Person</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.relationName
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Address</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.claimantAddress
+                        </div>
+
+
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>@(Model.compensationCategoryId == 3 ? "Spouse Bank Details" : "Bank Details")</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Account Holder Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.accountHolderName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Bank Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.bankName
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Branch Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.branchName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Account Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.accountNo
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>IFSC Code</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ifscCode
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.step == 0)
+{
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Uploaded Documents</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        @if (Model.opdDistricthospitalfilePath != "")
+                        {
+                            <div class="col-md-3">
+                                <label>OPD District Hospital</label>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="@Url.Content(@Model.opdDistricthospitalfilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            </div>
+                        }
+                        @if (Model.usgfilePath != "")
+                        {
+                            <div class="col-md-3">
+                                <label>USG report & black films by Chief Medical Officer</label>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="@Url.Content(@Model.usgfilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        @if (Model.uptfilePath != "")
+                        {
+                            <div class="col-md-3">
+                                <label>UPT report by Chief Medical Officer</label>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="@Url.Content(@Model.uptfilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            </div>
+                        }
+                        @if (Model.antenatalcardfilePath != "")
+                        {
+                            <div class="col-md-3">
+                                <label>Antenatal Card by Chief Medical Officer</label>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="@Url.Content(@Model.antenatalcardfilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            </div>
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        @if (Model.affidavitfilePath != "")
+                        {
+                            <div class="col-md-3">
+                                <label>Affidavit on the Stamp Paper</label>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="@Url.Content(@Model.affidavitfilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            </div>
+                        }
+                        @if (Model.sterilizationcertificatefilePath != "")
+                        {
+                            <div class="col-md-3">
+                                <label>Certificate of Sterilization</label>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="@Url.Content(@Model.sterilizationcertificatefilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            </div>
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+                    @if (Model.compensationCategoryId == 3)
+                    {
+                        <div class="form-group">
+
+                            <div class="col-md-3">
+                                <label>Death Certificate</label>
+                            </div>
+                            <div class="col-md-3">
+                                @if (!string.IsNullOrEmpty(Model.deathCertificateFilePath))
+                                {
+                                    <a href="@Url.Content(@Model.deathCertificateFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                }
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Discharge Summary</label>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="@Url.Content(@Model.dischargeSummaryFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
+
+
+<div id="childlist" class="col-md-12">
+</div>
+<div class="form-group" style="float: right; margin-right: 82px; margin-top: 10px;">
+    <div class="col-md-4">
+        <a href="@Url.Action("GetViewApplicationStatusFAP", "Report", new { registrationID = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdFAP.ToString()) })" class="btn btn-primary btn-sm">View Application Process</a>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        ChildList();
+    });
+    function ChildList() {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindChildListFAP", "CMO")',
+           @* url: '@Url.Action("BindChildList", "CMO")',*@
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlist").html(data);
+            },
+        });
+    }
+</script>
+

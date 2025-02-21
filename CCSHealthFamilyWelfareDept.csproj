@@ -1,0 +1,1772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F056F71B-FE82-4BD7-BB4A-8ED882D23CFA}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CCSHealthFamilyWelfareDept</RootNamespace>
+    <AssemblyName>CCSHealthFamilyWelfareDept</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.7.107.8\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.SimpleNotificationService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.SimpleNotificationService.3.7.101.83\lib\net45\AWSSDK.SimpleNotificationService.dll</HintPath>
+    </Reference>
+    <Reference Include="Comman_Classes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Comman_Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data.SqlCe, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Practices.EnterpriseLibrary.Data.SqlCe.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WCF, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WCF.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="OTPL_Imp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\OTPL_Imp.dll</HintPath>
+    </Reference>
+    <Reference Include="SRVTextToImage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SRVTextToImage.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="UBNICMethodsLib">
+      <HintPath>..\..\..\UPPCL_EODB_UdyogBandhu\UPPCL_EODB_UdyogBandhu\bin\UBNICMethodsLib.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.20710.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.0.3.12153\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminAccountController.cs" />
+    <Compile Include="Controllers\AGCController.cs" />
+    <Compile Include="Controllers\AppRegistrationController.cs" />
+    <Compile Include="Controllers\CHCController.cs" />
+    <Compile Include="Controllers\CMOController.cs" />
+    <Compile Include="Controllers\DECController.cs" />
+    <Compile Include="Controllers\DICController.cs" />
+    <Compile Include="Controllers\EDistrictController.cs" />
+    <Compile Include="Controllers\FAPController.cs" />
+    <Compile Include="Controllers\FICController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ICCController.cs" />
+    <Compile Include="Controllers\ILCController.cs" />
+    <Compile Include="Controllers\IMCController.cs" />
+    <Compile Include="Controllers\ISPController.cs" />
+    <Compile Include="Controllers\MERController.cs" />
+    <Compile Include="Controllers\MLCController.cs" />
+    <Compile Include="Controllers\NUHController.cs" />
+    <Compile Include="Controllers\PublicController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ResourceController.cs" />
+    <Compile Include="Controllers\UmangApplicationController.cs" />
+    <Compile Include="Controllers\UserManagementController.cs" />
+    <Compile Include="DAL\Account_DB.cs" />
+    <Compile Include="DAL\AGC_DB.cs" />
+    <Compile Include="DAL\AppRegistration_DB.cs" />
+    <Compile Include="DAL\CHC_DB.CS" />
+    <Compile Include="DAL\CMO_DB.cs" />
+    <Compile Include="DAL\Common_DB.cs" />
+    <Compile Include="DAL\DEC_DB.cs" />
+    <Compile Include="DAL\DIC_DB.cs" />
+    <Compile Include="DAL\EncryptionDecryptionUtils.cs" />
+    <Compile Include="DAL\FAP_DB.cs" />
+    <Compile Include="DAL\FIC_DB.cs" />
+    <Compile Include="DAL\ICC_DB.cs" />
+    <Compile Include="DAL\ILC_DB.cs" />
+    <Compile Include="DAL\imageConverter.cs" />
+    <Compile Include="DAL\IMC_DB.cs" />
+    <Compile Include="DAL\MER_DB.cs" />
+    <Compile Include="DAL\MLC_DB.cs" />
+    <Compile Include="DAL\NUH_DB.cs" />
+    <Compile Include="DAL\Report_DB.cs" />
+    <Compile Include="DAL\Services.cs" />
+    <Compile Include="DAL\Service_DB.cs" />
+    <Compile Include="DAL\UserManagement_DB.cs" />
+    <Compile Include="Darpan2\BAL_Client.cs" />
+    <Compile Include="Darpan2\DAL_Client.cs" />
+    <Compile Include="Darpan2\DarpanCommon.cs" />
+    <Compile Include="Darpan2\DarpanService.cs" />
+    <Compile Include="DarpanMIS\MisClass.cs" />
+    <Compile Include="DarpanMIS\MisProcess.cs" />
+    <Compile Include="DataSet\DataSetNUH.cs">
+      <DependentUpon>DataSetNUH.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSet\DataSetNUH.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetNUH.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet\health_welfareDataset.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>health_welfareDataset.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Filters\AuthorizeUser.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\AdminAccountModel.cs" />
+    <Compile Include="Models\AGCModel.cs" />
+    <Compile Include="Models\APIModel.cs" />
+    <Compile Include="Models\AuditMethods.cs" />
+    <Compile Include="Models\CancleNUHregistration.cs" />
+    <Compile Include="Models\CHCModel.cs" />
+    <Compile Include="Models\Common.cs" />
+    <Compile Include="Models\Communication.cs" />
+    <Compile Include="Models\Declaration.cs" />
+    <Compile Include="Models\DECModel.cs" />
+    <Compile Include="Models\DICModel.cs" />
+    <Compile Include="Models\EDistrictServiceClass.cs" />
+    <Compile Include="Models\FAPModel.cs" />
+    <Compile Include="Models\FICModel.cs" />
+    <Compile Include="Models\ICCModel.cs" />
+    <Compile Include="Models\ILCModel.cs" />
+    <Compile Include="Models\IMCModel.cs" />
+    <Compile Include="Models\MailerClass.cs" />
+    <Compile Include="Models\MERModel.cs" />
+    <Compile Include="Models\MLCModel.cs" />
+    <Compile Include="Models\NUHmodel.cs" />
+    <Compile Include="Models\ReceiptModel.cs" />
+    <Compile Include="Models\ReportModel.cs" />
+    <Compile Include="Models\SessionManager.cs" />
+    <Compile Include="Models\UserCredentials.cs" />
+    <Compile Include="Models\UserManagement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReportModel\rptFAPModel.cs" />
+    <Compile Include="ReportModel\rptNUHModel.cs" />
+    <Compile Include="RPT\CMOfficeCountProcessApplicationPending.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMOfficeCountProcessApplicationPending.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\CMOfficeCountProcessApplicationResolve.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMOfficeCountProcessApplicationResolve.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\CMOfficeCountProcessApplicationRpt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMOfficeCountProcessApplicationRpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\CMOfficeTotalCountDeathAcceptRpt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMOfficeTotalCountDeathAcceptRpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\CMOfficeTotalCountDeathPendingRpt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMOfficeTotalCountDeathPendingRpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\CMOfficeTotalCountDeathRpt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMOfficeTotalCountDeathRpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\CMOfficeTotalCountServices.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMOfficeTotalCountServices.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\DarpanApplicationDetails.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DarpanApplicationDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\DarpanApplicationDetailsWithAAdhar.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DarpanApplicationDetailsWithAAdhar.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\DarpanDistrictWiseList.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DarpanDistrictWiseList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\MERaffidavitChildA.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MERaffidavitChildA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rptCertificateAGC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCertificateAGC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rptCertificateDIC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCertificateDIC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rptCertificateICC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCertificateICC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rptCertificateIMC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCertificateIMC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rptCertificateMER.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptCertificateMER.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_AGCcommitteeMember.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_AGCcommitteeMember.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_DECcertificate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_DECcertificate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_DICcommitteeMember.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_DICcommitteeMember.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_FAPAffidavit.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_FAPAffidavit.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_FICcertificate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_FICcertificate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_ILCcertificate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_ILCcertificate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_ILCextendedCertificate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_ILCextendedCertificate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_MERAffidaviteA.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_MERAffidaviteA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_MERAffidaviteB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_MERAffidaviteB.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_MERAffidaviteBoth.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_MERAffidaviteBoth.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_MLCcertificate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_MLCcertificate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_MLCchildCertificate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_MLCchildCertificate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_NUHAffidavate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_NUHAffidavate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_NUHcertDOC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_NUHcertDOC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_NUHcertificate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_NUHcertificate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_NUHcertificateChild.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_NUHcertificateChild.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_NUHcertOwner.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_NUHcertOwner.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT\rpt_NUHchild.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rpt_NUHchild.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Web References\EDistrictSVC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\UPHEALTHNIC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WebServices\darpan2.asmx.cs">
+      <DependentUpon>darpan2.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebServices\FeatchNUHDataForSigning.asmx.cs">
+      <DependentUpon>FeatchNUHDataForSigning.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Comman_Classes.dll" />
+    <Content Include="bin\CrystalDecisions.CrystalReports.Engine.dll" />
+    <Content Include="bin\CrystalDecisions.ReportSource.dll" />
+    <Content Include="bin\CrystalDecisions.Shared.dll" />
+    <Content Include="bin\DotNetOpenAuth.AspNet.dll" />
+    <Content Include="bin\DotNetOpenAuth.Core.dll" />
+    <Content Include="bin\DotNetOpenAuth.OAuth.Consumer.dll" />
+    <Content Include="bin\DotNetOpenAuth.OAuth.dll" />
+    <Content Include="bin\DotNetOpenAuth.OpenId.dll" />
+    <Content Include="bin\DotNetOpenAuth.OpenId.RelyingParty.dll" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Data.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Data.SqlCe.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WCF.dll" />
+    <Content Include="bin\Microsoft.Practices.ObjectBuilder2.dll" />
+    <Content Include="bin\Microsoft.Practices.Unity.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Microsoft.Web.WebPages.OAuth.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\OTPL_Imp.dll" />
+    <Content Include="bin\SRVTextToImage.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\UBNICMethodsLib.dll" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="bin\WebMatrix.Data.dll" />
+    <Content Include="bin\WebMatrix.WebData.dll" />
+    <Content Include="Client_script\jquery-3.6.4.min.js" />
+    <Content Include="Client_script\RemoveQueryString.js" />
+    <Content Include="Content\CustumJs\FAPJs.js" />
+    <Content Include="Content\Public\css\bootstrap.min.css" />
+    <Content Include="Content\Public\css\bootstrap.min.js" />
+    <Content Include="Content\Public\css\contrast.css" />
+    <Content Include="Content\Public\css\disabledjs.css" />
+    <Content Include="Content\Public\css\font-awesome.min.css" />
+    <Content Include="Content\Public\css\icon.css" />
+    <Content Include="Content\Public\css\jquery.smartmenus.bootstrap.css" />
+    <Content Include="Content\Public\css\line.css" />
+    <Content Include="Content\Public\css\menustyle.css" />
+    <Content Include="Content\Public\css\owl.carousel.css" />
+    <Content Include="Content\Public\css\responsive.css" />
+    <Content Include="Content\Public\css\style.css" />
+    <Content Include="Content\Public\css\table-fixed-header.css" />
+    <Content Include="Content\Public\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Public\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Public\fonts\Simple-Line-Icons.svg" />
+    <Content Include="Content\Public\images\about-dep.jpg" />
+    <Content Include="Content\Public\images\admin-login-icon-bl.png" />
+    <Content Include="Content\Public\images\admin-login-icon.png" />
+    <Content Include="Content\Public\images\age-certificate-icon-6.png" />
+    <Content Include="Content\Public\images\banner1-en.jpg" />
+    <Content Include="Content\Public\images\blank-video.jpg" />
+    <Content Include="Content\Public\images\blank.png" />
+    <Content Include="Content\Public\images\blank2.png" />
+    <Content Include="Content\Public\images\chc-login-icon.png" />
+    <Content Include="Content\Public\images\citizen-login-icon.png" />
+    <Content Include="Content\Public\images\cmo-login-icon.png" />
+    <Content Include="Content\Public\images\death-certificate-icon-10.png" />
+    <Content Include="Content\Public\images\disabliti-certificate-icon-5.png" />
+    <Content Include="Content\Public\images\district-hospital-icon.png" />
+    <Content Include="Content\Public\images\diwali-banner-en.jpg" />
+    <Content Include="Content\Public\images\fittness-certificate-icon-4.png" />
+    <Content Include="Content\Public\images\footer-bg.jpg" />
+    <Content Include="Content\Public\images\health.jpg" />
+    <Content Include="Content\Public\images\illness-certificate-icon-3.png" />
+    <Content Include="Content\Public\images\immunazation-certificate-icon-8.png" />
+    <Content Include="Content\Public\images\imp-dmh.jpg" />
+    <Content Include="Content\Public\images\imp-link-1.jpg" />
+    <Content Include="Content\Public\images\imp-link-2.jpg" />
+    <Content Include="Content\Public\images\imp-link-3.jpg" />
+    <Content Include="Content\Public\images\imp-link-4.jpg" />
+    <Content Include="Content\Public\images\imp-link-5.jpg" />
+    <Content Include="Content\Public\images\imp-link-6.jpg" />
+    <Content Include="Content\Public\images\imp-link-7.jpg" />
+    <Content Include="Content\Public\images\inner-banner.jpg" />
+    <Content Include="Content\Public\images\latest-news-bg.jpg" />
+    <Content Include="Content\Public\images\loadingImg.gif" />
+    <Content Include="Content\Public\images\logo.png" />
+    <Content Include="Content\Public\images\mahendra.jpg" />
+    <Content Include="Content\Public\images\medical-rainbaisement-icon-7.png" />
+    <Content Include="Content\Public\images\medico-legal-certificate-icon-9.png" />
+    <Content Include="Content\Public\images\menu-after.png" />
+    <Content Include="Content\Public\images\menu-after2.png" />
+    <Content Include="Content\Public\images\moileicon.png" />
+    <Content Include="Content\Public\images\news-arrow.png" />
+    <Content Include="Content\Public\images\online-service-bg.jpg" />
+    <Content Include="Content\Public\images\payment-unsussesfull-iocn-2.png" />
+    <Content Include="Content\Public\images\phc-login.png" />
+    <Content Include="Content\Public\images\reg-nursing-home-icon.png" />
+    <Content Include="Content\Public\images\rita.jpg" />
+    <Content Include="Content\Public\images\shiddarth-ji.png" />
+    <Content Include="Content\Public\images\slider-1.jpg" />
+    <Content Include="Content\Public\images\slider-2.jpg" />
+    <Content Include="Content\Public\images\swati.jpg" />
+    <Content Include="Content\Public\images\title-bg.png" />
+    <Content Include="Content\Public\images\top-nav-after.png" />
+    <Content Include="Content\Public\images\top-shape.png" />
+    <Content Include="Content\Public\images\visitor-counter.jpg" />
+    <Content Include="Content\Public\images\yogi-ji.png" />
+    <Content Include="Content\Public\js\AboutDepartment.html" />
+    <Content Include="Content\Public\js\bootstrap.min.js" />
+    <Content Include="Content\Public\js\feedback_validate.js" />
+    <Content Include="Content\Public\js\font-resize.js" />
+    <Content Include="Content\Public\js\jquery.cookie.js" />
+    <Content Include="Content\Public\js\jquery.min.js" />
+    <Content Include="Content\Public\js\jquery.smartmenus.bootstrap.js" />
+    <Content Include="Content\Public\js\jquery.smartmenus.js" />
+    <Content Include="Content\Public\js\menuscript.js" />
+    <Content Include="Content\Public\js\my-menu.js" />
+    <Content Include="Content\Public\js\myscript.js" />
+    <Content Include="Content\Public\js\news-scroller.js" />
+    <Content Include="Content\Public\js\owl.carousel.min.js" />
+    <Content Include="Content\Public\js\script.js" />
+    <Content Include="Content\Public\js\table-fixed-header.js" />
+    <Content Include="Content\Public\js\tickerme.min.js" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\WriteData\DIC\3D-living-room-download-free.jpg_201804181757590911.jpg" />
+    <Content Include="Content\WriteData\DIC\3D-living-room-download-free.jpg_201804181809159748.jpg" />
+    <Content Include="Content\WriteData\DIC\3D-living-room-download-free.jpg_201804181809202152.jpg" />
+    <Content Include="Content\WriteData\DIC\3D-living-room-download-free.jpg_201804191003253569.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804181748061778.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804181809002342.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804181809112543.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804190942235892.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804190943294192.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804190943347712.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804190943369422.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804190959185582.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804190959299032.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804190959342942.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804190959413322.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804191003135268.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804191003288863.jpg" />
+    <Content Include="Content\WriteData\DIC\imagesKing.jpg_201804191003326967.jpg" />
+    <Content Include="Content\writereaddata\CMO\ProfilePic201804191158347951.jpg" />
+    <Content Include="Content\writereaddata\Users\Userprofile\ProfilePic201804191158347951.jpg" />
+    <Content Include="css\app.css" />
+    <Content Include="css\bootstrap-multiselect.css" />
+    <Content Include="css\bootstrap-timepicker.min.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\datepicker.css" />
+    <Content Include="css\essentials.css" />
+    <Content Include="css\extra.css" />
+    <Content Include="css\flatlogin.css" />
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\icon.css" />
+    <Content Include="css\login.css" />
+    <Content Include="css\loginbkp.css" />
+    <Content Include="css\nanoscroller.css" />
+    <Content Include="css\owl.carousel.css" />
+    <Content Include="css\proccessstyle.css" />
+    <Content Include="css\reportstyle.css" />
+    <Content Include="css\stepsstyle.css" />
+    <Content Include="css\sweetalert.css" />
+    <Content Include="DarpanMIS\log\misrequestlog.txt" />
+    <Content Include="EmailTemplates\EmailTemplate.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontawesome-webfont9efe.svg" />
+    <Content Include="fonts\fontellob406.svg" />
+    <Content Include="fonts\generator_config.txt" />
+    <Content Include="fonts\glyphicons-halflings-regular.html" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\Material-Design-Iconic-Font.svg" />
+    <Content Include="fonts\raleway-regular_0-webfont.svg" />
+    <Content Include="fonts\roboto-regular-webfont.svg" />
+    <Content Include="fonts\Simple-Line-Icons.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="fonts\ds-digi-webfont.woff" />
+    <Content Include="fonts\ds-digi-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont9efe.eot" />
+    <Content Include="fonts\fontawesome-webfont9efe.ttf" />
+    <Content Include="fonts\fontawesome-webfont9efe.woff" />
+    <Content Include="fonts\fontawesome-webfont9efe.woff2" />
+    <Content Include="fonts\fontawesome-webfontd41d.eot" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontellob406.eot" />
+    <Content Include="fonts\fontellob406.ttf" />
+    <Content Include="fonts\fontellob406.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regulard41d.eot" />
+    <Content Include="fonts\lato_italic100_ext_webfont.woff2" />
+    <Content Include="fonts\lato_italic100_webfont.woff2" />
+    <Content Include="fonts\lato_italic300_ext_webfont.woff2" />
+    <Content Include="fonts\lato_italic300_webfont.woff2" />
+    <Content Include="fonts\lato_italic400_ext_webfont.woff2" />
+    <Content Include="fonts\lato_italic400_webfont.woff2" />
+    <Content Include="fonts\lato_italic700_ext_webfont.woff2" />
+    <Content Include="fonts\lato_italic700_webfont.woff2" />
+    <Content Include="fonts\lato_italic900_ext_webfont.woff2" />
+    <Content Include="fonts\lato_italic900_webfont.woff2" />
+    <Content Include="fonts\lato_normal100_ext_webfont.woff2" />
+    <Content Include="fonts\lato_normal100_webfont.woff2" />
+    <Content Include="fonts\lato_normal300_ext_webfont.woff2" />
+    <Content Include="fonts\lato_normal300_webfont.woff2" />
+    <Content Include="fonts\lato_normal400_ext_webfont.woff2" />
+    <Content Include="fonts\lato_normal400_webfont.woff2" />
+    <Content Include="fonts\lato_normal700_ext_webfont.woff2" />
+    <Content Include="fonts\lato_normal700_webfont.woff2" />
+    <Content Include="fonts\lato_normal900_ext_webfont.woff2" />
+    <Content Include="fonts\lato_normal900_webfont.woff2" />
+    <Content Include="fonts\Material-Design-Iconic-Font.eot" />
+    <Content Include="fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="fonts\Material-Design-Iconic-Font.woff" />
+    <Content Include="fonts\Material-Design-Iconic-Font.woff2" />
+    <Content Include="fonts\raleway-regular_0-webfont.eot" />
+    <Content Include="fonts\raleway-regular_0-webfont.ttf" />
+    <Content Include="fonts\raleway-regular_0-webfont.woff" />
+    <Content Include="fonts\raleway-regular_0-webfont.woff2" />
+    <Content Include="fonts\roboto-regular-webfont.eot" />
+    <Content Include="fonts\roboto-regular-webfont.ttf" />
+    <Content Include="fonts\roboto-regular-webfont.woff" />
+    <Content Include="fonts\roboto-regular-webfont.woff2" />
+    <Content Include="fonts\Simple-Line-Icons.eot" />
+    <Content Include="fonts\Simple-Line-Icons.ttf" />
+    <Content Include="fonts\Simple-Line-Icons.woff" />
+    <Content Include="fonts\Simple-Line-Icons.woff2" />
+    <Content Include="fonts\WS_FTP.LOG" />
+    <Content Include="Images\age-certificate-icon-6.png" />
+    <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\aloginbg.jpg" />
+    <Content Include="Images\aprobg.png" />
+    <Content Include="Images\avatar-1.jpg" />
+    <Content Include="Images\avatar-122.jpg" />
+    <Content Include="Images\billing.png" />
+    <Content Include="Images\captcha.jpg" />
+    <Content Include="Images\cd-custom-icons-01.svg" />
+    <Content Include="Images\cd-custom-icons-02.svg" />
+    <Content Include="Images\cd-custom-separator.svg" />
+    <Content Include="Images\death-certificate-icon-10.png" />
+    <Content Include="Images\diabetes-education.png" />
+    <Content Include="Images\disabliti-certificate-icon-5.png" />
+    <Content Include="Images\doc.png" />
+    <Content Include="Images\emergency.png" />
+    <Content Include="Images\file.png" />
+    <Content Include="Images\fittness-certificate-icon-4.png" />
+    <Content Include="Images\govt_up.png" />
+    <Content Include="Images\i-medical-library.png" />
+    <Content Include="Images\illness-certificate-icon-3.png" />
+    <Content Include="Images\immunazation-certificate-icon-8.png" />
+    <Content Include="Images\immunizations.png" />
+    <Content Include="Images\Invest_UP.png" />
+    <Content Include="Images\labor-delivery.png" />
+    <Content Include="Images\loadingImg.gif" />
+    <Content Include="Images\loginbg.jpg" />
+    <Content Include="Images\Loginlogo.png" />
+    <Content Include="Images\logo.jpg" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\logo1.png" />
+    <Content Include="Images\logo222.png" />
+    <Content Include="Images\mammography.png" />
+    <Content Include="Images\medical-rainbaisement-icon-7.png" />
+    <Content Include="Images\medical-records.png" />
+    <Content Include="Images\medical-texture.png" />
+    <Content Include="Images\medico-legal-certificate-icon-9.png" />
+    <Content Include="Images\online-service-bg.jpg" />
+    <Content Include="Images\payment-unsussesfull-iocn-2.png" />
+    <Content Include="Images\pbilling.png" />
+    <Content Include="Images\pdiabetes-education.png" />
+    <Content Include="Images\pemergency.png" />
+    <Content Include="Images\pi-medical-library.png" />
+    <Content Include="Images\pimmunizations.png" />
+    <Content Include="Images\plabor-delivery.png" />
+    <Content Include="Images\pmammography.png" />
+    <Content Include="Images\pmedical-records.png" />
+    <Content Include="Images\pprint_icon.png" />
+    <Content Include="Images\pregistration.png" />
+    <Content Include="Images\print_icon.png" />
+    <Content Include="Images\probg.png" />
+    <Content Include="Images\pstairs.png" />
+    <Content Include="Images\pultrasound.png" />
+    <Content Include="Images\pview_icon.png" />
+    <Content Include="Images\pwomens-health.png" />
+    <Content Include="Images\refresh.png" />
+    <Content Include="Images\reg-nursing-home-icon.png" />
+    <Content Include="Images\registration.jpg" />
+    <Content Include="Images\registration.png" />
+    <Content Include="Images\select-dropdwn.png" />
+    <Content Include="Images\stairs.png" />
+    <Content Include="Images\ultrasound.png" />
+    <Content Include="Images\Untitled-1.png" />
+    <Content Include="Images\up-logo-en.jpg" />
+    <Content Include="Images\up-logo-en.png" />
+    <Content Include="Images\up-logo.png" />
+    <Content Include="Images\user.png" />
+    <Content Include="Images\view_icon.png" />
+    <Content Include="Images\womens-health.png" />
+    <Content Include="js\bootstrap-multiselect.js" />
+    <Content Include="DataSet\DataSetNUH.xsc">
+      <DependentUpon>DataSetNUH.xsd</DependentUpon>
+    </Content>
+    <Content Include="js\bootstrap-timepicker.min.js" />
+    <Content Include="js\inputmask.js" />
+    <Content Include="js\jquery.dataTables.js" />
+    <Content Include="js\jquery.dataTables.min.css" />
+    <Content Include="js\jquery.dataTables.min.js" />
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\AuditScripts.js" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\Confirmation.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\LogOut.cshtml" />
+    <Content Include="Views\Account\MyProfile.cshtml" />
+    <Content Include="Views\Account\niveshmitraregistration.cshtml" />
+    <Content Include="Views\Account\OTPVarification.cshtml" />
+    <Content Include="Views\Account\Registration.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\TestPage.cshtml" />
+    <Content Include="Views\Account\VerifyMobile.cshtml" />
+    <Content Include="Views\AdminAccount\ChangePassword.cshtml" />
+    <Content Include="Views\AdminAccount\CreatePassword.cshtml" />
+    <Content Include="Views\AdminAccount\Login.cshtml" />
+    <Content Include="Views\AdminAccount\LogOut.cshtml" />
+    <Content Include="Views\AdminAccount\UpdatePassword.cshtml" />
+    <Content Include="Views\AGC\AGCDashBoard.cshtml" />
+    <Content Include="Views\AGC\AGCDetails.cshtml" />
+    <Content Include="Views\AGC\AgeCertificate.cshtml" />
+    <Content Include="Views\AGC\PrintApplicationForm.cshtml" />
+    <Content Include="Views\AGC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\AGC\RegistrationInstructions.cshtml" />
+    <Content Include="Views\AGC\ViewAGCList.cshtml" />
+    <Content Include="Views\AppRegistration\Affidavit.cshtml" />
+    <Content Include="Views\AppRegistration\AGCRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\DECRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\DICRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\FAPRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\FICRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\ICCRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\ILCRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\ILCtoFICRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\IMCRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\MERRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\MLCRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\NUHRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\NUHRenewalRegistration.cshtml" />
+    <Content Include="Views\AppRegistration\Pairamedical.cshtml" />
+    <Content Include="Views\AppRegistration\Receipt.cshtml" />
+    <Content Include="Views\AppRegistration\SearchNUHDetails.cshtml" />
+    <Content Include="Views\AppRegistration\ViewAGCComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewAGCInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewDECComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewDECInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewDICComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewDICInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewFAPComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewFAPInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewFICComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewFICInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewICCComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewICCInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewILCComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewILCInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewIMCComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewIMCInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewMERComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewMERInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewMLCComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewMLCInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewNUHComplete.cshtml" />
+    <Content Include="Views\AppRegistration\ViewNUHInComplete.cshtml" />
+    <Content Include="Views\AppRegistration\_ViewILCListComplete.cshtml" />
+    <Content Include="Views\CHC\AppliedApplicationDEC.cshtml" />
+    <Content Include="Views\CHC\AppliedApplicationFIC.cshtml" />
+    <Content Include="Views\CHC\AppliedApplicationICC.cshtml" />
+    <Content Include="Views\CHC\AppliedApplicationILC.cshtml" />
+    <Content Include="Views\CHC\AppliedApplicationIMC.cshtml" />
+    <Content Include="Views\CHC\AppliedApplicationMLC.cshtml" />
+    <Content Include="Views\CHC\ApprovedApplicationDEC.cshtml" />
+    <Content Include="Views\CHC\ApprovedApplicationFIC.cshtml" />
+    <Content Include="Views\CHC\ApprovedApplicationICC.cshtml" />
+    <Content Include="Views\CHC\ApprovedApplicationILC.cshtml" />
+    <Content Include="Views\CHC\ApprovedApplicationIMC.cshtml" />
+    <Content Include="Views\CHC\ApprovedApplicationMLC.cshtml" />
+    <Content Include="Views\CHC\DCDetails.cshtml" />
+    <Content Include="Views\CHC\DeathCertificate.cshtml" />
+    <Content Include="Views\CHC\DownloadFile.cshtml" />
+    <Content Include="Views\CHC\InProcessApplicationFIC.cshtml" />
+    <Content Include="Views\CHC\InProcessApplicationICC.cshtml" />
+    <Content Include="Views\CHC\InProcessApplicationILC.cshtml" />
+    <Content Include="Views\CHC\InProcessApplicationIMC.cshtml" />
+    <Content Include="Views\CHC\InProcessApplicationMLC.cshtml" />
+    <Content Include="Views\CHC\MedicoLegalCertificate.cshtml" />
+    <Content Include="Views\CHC\MLCDetails.cshtml" />
+    <Content Include="Views\CHC\PrintApplicationFormDEC.cshtml" />
+    <Content Include="Views\CHC\PrintApplicationFormFIC.cshtml" />
+    <Content Include="Views\CHC\PrintApplicationFormICC.cshtml" />
+    <Content Include="Views\CHC\PrintApplicationFormILC.cshtml" />
+    <Content Include="Views\CHC\PrintApplicationFormIMC.cshtml" />
+    <Content Include="Views\CHC\PrintApplicationFormMLC.cshtml" />
+    <Content Include="Views\CHC\ReceivedApplicationDEC.cshtml" />
+    <Content Include="Views\CHC\ReceivedApplicationFIC.cshtml" />
+    <Content Include="Views\CHC\ReceivedApplicationICC.cshtml" />
+    <Content Include="Views\CHC\ReceivedApplicationILC.cshtml" />
+    <Content Include="Views\CHC\ReceivedApplicationIMC.cshtml" />
+    <Content Include="Views\CHC\ReceivedApplicationMLC.cshtml" />
+    <Content Include="Views\CHC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\CHC\RejectedApplicationFIC.cshtml" />
+    <Content Include="Views\CHC\RejectedApplicationICC.cshtml" />
+    <Content Include="Views\CHC\RejectedApplicationILC.cshtml" />
+    <Content Include="Views\CHC\RejectedApplicationIMC.cshtml" />
+    <Content Include="Views\CHC\RejectedApplicationMLC.cshtml" />
+    <Content Include="Views\CHC\UpdateAppProcessFIC.cshtml" />
+    <Content Include="Views\CHC\UpdateAppProcessICC.cshtml" />
+    <Content Include="Views\CHC\UpdateAppProcessILC.cshtml" />
+    <Content Include="Views\CHC\UpdateAppProcessIMC.cshtml" />
+    <Content Include="Views\CHC\UpdateAppProcessMLC.cshtml" />
+    <Content Include="Views\CHC\UploadCertificateDEC.cshtml" />
+    <Content Include="Views\CHC\UploadCertificateFIC.cshtml" />
+    <Content Include="Views\CHC\UploadCertificateICC.cshtml" />
+    <Content Include="Views\CHC\UploadCertificateILC.cshtml" />
+    <Content Include="Views\CHC\UploadCertificateIMC.cshtml" />
+    <Content Include="Views\CHC\UploadCertificateMLC.cshtml" />
+    <Content Include="Views\CHC\ViewDeathcertificateCHC.cshtml" />
+    <Content Include="Views\CHC\ViewDownloadedCertificateDEC.cshtml" />
+    <Content Include="Views\CHC\ViewDownloadedCertificateMLC.cshtml" />
+    <Content Include="Views\CHC\ViewMedicoLegalCertificate.cshtml" />
+    <Content Include="Views\CHC\_ApprovedApplicationListDEC.cshtml" />
+    <Content Include="Views\CHC\_ApprovedApplicationListFIC.cshtml" />
+    <Content Include="Views\CHC\_ApprovedApplicationListICC.cshtml" />
+    <Content Include="Views\CHC\_ApprovedApplicationListILC.cshtml" />
+    <Content Include="Views\CHC\_ApprovedApplicationListIMC.cshtml" />
+    <Content Include="Views\CHC\_ApprovedApplicationListMLC.cshtml" />
+    <Content Include="Views\CHC\_BindScheduleOfCommitteeMLC.cshtml" />
+    <Content Include="Views\CHC\_FitnessDetailFIC.cshtml" />
+    <Content Include="Views\CHC\_ICCAppDetails.cshtml" />
+    <Content Include="Views\CHC\_IMCAppDetails.cshtml" />
+    <Content Include="Views\CHC\_IMCDetail.cshtml" />
+    <Content Include="Views\CHC\_IMCImmunDetailForRemark.cshtml" />
+    <Content Include="Views\CHC\_InProcessApplicationListFIC.cshtml" />
+    <Content Include="Views\CHC\_InProcessApplicationListILC.cshtml" />
+    <Content Include="Views\CHC\_InProcessApplicationListIMC.cshtml" />
+    <Content Include="Views\CHC\_MedicalCertificateILC.cshtml" />
+    <Content Include="Views\CHC\_MLCAppDetails.cshtml" />
+    <Content Include="Views\CHC\_ReceivedApplicationListDEC.cshtml" />
+    <Content Include="Views\CHC\_ReceivedApplicationListFIC.cshtml" />
+    <Content Include="Views\CHC\_ReceivedApplicationListICC.cshtml" />
+    <Content Include="Views\CHC\_ReceivedApplicationListILC.cshtml" />
+    <Content Include="Views\CHC\_ReceivedApplicationListMLC.cshtml" />
+    <Content Include="Views\CHC\_RejectedApplicationListFIC.cshtml" />
+    <Content Include="Views\CHC\_RejectedApplicationListICC.cshtml" />
+    <Content Include="Views\CHC\_RejectedApplicationListILC.cshtml" />
+    <Content Include="Views\CHC\_RejectedApplicationListIMC.cshtml" />
+    <Content Include="Views\CHC\_RejectedApplicationListMLC.cshtml" />
+    <Content Include="Views\CHC\_TotalReceivedListIMC.cshtml" />
+    <Content Include="Views\CHC\_ViewAppDetailsICC.cshtml" />
+    <Content Include="Views\CHC\_ViewAppDetailsMLC.cshtml" />
+    <Content Include="Views\CHC\_ViewDeathcertificateCHC.cshtml" />
+    <Content Include="Views\CHC\_ViewDownloadedCertificateListDEC.cshtml" />
+    <Content Include="Views\CHC\_ViewDownloadedCertificateListMLC.cshtml" />
+    <Content Include="Views\CHC\_ViewICCChild.cshtml" />
+    <Content Include="Views\CHC\_ViewImmunization.cshtml" />
+    <Content Include="Views\CHC\_ViewMedicoLegalCertificate.cshtml" />
+    <Content Include="Views\CHC\_ViewMLCChild.cshtml" />
+    <Content Include="Views\CMO\AppliedApplicationAGC.cshtml" />
+    <Content Include="Views\CMO\AppliedApplicationDIC.cshtml" />
+    <Content Include="Views\CMO\AppliedApplicationFAP.cshtml" />
+    <Content Include="Views\CMO\AppliedApplicationMER.cshtml" />
+    <Content Include="Views\CMO\AppliedApplicationNUH.cshtml" />
+    <Content Include="Views\CMO\ApprovedApplicationAGC.cshtml" />
+    <Content Include="Views\CMO\ApprovedApplicationDIC.cshtml" />
+    <Content Include="Views\CMO\ApprovedApplicationFAP.cshtml" />
+    <Content Include="Views\CMO\ApprovedApplicationMER.cshtml" />
+    <Content Include="Views\CMO\ApprovedApplicationNUH.cshtml" />
+    <Content Include="Views\CMO\CancleRegistationNUH.cshtml" />
+    <Content Include="Views\CMO\ConfirmAppProcessFAP.cshtml" />
+    <Content Include="Views\CMO\DownloadFile.cshtml" />
+    <Content Include="Views\CMO\ForwardedAppApprovedFAP.cshtml" />
+    <Content Include="Views\CMO\ForwardedApplicationFAP.cshtml" />
+    <Content Include="Views\CMO\ForwardedAppRejectedFAP.cshtml" />
+    <Content Include="Views\CMO\InProcessApplicationAGC.cshtml" />
+    <Content Include="Views\CMO\InProcessApplicationDIC.cshtml" />
+    <Content Include="Views\CMO\InProcessApplicationFAP.cshtml" />
+    <Content Include="Views\CMO\InProcessApplicationMER.cshtml" />
+    <Content Include="Views\CMO\InProcessApplicationNUH.cshtml" />
+    <Content Include="Views\CMO\PrintApplicationFormAGC.cshtml" />
+    <Content Include="Views\CMO\PrintApplicationFormDIC.cshtml" />
+    <Content Include="Views\CMO\PrintApplicationFormFAP.cshtml" />
+    <Content Include="Views\CMO\PrintApplicationFormMER.cshtml" />
+    <Content Include="Views\CMO\PrintApplicationFormNUH.cshtml" />
+    <Content Include="Views\CMO\ReceivedApplicationAGC.cshtml" />
+    <Content Include="Views\CMO\ReceivedApplicationDIC.cshtml" />
+    <Content Include="Views\CMO\ReceivedApplicationFAP.cshtml" />
+    <Content Include="Views\CMO\ReceivedApplicationMER.cshtml" />
+    <Content Include="Views\CMO\ReceivedApplicationNUH.cshtml" />
+    <Content Include="Views\CMO\ReceivedForwardApp.cshtml" />
+    <Content Include="Views\CMO\RejectedApplicationAGC.cshtml" />
+    <Content Include="Views\CMO\RejectedApplicationDIC.cshtml" />
+    <Content Include="Views\CMO\RejectedApplicationFAP.cshtml" />
+    <Content Include="Views\CMO\RejectedApplicationMER.cshtml" />
+    <Content Include="Views\CMO\RejectedApplicationNUH.cshtml" />
+    <Content Include="Views\CMO\UpdateAppProcessAGC.cshtml" />
+    <Content Include="Views\CMO\UpdateAppProcessDIC.cshtml" />
+    <Content Include="Views\CMO\UpdateAppProcessFAP.cshtml" />
+    <Content Include="Views\CMO\UpdateAppProcessMER.cshtml" />
+    <Content Include="Views\CMO\UpdateAppProcessNUH.cshtml" />
+    <Content Include="Views\CMO\UploadCertificate.cshtml" />
+    <Content Include="Views\CMO\UploadCertificateAGC.cshtml" />
+    <Content Include="Views\CMO\UploadCertificateDIC.cshtml" />
+    <Content Include="Views\CMO\UploadCertificateMER.cshtml" />
+    <Content Include="Views\CMO\UploadCertificateNUH.cshtml" />
+    <Content Include="Views\CMO\ViewApplicationFAP.cshtml" />
+    <Content Include="Views\CMO\ViewQueryReplyNUH.cshtml" />
+    <Content Include="Views\CMO\_AGCAppDetails.cshtml" />
+    <Content Include="Views\CMO\_AgeCertificateDetailAGC.cshtml" />
+    <Content Include="Views\CMO\_ApprovedApplicationListAGC.cshtml" />
+    <Content Include="Views\CMO\_ApprovedApplicationListDIC.cshtml" />
+    <Content Include="Views\CMO\_ApprovedApplicationListFAP.cshtml" />
+    <Content Include="Views\CMO\_ApprovedApplicationListMER.cshtml" />
+    <Content Include="Views\CMO\_ApprovedApplicationListNUH.cshtml" />
+    <Content Include="Views\CMO\_BindScheduleOfCommittee.cshtml" />
+    <Content Include="Views\CMO\_BindScheduleOfCommitteeAGC.cshtml" />
+    <Content Include="Views\CMO\_BindScheduleOfCommitteeDIC.cshtml" />
+    <Content Include="Views\CMO\_BindScheduleOfCommitteeMER.cshtml" />
+    <Content Include="Views\CMO\_DICAppDetails.cshtml" />
+    <Content Include="Views\CMO\_FAPAppDetails.cshtml" />
+    <Content Include="Views\CMO\_FAPDetail.cshtml" />
+    <Content Include="Views\CMO\_FAPScheduledlist.cshtml" />
+    <Content Include="Views\CMO\_ForwardedAppApprovedListFAP.cshtml" />
+    <Content Include="Views\CMO\_ForwardedApplicationListFAP.cshtml" />
+    <Content Include="Views\CMO\_ForwardedAppRejectedListFAP.cshtml" />
+    <Content Include="Views\CMO\_InProcessApplicationListAGC.cshtml" />
+    <Content Include="Views\CMO\_InProcessApplicationListDIC.cshtml" />
+    <Content Include="Views\CMO\_InProcessApplicationListFAP.cshtml" />
+    <Content Include="Views\CMO\_InProcessApplicationListMER.cshtml" />
+    <Content Include="Views\CMO\_InProcessApplicationListNUH.cshtml" />
+    <Content Include="Views\CMO\_MedicalReimbursementMER.cshtml" />
+    <Content Include="Views\CMO\_NUHAppDetails.cshtml" />
+    <Content Include="Views\CMO\_ReceivedApplicationListAGC.cshtml" />
+    <Content Include="Views\CMO\_ReceivedApplicationListMER.cshtml" />
+    <Content Include="Views\CMO\_ReceivedApplicationListNUH.cshtml" />
+    <Content Include="Views\CMO\_RejectedApplicationListAGC.cshtml" />
+    <Content Include="Views\CMO\_RejectedApplicationListDIC.cshtml" />
+    <Content Include="Views\CMO\_RejectedApplicationListFAP.cshtml" />
+    <Content Include="Views\CMO\_RejectedApplicationListMER.cshtml" />
+    <Content Include="Views\CMO\_RejectedApplicationListNUH.cshtml" />
+    <Content Include="Views\CMO\_TotalReceivedListDIC.cshtml" />
+    <Content Include="Views\CMO\_TotalReceivedListFAP.cshtml" />
+    <Content Include="Views\CMO\_ViewAppDetailsAGC.cshtml" />
+    <Content Include="Views\CMO\_ViewAppDetailsDIC.cshtml" />
+    <Content Include="Views\CMO\_ViewAppDetailsNUH.cshtml" />
+    <Content Include="Views\CMO\_ViewApplicationListFAP.cshtml" />
+    <Content Include="Views\CMO\_VIewFAPChild.cshtml" />
+    <Content Include="Views\CMO\_ViewMERChild.cshtml" />
+    <Content Include="Views\DEC\DeathCertificate.cshtml" />
+    <Content Include="Views\DEC\DECDashBoard.cshtml" />
+    <Content Include="Views\DEC\DECDetails.cshtml" />
+    <Content Include="Views\DEC\isRegister.cshtml" />
+    <Content Include="Views\DEC\NomineeDetailDEC.cshtml" />
+    <Content Include="Views\DEC\NomineeSearchDEC.cshtml" />
+    <Content Include="Views\DEC\NomineeSearchListOfDownloadedCertificateDEC.cshtml" />
+    <Content Include="Views\DEC\PrintApplicationForm.cshtml" />
+    <Content Include="Views\DEC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\DEC\RegistrationInstructions.cshtml" />
+    <Content Include="Views\DEC\VerifyMobile.cshtml" />
+    <Content Include="Views\DEC\ViewDECList.cshtml" />
+    <Content Include="Views\DEC\_NomineeSearchListDEC.cshtml" />
+    <Content Include="Views\DIC\DICDashBoard.cshtml" />
+    <Content Include="Views\DIC\DICDetails.cshtml" />
+    <Content Include="Views\DIC\DisabilityCertificate.cshtml" />
+    <Content Include="Views\DIC\PrintApplicationForm.cshtml" />
+    <Content Include="Views\DIC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\DIC\RegistrationInstructions.cshtml" />
+    <Content Include="Views\DIC\ViewDICList.cshtml" />
+    <Content Include="Views\EDistrict\Book.cshtml" />
+    <Content Include="Views\EDistrict\Select.cshtml" />
+    <Content Include="Views\FAP\FamilyDashBoard.cshtml" />
+    <Content Include="Views\FAP\FAPDetails.cshtml" />
+    <Content Include="Views\FAP\FAPRegistration.cshtml" />
+    <Content Include="Views\FAP\PrintApplicationForm.cshtml" />
+    <Content Include="Views\FAP\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\FAP\RegistrationInstructions.cshtml" />
+    <Content Include="Views\FAP\UploadAffidavit.cshtml" />
+    <Content Include="Views\FAP\ViewFAPList.cshtml" />
+    <Content Include="Views\FAP\_VIewFAPChild.cshtml" />
+    <Content Include="Views\FIC\FICDashBoard.cshtml" />
+    <Content Include="Views\FIC\FitnessCertificate.cshtml" />
+    <Content Include="Views\FIC\PrintApplicationForm.cshtml" />
+    <Content Include="Views\FIC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\FIC\RegistrationInstructions.cshtml" />
+    <Content Include="Views\FIC\ViewFIC.cshtml" />
+    <Content Include="Views\FIC\ViewFICdetail.cshtml" />
+    <Content Include="Views\Home\AdminDashboard.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\DigitalSignatureVideo.cshtml" />
+    <Content Include="Views\Home\UnauthoriseAcess.cshtml" />
+    <Content Include="Views\Home\UserUnauthoriseAcess.cshtml" />
+    <Content Include="Views\ICC\ICCDashBoard.cshtml" />
+    <Content Include="Views\ICC\ICCDetails.cshtml" />
+    <Content Include="Views\ICC\ImmunizationChildrenCertificate.cshtml" />
+    <Content Include="Views\ICC\PrintApplicationForm.cshtml" />
+    <Content Include="Views\ICC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\ICC\RegistrationInstructions.cshtml" />
+    <Content Include="Views\ICC\ViewICCList.cshtml" />
+    <Content Include="Views\ICC\_ICCimmunizationType.cshtml" />
+    <Content Include="Views\ICC\_ViewICCChild.cshtml" />
+    <Content Include="Views\ILC\ILCDashBoard.cshtml" />
+    <Content Include="Views\ILC\ILCDetails.cshtml" />
+    <Content Include="Views\ILC\ILCRegistration.cshtml" />
+    <Content Include="Views\ILC\PrintApplicationForm.cshtml" />
+    <Content Include="Views\ILC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\ILC\RegistrationInstructions.cshtml" />
+    <Content Include="Views\ILC\ViewILC.cshtml" />
+    <Content Include="Views\IMC\IMCDetails.cshtml" />
+    <Content Include="Views\IMC\IMCRegistration.cshtml" />
+    <Content Include="Views\IMC\ImmunizationDashBoard.cshtml" />
+    <Content Include="Views\IMC\PrintApplicationForm.cshtml" />
+    <Content Include="Views\IMC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\IMC\RegistrationInstructions.cshtml" />
+    <Content Include="Views\IMC\ViewIMCList.cshtml" />
+    <Content Include="Views\IMC\_ViewImmunization.cshtml" />
+    <Content Include="Views\ISP\Index.cshtml" />
+    <Content Include="Views\ISP\Login.cshtml" />
+    <Content Include="Views\MER\MedicalReimbursementDashBoard.cshtml" />
+    <Content Include="Views\MER\MERDetails.cshtml" />
+    <Content Include="Views\MER\MERRegistration.cshtml" />
+    <Content Include="Views\MER\PrintApplicationForm.cshtml" />
+    <Content Include="Views\MER\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\MER\RegistrationInstructions.cshtml" />
+    <Content Include="Views\MER\ViewMERList.cshtml" />
+    <Content Include="Views\MER\_ViewMERChild.cshtml" />
+    <Content Include="Views\MLC\DownloadCertificateMLC.cshtml" />
+    <Content Include="Views\MLC\GetCertificateMLC.cshtml" />
+    <Content Include="Views\MLC\isRegister.cshtml" />
+    <Content Include="Views\MLC\MedicoLegalCertificate.cshtml" />
+    <Content Include="Views\MLC\MLCDashBoard.cshtml" />
+    <Content Include="Views\MLC\MLCDetails.cshtml" />
+    <Content Include="Views\MLC\PrintApplicationForm.cshtml" />
+    <Content Include="Views\MLC\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\MLC\RegistrationInstructions.cshtml" />
+    <Content Include="Views\MLC\ViewDownloadedCertificateMLC.cshtml" />
+    <Content Include="Views\MLC\ViewMLCList.cshtml" />
+    <Content Include="Views\MLC\_GetCertificateListMLC.cshtml" />
+    <Content Include="Views\MLC\_ViewDownloadedCertificateListMLC.cshtml" />
+    <Content Include="Views\MLC\_ViewMLCChild.cshtml" />
+    <Content Include="Views\NUH\Affidavit.cshtml" />
+    <Content Include="Views\NUH\BackToNiveshMitra.cshtml" />
+    <Content Include="Views\NUH\DeclarationForm.cshtml" />
+    <Content Include="Views\NUH\DownloadReceipt.cshtml" />
+    <Content Include="Views\NUH\NUHDetails.cshtml" />
+    <Content Include="Views\NUH\NursingDashBoard.cshtml" />
+    <Content Include="Views\NUH\NursingHome.cshtml" />
+    <Content Include="Views\NUH\Pairamedical.cshtml" />
+    <Content Include="Views\NUH\PrintApplicationForm.cshtml" />
+    <Content Include="Views\NUH\Receipt.cshtml" />
+    <Content Include="Views\NUH\RegistrationConfirmation.cshtml" />
+    <Content Include="Views\NUH\RegistrationInstructions.cshtml" />
+    <Content Include="Views\NUH\RegistrationInstructionsRenew.cshtml" />
+    <Content Include="Views\NUH\Renewal.cshtml" />
+    <Content Include="Views\NUH\SearchDetails.cshtml" />
+    <Content Include="Views\NUH\UploadAffidavit.cshtml" />
+    <Content Include="Views\NUH\ViewNUHList.cshtml" />
+    <Content Include="Views\NUH\_ViewNUHChild.cshtml" />
+    <Content Include="Views\NUH\_ViewNUH_DOC.cshtml" />
+    <Content Include="Views\NUH\_ViewNUH_Partner.cshtml" />
+    <Content Include="Views\Public\Affidavit.cshtml" />
+    <Content Include="Views\Public\ApplicationDetails.cshtml" />
+    <Content Include="Views\Public\ApplicationDetailsNew.cshtml" />
+    <Content Include="Views\Public\ApplicationReport.cshtml" />
+    <Content Include="Views\Public\ClericalNUH.cshtml" />
+    <Content Include="Views\Public\CMOSRVCountReport.cshtml" />
+    <Content Include="Views\Public\CMOSRVCountReportDivisionWise.cshtml" />
+    <Content Include="Views\Public\CMOSRVCountReportDivisionWiseNew.cshtml" />
+    <Content Include="Views\Public\DarpanDashBoard.cshtml" />
+    <Content Include="Views\Public\DeclarationForm.cshtml" />
+    <Content Include="Views\Public\getDistrictServiceRollApplicantDtl.cshtml" />
+    <Content Include="Views\Public\getDistrictWiseServiceCount.cshtml" />
+    <Content Include="Views\Public\getDivisionServiceRollWiseCount.cshtml" />
+    <Content Include="Views\Public\getServiceWiseCount.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormAGC.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormDEC.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormDIC.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormFAP.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormFIC.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormICC.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormILC.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormIMC.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormMER.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormMLC.cshtml" />
+    <Content Include="Views\Public\PrintApplicationFormNUH.cshtml" />
+    <Content Include="Views\Public\ServiceCountReport.cshtml" />
+    <Content Include="Views\Public\SRVCountReportDistrictWise.cshtml" />
+    <Content Include="Views\Public\SRVCountReportDivisionWise.cshtml" />
+    <Content Include="Views\Public\_CMOSRVCountReportDistrictWiseList.cshtml" />
+    <Content Include="Views\Public\_CMOSRVCountReportDivisionWiseList.cshtml" />
+    <Content Include="Views\Public\_CMOSRVCountReportList.cshtml" />
+    <Content Include="Views\Public\_SRVCountReportDistrictWiseList.cshtml" />
+    <Content Include="Views\Public\_SRVCountReportDivisionWiseList.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusAGC.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusDEC.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusDIC.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusFAP.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusFIC.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusICC.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusILC.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusIMC.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusMER.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusMLC.cshtml" />
+    <Content Include="Views\Public\_ViewApplicationWorkFlowStatusNUH.cshtml" />
+    <Content Include="Views\Public\_ViewClericalNUH.cshtml" />
+    <Content Include="Views\Report\ApplicationCountProcessDetails.cshtml" />
+    <Content Include="Views\Report\ApplicationDetails.cshtml" />
+    <Content Include="Views\Report\ApplicationReport.cshtml" />
+    <Content Include="Views\Report\CMOfficeAppCountProcessDetails.cshtml" />
+    <Content Include="Views\Report\CMOfficeCountProcessDetailsList.cshtml" />
+    <Content Include="Views\Report\CMOfficeCountReport.cshtml" />
+    <Content Include="Views\Report\CMOReportDashboard.cshtml" />
+    <Content Include="Views\Report\CMOSRVCountReport.cshtml" />
+    <Content Include="Views\Report\CMOSRVCountReportDivisionWise.cshtml" />
+    <Content Include="Views\Report\CMOSRVCountReportForCMO.cshtml" />
+    <Content Include="Views\Report\CMOSRVDistrictWiseCountReport.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormAGC.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormDEC.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormDIC.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormFAP.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormFIC.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormICC.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormILC.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormIMC.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormMER.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormMLC.cshtml" />
+    <Content Include="Views\Report\PrintApplicationFormNUH.cshtml" />
+    <Content Include="Views\Report\ProcessCountReport.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportAdmin.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportAGC.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportALL.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportALLCMS.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportCMoffice.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportCMS.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportCMSatAD.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportCMSatAdmin.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportDEC.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportDIC.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportFAP.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportFAPCMS.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportFIC.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportICC.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportILC.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportIMC.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportMER.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportMERCMS.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportMLC.cshtml" />
+    <Content Include="Views\Report\ProcessCountReportNUH.cshtml" />
+    <Content Include="Views\Report\ProcessCountReport_AD.cshtml" />
+    <Content Include="Views\Report\SRVCountReportDistrictWise.cshtml" />
+    <Content Include="Views\Report\SRVCountReportDistrictWiseForCMO.cshtml" />
+    <Content Include="Views\Report\SRVCountReportDivisionWise.cshtml" />
+    <Content Include="Views\Report\_AgeCertificateDetailAGCReport.cshtml" />
+    <Content Include="Views\Report\_ApplicationCountProcessDetailsAGCList.cshtml" />
+    <Content Include="Views\Report\_ApplicationCountProcessDetailsDICList.cshtml" />
+    <Content Include="Views\Report\_ApplicationCountProcessDetailsFAPList.cshtml" />
+    <Content Include="Views\Report\_ApplicationCountProcessDetailsList.cshtml" />
+    <Content Include="Views\Report\_ApplicationCountProcessDetailsMERList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsAGCList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsDCList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsDICList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsFAPList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsFCList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsICCList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsICList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsIMCList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsMERList.cshtml" />
+    <Content Include="Views\Report\_CMOfficeAppProcessCountDetailsMLCList.cshtml" />
+    <Content Include="Views\Report\_CMOSRVCountReportDivisionWiseList.cshtml" />
+    <Content Include="Views\Report\_CMOSRVCountReportList.cshtml" />
+    <Content Include="Views\Report\_CMOSRVDistrictWiseCountReportList.cshtml" />
+    <Content Include="Views\Report\_FAPDetailReport.cshtml" />
+    <Content Include="Views\Report\_GetApplicationCountReportList.cshtml" />
+    <Content Include="Views\Report\_MedicalReimbursementMERReport.cshtml" />
+    <Content Include="Views\Report\_SRVCountReportDistrictWiseList.cshtml" />
+    <Content Include="Views\Report\_SRVCountReportDistrictWiseListForCMO.cshtml" />
+    <Content Include="Views\Report\_SRVCountReportDivisionWiseList.cshtml" />
+    <Content Include="Views\Report\_SRVCountReportDivisionWiseListForCMO.cshtml" />
+    <Content Include="Views\Report\_ViewAppDetailsDICReport.cshtml" />
+    <Content Include="Views\Report\_ViewAppDetailsNUHReport.cshtml" />
+    <Content Include="Views\Report\_ViewApplicationWorkFlowStatusAGC.cshtml" />
+    <Content Include="Views\Report\_ViewApplicationWorkFlowStatusDIC.cshtml" />
+    <Content Include="Views\Report\_ViewApplicationWorkFlowStatusFAP.cshtml" />
+    <Content Include="Views\Report\_ViewApplicationWorkFlowStatusMER.cshtml" />
+    <Content Include="Views\Report\_ViewApplicationWorkFlowStatusNUH.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_AccountLayout.cshtml" />
+    <Content Include="Views\Shared\_AdminAccountLayout.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Shared\_DarpanLayout.cshtml" />
+    <Content Include="Views\Shared\_PublicLayout.cshtml" />
+    <Content Include="Views\Shared\_PublicLayout1.cshtml" />
+    <Content Include="Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Views\UmangApplication\RegistrationPrintout.cshtml" />
+    <Content Include="Views\UserManagement\ChangePassword.cshtml" />
+    <Content Include="Views\UserManagement\CHCUser.cshtml" />
+    <Content Include="Views\UserManagement\CMOUser.cshtml" />
+    <Content Include="Views\UserManagement\CMSUser.cshtml" />
+    <Content Include="Views\UserManagement\Committee.cshtml" />
+    <Content Include="Views\UserManagement\CreateUser.cshtml" />
+    <Content Include="Views\UserManagement\ManageAccount.cshtml" />
+    <Content Include="Views\UserManagement\ServicePermission.cshtml" />
+    <Content Include="Views\UserManagement\UserManagement.cshtml" />
+    <Content Include="Views\UserManagement\ViewCommittee.cshtml" />
+    <Content Include="Views\UserManagement\ViewUser.cshtml" />
+    <Content Include="Views\UserManagement\_AccountDetails.cshtml" />
+    <Content Include="Views\UserManagement\_CHCUserList.cshtml" />
+    <Content Include="Views\UserManagement\_CMOUserList.cshtml" />
+    <Content Include="Views\UserManagement\_CMSUserList.cshtml" />
+    <Content Include="Views\UserManagement\_UserDetails.cshtml" />
+    <Content Include="Views\UserManagement\_ViewCommitteeMemberList.cshtml" />
+    <Content Include="Views\UserManagement\_ViewUserList.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Web References\EDistrictSVC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\EDistrictSVC\Service.disco" />
+    <Content Include="Web References\UPHEALTHNIC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\UPHEALTHNIC\upswp_niveshmitraservices.disco" />
+    <Content Include="WebServices\darpan2.asmx" />
+    <Content Include="WebServices\FeatchNUHDataForSigning.asmx" />
+    <Content Include="Content\NUHAffidavitFormat\Affidaite Renewable ME.pdf" />
+    <Content Include="Content\NUHAffidavitFormat\Affidavite New ME.pdf" />
+    <Content Include="Content\SignedCertificate\NUH\Lucknow\Signed_CMEE1800030.pdf" />
+    <Content Include="Content\DigitalSignAppDoc\HealthSigningApplication.rar" />
+    <Content Include="Content\Public\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Public\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Public\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Public\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Public\fonts\FontAwesome.otf" />
+    <Content Include="Content\Public\fonts\Galaxie-Polaris-Book.otf" />
+    <Content Include="Content\Public\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Public\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Public\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Public\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\Public\fonts\Simple-Line-Icons.eot" />
+    <Content Include="Content\Public\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="Content\Public\fonts\Simple-Line-Icons.woff" />
+    <Content Include="Content\Public\fonts\Simple-Line-Icons.woff2" />
+    <Content Include="Content\Public\fonts\WS_FTP.LOG" />
+    <Content Include="Content\writereaddata\NUH\SignedMedicalEstablishment_1.pdf" />
+    <None Include="DataSet\DataSetNUH.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetNUH.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="DataSet\DataSetNUH.xss">
+      <DependentUpon>DataSetNUH.xsd</DependentUpon>
+    </Content>
+    <Content Include="DataSet\health_welfareDataset.xsc">
+      <DependentUpon>health_welfareDataset.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSet\health_welfareDataset.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>health_welfareDataset.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="DataSet\health_welfareDataset.xss">
+      <DependentUpon>health_welfareDataset.xsd</DependentUpon>
+    </Content>
+    <Content Include="DigitalSign\MyCertficate.pfx" />
+    <None Include="Properties\PublishProfiles\CCSHealthFamilyWelfareDept.pubxml" />
+    <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Healthfamily\1.png" />
+    <Content Include="Healthfamily\10.png" />
+    <Content Include="Healthfamily\2.png" />
+    <Content Include="Healthfamily\3.png" />
+    <Content Include="Healthfamily\4.png" />
+    <Content Include="Healthfamily\5.png" />
+    <Content Include="Healthfamily\6.png" />
+    <Content Include="Healthfamily\7.png" />
+    <Content Include="Healthfamily\8.png" />
+    <Content Include="Healthfamily\9.png" />
+    <Content Include="js\app.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\datepicker.en.js" />
+    <Content Include="js\datepicker.js" />
+    <Content Include="js\flatlogin.js" />
+    <Content Include="js\jquery-1.11.3.min.js" />
+    <Content Include="js\jquery.bootstrap.wizard.js" />
+    <Content Include="js\jquery.js" />
+    <Content Include="js\jquery.nicescroll.js" />
+    <Content Include="js\md5.js" />
+    <Content Include="js\owl.carousel.min.js" />
+    <Content Include="js\prettify.js" />
+    <Content Include="js\sweetalert.min.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web References\EDistrictSVC\Service.wsdl" />
+    <Content Include="Web References\UPHEALTHNIC\upswp_niveshmitraservices.wsdl" />
+    <Content Include="Views\Report\CMOSRVCountReportDistrictSeviceWise.cshtml" />
+    <Content Include="Views\Report\_CMOSRVDistrictServiceWiseCountReportList.cshtml" />
+    <Content Include="Views\Report\ApplicationDetailsDIstrictServices.cshtml" />
+    <Content Include="Views\Public\ApplicationDetailsDIstrictServices.cshtml" />
+    <Content Include="Views\Public\CMOSRVCountReportDistrictSeviceWise.cshtml" />
+    <Content Include="Views\Public\_CMOSRVDistrictServiceWiseCountReportList.cshtml" />
+    <Content Include="Views\Public\CMOSRVCountReportDistrictSeviceWisePublic.cshtml" />
+    <Content Include="Views\Report\CMOCHCPHCSRVCountReportDistrictServicesWise.cshtml" />
+    <Content Include="Views\Report\CMOSRVCountReportDistrictServiceListCMOCHCPHC.cshtml" />
+    <Content Include="Views\Public\ApplicationDetailsDIstrictServicesPublic.cshtml" />
+    <Content Include="Views\Public\CMOSRVCountReportDistrictServiceListCMOCHCPHC.cshtml" />
+    <Content Include="Views\Public\_CMOSRVDistrictServiceWiseCountReportListPublic.cshtml" />
+    <Content Include="Views\Public\CMOSRVCountReportDistrictServiceListCMOCHCPHCPublic.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\NewFolder1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RPT\MERaffidavitChildA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MERaffidavitChildA.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rptCertificateAGC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCertificateAGC.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rptCertificateDIC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCertificateDIC.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rptCertificateICC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCertificateICC.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rptCertificateIMC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCertificateIMC.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rptCertificateMER.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCertificateMER.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_DECcertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_DECcertificate.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_FAPAffidavit.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_FAPAffidavit.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_FICcertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_FICcertificate.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_ILCcertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_ILCcertificate.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_ILCextendedCertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_ILCextendedCertificate.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_MERAffidaviteA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_MERAffidaviteA.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_MERAffidaviteB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_MERAffidaviteB.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_MERAffidaviteBoth.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_MERAffidaviteBoth.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_MLCcertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_MLCcertificate.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_MLCchildCertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_MLCchildCertificate.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_NUHAffidavate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_NUHAffidavate.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_NUHcertDOC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_NUHcertDOC.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_NUHcertificate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_NUHcertificate.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_NUHcertificateChild.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_NUHcertificateChild.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_NUHcertOwner.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_NUHcertOwner.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_NUHchild.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_NUHchild.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://164.100.181.28/DeptWebIntService/Service.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\EDistrictSVC\</RelPath>
+      <UpdateFromURL>http://164.100.181.28/DeptWebIntService/Service.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>CCSHealthFamilyWelfareDept_EDistrictSVC_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\UPHEALTHNIC\</RelPath>
+      <UpdateFromURL>http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>CCSHealthFamilyWelfareDept_UPHEALTHNIC_upswp_niveshmitraservices</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RPT\CMOfficeTotalCountServices.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CMOfficeTotalCountServices.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\CMOfficeCountProcessApplicationPending.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CMOfficeCountProcessApplicationPending.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\CMOfficeCountProcessApplicationResolve.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CMOfficeCountProcessApplicationResolve.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\CMOfficeCountProcessApplicationRpt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CMOfficeCountProcessApplicationRpt.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\CMOfficeTotalCountDeathAcceptRpt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CMOfficeTotalCountDeathAcceptRpt.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\CMOfficeTotalCountDeathPendingRpt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CMOfficeTotalCountDeathPendingRpt.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\CMOfficeTotalCountDeathRpt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CMOfficeTotalCountDeathRpt.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\DarpanApplicationDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DarpanApplicationDetails.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\DarpanApplicationDetailsWithAAdhar.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DarpanApplicationDetailsWithAAdhar.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\DarpanDistrictWiseList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DarpanDistrictWiseList.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_AGCcommitteeMember.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_AGCcommitteeMember.cs</LastGenOutput>
+    </Content>
+    <Content Include="RPT\rpt_DICcommitteeMember.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpt_DICcommitteeMember.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.SimpleNotificationService.3.7.101.83\analyzers\dotnet\cs\AWSSDK.SimpleNotificationService.CodeAnalysis.dll" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:6411/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

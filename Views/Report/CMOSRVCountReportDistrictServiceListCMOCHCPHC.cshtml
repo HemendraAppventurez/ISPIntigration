@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "CMOSRVCountReportDistrictServiceListCMOCHCPHC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model List<CCSHealthFamilyWelfareDept.Models.CountReportModel>
+@{
+    int rowSpan = 1, rowSpan1 = 1, sNo = 0;
+    string preValue = "", preValue1 = "";
+}
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+    
+}
+
+
+<div class="content-title">
+    <h3 class="main-title">
+     @*   @if (Model.appCurrStatus == 0)
+        {
+            <strong>@ViewBag.RollNameHi - कुल प्राप्त आवेदन
+        <span class="small">@ViewBag.RollName - Total Received Application</span>
+            </strong>
+        }
+        else if (Model.appCurrStatus == 1)
+        {
+            <strong>
+                @ViewBag.RollNameHi - स्वीकृत आवेदन
+                <span class="small">@ViewBag.RollName - Approved Application</span>
+            </strong>
+        }
+        else if (Model.appCurrStatus == 2)
+        {
+            <strong>
+                @ViewBag.RollNameHi - अस्वीकृत आवेदन
+                <span class="small">@ViewBag.RollName - Rejected Application</span>
+            </strong>
+        }
+        else if (Model.appCurrStatus == 3)
+        {
+            <strong>
+                @ViewBag.RollNameHi - समय सीमा में लंबित आवेदन
+                <span class="small">@ViewBag.RollName - Pending In-Time Limit Application</span>
+            </strong>
+        }
+        else if (Model.appCurrStatus == 4)
+        {
+            <strong>
+                @ViewBag.RollNameHi - समय सीमा के बाद लंबित आवेदन
+                <span class="small">@ViewBag.RollName - Pending After-Time Limit Application</span>
+            </strong>
+        }*@
+
+      
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div style="border-bottom: 1px solid #333; margin-bottom: 15px;">
+                    <div class="row">
+
+                          <button type="button" class="btn btn-block btn-warning  btn-sm pull-right btnHistoryBac" style="margin-top: 0px; width: 150px; margin-right: 71px;" id="btnExportExcel">Export Excel</button>
+        <a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top: 0px;">Back</a>
+                       @* <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bold">Division Name : </label>
+                                <label>@Model.zoneName</label>
+                            </div>
+                        </div>*@
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bold">District : </label>
+                                <label>@ViewBag.DistricName</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bold">Service Name : </label>
+                                <label>@ViewBag.ServiceName </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-striped" style="border-collapse: collapse;" border="1">
+    <thead>
+        <tr>
+            <th style="text-align: center;">S.No.</th>
+      
+            <th style=" text-align: center;">District</th>
+
+            <th style=" text-align: center;">Hospital Name</th>
+          @*  <th style=" text-align: center;">Location Name</th>*@
+             @if (@ViewBag.AppCurrentStatus==0)
+             {
+                  <th style=" text-align: center;">Total Recieved</th>
+               
+             }
+             @if(@ViewBag.AppCurrentStatus==1)
+             {
+                  <th style=" text-align: center;">Approved</th>
+               
+             }
+             @if(@ViewBag.AppCurrentStatus==2)
+             {
+                  <th style=" text-align: center;">Rejected</th>
+               
+             }
+             @if(@ViewBag.AppCurrentStatus==3)
+             {
+                  <th style=" text-align: center;">Pending In-Time Limit</th>
+               
+             }
+            @if(@ViewBag.AppCurrentStatus==4)
+             {
+                  <th style=" text-align: center;">Pending After-Time Limit</th>
+               
+             }
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+
+            foreach (var item in Model)
+            { 
+            <tr>
+                @if (item.DistrictName != "")
+                {
+                    sNo++;
+                
+                    <td style="text-align: center;">@sNo</td>  
+                    
+                }
+                <td style="text-align: center;">
+                    @item.DistrictName
+
+                </td>
+
+                 <td style="text-align: center;">@item.HospitalName.ToString()</td>
+                            @*    <td style="text-align: center;">@item.opdAdd.ToString()</td>*@
+                               
+                                <td style="text-align: center;">@Html.Raw(item.totalcount > 0 ? "<a href=" + @Url.Action("ApplicationDetailsDIstrictServices", "Report", new {rollId=@OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt(@item.appCurrStatus.ToString()), zoneId = @OTPL_Imp.CustomCryptography.Encrypt("0"), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()), userId = @OTPL_Imp.CustomCryptography.Encrypt(@item.profileId.ToString()) ,fromDate = @OTPL_Imp.CustomCryptography.Encrypt(@item.fromDate.ToString()), toDate = @OTPL_Imp.CustomCryptography.Encrypt(@item.toDate.ToString()) }) + ">" + item.totalcount + "</a>" : item.totalcount.ToString())</td>
+            
+              
+        
+            </tr>
+            
+            
+                preValue = item.DistrictName;
+
+            }
+
+            
+            <tr id="totalRow">
+              
+                    
+
+
+
+
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;"></td>
+                @*    <td style="text-align: center;"></td>*@
+                    <td style="text-align: center; font-weight:800">Total</td>
+                    <td style="text-align: center; font-weight:800">@Model.Sum(i =>i.totalcount)</td>
+
+                
+            </tr>
+            
+        
+            
+
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">Record Not Found</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#btnExportExcel").click(function () {
+
+        window.location.href = '@Url.Action("ExportToExcelCountCHCPHCCMO", "Report")';
+
+      })
+</script>
+

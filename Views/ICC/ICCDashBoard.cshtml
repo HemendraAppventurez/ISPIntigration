@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "ICCDashBoard";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>बच्चों के टीकाकरण प्रमाणपत्र डैशबोर्ड <span class="small">Immunization Children Certificate  Dashboard</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-90 margin-bottom-50">
+    <div class="row"> 
+        <div class="col-md-12">
+            <ul class="circle">
+                <li class="col-md-2 col-sm-6 col-xs-12"></li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("RegistrationInstructions", "ICC")" class="red">
+                        <img src="@Url.Content("~/images/labor-delivery.png")"><br />
+                        New Registration Application Form
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ViewICCList", "ICC")" class="indigo">
+                        <img src="@Url.Content("~/images/view_icon.png")"><br />
+                        View Application Form Status
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+ 
+
+

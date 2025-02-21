@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "RegistrationConfirmation";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="content-title">
+    <h3 class="main-title">Registration Confirmation
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <i class="fa fa-check-circle fa-3x text-success"></i>
+                    </div>
+                    <div class="col-md-12">
+                        <h3 class="text-center">Your application for Request of Medical Reimbursement has been saved successfully. <br />
+                            Your Application Number is <strong class="text-success">@ViewBag.MERRegistrationNo</strong> use this application number for future references.</h3>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <hr />
+                        <a href="@Url.Action("PrintApplicationForm", "MER", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@ViewBag.regisId.ToString()) })" class="btn btn-success" target="_blank">Print Application</a>&nbsp;&nbsp;&nbsp;
+                        <a href="@Url.Action("MERAffidavateReport", "MER", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@ViewBag.regisId.ToString()) })" class="btn btn-Primary">Generate Appendices-C & Certificate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 page-instraction">
+                        <ul>
+                            <li>Your application form is still <b>incomplete,</b> kindly generate the relevant documents by clicking on “Generate Appendix C and Certificate” button and get it <b>Notarized.</b> </li>
+                            <li>Your Appendix C form and Certificate will be sent to the Office of Chief Medical Officer by Department after verification.</li>
+                            <li>After successful submission of your application form, it will be forwarded to the concerned Chief Medical Officer. You can check the status update by re-login into the dashboard.</li>
+                            <li>Once the Committee meeting is fixed, you need to physically present at the time of Inspection process with the Committee members. You will be notified by CMO about the Inspection date and other details through SMS notification or you can check the same at your application status on dashboard.</li>
+                            <li>Once your application form is approved by CMO, you can download the Certificate from the Dashboard. Else, Contact the Office of Chief Medical Officer.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

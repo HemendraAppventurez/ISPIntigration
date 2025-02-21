@@ -1,0 +1,93 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.FICDetailsModel>
+@using OTPL_Imp
+
+@using CCSHealthFamilyWelfareDept.Models
+
+@{
+    SessionManager SM = new SessionManager();
+}
+
+<style>
+    .webgrid-header a
+    {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+@if(SM.RollID != 8)
+{
+if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+             
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("PrintApplicationFormFIC", "CHC", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(@item.registrationNo) })" target="_blank">@item.registrationNo</a></text>),
+             grid.Column("applicationDate", header: "Application Date"),
+        grid.Column("fullName", header: "Name"),
+            grid.Column("mobileNo", header: "Mobile"),
+              grid.Column("RegType", header: "Application Type"),
+              
+        grid.Column("RejectDate", header: "Reject Date"),
+        grid.Column("RejectRemark", header: "Reject Remark"),
+            grid.Column("appliedStatus", header: "Status")
+            ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight:600;font-size:18px;">No record found !</span>
+        </div>
+    </div>
+}
+}
+else
+{
+    if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+             
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("PrintApplicationFormFIC", "CHC", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(@item.registrationNo) })" target="_blank">@item.registrationNo</a></text>),
+             grid.Column("applicationDate", header: "Application Date"),
+        grid.Column("fullName", header: "Name"),
+            grid.Column("mobileNo", header: "Mobile"),
+              grid.Column("RegType", header: "Application Type"),
+              
+        grid.Column("RejectDate", header: "Reject Date"),
+        grid.Column("RejectRemark", header: "Reject Remark"),
+            grid.Column("appliedStatus", header: "Status")
+            ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight:600;font-size:18px;">No record found !</span>
+        </div>
+    </div>
+}
+}

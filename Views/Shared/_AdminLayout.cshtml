@@ -1,0 +1,588 @@
+﻿<!DOCTYPE html>
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+}
+<html class=" gecko win js" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title Health and Family Welfare Department Uttar Pradesh</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/app.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/essentials.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/extra.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/nanoscroller.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/css/datepicker.css">
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap-timepicker.min.css" />
+    <link href="~/css/sweetalert.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="~/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="~/js/app.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.nicescroll.js"></script>
+    <script type="text/javascript" src="~/js/datepicker.js"></script>
+    <script type="text/javascript" src="~/js/datepicker.en.js"></script>
+    <script src="~/js/bootstrap-timepicker.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/sweetalert.min.js"></script>
+    <script src="~/js/md5.js"></script>
+    <style>
+        .phancy-scroller > div {
+            height: 90% !important;
+            overflow-y: scroll !important;
+            overflow-x: auto !important;
+        }
+    </style>
+    <style>
+        #dvLoader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            background: #000;
+            opacity: 0.7;
+            filter: alpha(opacity=50);
+            display: none;
+            z-index: 99999;
+        }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin: -28px 0 0 -25px;
+            z-index: 99999;
+        }
+    </style>
+</head>
+<body class="admin">
+    <div id="app-wrapper" class="app-hide-lpanel">
+
+        <div id="app-container">
+            <aside id="app-left-panel">
+                <div class="profile-box adminprofile-box">
+                    <div class="media">
+                        <a class="avtarpic" href="javascript:void(0)">
+                            <img class="img-circle" src="@Url.Content(SM.ProfilePicPath)">
+                        </a>
+                        <div class="media-body" style="background-color: rgba(255, 255, 255, 0.6);">
+                            <h4 class="media-heading">@SM.DisplayName
+                                <span class="cmolctn">@SM.RollAbbrName&nbsp;@SM.DistrictName, Uttar Pradesh</span>
+                            </h4>
+                            <div class=" small time" style="font-weight: 600;" id="datetime"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nano-content" id="demo" style="height: 79vh">
+                    <ul class="nav panel-list">
+                        <li>
+                            <a href="@Url.Action("AdminDashboard", "Home")">
+                                <i class="fa fa-tachometer ion"></i>
+                                <span class="menu-text2">Dashboard</span>
+                            </a>
+                        </li>
+                        @if (SM.RollID == 2 || SM.RollID == 20)
+                        {
+                            if (SM.RollID == 2)
+                            {         
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationNUH", "CMO")">
+                                    <i class="ion">1</i>
+                                    <span class="menu-text">Registration of Medical Establishment</span>
+                                </a>
+                            </li> 
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationFAP", "CMO")">
+                                    <i class="ion">2</i>
+                                    <span class="menu-text">Request for the Payment of
+                                    <br>
+                                        Unsuccessful Family Planning
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationDIC", "CMO")">
+                                    <i class="ion">3</i>
+                                    <span class="menu-text">Request for Disability Certificate</span>
+                                </a>
+                            </li> 
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationAGC", "CMO")">
+                                    <i class="ion">4</i>
+                                    <span class="menu-text">Request for Age Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationMER", "CMO")">
+                                    <i class="ion">5</i>
+                                    <span class="menu-text">Payment of Medical Reimbursement</span>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="@Url.Action("UserManagement", "UserManagement")">
+                                    <i class="ion">6</i>
+                                    <span class="menu-text">User Management</span>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="@Url.Action("CMOReportDashboard", "Report")">
+                                    <i class="ion">7</i>
+                                    <span class="menu-text">Reports</span>
+                                </a>
+                            </li>
+                            }
+                            else
+                            {
+                                PermissionModel objPerm = new PermissionModel();
+                                objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.MEE));
+                                if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                                {
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationNUH", "CMO")">
+                                    <i class="ion">1</i>
+                                    <span class="menu-text">Registration of Medical Establishment</span>
+                                </a>
+                            </li> 
+                                }
+
+                                objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.FAP));
+                                if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                                {
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationFAP", "CMO")">
+                                    <i class="ion">2</i>
+                                    <span class="menu-text">Request for the Payment of
+                                    <br>
+                                        Unsuccessful Family Planning
+                                    </span>
+                                </a>
+                            </li>
+                                }
+                                objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.DIC));
+                                if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                                {
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationDIC", "CMO")">
+                                    <i class="ion">3</i>
+                                    <span class="menu-text">Request for Disability Certificate</span>
+                                </a>
+                            </li> 
+                                }
+                                objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.AGC));
+                                if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                                {
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationAGC", "CMO")">
+                                    <i class="ion">4</i>
+                                    <span class="menu-text">Request for Age Certificate</span>
+                                </a>
+                            </li>
+                                }
+                                objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.MER));
+                                if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                                {
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationMER", "CMO")">
+                                    <i class="ion">5</i>
+                                    <span class="menu-text">Payment of Medical Reimbursement</span>
+                                </a>
+                            </li>
+                                }
+                            }
+                        }
+                        else if (SM.RollID == 3 || SM.RollID == 4 || SM.RollID == 5)
+                        {
+                                
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationILC", "CHC")">
+                                    <i class="ion">1</i>
+                                    <span class="menu-text">Request for Illness Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationFIC", "CHC")">
+                                    <i class="ion">2</i>
+                                    <span class="menu-text">Request for Fitness Certificates</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ReceivedForwardApp", "CMO")">
+                                    <i class="ion">3</i>
+                                    <span class="menu-text">Request for the Payment for
+                                    <br>
+                                        Unsuccessful Family Planning</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationIMC", "CHC")">
+                                    <i class="ion">4</i>
+                                    <span class="menu-text">Request for Immunization Certificate</span>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationDEC", "CHC")">
+                                    <i class="ion">5</i>
+                                    <span class="menu-text">Request for Death Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationMLC", "CHC")">
+                                    <i class="ion">6</i>
+                                    <span class="menu-text">Request for Medico-Legal Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationICC", "CHC")">
+                                    <i class="ion">7</i>
+                                    <span class="menu-text">Request for Immunization Certificate for Children</span>
+                                </a>
+                            </li>
+                            if (SM.RollID == 5)
+                            {
+                            <li>
+                                <a href="@Url.Action("AppliedApplicationMER", "CMO")">
+                                    <i class="ion">8</i>
+                                    <span class="menu-text">Request for Medical Reimbursement</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ProcessCountReportCMS", "Report")">
+                                    <i class="ion">9</i>
+                                    <span class="menu-text">Rports</span>
+                                </a>
+                            </li>
+                            }
+                            else
+                            {
+                            <li>
+                                <a href="@Url.Action("ProcessCountReportCMS", "Report")">
+                                    <i class="ion">8</i>
+                                    <span class="menu-text">Rports</span>
+                                </a>
+                            </li>
+                            }
+
+                        }
+                        else if (SM.RollID == 8)
+                        {
+                                
+                            <li class="app-has-menu">
+                                <a href="javascript:void(0)">
+                                    <i class="ion">1</i>
+                                    <span class="menu-text">Report</span>
+                                </a>
+                                <ul class="app-sub-menu">
+
+                                     <li>
+                                        <a href="@Url.Action("CMOSRVCountReportDistrictSeviceWise", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })">
+                                            <span class="menu-text"> Darpan Drill Down Reports</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("ProcessCountReportAdmin", "Report", new { RptType = "2" })">
+
+                                            <span class="menu-text">Process Count Reports Of CMO Services</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("ProcessCountReportCMSatAdmin", "Report", new { RptType = "2" })">
+                                            <span class="menu-text">Process Count Reports Of CMS(DH)/CHC/PHC Services</span>
+                                        </a>
+                                    </li>
+
+                                    
+
+                                  @*      <li>
+                                        <a href="@Url.Action("CMOSRVCountReportDistrictSeviceWise", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })">
+                                            <span class="menu-text">Drill Down District and Services Wise Reports Of CMS(DH) Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReportDistrictSeviceWise", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })">
+                                            <span class="menu-text">Drill Down District and Services Wise Reports Of CHC Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReportDistrictSeviceWise", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("4") })">
+                                            <span class="menu-text">Drill Down District and Services Wise Reports Of PHC Services</span>
+                                        </a>
+                                    </li>*@
+                                    <li>
+                                   @* <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })">
+                                            <span class="menu-text">Drill Down Reports Of CMO Services</span>
+                                        </a>
+                                    </li>*@
+                                    @*<li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })">
+                                            <span class="menu-text">Drill Down Reports Of CMS(DH) Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })">
+                                            <span class="menu-text">Drill Down Reports Of CHC Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("4") })">
+                                            <span class="menu-text">Drill Down Reports Of PHC Services</span>
+                                        </a>
+                                    </li>*@
+                                    <li>
+                                        @*<a href="@Url.Action("ProcessCountReportAdmin", "Report", new { RptType = "1" })">*@
+                                            <a href="@Url.Action("CMOfficeCountReport", "Report")">
+                                                <span class="menu-text">CM Office Report</span>
+                                            </a>
+</li>
+                                     <li>
+                                        <a href="@Url.Action("CMOSRVDistrictWiseCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })">
+
+                                            <span class="menu-text">CMO Service Division District Wise Count Report</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("UserManagement", "UserManagement")">
+                                    <i class="ion">2</i>
+                                    <span class="menu-text">User Managment</span>
+                                </a>
+                            </li>
+                            
+                        }
+                        else if (SM.RollID == 18)
+                        {
+                            <li class="app-has-menu">
+                                <a href="javascript:void(0)">
+                                    <i class="ion">1</i>
+                                    <span class="menu-text">Report</span>
+                                </a>
+                                <ul class="app-sub-menu">
+                                    <li>
+                                        <a href="@Url.Action("ProcessCountReport_AD", "Report")">
+
+                                            <span class="menu-text">Process Count Reports Of CMO Services</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("ProcessCountReportCMSatAD", "Report")">
+
+                                            <span class="menu-text">Process Count Reports Of CMS/CHC/PHC Services</span>
+                                        </a>
+                                    </li>
+
+
+                                        
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })">
+                                            <span class="menu-text">Drill Down Reports Of CMO Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })">
+                                            <span class="menu-text">Drill Down Reports Of CMS(DH) Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })">
+                                            <span class="menu-text">Drill Down Reports Of CHC Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("4") })">
+                                            <span class="menu-text">Drill Down Reports Of PHC Services</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("UserManagement", "UserManagement")">
+                                    <i class="ion">2</i>
+                                    <span class="menu-text">User Managment</span>
+                                </a>
+                            </li>
+                            
+                        }
+                        else if (SM.RollID == 13)
+                        {
+ 
+                            <li class="app-has-menu">
+                                <a href="javascript:void(0)">
+                                    <i class="ion">1</i>
+                                    <span class="menu-text">Report</span>
+                                </a>
+                                <ul class="app-sub-menu">
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })">
+                                            <span class="menu-text">Drill Down Reports Of CMO Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })">
+                                            <span class="menu-text">Drill Down Reports Of CMS(DH) Services</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })">
+                                            <span class="menu-text">Drill Down Reports Of CHC Services</span>
+                                        </a>
+                                    </li>
+
+                                    @*<li>
+                                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("4") })">
+                                            <span class="menu-text">Drill Down Reports Of PHC Services</span>
+                                        </a>
+                                    </li>*@
+                                </ul>
+                            </li>
+                            
+                        }
+                    </ul>
+                </div>
+            </aside>
+
+            <section id="main-content">
+                <header id="app-header">
+                    <div class="app-right-header">
+                        <span class="app-sidebar-toggle"><a href="javascript:;"></a></span>
+                        <span class="deptname">
+                            <img src="~/images/logo.png" alt="" class="img-responsive" /></span>
+                        <ul class="right-navbar">
+                            <li class="dropdown app-rheader-submenu app-header-profile">
+                                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span>
+                                        <img class="img-circle " src="@Url.Content(SM.ProfilePicPath)"></span>
+                                    <span><b>@SM.DisplayName </b><i class=" fa fa-angle-down"></i></span>
+                                </a>
+                                <ul class="dropdown-menu ">
+                                    @*<li><a href="javascript:;"><i class="fa fa-user"></i>My Profile</a></li>*@
+                                    <li><a href="@Url.Action("UpdatePassword", "AdminAccount")"><i class="fa fa-unlock-alt"></i>Change Password</a></li>
+                                    <li><a href="@Url.Action("LogOut", "AdminAccount")"><i class="fa fa-sign-out"></i>Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </header>
+
+                @RenderBody()
+                <div id="dvLoader">
+                    <img src="@Url.Content("~/Images/loadingImg.gif")" alt="not showing" id="loading" />
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ajaxError(function (xhr, props) {
+            $("#dvLoader").hide();
+            if (props.status === 401) {
+                location.reload();
+            }
+        });
+
+        $(document).ajaxStart(function () {
+            $("#dvLoader").show();
+        });
+        $(document).ajaxComplete(function (event, request, settings) {
+            $("#dvLoader").hide();
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        /*To retain on the same view on Back Click*/
+        if (document.querySelector('.btnHistoryBack') === null) {
+            history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', function (event) {
+                history.pushState(null, null, window.location.href);
+                event.preventDefault();
+            });
+        }
+        else {
+            //alert('exists');
+        }
+    </script>
+    <script>
+        $(".file-3").on("change", function () {
+            var id = $(this).attr('id');
+            if (id == 'file-none') {
+                $("#file-hide2").hide();
+            }
+            else {
+                $("#file-hide2").show();
+            }
+
+        });
+
+        $(function () {
+            $("#demo").customScroll({ scrollbarWidth: 5 });
+        });
+
+        $(document).ready(function () {
+            $("#disposal-file-hide").hide();
+            $("#file-hide2").hide();
+            $('a').each(function () {
+                if (location.href === this.href) {
+                    $(this).addClass('active');
+                    $('a').not(this).addClass('none');
+                    return false;
+                }
+            });
+
+            $('.datepicker-here').datepicker({
+                autoClose: true
+            });
+        });
+
+
+        $(".disposal2").on("change", function () {
+            var id = $(this).attr('id');
+            if (id == 'disposalno') {
+                $("#disposal-file-hide").hide();
+            }
+            else {
+                $("#disposal-file-hide").show();
+            }
+
+        });
+
+        $("#death").click(function () {
+            $("#deathnone").toggle();
+        });
+
+        $(window).scroll(function () {
+            var height = $(window).scrollTop();
+            if (height > 90) {
+                $(".content-title").addClass("titelFxd");
+            }
+            if (height < 90) {
+                $(".content-title").removeClass("titelFxd");
+            }
+        });
+
+        $('.timepicker').timepicker({
+            showInputs: false
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "ManageAccount";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">Manage Account<span class="small display-block">Manage Account</span></div>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmManageAccount" }))
+    {
+        @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>User ID <span class="star">*</span></label>
+                                <input type="text" id="txtUserId" class="form-control" />
+                                <span id="spanUserId" class="field-validation-error" style="display: none;">Enter User ID !</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <a href="@Url.Action("ManageAccount", "UserManagement")" class="btn btn-block btn-warning">Reset</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    }
+</div>
+<div class="clearfix"></div>
+<script>
+    $(function () {
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+
+        $("#btnSearch").click(function () {
+            $('#spanUserId').hide();
+            var _userId = $("#txtUserId").val().trim();
+            if (_userId != '') {
+                bindAccountDetails(_userId);
+            }
+            else {
+                $('#spanUserId').show();
+            }
+        });
+    });
+    function bindAccountDetails(_userId) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+        $.ajax({
+            url: '@Url.Action("AccountDetails", "UserManagement")',
+            data: { userName: _userId },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+    //text: "Once you Accept you will not be able to change it.",
+    function ManageAccount(obj) {
+
+        swal({
+            title: "Are you sure you want?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                var _actionName = $(obj).text();
+                var _userId = $(obj).attr("data-userId");
+                 
+                var form = $('#frmManageAccount');
+                var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+                $.ajax({
+                    url: '@Url.Action("ManageAccount", "UserManagement")',
+                    data: { __RequestVerificationToken: token, userId: _userId, actionName: _actionName },
+                    type: 'POST',
+                    dataType: 'HTML'
+                }).success(function (returndata) {
+
+                    if (returndata.split('_')[0] == "success") {
+                        if (returndata.split('_')[1] == "1") {
+                            swal("", 'Account unlock successfully.', "success");
+                            var objParent = $(obj).parent();
+                            objParent.html('');
+                            objParent.append('<span>No Lock</span>');
+                        }
+                        else {
+                            setTimeout(function () { swal("", 'Password Reset Successfully, New Password is : ' + returndata.split('_')[2] + '', "warning") }, 200);
+                        }
+                    }
+                    else {
+                        swal("", 'Invalid Details.', "warning");
+                    }
+                }).error(function (xhr, status) {
+                    swal("", 'Error at action taken.', "error");
+                });
+                //$('#bitAppAccept').click();
+            }
+        });
+    }
+</script>

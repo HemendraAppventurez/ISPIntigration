@@ -1,0 +1,40 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.NUHDetailsModel
+
+@if (Model != null)
+{ 
+    @*<div class="panel-body">
+        <h4></h4>
+        <div class="table-responsive">*@
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Medical Establishment Details</h4>
+                        </span>
+                    </div>
+            <div class="panel-body">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td style="width: 16%"><strong>Application No.</strong></td>
+                    <td style="width: 16%">@Model.registrationNo</td>
+                    <td style="width: 15%"><strong>Application Date</strong></td>
+                    <td style="width: 16%">@Model.appliedDate</td>
+                     <td><strong>Establishment Name</strong></td>
+                    <td>@Model.establishmentName</td>
+                </tr>
+                <tr>
+                    
+                    <td><strong>Establishment</strong></td>
+                    <td>@Model.medicalEstablishment</td>                   
+                    <td><strong>MCI/SMF No.</strong></td>
+                    <td>@Model.UPMCI_SMF_Number</td>
+                    <td style="width: 15%"><strong>Status</strong></td>
+                    <td style="width: 15%">@Model.appliedStatus</td>
+                </tr>
+            </table>
+                </div>
+            </div>
+        </div>
+        @*</div> 
+    </div>*@
+}

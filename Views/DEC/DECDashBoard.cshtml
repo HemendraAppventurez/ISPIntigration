@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "DECDashBoard";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="content-title">
+    <h3 class="main-title">
+       <strong>मृत्यु प्रमाणपत्र डैशबोर्ड<span class="small">Death Certificate  Dashboard</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-90 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="circle">
+                <li class="col-md-2 col-sm-6 col-xs-12"></li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("NomineeSearchDEC", "DEC")" class="red">
+                       <img src="@Url.Content("~/images/emergency.png")">
+                        <br />
+                       Download Certificate
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("NomineeSearchListOfDownloadedCertificateDEC", "DEC")" class="indigo">
+                         <img src="@Url.Content("~/images/view_icon.png")"><br />
+                        View/Re-Download Certificate
+                    </a>
+                </li>
+            </ul>
+            @*<ul class="circle">
+                <li class="col-md-2 col-sm-6 col-xs-12"></li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("RegistrationInstructions", "DEC")" class="red">
+                       <img src="@Url.Content("~/images/emergency.png")">
+                        <br />
+                       New Registration Application Form
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ViewDECList", "DEC")" class="indigo">
+                         <img src="@Url.Content("~/images/view_icon.png")"><br />
+                        View Application Form Status
+                    </a>
+                </li>
+            </ul>*@
+        </div>
+    </div>
+</div>
+<script src="~/js/sweetalert.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        if ('@ViewBag.msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", '@ViewBag.msg', '@ViewBag.MsgStatus');
+      }
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+
+
+    });
+
+
+</script>

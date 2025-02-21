@@ -1,0 +1,1430 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FAPModel
+@{
+    ViewBag.Title = "FAPRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+</style>
+
+
+<div class="content-title">
+    <h3 class="main-title">Application form for Payment of <strong>Unsuccessful Family Planning</strong></h3>
+
+</div>
+
+@using (Html.BeginForm("FAPRegistration", "AppRegistration", FormMethod.Post, new { @id = "frmData" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="content" class="dashboard padding-20 margin-bottom-50">
+        @if (Model.step == 0 || Model.stepValue == 0)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading bg-redd">
+                            <span class="title elipsis">
+                                <h4 class="color-white">Step 1</h4>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Details of Sterilized Person</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.sterilizedName, new { @class = "form-control", tabindex = "20" })
+                                        @Html.ValidationMessageFor(m => m.sterilizedName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Age <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.sterilizedAge, new { @class = "form-control", tabindex = "22", @onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.sterilizedAge, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Father's Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fatherName, new { @class = "form-control", tabindex = "23"})
+                                        @Html.ValidationMessageFor(m => m.fatherName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Spouse Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.spouseName, new { @class = "form-control", tabindex = "24" })
+                                        @Html.ValidationMessageFor(m => m.spouseName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Spouse Age <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.spouseAge, new { @class = "form-control", tabindex = "25", @onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.spouseAge, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Sterilized/Claimant Mobile Number <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.strMobileNo, new { @class = "form-control", @maxlength = 10, tabindex = "18", @onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.strMobileNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                 <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Gender <span class="star">*</span></label><br>
+                                        <div class="form-group">
+                                            <div class="form-control">
+                                                <label>@Html.RadioButtonFor(m => m.sterilizedGender, "Male") Male</label>
+                                                &nbsp;&nbsp;&nbsp;
+                                            <label>@Html.RadioButtonFor(m => m.sterilizedGender, "Female") Female</label>
+                                                &nbsp;&nbsp;&nbsp;
+                                            <label>@Html.RadioButtonFor(m => m.sterilizedGender, "Other")
+                                                Transgender
+                                            </label>
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.sterilizedGender, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Address <span class="star">*</span></label>
+                                        @Html.TextAreaFor(m => m.sterilizedAddress, new { @class = "form-control", @row = "3", @cols = "20", tabindex = "26" })
+                                        @Html.ValidationMessageFor(m => m.sterilizedAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>State <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State, new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                 <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>District <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.sterlizedDistrictId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = 27 })
+                                        @Html.ValidationMessageFor(m => m.sterlizedDistrictId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                               
+                                <div class="clearfix"></div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                  <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Details of Dependent Children </h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered css-serial tbUser">
+                                <thead>
+                                    <tr>
+                                        <th width="6%" class="text-center">S.No.</th>
+                                        <th class="text-center">Child Name  <span class="star">*</span></th>
+                                        <th class="text-center">Child Age (Year) <span class="star">*</span></th>
+                                        <th>Gender <span class="star">*</span></th>
+                                        <th>Marital Status <span class="star">*</span></th>
+                                        <th width="12%">Delete Record</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     @if (Model.step == 1|| Model.step==2)
+                                     {
+                                         foreach (var v in ViewBag.chlidrenlist)
+                                         {
+                                                 <tr>
+                                        <td></td>
+                                        <td><input type="text" name="childName" id="childName" value="@v.childName" class="form-control alpha" style="height:45px;" />
+                                        </td>
+                                        <td><input type="text" name="childAge" id="childAge" value="@v.childAge" class="form-control" style="height:45px;" />
+                                            </td>
+                                        <td>
+                                            <select id="gender" name="gender" class = "form-control select" style = "height:45px">
+                                                <option selected='selected' value='@v.gender'>@v.gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                             
+                                                
+                                            </select>
+                                           
+                                        </td>
+                                        <td>
+                                            <select id="maritalStatus" name="maritalStatus" class = "form-control select" style = "height:45px">
+                                                <option selected='selected' value='@v.maritalStatus'>@v.maritalStatus</option>
+                                                <option value="Married">Married</option>
+                                                <option value="Unmarried">Unmarried</option>
+                                                   
+                                            </select>
+                                          
+                                        </td>
+                                        <td align="center" class="padding-top-10">
+                                            <span>
+                                                <button  onclick="DeleteRow(this);" type="button"><i class="fa fa-trash fa-2x text-warning"></i></button>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                           
+                                         }
+                                     }
+                                     else
+                                     {
+                                    <tr>
+                                        <td></td>
+                                        <td>@Html.TextBoxFor(m => m.childName, "", new { @class = "form-control alpha", @style = "height:45px" })
+                                        </td>
+                                        <td>@*@Html.TextBoxFor(m => m.childAge, "", new { @class = "form-control clsChildAge", @style = "height:45px", @onkeypress = "preventnonNumericKey(event);", @maxlength = 3 })*@
+                                             <input type='text' id='childAge' onkeypress='isNumberKey(event);' onblur='chailAgeRange(this);' maxlength=3 name='childAge' class='form-control' style='height:45px' />
+                                           
+                                        </td>
+                                        <td>@Html.DropDownListFor(m => m.gender, new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Male", Value = "Male" },
+                                            new SelectListItem{ Text="Female", Value = "Female" }    
+                                         }, "--Select--", new { @style = "height:45px", @class = "form-control select" })
+                                        </td>
+                                        <td>@Html.DropDownListFor(m => m.maritalStatus, new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Married", Value = "Married" },
+                                            new SelectListItem{ Text="Unmarried", Value = "Unmarried" }
+    
+                                         }, "--Select--", new { @style = "height:45px", @class = "form-control select" })
+                                        </td>
+                                        <td align="center" class="padding-top-10">
+                                            <span>
+                                                <button id="btndel" onclick="DeleteRow(this);" type="button"><i class="fa fa-trash fa-2x text-warning"></i></button>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                     }
+                                </tbody>
+                            </table>
+                        </div>
+                         @Html.ValidationMessageFor(m => m.childAge, "", new { @class = "text-danger" })
+                        <button id="btnadd" type="button" class="btn btn-info btn-md pull-right">Add More</button>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Surgery Details</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Name of Health Unit <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.heathUnitName, new { @class = "form-control", tabindex = "5" })
+                                        @Html.ValidationMessageFor(m => m.heathUnitName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Address  <span class="star">*</span></label>
+                                        @Html.TextAreaFor(m => m.heathUnitAddress, new { @class = "form-control", tabindex = "7" })
+                                        @Html.ValidationMessageFor(m => m.heathUnitAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Name of Doctor <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.doctorName, new { @class = "form-control", tabindex = "6"})
+                                        @Html.ValidationMessageFor(m => m.doctorName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                 <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Date of Admission <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.admittedDate, new { @class = "datepicker-here form-control", tabindex = "4", @readonly = "true", @data_language = "en", @placeholder = "dd/mm/yyyy" })
+                                        @Html.ValidationMessageFor(m => m.admittedDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Date of Opration <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.operationDate, new { @class = "datepicker-here form-control", @readonly = "true", @data_language = "en", tabindex = "10", @placeholder = "dd/mm/yyyy" })
+                                        @Html.ValidationMessageFor(m => m.operationDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Type of Surgery  <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.operationTypeId, (IEnumerable<SelectListItem>)ViewBag.OperationType, "--Select--", new { @class = "form-control", tabindex = "9" })
+                                        @Html.ValidationMessageFor(m => m.operationTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                 <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Release Date <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.dateofReleased, new { @class = "datepicker-here form-control", tabindex = "2", @readonly = "true", @data_language = "en", @placeholder = "dd/mm/yyyy" })
+                                        @Html.ValidationMessageFor(m => m.dateofReleased, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                 <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>State <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>District <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.healthunitDistrictId, (IEnumerable<SelectListItem>)ViewBag.HealthunitDistrictList, "--Select--", new { @class = "form-control", tabindex = 8,@readonly="readonly" })
+                                    @Html.ValidationMessageFor(m => m.healthunitDistrictId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                     @*@if (Model.step <= 1 && Model.step != 0 && Model.step - 1 == Model.stepValue && Model.stepValue != -1)*@
+                                    @if (Convert.ToInt32(Session["UpdateStep"].ToString()) >= 1)
+                                     {
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("FAPRegistration", "appRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdFAP.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) + 1),
+                                            UpdateStep=0
+                                        })" class="btn btn-block btn-success">Next</a>
+                                    </div>  
+                                     }
+                                    <div class="col-md-3 col-md-offset-4">
+                                        <button type="submit" id="btnsubmit" class="btn btn-block btn-primary">Save and Continue</button>
+                                        
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="#" class="btn btn-block btn-warning">Reset</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+        }
+        else if (Model.step == 1 || Model.stepValue == 1)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading bg-redd">
+                            <span class="title elipsis">
+                                <h4 class="color-white">Step 2</h4>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Realization for Failure of Sterilization</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Details of Complication <span class="star">*</span></label>
+                                        @Html.TextAreaFor(m => m.complicationsDetails, new { @class = "form-control", tabindex = "11" })
+                                    @Html.ValidationMessageFor(m => m.complicationsDetails, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Date of Issue Reported at Health Unit <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.informationDate, new { @class = "datepicker-here form-control", tabindex = "28", @readonly = "true", data_language = "en", @placeholder = "dd/mm/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.informationDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Confirmation Date of Failure <span class="star">*</span></label>
+                                         @Html.TextBoxFor(m => m.confirmationDate, new { @class = "datepicker-here form-control", tabindex = "30", @readonly = "true", data_language = "en", @placeholder = "dd/mm/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.confirmationDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Name of Health Unit <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.sevakendraName, new { @class = "form-control", tabindex = "29" })
+                                    @Html.ValidationMessageFor(m => m.sevakendraName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>In-Charge/Doctor Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.sevadoctorName, new { @class = "form-control", tabindex = "31" })
+                                    @Html.ValidationMessageFor(m => m.sevadoctorName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Compensation Category <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.compensationCategoryId, (IEnumerable<SelectListItem>)ViewBag.Compensation, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.compensationCategoryId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="col-md-4 alldate" style="display: none;">
+                                    <div class="form-group">
+                                        <label>Date of Death <span class="star">*</span></label>
+                                       @Html.TextBoxFor(m => m.dateofDeath, new { @class = "datepicker-here form-control", tabindex = "3", @readonly = "true", @data_language = "en", @placeholder = "dd/mm/yyyy" })
+                                        @Html.ValidationMessageFor(m => m.dateofDeath, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Claim Amount </label>
+                                    @Html.TextBoxFor(m => m.claimAmount,"{0:#.#}", new { @class = "form-control", @readonly = "readonly", tabindex = "19" })
+                                    @Html.ValidationMessageFor(m => m.claimAmount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="col-md-12 alldate" style="display: none;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Claimant Details</h4>
+                            </span>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Claimant's  Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.claimantName, new { @class = "form-control", tabindex = "13" })
+                                    @Html.ValidationMessageFor(m => m.claimantName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Present Age <span class="star">*</span></label>
+                                       @Html.TextBoxFor(m => m.claimantAge, new { @class = "form-control", tabindex = "15" })
+                                    @Html.ValidationMessageFor(m => m.claimantAge, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                               @* <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mobile Number <span class="mendatory">*</span></label>
+                                        @Html.TextBoxFor(m => m.claimantMobileNo, new { @class = "form-control", @maxlength = 10, tabindex = "18", @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.claimantMobileNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Address <span class="star">*</span></label>
+                                       @Html.TextAreaFor(m => m.claimantAddress, new { @class = "form-control", @rows = "3", @cols = "20", tabindex = "17" })
+                                    @Html.ValidationMessageFor(m => m.claimantAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Aadhaar Card No. <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.claimantAadhaarNo, new { @class = "form-control", @rows = "3", @cols = "20", tabindex = "17", @onkeypress = "return isNumberKey(event);" ,@maxlength="12"})
+                                    @Html.ValidationMessageFor(m => m.claimantAadhaarNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Relation with Sterilized Person<span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.relationId, (IEnumerable<SelectListItem>)ViewBag.Relation, "--Select--", new { @class = "form-control", tabindex = "16" })
+                                    @Html.ValidationMessageFor(m => m.relationId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Claimant Bank Details</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Account Holder Name <span class="star">*</span></label>
+                                       @Html.TextBoxFor(m => m.accountHolderName, new { @class = "form-control", tabindex = 32 })
+                                    @Html.ValidationMessageFor(m => m.accountHolderName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Bank Name<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.bankName, new { @class = "form-control", tabindex = 32})
+                                    @Html.ValidationMessageFor(m => m.bankName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Branch Name <span class="star">*</span></label>
+                                         @Html.TextBoxFor(m => m.branchName, new { @class = "form-control", tabindex = 33 })
+                                    @Html.ValidationMessageFor(m => m.branchName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Account Number<span class="star">*</span></label>
+                                         @Html.TextBoxFor(m => m.accountNo, new { @class = "form-control", tabindex = 34, @onkeypress = "return isNumberKey(event);", @maxlength = "12" })
+                                    @Html.ValidationMessageFor(m => m.accountNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>IFSC Code <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.ifscCode, new { @class = "form-control", tabindex = 35 })
+                                    @Html.ValidationMessageFor(m => m.ifscCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    
+                                     <div class="col-md-2 col-md-offset-3">
+                                        <a href="@Url.Action("FAPRegistration", "AppRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdFAP.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) - 1),
+                                            UpdateStep=1
+                                        })" class="btn btn-block btn-success">Back</a>
+                                    </div>
+                                    @*<div class="col-md-3"><a href="list2.html" class="btn btn-block btn-primary">Save and Continue</a> </div>*@
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-block btn-primary">Save and Continue</button>
+                                        
+                                    </div>
+                                     @if (Model.step <= 2 && Model.step != 0 && Model.step - 1 == Model.stepValue && Model.stepValue != -1)
+                                     {
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("FAPRegistration", "appRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdFAP.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) + 1),
+                                            UpdateStep=0
+                                        })" class="btn btn-block btn-success">Next</a>
+                                    </div>  
+                                     }
+                                    <div class="col-md-2"><a href="#" class="btn btn-block btn-warning">Reset</a> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        }
+        else if (Model.step == 2 || Model.stepValue == 2)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading bg-redd">
+                            <span class="title elipsis">
+                                <h4 class="color-white">Step 3</h4>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+  <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            
+                            <span class="title elipsis">
+                                <h4>Check List</h4>
+                            </span>
+                        </div>
+                       
+                        <div class="panel-body">
+                             <span id="spanmember" style="display: none" class="text-danger">Please select All Document as they are required</span>
+                            <div class="row">
+                                @foreach (var v in ViewBag.DocumnetCheckList)
+                                {
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <i class="hidden">@v.Value</i>
+                                            <label class="l-20">@v.Text</label>
+                                            <span id="@v.Value" class="text-danger" style="display:none">*</span>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="checkbox" name="chk_checkList" value="@v.Value">
+                                        </div>
+                                    </div>
+                                }
+
+
+
+                            </div>
+                            <div class="row">
+                                Note:-Kindly collect photo copy of document checked by you.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                   
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <a href="@Url.Action("FAPRegistration", "AppRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdFAP.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) - 1),
+                                            UpdateStep=2
+                                        })" class="btn btn-block btn-success">Back</a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button id="btnSave" type="submit" class="btn btn-block btn-primary">SUBMIT</button>
+                                        
+                                    </div>
+                                          <div class="col-md-2">
+                                        <a href="@Url.Action("FAPRegistration", "appRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdFAP.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) + 1),
+                                            UpdateStep=0
+                                        })" class="btn btn-block btn-warning">Reset</a>
+                                    </div>  
+                                    @*<div class="col-md-2"><a href="#" class="btn btn-block btn-warning">Reset</a> </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        }
+        <div class="text-center">
+                @Html.HiddenFor(m => m.regisIdFAP)
+                @Html.HiddenFor(m => m.step)
+                @Html.HiddenFor(m => m.registrationNo)
+                @Html.HiddenFor(m => m.operationDate)
+                @Html.HiddenFor(m => m.admittedDate)
+                @Html.HiddenFor(m => m.UpdateStep)
+                @Html.HiddenFor(m => m.compensationCategoryId)
+            </div>
+    </div>
+}
+
+<div class="clearfix"></div>
+
+<script src="~/Scripts/AuditScripts.js"></script>
+<script>
+    var check = 1;
+    $(document).ready(function () {
+        addEvent();
+        AddRow();
+        $("#4").show();
+        $("#6").show();
+        $("#11").show();
+        $("#12").show();
+        $("#13").show();
+        if ('@ViewBag.msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", '@ViewBag.msg', '@ViewBag.MsgStatus');
+        }
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+        if($('#UpdateStep').val()==2)
+        {
+            debugger;
+            if ($('#compensationCategoryId').val() == 3)
+            {
+                $(".alldate").show();
+            }
+        }
+    });
+
+    //var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    var strMaxDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    $('#sterilizedDob').datepicker({
+        maxDate: new Date(strMaxDate),
+        autoClose: true
+    });
+
+    $('#claimantDob').datepicker({
+        maxDate: new Date(strMaxDate),
+        autoClose: true
+    });
+
+    $('#admittedDate').datepicker({
+        maxDate: new Date(strMaxDate),
+        onSelect: function (selectedDate) {
+
+            if (IsSecondDateGreater($('#operationDate').val(), selectedDate) && IsSecondDateGreater($('#dateofDeath').val(), selectedDate) && IsSecondDateGreater($('#dateofReleased').val(), selectedDate)) {
+                swal("", "Date when Admitted Must be less or equal from Date of Released and Date of Death and Date of Opertaion", "warning");
+                $('#admittedDate').val('');
+            }
+            else if (IsSecondDateGreater($('#dateofReleased').val(), selectedDate)) {
+                swal("", "Date when Admitted Must be less or equal from Date of Released", "warning");
+                $('#admittedDate').val('');
+            }
+            else if (IsSecondDateGreater($('#dateofDeath').val(), selectedDate)) {
+                swal("", "Date when Admitted Must be less or equal from Date of Death", "warning");
+                $('#admittedDate').val('');
+            }
+            else if (IsSecondDateGreater($('#operationDate').val(), selectedDate)) {
+                swal("", "Date when Admitted Must be less or equal from from Date of Operation", "warning");
+                $('#admittedDate').val('');
+            }
+        },
+        autoClose: true
+    });
+
+    $("#compensationCategoryId").change(function () {
+
+        if ($("#compensationCategoryId").val() != 3) {
+            $(".alldate").hide();
+            $(".strmobile").show();
+            $('#hBankDetials').text('Bank Details');
+            //setCompensationId($("#compensationCategoryId").val());
+        }
+        else {
+            $(".alldate").show();
+            $(".strmobile").hide();
+            $('#hBankDetials').text('Spouse Bank Details');
+        }
+
+        GetCompancationAmt($("#compensationCategoryId").val(), "", "");
+
+        //if ($("#compensationCategoryId").val() == 1) {
+
+        //    var amt = 30000;
+        //    $("#claimAmount").val(amt);
+        //    $("#amount").text(amt);
+        //}
+        //else
+        //    if ($("#compensationCategoryId").val() == 2) {
+        //        var amt = 25000;
+        //        $("#claimAmount").val(amt);
+        //        $("#amount").text(amt);
+        //    }
+        //    else
+        //        if ($("#compensationCategoryId").val() == 3) {
+
+
+        //            var amt = '';
+
+        //            $("#claimAmount").val(amt);
+        //            $("#amount").text(amt);
+        //        }
+
+    });
+    $('#dateofReleased').datepicker({
+        
+        maxDate: new Date(strMaxDate),
+        onSelect: function (selectedDate) {
+            debugger;
+            if (IsSecondDateGreater(selectedDate, $('#operationDate').val()) && IsSecondDateGreater(selectedDate, $('#admittedDate').val())) {
+                swal("", "Date of Released Must be greater or equal from Date when Admitted and Date of Opertaion", "warning");
+                $('#dateofReleased').val('');
+            }
+            else if (IsSecondDateGreater(selectedDate, $('#admittedDate').val())) {
+                swal("", "Date of Released Must be greater or equal from Date when Admitted", "warning");
+                $('#dateofReleased').val('');
+            }
+            else if (IsSecondDateGreater(selectedDate, $('#operationDate').val())) {
+                swal("", "Date of Released Must be greater or equal from Date of Operation", "warning");
+                $('#dateofReleased').val('');
+            }
+            else if (IsSecondDateGreater($('#informationDate').val(), selectedDate)) {
+                swal("", "Date of Released Must be less than or equal to Date of issue reported at health unit", "warning");
+                $('#informationDate').val('');
+            }
+        },
+        autoClose: true
+    });
+
+
+    $('#informationDate').datepicker({
+        maxDate: new Date(strMaxDate),
+        onSelect: function (selectedDate) {
+
+            if (IsSecondDateGreater(selectedDate, $('#operationDate').val()) && IsSecondDateGreater(selectedDate, $('#dateofDeath').val()) && IsSecondDateGreater(selectedDate, $('#dateofReleased').val())) {
+                swal("", "Date of issue reported at health unit Must be greater than or equal to Date of Released and Date of Death and Date of Opertaion", "warning");
+                $('#informationDate').val('');
+            }
+            else if (IsSecondDateGreater(selectedDate, $('#dateofReleased').val())) {
+                swal("", "Date of issue reported at health unit Must be greater than or equal to Date of Released", "warning");
+                $('#informationDate').val('');
+            }
+            else if (IsSecondDateGreater(selectedDate, $('#dateofDeath').val())) {
+                swal("", "Date of issue reported at health unit Must be greater than or equal to Date of Death", "warning");
+                $('#informationDate').val('');
+            }
+            else if (IsSecondDateGreater(selectedDate, $('#operationDate').val())) {
+                swal("", "Date of issue reported at health unit Must be greater than or equal to Date of Opertaion", "warning");
+                $('#informationDate').val('');
+            }
+            else if (IsSecondDateGreater($('#confirmationDate').val(), selectedDate)) {
+                swal("", "Date of issue reported at health unit Must be less than or equal to Confirmation Date of Failure", "warning");
+                $('#informationDate').val('');
+            }
+        },
+        autoClose: true
+    });
+
+    $('#confirmationDate').datepicker({
+        maxDate: new Date(strMaxDate),
+        onSelect: function (selectedDate) {
+
+            if (IsSecondDateGreater(selectedDate, $('#informationDate').val())) {
+                swal("", "Confirmation Date of Failure Must be greater than or equal to Date of issue reported at health unit", "warning");
+                $('#confirmationDate').val('');
+            }
+
+        },
+        autoClose: true
+    });
+
+    function IsSecondDateGreater(firstDate, secondDate) {
+        var date1 = firstDate;
+        var d = new Date(date1.split("/").reverse().join("/"));
+
+        var dd = d.getDate();
+        var mm = d.getMonth() + 1;
+        var yy = d.getFullYear();
+        var edate = yy + "-" + mm + "-" + dd;
+
+        var date2 = secondDate;
+        var d2 = new Date(date2.split("/").reverse().join("/"));
+        var dd = d2.getDate();
+        var mm = d2.getMonth() + 1;
+        var yy = d2.getFullYear();
+        var sdate = yy + "-" + mm + "-" + dd;
+
+        debugger;
+
+        var startDate = Date.parse(sdate);
+
+        var endDate = Date.parse(edate);
+
+        if (d2 > d) {
+            return true;
+        }
+    }
+
+    var rowCount = $("#tbUser td").closest("tr").length;
+
+    function AddRow() {
+        $("#btnadd").click(function () {
+            var markup = "<tr><td></td><td><input type='text' id='childName' name='childName' class ='form-control alpha' style ='height:45px'></td> <td><input type='text' id='childAge' onkeypress='preventnonNumericKey(event);' onblur='chailAgeRange(this);' maxlength=3 name='childAge' class='form-control' style='height:45px'></td><td><select id='gender' name='gender' style = 'height:45px' class='form-control select' ><option value=''>--Select--</option> <option value='Male'>Male</option><option value='Female'>Female</option></select> </td><td><select name='maritalStatus' id='maritalStatus' style= 'height:45px' class='form-control select'><option value=''>--Select--</option><option value='Married'>Married</option><option value='Unmarried'>Unmarried</option></td> <td align='center' class='padding-top-10'><span><button id='btndel' onclick='DeleteRow(this);' type='button' ><i class='fa fa-trash fa-2x text-warning'></i></button></span></td></tr>";
+            $("table tbody").append(markup);
+            rowCount++;
+
+            addEvent();
+        });
+    }
+    //function DeleteRow(obj) {
+
+    //    if (rowCount > 0) {
+    //        $(obj).closest('tr').remove();
+    //        rowCount--;
+    //        check = 1;
+    //    }
+    //    else {
+    //        swal("", "Details can not be deleted", "warning");
+    //    }
+    //}
+    function DeleteRow(obj) {
+
+        if (rowCount > 0) {
+            swal({
+                title: "Are you sure?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, Delete it !",
+                cancelButtonText: "No, Cancel it !",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $(obj).closest('tr').remove();
+                    rowCount--;
+                    check = 1;
+                }
+            });
+        }
+        else {
+            swal("", "You Can't Delete ", "warning");
+        }
+    }
+    $("input[name='employementId']").click(function () {
+
+        if ($("input[name='employementId']:checked").val() == 1) {
+            $("#empdetails").hide();
+            $("#service").hide();
+
+        }
+        if ($("input[name='employementId']:checked").val() == 2) {
+            $("#service").show();
+            $("#empdetails").hide();
+        }
+
+
+    });
+    $("#operationTypeId").change(function () {
+
+        if ($("#operationTypeId").val() == "5") {
+            $(".otherProcess").show();
+        }
+        else {
+            $(".otherProcess").hide();
+        }
+    });
+    $("#claimantdob").change(function () {
+        var dob = $("#claimantdob").val();
+        CalculateAge(dob);
+    });
+    $("#sterilizeddob").change(function () {
+        var dob = $("#sterilizeddob").val();
+        CalculateAge(dob);
+    });
+    $("#compensationCategoryId").change(function () {
+
+        if ($("#compensationCategoryId").val() != 3) {
+            $(".alldate").hide();
+            $(".strmobile").show();
+            $('#hBankDetials').text('Bank Details');
+            //setCompensationId($("#compensationCategoryId").val());
+        }
+        else {
+            $(".alldate").show();
+            $(".strmobile").hide();
+            $('#hBankDetials').text('Spouse Bank Details');
+        }
+
+        GetCompancationAmt($("#compensationCategoryId").val(), "", "");
+        //if ($("#compensationCategoryId").val() == 1) {
+
+        //    var amt = 30000;
+        //    $("#claimAmount").val(amt);
+        //    $("#amount").text(amt);
+        //}
+        //else
+        //    if ($("#compensationCategoryId").val() == 2) {
+        //        var amt = 25000;
+        //        $("#claimAmount").val(amt);
+        //        $("#amount").text(amt);
+        //    }
+        //    else
+        //        if ($("#compensationCategoryId").val() == 3) {
+
+
+        //            var amt = '';
+
+        //            $("#claimAmount").val(amt);
+        //            $("#amount").text(amt);
+        //        }
+
+    });
+    var rowCount1 = 0;
+    if ('@ViewBag.chlidrenlistCount' != '') {
+        rowCount1 = '@ViewBag.chlidrenlistCount';
+    }
+  
+    var strMaxDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+$('#operationDate').datepicker({
+    maxDate: new Date(strMaxDate),
+    onSelect: function (selectedDate) {
+
+        if (IsSecondDateGreater($('#dateofDeath').val(), selectedDate) && IsSecondDateGreater($('#dateofReleased').val(), selectedDate) && IsSecondDateGreater($('#informationDate').val(), selectedDate)) {
+            swal("", "Date of Opertaion Must be less or equal from Date of Released, Date of Death and Date of issue reported at health unit", "warning");
+            $('#operationDate').val('');
+        }
+        else if (IsSecondDateGreater($('#dateofReleased').val(), selectedDate)) {
+            swal("", "Date of Opertaion Must be less or equal from Date of Released", "warning");
+            $('#operationDate').val('');
+        }
+        else if (IsSecondDateGreater($('#dateofDeath').val(), selectedDate)) {
+            swal("", "Date of Opertaion Must be less or equal from Date of Death", "warning");
+            $('#operationDate').val('');
+        }
+        else if (IsSecondDateGreater($('#informationDate').val(), selectedDate)) {
+            swal("", "Date of Opertaion Must be less or equal from Date of issue reported at health unit", "warning");
+            $('#operationDate').val('');
+        }
+        else if (IsSecondDateGreater(selectedDate, $('#admittedDate').val())) {
+            swal("", "Date of Operataion Must be greater or equal from Date when Admitted", "warning");
+            $('#operationDate').val('');
+        }
+
+        if ($("#compensationCategoryId").val() != "" && $('#dateofDeath').val() != "" && selectedDate != "") {
+            GetCompancationAmt($("#compensationCategoryId").val(), $('#dateofDeath').val(), selectedDate)
+        }
+        //if ($("#compensationCategoryId").val() == 3) {
+        //    CalculateAmountNew($('#dateofDeath').val(), selectedDate)
+        //}
+    },
+    autoClose: true
+});
+
+var dateBeforeThreeMonth = '@DateTime.Now.AddMonths(-6).AddDays(1)' + "";
+    var strDate1 = dateBeforeThreeMonth.split(' ')[0]
+    var strMinDate = strDate1.split('/')[2] + "/" + strDate1.split('/')[1] + "/" + strDate1.split('/')[0]
+
+    $('#dateofDeath').datepicker({
+        minDate: new Date(strMinDate),
+        maxDate: new Date(strMaxDate),
+        onSelect: function (selectedDate) {
+
+            if (IsSecondDateGreater(selectedDate, $('#operationDate').val()) && IsSecondDateGreater(selectedDate, $('#admittedDate').val())) {
+                swal("", "Date of Death Must be greater or equal from Date of Opertaion and Date when Admitted", "warning");
+                $('#dateofDeath').val('');
+            }
+            else if (IsSecondDateGreater(selectedDate, $('#operationDate').val())) {
+                swal("", "Date of Death Must be greater or equal from Date of Opertaion", "warning");
+                $('#dateofDeath').val('');
+            }
+            else if (IsSecondDateGreater(selectedDate, $('#admittedDate').val())) {
+                swal("", "Date of Death Must be greater or equal from Date when Admitted", "warning");
+                $('#dateofDeath').val('');
+            }
+
+            if ($("#compensationCategoryId").val() != "" && $('#operationDate').val() != "" && selectedDate != "") {
+                GetCompancationAmt($("#compensationCategoryId").val(), selectedDate, $('#operationDate').val());
+            }
+            //if ($("#compensationCategoryId").val() == 3) {
+            //    CalculateAmountNew(selectedDate, $('#operationDate').val())
+            //}
+        },
+        autoClose: true
+    });
+
+    function CalculateAmountNew(date1, date2) {
+        debugger;
+        if (date1 != '' && date2 != '') {
+            //var date1 = $('#dateofDeath').val();
+            var d = new Date(date1.split("/").reverse().join("/"));
+
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1;
+            var yy = d.getFullYear();
+            var edate = yy + "-" + mm + "-" + dd;
+
+            //var date2 = $('#operationDate').val();
+            var d2 = new Date(date2.split("/").reverse().join("/"));
+            var dd = d2.getDate();
+            var mm = d2.getMonth() + 1;
+            var yy = d2.getFullYear();
+            var sdate = yy + "-" + mm + "-" + dd;
+
+            var startDate = Date.parse(sdate);
+            var endDate = Date.parse(edate);
+
+            var timeDiff = endDate - startDate;
+            daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            //alert(daysDiff)
+
+            if (daysDiff < 0) {
+                $("#claimAmount").val('');
+                $("#amount").text('');
+            }
+            else if (daysDiff <= 7) {
+                var amt = 200000;
+            }
+            else {
+                var amt = 50000;
+            }
+
+            $("#claimAmount").val(amt);
+            $("#amount").text(amt);
+        }
+        else {
+            //alert();
+            $("#claimAmount").val('');
+            $("#amount").text('');
+        }
+    }
+    //onblur = "CalculateAmount();",
+    function CalculateAmount() {
+        if ($("#compensationCategoryId").val() == 3) {
+
+            d1 = $('#dateofDeath').val();
+            d2 = $('#operationDate').val();
+
+            if (d1 == "" || d2 == "") {
+                var amt = "";
+                $("#claimAmount").val(amt);
+                $("#amount").text(amt);
+            }
+            else {
+                var date1 = $('#dateofDeath').val();
+                var d = new Date(date1.split("/").reverse().join("/"));
+
+                var dd = d.getDate();
+                var mm = d.getMonth() + 1;
+                var yy = d.getFullYear();
+                var edate = yy + "-" + mm + "-" + dd;
+
+                var date2 = $('#operationDate').val();
+                var d2 = new Date(date2.split("/").reverse().join("/"));
+                var dd = d2.getDate();
+                var mm = d2.getMonth() + 1;
+                var yy = d2.getFullYear();
+                var sdate = yy + "-" + mm + "-" + dd;
+
+                debugger;
+
+                var startDate = Date.parse(sdate);
+
+                var endDate = Date.parse(edate);
+                if (d2 > d) {
+                    alert("Date Of Opertaion Must be Before Date of death");
+                    var blank = "";
+                    $("#operationDate").val(blank);
+                    $("#dateofDeath").val(blank);
+                }
+                var timeDiff = endDate - startDate;
+                daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+                if (daysDiff > 7) {
+                    var amt = 50000;
+                }
+                else {
+                    var amt = 200000;
+                }
+                $("#claimAmount").val(amt);
+                $("#amount").text(amt);
+            }
+        }
+    };
+    function CalculateclaimantAge() {
+        var DOB = $("#claimantDob").val();
+
+        if (DOB != "") {
+            var values = DOB.split("/");
+            var date = values[0];
+            var month = values[1];
+            var year = values[2];
+
+            var currentdate = new Date();
+            var currentyear = currentdate.getYear() + 1900;
+            var currentmonth = currentdate.getMonth() + 1;
+            var currentdate = currentdate.getDate();
+
+            var calculateYear = currentyear - year;
+            var calculatemonth = 0;
+            var calculatedate = 0;
+            if (month > currentmonth) {
+                calculateYear--;
+                calculatemonth = month - currentmonth;
+            }
+
+            if (calculateYear >= 18) {
+                $("#claimantAge").val(calculateYear);
+            }
+            else {
+                $("#claimantDob").val('');
+                swal("", "Minimum age must be 18 year.", "warning");
+            }
+
+            //$("#claimantAge").val(calculateYear);
+        }
+
+    }
+    $("#btnsubmit").click(function () {
+
+        debugger;
+        var staffDetailIsValid = true;
+
+
+        if ($("#step").val() == 1) {
+            if (staffDetailIsValid) {
+                $("#tbUser tr:gt(0)").each(function (index, obj) {
+                    var currRow = $(this);
+                    index = index + 1;
+
+
+                    var _Name = currRow.find('td:eq(1)').find('input[type=text]').val();
+                    var _Age = currRow.find('td:eq(2)').find('input[type=text]').val();
+                    var _Gender = currRow.find('td:eq(3)').find('select[name="gender"]').val();
+                    var _Maritalstatus = currRow.find('td:eq(4)').find('select[name="maritalStatus"]').val();
+
+                   
+
+
+                  
+
+                        if (_Name != '' || _Age != '' || _Gender != '' || _Maritalstatus != '' && index == 1) {
+                            swal("", "DETAILS OF PARAMEDICAL STAFF!", "warning");
+
+                            staffDetailIsValid = false;
+                        }
+                        else if (index == 1) {
+
+                            if (_Name == '') {
+                                swal("", "Enter  Name at row No. " + index + " of DETAILS OF NAME !", "warning");
+                                staffDetailIsValid = false;
+                            }
+                            else if (_Age == '') {
+                                swal("", "Enter  Father Name at row No. " + index + " of DETAILS OF AGE !", "warning");
+                                staffDetailIsValid = false;
+                            }
+                            else if (_Gender == '') {
+                                swal("", "Enter  Qualification at row No. " + index + " of DETAILS OF GENDER !", "warning");
+                                staffDetailIsValid = false;
+                            }
+                            else if (_Maritalstatus == '') {
+                                swal("", "Enter Foundation Name at row No. " + index + " of DETAILS OF MARITAL SATAUS", "warning");
+                                staffDetailIsValid = false;
+                            }
+                           
+                        }
+
+
+                        if ((_Name != '' || _Age != '' || _Gender != '' || _Maritalstatus != '') && index > 1) {
+                            if (_Name == '') {
+                                swal("", "Enter  Name at row No. " + index + " of DETAILS OF NAME !", "warning");
+                                staffDetailIsValid = false;
+                            }
+                            else if (_Age == '') {
+                                swal("", "Enter  Father Name at row No. " + index + " of DETAILS OF AGE !", "warning");
+                                staffDetailIsValid = false;
+                            }
+                            else if (_Gender == '') {
+                                swal("", "Enter  Qualification at row No. " + index + " of DETAILS OF GENDER !", "warning");
+                                staffDetailIsValid = false;
+                            }
+                            else if (_Maritalstatus == '') {
+                                swal("", "Enter Foundation Name at row No. " + index + " of DETAILS OF MARITAL SATAUS", "warning");
+                                staffDetailIsValid = false;
+                            }
+                            
+                        }
+
+                });
+            }
+
+            
+
+            if (staffDetailIsValid) {
+
+                return true;
+            }
+            else {
+
+                return false;
+            }
+        }
+    });
+    //function CalculateSterilizedAge() {
+    //    var DOB = $("#sterilizedDob").val();
+
+    //    if (DOB != "") {
+    //        var values = DOB.split("/");
+    //        var date = values[0];
+    //        var month = values[1];
+    //        var year = values[2];
+
+    //        var currentdate = new Date();
+    //        var currentyear = currentdate.getYear() + 1900;
+    //        var currentmonth = currentdate.getMonth() + 1;
+    //        var currentdate = currentdate.getDate();
+
+    //        var calculateYear = currentyear - year;
+    //        var calculatemonth = 0;
+    //        var calculatedate = 0;
+    //        if (month > currentmonth) {
+    //            calculateYear--;
+    //            calculatemonth = month - currentmonth;
+    //        }
+
+    //        $("#sterilizedAge").val(calculateYear);
+    //    }
+
+    //}
+    function preventnonNumericKey(e) {
+        var key_codes = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 0, 8];
+
+        if (!($.inArray(e.which, key_codes) >= 0)) {
+            e.preventDefault();
+        }
+    }
+
+    $('.clsChildAge').blur(function () {
+        if (parseInt($(this).val()) > 100 || parseInt($(this).val()) < 1) {
+            swal("", "Age between 1 to 100.", "warning");
+            $(this).val('');
+        }
+    });
+
+    function chailAgeRange(obj) {
+        if (parseInt($(obj).val()) > 100 || parseInt($(obj).val()) < 1) {
+            swal("", "Age between 1 to 100.", "warning");
+            $(obj).val('');
+        }
+    }
+
+    function childValidation() {
+
+    }
+    $("#btnSave").click(function () {
+        debugger;
+        if ($("input[type='checkbox']:checked").length <5) {
+            $("#spanmember").show();
+
+            return false;
+        }
+        $("#tbUser").html('');
+
+
+
+    });
+    function isNumberKey(event) {
+        debugger;
+        var charCode = (event.which) ? event.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function isalphabet(event) {
+        debugger;
+        var charCode = (event.which) ? event.which : event.keyCode
+
+        if ((charCode >= 65 && charCode <= 91) || charCode == 8 || charCode == 32 ||
+             (charCode >= 97 && charCode <= 122) || charCode == 46)
+            return true;
+        else
+            return false;
+    }
+
+
+    function GetCompancationAmt(_compancationId, _dateOfDeath, _DateOfOpration) {
+        if (_compancationId != "" && _compancationId != "0") {
+            $.ajax({
+                url: '@Url.Action("CalculateReturnAmountFAP","AppRegistration")',
+            data: { 'CompancationCatId': _compancationId, 'dateOfDeath': _dateOfDeath, 'DateOfOpration': _DateOfOpration },
+            type: 'post',
+            dataType: 'json'
+        })
+            .success(function (returndata) {
+                if (returndata != null) {
+                    if (returndata.res > 0) {
+
+                        $("#claimAmount").val(returndata.clameAmount);
+                        $("#amount").text(returndata.clameAmount);
+                    }
+                    else {
+                        $("#claimAmount").val('');
+                        $("#amount").text('');
+                    }
+                }
+                else {
+                    $("#claimAmount").val('');
+                    $("#amount").text('');
+                }
+            })
+            .error(function (xhr, status) {
+
+                $("#claimAmount").val('');
+                $("#amount").text('');
+            });
+    }
+    else {
+        $("#claimAmount").val('');
+        $("#amount").text('');
+    }
+}
+
+</script>
+
+
+
+

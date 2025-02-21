@@ -1,0 +1,107 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ReceiptModel
+
+@{
+    ViewBag.Title = "Receipt";
+}
+
+<style>
+    .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: #fff;
+        background-color: #5bc0de;
+        border-color: #46b8da;
+    }
+</style>
+
+<div style="margin: 0 auto; width: 1000px; font-family: Cambria, serif; text-align: right">
+    <button type="button" class="btn btn-primary" data-print="modal" onclick="PrintDoc()">Print</button>
+     @*<a href="@Url.Action("ViewNUHList", "NUH")" class="btn btn-info pull-right width: 1000px">Back</a>*@
+</div>
+@*<div class="content-title">
+    <h3 class="main-title"><a href="@Url.Action("ViewNUHList", "NUH")" class="btn btn-info pull-right">Back</a></h3>
+</div>*@
+<input type="hidden" value="@Model.regisIdNUH" />
+<div id="prodiv" style="margin: 0 auto; width: 800px; font-family: Cambria, serif;">
+    <div style="text-align: center; margin-bottom: 15px;">
+        <img src="~/Images/Loginlogo.png" style="width: 100%;" />
+    </div>
+    <div align="center">
+        <div style="font-size: 1.4rem; font-weight: 600; padding: 10px">Provisional  Registration Certificate of Medical Establishment </div>
+        <div style="font-size: 1rem; font-weight: 600;">Office of  the Chief Medical Officer:@Model.CityName</div>
+        <br />
+    </div>
+    <div style="font-weight: 600; padding: 10px 0;"><span style="float: left;">Application  No.:@Model.ApplicationNumber</span><span style="float: right">Date  of Issuance: @Model.IssuanceDate</span></div>
+    <div style="clear: both"></div>
+    <div style="font-weight: 600; padding: 10px 0 0">Provisional Registration  Certificate No.: @Model.RegistrationCirtficatNo</div>
+    <p style="text-align: justify;">This is to certify to the concerned  person/authority that Mr./Ms./Mrs. <b>@Model.ApplicantsName</b>  has applied for the renewal of Medical Establishment Registration Certificate on  <b>@Model.ApplicationDate</b> for their Clinic/Medical  Establishment <b>@Model.EstablishmentName</b>, located  at <b>@Model.EstablishmentAddress</b> with the prevailing  Registration No. <b>@Model.prevailingRegistrationNo.</b> </p>
+    <p style="text-align: justify;">Department of Medical Health and Family  Welfare, Uttar Pradesh hereby allows the above mentioned Medical Establishment  to use this Provisional Certificate as their <strong>Medical Establishment  Registration Certificate</strong> for the legal and authorized purpose, until their  Registration Certificate Renewal is completed and original Registration  Certificate has been issued in its name.</p>
+    <p><strong>1. Owner/Partner Details</strong></p>
+      
+  @foreach(var item in Model.ReceiptList)
+  {
+    
+    <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td width="49" valign="top">
+                <strong>S.No.</strong>
+            </td>
+            <td valign="top"><strong>Name</strong></td>
+            <td valign="top"><strong>Father&rsquo;s Name</strong></td>
+            <td valign="top"><strong>MobileNo.</strong></td>
+            <td valign="top"><strong>Age</strong></td>
+            <td valign="top"><strong>Address</strong></td>
+        </tr>
+
+        <tr>
+            <td valign="top">1</td>
+            <td valign="top">@item.ownerName</td>
+            <td valign="top">@item.OwnerFatherName</td>
+            <td valign="top">@item.OwnerMobileNo</td>
+            <td valign="top">@item.OwnerAge</td>
+            <td valign="top">@item.OwnerAddress,@item.DistrictName,@item.StateName-@item.pincode</td>
+        </tr>
+        
+    </table>
+  }
+    <p style="border: 1px solid #000; padding: 8px; width: 60%; float: left;">This is a computer generated certificate. It does not require any signature.@* To verify the authenticity, validity and current status of the certificate, please visit:- <b>#URL#</b>*@</p>
+    <p style="border: 1px solid #000; padding: 8px; width: 30%; float: right;">
+        Chief Medical Officer<br />
+        <b>@Model.CityName</b>
+        <br />
+        <b>@Model.StateName</b>
+    </p>
+    <div style="clear: both"></div>
+    <p style="border: 1px solid #000; padding: 8px;"><b>Note:</b> At the time of future inspection, if it is found that the In-charge of establishment as mentioned in the application form does not operate the institution or violate the rules or if any other type of irregularity found in the working, then the registration of the institution can be cancelled without any prior notice.</p>
+    <p>&nbsp;</p>
+    <br clear="all" />
+    <p>
+    </p>
+</div>
+<script>
+    function PrintDoc() {
+        // $('#tableID').DataTable().destroy();
+        var toPrint = document.getElementById('prodiv');
+
+        var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+        popupWin.document.open();
+
+        popupWin.document.write('<html><title>::Receipt::</title><head><style>body{font-family:Arial} .noprint{display: none;} table{width:100%; border-collapse:collapse;} .table tr th, .table tr td{border:1px solid #000; padding:3px 5px; font-size: 12px;}</style></head><body onload="window.print()">')
+
+        popupWin.document.write(toPrint.innerHTML);
+
+        popupWin.document.write('</body></html>');
+
+        popupWin.document.close();
+
+        // $('#tableID').DataTable();
+
+    }
+</script>

@@ -1,0 +1,83 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ProcessType
+@{
+    ViewBag.Title = "AppliedApplicationAGC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+    PermissionModel objPerm = new PermissionModel();
+    objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.AGC));
+}
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">आयु प्रमाणपत्र का पंजीकरण<span class="small display-block">Issuance of Age Certificate</span></div>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @if (objPerm.IsSrvProcessPer || SM.RollID == 2)
+    {
+        <h4 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">Application Process</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="circle">
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ReceivedApplicationAGC", "CMO")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            1. कुल लंबित आवेदन 
+                      <span class="nmicon2">Total Pending Application</span>
+                            <span class="nmicon badge">@Model.totalAppReceived</span> </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("InProcessApplicationAGC", "CMO")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            2. आवेदन प्रक्रिया में है
+                      <span class="nmicon2">In-Process Application </span>
+                            <span class="nmicon badge">@Model.totalAppInProcess</span> </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ApprovedApplicationAGC", "CMO")" class="indigo">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            3. स्वीकृत आवेदन 
+                      <span class="nmicon2">Approved Application </span>
+                            <span class="nmicon badge">@Model.totalAppApproved</span> </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("RejectedApplicationAGC", "CMO")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            4. अस्वीकृत आवेदन 
+                      <span class="nmicon2">Rejected Application </span>
+                            <span class="nmicon badge">@Model.totalAppRejected</span> </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <br />
+    }
+    @if (objPerm.IsSrvApplyPer || SM.RollID == 2)
+    {
+        <h4 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">Application Form - Counter Registration</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="circle">
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AGCRegistration", "AppRegistration")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            New Application </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ViewAGCInComplete", "AppRegistration")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            Incomplete Application </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ViewAGCComplete", "AppRegistration")" class="indigo">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            Complete Application </a></li>
+                </ul>
+            </div>
+        </div>
+    }
+    @if (objPerm.IsSrvReportPer || SM.RollID == 2)
+    {
+    }
+</div>
+<div class="clearfix"></div>

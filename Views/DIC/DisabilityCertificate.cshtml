@@ -1,0 +1,1134 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DICModel
+@{
+    ViewBag.Title = "DisabilityCertificate";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="content-title">
+    <h3 class="main-title">
+        <!-- InstanceBeginEditable name="Main Heading" -->
+        Application for Disability <strong>Certificate</strong><!-- InstanceEndEditable -->
+    </h3>
+</div>
+<style>
+    .form-control {
+        height: 40px !important;
+    }
+</style>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm("DisabilityCertificate", "DIC", FormMethod.Post, new { @id = "frmDisabilityCertificate" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <!-- InstanceBeginEditable name="content" -->
+            <div class="col-md-12">
+                <div class="panel panel-default" style="margin-bottom: 5px;">
+                    <div class="panel-body" style="padding: 3px 10px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong>Note :-  <span class="text-danger">All files that will be uploaded should be in .jpg and .pdf format and maximum file size should be 2080 KB (2 MB).</span></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 oldOrNew" style="display: none">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <label>Do you have certificate generated through this Portal <span class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-4 rbtnYesNo">
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.isCertFromPortal, "Yes")
+                                            Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.isCertFromPortal, "No")
+                                            No
+                                        </label>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.isCertFromPortal, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-2" id="ReleventApp" style="display: none">
+                                        <div class="form-group3">
+                                            <label>Upload Previous Certificate</label>
+                                            <div class="fileUpload3">
+                                                <span>Upload </span>
+                                                @Html.TextBoxFor(m => m.releventProof, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                                @Html.HiddenFor(m => m.releventProofpath)
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.releventProof, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group padding-top-10" id="releventProofVALUE" style="display: none;">
+                                            @if (!string.IsNullOrEmpty(Model.releventProofpath))
+                                            {
+                                                <a href="@Url.Content(Model.releventProofpath)" id="releventProofdoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" id="releventProofdoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="certNum" style="display: none">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <label>Certificate Number<span class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(m => m.oldCertificateNumber, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.oldCertificateNumber, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.oldCertificateNumber)
+                                    </div>
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <input type="button" id="btnSearch" class="btn btn-block btn-primary" value="SEARCH" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Personal Details</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Full Name <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.fullName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.fullName)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Father's name <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.fatherName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.fatherName, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.fatherName)
+                                </div>
+                            </div>
+                            <div class="col-md-4 birth">
+                                <div class="form-group">
+                                    <label>DOB <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.dob, new { @class = "form-control datepicker-here", @onblur = "CalculateAge();", tabindex = "3", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "true" })
+                                    @Html.TextBox("txtDob", null, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.dob, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.dob)
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Age </label>
+                                    @Html.TextBoxFor(m => m.age, new { @class = "form-control", @readonly = "true" })
+                                    @Html.ValidationMessageFor(m => m.age, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.age)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Gender <span class="text-danger">*</span></label>
+                                    <div class="form-control">
+                                        <label>@Html.RadioButtonFor(m => m.gender, "Male", new { @readonly = "true" }) Male</label>
+                                        <label>@Html.RadioButtonFor(m => m.gender, "Female") Female</label>
+                                        <label>@Html.RadioButtonFor(m => m.gender, "Transgender") Transgender</label>
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.gender, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.gender)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Category <span class="text-danger">*</span></label>
+                                    @* @Html.TextBoxFor(m => m.categoryName, new { @class = "form-control"})*@
+                                    @Html.DropDownListFor(m => m.categoryId, (IEnumerable<SelectListItem>)ViewBag.Category, "--Select--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.categoryId, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.categoryId)
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mobile No <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @maxlength = "10" })
+                                    @Html.ValidationMessageFor(m => m.mobileNo, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.mobileNo)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Email Address </label>
+                                    @Html.TextBoxFor(m => m.emailId, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.emailId)
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Aadhaar Number</label>
+                                    @Html.TextBoxFor(m => m.adharNumber, new { @class = "form-control", @maxlength = "12" })
+                                    @Html.ValidationMessageFor(m => m.adharNumber, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.adharNumber)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Complete Address </h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Address <span class="text-danger">*</span></label>
+                                    @Html.TextAreaFor(m => m.address, new { @class = "form-control", @placeholder = "Address", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>State </label>
+                                    @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State, new { @class = "form-control", @readonly = "true", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.stateId)
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>District <span class="text-danger">*</span></label>
+                                    @Html.DropDownListFor(m => m.districtId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.districtId, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.districtId)
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Pin code <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", @maxlength = 6, @placeholder = "Pin Code", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.pinCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Disability Description </h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Disability Type <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.disabilityTypeId, (IEnumerable<SelectListItem>)ViewBag.Disability, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.disabilityTypeId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 dis" style="display: none">
+                                <div class="form-group">
+                                    <label>Please Specify Other Disability Type <span class="text-danger">*</span></label>
+                                    <br />
+                                    <label id="lblmultiple" style="display: none">Use , in case of multiple disability</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 dis" style="display: none">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.disabilityType, new { @class = "form-control", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.disabilityType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Disability Details <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.TextAreaFor(m => m.disabilityDetail, new { @class = "form-control", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.disabilityDetail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Upload Documents </h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-7">
+                                            <label>Upload Photograph to show as disability proof</label>
+                                        </div>
+                                        <div class="col-md-3 margin-bottom-10" id="file-5">
+                                            <div class="fileUpload3">
+                                                <span>UPLOAD</span>
+                                                @Html.TextBoxFor(m => m.photoPath, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                                @Html.HiddenFor(m => m.photoPathpath)
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.photoPath, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group padding-top-10" id="photoPathVALUE" style="display: none;">
+                                                @if (!string.IsNullOrEmpty(Model.photoPathpath))
+                                                {
+                                                    <a href="@Url.Content(Model.photoPathpath)" id="photoPathdoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" id="photoPathdoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="col-md-7">
+                                            <label>Upload Passport Size Photo<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-3 margin-bottom-10" id="file-5">
+                                            <div class="fileUpload3">
+                                                <span>UPLOAD</span>
+                                                @Html.TextBoxFor(m => m.passportsizephoto, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                                @Html.HiddenFor(m => m.passportsizephotopath)
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.passportsizephoto, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group padding-top-10" id="passportsizephotoVALUE" style="display: none;">
+                                                @if (!string.IsNullOrEmpty(Model.passportsizephotopath))
+                                                {
+                                                    <a href="@Url.Content(Model.passportsizephotopath)" id="passportsizephotodoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" id="passportsizephotodoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="col-md-7">
+                                            <label>Photo Id Proof<span class="text-danger">*</span></label>
+                                            @Html.DropDownListFor(m => m.idProofId, (IEnumerable<SelectListItem>)ViewBag.IdProof, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                            @Html.ValidationMessageFor(m => m.idProofId, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-3 margin-top-26" id="idPath">
+                                            <div class="fileUpload3">
+                                                <span>UPLOAD</span>
+                                                @Html.TextBoxFor(m => m.idProofPath, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                                @Html.HiddenFor(m => m.idProofPathpath)
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.idProofPath, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-2  margin-top-26">
+                                            <div class="form-group padding-top-10" id="idProofPathVALUE" style="display: none;">
+                                                @if (!string.IsNullOrEmpty(Model.idProofPathpath))
+                                                {
+                                                    <a href="@Url.Content(Model.idProofPathpath)" id="idProofPathdoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" id="idProofPathdoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-7">
+                                            <label>Address Proof<span class="text-danger">*</span></label>
+                                            @Html.DropDownListFor(m => m.addressProofId, (IEnumerable<SelectListItem>)ViewBag.AddressProof, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                            @Html.ValidationMessageFor(m => m.addressProofId, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-3 margin-top-26" id="docPath">
+                                            <div class="fileUpload3">
+                                                <span>UPLOAD</span>
+                                                @Html.TextBoxFor(m => m.documentPath, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                                @Html.HiddenFor(m => m.documentPathpath)
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.documentPath, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-2  margin-top-26">
+                                            <div class="form-group padding-top-10" id="documentPathVALUE" style="display: none;">
+                                                @if (!string.IsNullOrEmpty(Model.documentPathpath))
+                                                {
+                                                    <a href="@Url.Content(Model.documentPathpath)" id="documentPathdoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" id="documentPathdoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-7">
+                                            <label>Photo Id No.<span class="text-danger">*</span></label>
+                                            @Html.TextBoxFor(m => m.photoIdNo, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.photoIdNo, "", new { @class = "text-danger" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <b>I certify that I have not appeared earlier infront of the committee for the issuances of this certificate & also I do not possess any disability certificate. So I hereby declare that all the information provided by me is correct. I request you to kindly provide me disability certificate, and I certified that my disability percentage is above 40%;
+                                    </b>
+                                    <br />
+                                    <br />
+                                    <b>
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.isNotAppeared, true)
+                                            I Agree</label>
+                                    </b>
+                                    @Html.HiddenFor(m => m.isNotAppeared)
+                                    @Html.ValidationMessageFor(m => m.isNotAppeared, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2 col-md-offset-4">
+                                    <button type="button" id="btnsubmit" class="btn btn-block btn-primary">Save</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("DisabilityCertificate", "DIC", new { RegType = @OTPL_Imp.CustomCryptography.Encrypt(@Model.appType.ToString()) })" class="btn btn-block btn-warning">Reset</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div>@Html.HiddenFor(m => m.appType)
+                @Html.HiddenFor(m => m.regisIdDIC)
+            </div>
+        </div>
+        
+@*popup*@
+        <button id="btnShowPopup" type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none;"></button>
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Preview Application Form</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 470px; overflow-y: auto;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-default">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Applying For</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanApplyingFor"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="CGTPortaldiv" style="display: none;">
+                                            <div class="col-md-6">
+                                                <label>Certificate Generated this Portal</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanCGTPortal"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="oldCertNumdiv" style="display: none;">
+                                            <div class="col-md-6">
+                                                <label>Certificate Number</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanOldCertNum"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="relproffdiv" style="display: none;">
+                                            <div class="col-md-6">
+                                                <label>Previous Certificate</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" id="spanreleventProofpath" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                            </div>
+                                        </div>
+                                        <h4>Personal Details</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Full Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanfullName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Father/Spouse Name </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanfatherName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Date Of Birth</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandob"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Gender</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spangender"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Category Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spancategoryName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Mobile Number</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanmobileNo"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Email Id</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanemailId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Aadhar Number</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanadharNumber"></span>
+                                            </div>
+                                        </div>
+                                        <h4>Complete Address</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanaddress"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>State</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanstateId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>District</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandistrictId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Pin Code</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanpinCode"></span>
+                                            </div>
+                                        </div>
+                                        <h4></h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Disability Type</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandisabilityTypeId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Other Disability Type</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandisabilityType"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Disability Detail</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandisabilityDetail"></span>
+                                            </div>
+                                        </div>
+                                        <h4>Upload Document</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Disability Photograph</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" id="spanphotoPathpath" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Photograph</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" id="spanpassportsizephotopath" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Id No.</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanphotoIdNo"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Id Proof Type</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanidProofId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Id Proof</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" id="spanidProofPathpath" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Address Proof Type</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanaddressProofId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Address Proof</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" id="spandocumentPathpath" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2 col-md-offset-4">
+                                    <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+@*popup*@       
+    }
+</div>
+<script src="~/js/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+        @*ISP Start*@
+        CalculateAge();
+         @*ISP*@
+
+        debugger;
+        if ($("#appType").val() == "new") {
+            $(".oldOrNew").hide();
+
+
+        } else {
+            $(".oldOrNew").show();
+
+        }
+
+        $('#txtDob').hide();
+    });
+    $('.rbtnAppFor input[type="radio"]').change(function () {
+
+        if (this.value == 2) {
+            $('#certType').show();
+        }
+        else {
+            $('#certType').hide();
+            $('#certNum').hide();
+            $('#ReleventApp').hide();
+            $('#ReleventApp').hide();
+            $('#releventProofVALUE').hide();
+            $('#releventProof').val('');
+            $('#releventProofpath').val('');
+            $('#oldCertificateNumber').val('');
+            $("input[name=isCertFromPortal]").removeAttr('checked');
+
+        }
+        resetField();
+    });
+    $('.rbtnYesNo input[type="radio"]').change(function () {
+
+        if (this.value == "No") {
+            $('#ReleventApp').show();
+            $('#certNum').hide();
+            $('#oldCertificateNumber').val('');
+            $('#txtDob').hide();
+            $('#dob').show();
+        }
+        else {
+            $('#ReleventApp').hide();
+            $('#releventProofVALUE').hide();
+            $('#certNum').show();
+            $('#releventProof').val('');
+            $('#releventProofpath').val('');
+            $('#txtDob').show();
+            $('#dob').hide();
+        }
+        resetField();
+    });
+
+    $("#btnsubmit").click(function () {
+        debugger;
+        var isShowPopup = true;
+        var val = $("#frmDisabilityCertificate").validate();
+        val.form();
+        val.showErrors();
+        if (!val.valid()) {
+            swal("", "Some mandatory fields are Empty, Kindly check Application Form and fill the required Data.", "warning");
+            isShowPopup = false;
+        }
+        if (isShowPopup) {
+            debugger;
+            $('#CGTPortaldiv').hide();
+            $('#oldCertNumdiv').hide();
+            $('#spanOldCertNum').text('');
+            $('#relproffdiv').hide();
+            if ($("#appType").val() == "new") {
+
+                $('#spanApplyingFor').text('New Certificate');
+                $('#relproffdiv').hide();
+            }
+            else {
+                $('#spanApplyingFor').text('Renew Certificate');
+                $('#spanCGTPortal').text($('input[id=isCertFromPortal]:checked').val());
+                if ($('input[id=isCertFromPortal]:checked').val() == "No") {
+                    $('#relproffdiv').show();
+                    var relproof = $('#releventProofpath').val().split('/');
+                    var url = '@Url.Content("~/Content/writereaddata/DIC/")' + relproof[relproof.length - 1];
+                    $('#spanreleventProofpath').removeAttr('href');
+                    $('#spanreleventProofpath').attr('href', url);
+                }
+                else {
+                    $('#CGTPortaldiv').show();
+                    $('#oldCertNumdiv').show();
+                    $('#spanOldCertNum').text($('#oldCertificateNumber').val());
+                }
+            }
+
+            $('#spanfullName').text($('#fullName').val());
+            $('#spanfatherName').text($('#fatherName').val());
+            $('#spandob').text($('#dob').val());
+            $('#spangender').text($('input[name="gender"]:checked').val());
+            $('#spancategoryName').text($('#categoryId option:selected').text());
+            //$('#spancategoryName').text($('#categoryName').val());
+            $('#spanmobileNo').text($('#mobileNo').val());
+
+            $("#spanemailId").text(($("#emailId").val() == '') ? 'NaN' : ($("#emailId").val()));
+            $("#spanadharNumber").text(($("#adharNumber").val() == '') ? 'NaN' : ($("#adharNumber").val()));
+            $('#spanstateId').text($('#stateId').text());
+            $('#spandistrictId').text($('#districtId option:selected').text());
+            $('#spanaddress').text($('#address').val());
+            $('#spanpinCode').text($('#pinCode').val());
+            var dis = $('#disabilityTypeId  option:selected').text();
+            $('#spandisabilityTypeId').text(dis);
+            if (dis == "Other" || dis == "Multiple") {
+                $('#spandisabilityType').text($('#disabilityType').val());
+            }
+            else {
+                $('#spandisabilityType').text('NaN');
+            }
+            $('#spandisabilityDetail').text($('#disabilityDetail').val());
+
+            var photo = $('#photoPathpath').val().split('/');
+            var url1 = '@Url.Content("~/Content/writereaddata/DIC/")' + photo[photo.length - 1];
+                $('#spanphotoPathpath').removeAttr('href');
+                $('#spanphotoPathpath').attr('href', url1);
+
+                $('#spanphotoIdNo').text($('#photoIdNo').val());
+                var Profilephoto = $('#passportsizephotopath').val().split('/');
+                var url4 = '@Url.Content("~/Content/writereaddata/DIC/")' + Profilephoto[Profilephoto.length - 1];
+            $('#spanpassportsizephotopath').removeAttr('href');
+            $('#spanpassportsizephotopath').attr('href', url4);
+
+            $('#spanidProofId').text($('#idProofId option:selected').text());
+
+            var ID = $('#idProofPathpath').val().split('/');
+            var url2 = '@Url.Content("~/Content/writereaddata/DIC/")' + ID[ID.length - 1];
+            $('#spanidProofPathpath').removeAttr('href');
+            $('#spanidProofPathpath').attr('href', url2);
+
+            $('#spanaddressProofId').text($('#addressProofId option:selected').text());
+
+            var doc = $('#documentPathpath').val().split('/');
+            var url3 = '@Url.Content("~/Content/writereaddata/DIC/")' + doc[doc.length - 1];
+            $('#spandocumentPathpath').removeAttr('href');
+            $('#spandocumentPathpath').attr('href', url3);
+            $('#spanappearDate').text($('#appearDate').val());
+            $('#btnShowPopup').click();
+            setTimeout(function () {
+                $('.modal-body').scrollTop(0);
+            }, 300);
+        }
+    });
+    $("#disabilityTypeId").click(function () {
+        if ($("#disabilityTypeId").val() == 6)//Multiple
+        {
+            $("#lblmultiple").show();
+            $(".dis").show();
+        } else if ($("#disabilityTypeId").val() == 7)//other
+        {
+            $("#lblmultiple").hide();
+            $(".dis").show();
+        }
+        else {
+            $("#lblmultiple").hide();
+            $(".dis").hide();
+        }
+    })
+    function Fileupload(obj) {
+        var fileId = $(obj).attr("id");
+        var ext = obj.value.match(/\.(.+)$/)[1];
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+                var fileSize = ($("#" + fileId)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + fileId).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "DIC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            $("#" + fileId + "path").val(response[1]);
+
+                            $("#" + fileId + "VALUE").show();
+                            var Url = response[1].replace('~/', '');
+                            $("#" + fileId + "doc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+
+                            return false;
+                        },
+                        error: function () {
+                        }
+                    });
+                }
+                break;
+            default:
+                swal("", 'This is not an allowed file type only pdf and jpg  file valid for this', "warning");
+                this.value = '';
+                return false;
+        }
+    }
+    var strDate = @DateTime.Now.Year -1 + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#dob').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    $("#btnSearch").click(function () {
+        if ($("#oldCertificateNumber").val().trim() != '' && $("#oldCertificateNumber").val().trim() != null) {
+            bindDataForRevisedCertificate($("#oldCertificateNumber").val());
+        }
+        else {
+            swal("", 'Enter Certificate Number!', "warning");
+        }
+    });
+
+    function bindDataForRevisedCertificate(_oldCertificateNumber) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("GetDICdetailByCertNo", "DIC")',
+            data: { oldCertificateNumber: _oldCertificateNumber },
+            type: 'GET',
+            dataType: 'json'
+        })
+        .success(function (returndata) {
+
+            if (returndata != null && returndata != '') {
+                if (returndata.regisIdDIC == "0" && returndata.msg == "1") {
+                    $('#fullName').val('');
+                    $('#fullName').attr('readonly', false);
+                    $('#fatherName').val('');
+                    $('#fatherName').attr('readonly', false);
+                    $('#dob').val('');
+                    $("input[name=gender]").prop('checked', false);
+                    $("input[name=gender]").prop('disabled', false);
+                    $('#categoryId').val('');
+                    $("#categoryId").prop("disabled", false);
+                    $('#mobileNo').val('');
+                    $('#mobileNo').attr('readonly', false);
+                    $('#age').val('');
+                    $('#emailId').val('');
+                    $('#emailId').attr('readonly', false);
+                    $('#adharNumber').val('');
+                    $('#adharNumber').attr('readonly', false);
+
+
+                    swal("", 'Details not found for given Certificate Number!', "warning");
+                }
+                else if (returndata.regisIdDIC == "0" && returndata.msg == "2") {
+                    $('#fullName').val('');
+                    $('#fullName').attr('readonly', false);
+                    $('#fatherName').val('');
+                    $('#fatherName').attr('readonly', false);
+                    $('#dob').val('');
+                    $("input[name=gender]").prop('checked', false);
+                    $("input[name=gender]").prop('disabled', false);
+                    $('#categoryId').val('');
+                    $("#categoryId").prop("disabled", false);
+                    $('#mobileNo').val('');
+                    $('#mobileNo').attr('readonly', false);
+                    $('#age').val('');
+                    $('#emailId').val('');
+                    $('#emailId').attr('readonly', false);
+                    $('#adharNumber').val('');
+                    $('#adharNumber').attr('readonly', false);
+
+
+                    swal("", 'Provide your latest certificate number!', "warning");
+                }
+                else {
+                    debugger;
+                    $("#regisIdDIC").val(returndata.regisIdDIC);
+                    $('#fullName').val(returndata.fullName);
+                    $('#fullName').attr('readonly', true);
+                    $('#fatherName').val(returndata.fatherName);
+                    $('#fatherName').attr('readonly', true);
+                    $('#dob').val(returndata.dob);
+                    CalculateAge();
+                    $("input[name=gender][value=" + returndata.gender + "]").prop('checked', true);
+                    $("input[name=gender]").prop('disabled', true);
+                    $('#categoryId').val(returndata.categoryId);
+                    $("#categoryId").prop("disabled", true);
+                    $('#mobileNo').val(returndata.mobileNo);
+                    $('#mobileNo').attr('readonly', true);
+                    $('#emailId').val(returndata.emailId);
+                    $('#adharNumber').val(returndata.adharNumber);
+                    $('#adharNumber').attr('readonly', true);
+                    $('#oldCertificateNumber').attr('readonly', true);
+                    $("input[name=isCertFromPortal]").prop('disabled', true);
+                    $('#txtDob').val(returndata.dob);
+                }
+            }
+        })
+        .error(function (xhr, status) {
+            $('#fullName').val('');
+            $('#fullName').attr('readonly', false);
+            $('#fatherName').val('');
+            $('#fatherName').attr('readonly', false);
+            $('#dob').val('');
+            $("input[name=gender]").prop('checked', false);
+            $("input[name=gender]").prop('disabled', false);
+            $('#categoryId').val('');
+            $("#categoryId").prop("disabled", false);
+            $('#mobileNo').val('');
+            $('#mobileNo').attr('readonly', false);
+            $('#age').val('');
+            $('#emailId').val('');
+            $('#emailId').attr('readonly', false);
+            $('#adharNumber').val('');
+            $('#adharNumber').attr('readonly', false);
+            swal("", 'Details not found for given Certificate Number!', "warning");
+
+        });
+    }
+
+    function resetField() {
+        $('#fullName').val('');
+        $('#fatherName').val('');
+        $('#dob').val('');
+        $('#age').val('');
+        $("input[name=gender]").removeAttr('checked');
+        $('#categoryId').val('');
+        $('#emailId').val('');
+        $('#adharNumber').val('');
+        $('#address').val('');
+        $('#districtId').val('');
+        $('#pinCode').val('');
+        $('#disabilityType').val('');
+        $('#disabilityDetail').val('');
+    }
+
+    function CalculateAge() {
+        var DOB = $("#dob").val();
+
+        if (DOB != "") {
+            var values = DOB.split("/");
+            var date = values[0];
+            var month = values[1];
+            var year = values[2];
+
+            var currentdate = new Date();
+            var currentyear = currentdate.getYear() + 1900;
+            var currentmonth = currentdate.getMonth() + 1;
+            var currentdate = currentdate.getDate();
+
+            var calculateYear = currentyear - year;
+            var calculatemonth = 0;
+            var calculatedate = 0;
+            if (month > currentmonth) {
+                calculateYear--;
+                calculatemonth = month - currentmonth;
+            }
+
+            $("#age").val(calculateYear);
+        }
+
+    }
+    @*ISP START*@
+
+    $(document).ready(function () {
+        if ('@TempData["ApplicantCommanDetails1"] ' != '' && '@TempData["ApplicantCommanDetails1"]' != '') {
+              readonlyControlles();
+          }
+
+
+      });
+      function readonlyControlles() {
+
+          
+          $('#fullName').attr("readonly", true);
+          $('#fatherName').attr("readonly", true);
+          $('#mobileNo').attr("readonly", true);
+          $('#emailId').attr("readonly", true);
+          $('#opdAddress').attr("readonly", true);
+          $('#opdPinCode').attr("readonly", true);
+          var data = '@TempData["Gender"]';
+
+        if (data == "Male") {
+            $('input:radio[name="rbtnGender"]').filter('[value="Male"]').attr('checked', true);
+            $('#inputId').attr('readonly', true);
+        }
+        if (data == "Female") {
+            $('input:radio[name="rbtnGender"]').filter('[value="Female"]').attr('checked', true);
+            $('#inputId').attr('readonly', true);
+        }
+        if (data == "Transgender") {
+            $('input:radio[name="rbtnGender"]').filter('[value="Transgender"]').attr('checked', true);
+            $('#rbtnGender').attr('readonly', true);
+        }
+
+
+        $('#categoryId').attr("style", "pointer-events: none;");
+     /* $('#markOfIdentification').attr("disabled", true);*/
+
+    }
+
+    @*ISP END*@
+
+</script>

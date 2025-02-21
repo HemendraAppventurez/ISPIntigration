@@ -1,0 +1,1452 @@
+
+
+/* ********** Default Theme Style************* */
+/*@import url('https://fonts.googleapis.com/css?family=Eczar:400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700');*/
+
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 100;
+    src: local('Lato Hairline'), local('Lato-Hairline'), url(../fonts/lato_normal100_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 100;
+    src: local('Lato Hairline'), local('Lato-Hairline'), url(../fonts/lato_normal100_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Lato Light'), local('Lato-Light'), url(../fonts/lato_normal300_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Lato Light'), local('Lato-Light'), url(../fonts/lato_normal300_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Lato Regular'), local('Lato-Regular'), url(../fonts/lato_normal400_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Lato Regular'), local('Lato-Regular'), url(../fonts/lato_normal400_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Lato Bold'), local('Lato-Bold'), url(../fonts/lato_normal700_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Lato Bold'), local('Lato-Bold'), url(../fonts/lato_normal700_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Lato Black'), local('Lato-Black'), url(../fonts/lato_normal900_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Lato Black'), local('Lato-Black'), url(../fonts/lato_normal900_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 100;
+    src: local('Lato Hairline Italic'), local('Lato-HairlineItalic'), url(../fonts/lato_italic100_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 100;
+    src: local('Lato Hairline Italic'), local('Lato-HairlineItalic'), url(../fonts/lato_italic100_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 300;
+    src: local('Lato Light Italic'), local('Lato-LightItalic'), url(../fonts/lato_italic300_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 300;
+    src: local('Lato Light Italic'), local('Lato-LightItalic'), url(../fonts/lato_italic300_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Lato Italic'), local('Lato-Italic'), url(../fonts/lato_italic400_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Lato Italic'), local('Lato-Italic'), url(../fonts/lato_italic400_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 700;
+    src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(../fonts/lato_italic700_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 700;
+    src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(../fonts/lato_italic700_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin-ext */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 900;
+    src: local('Lato Black Italic'), local('Lato-BlackItalic'), url(../fonts/lato_italic900_ext_webfont.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face
+{
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: 900;
+    src: local('Lato Black Italic'), local('Lato-BlackItalic'), url(../fonts/lato_italic900_webfont.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+body, html
+{
+}
+
+body
+{
+    position: relative;
+}
+
+#app-container
+{
+    background-color: #e9edf0;
+}
+
+#app-wrapper a:focus
+{
+    outline: none;
+}
+
+#app-wrapper
+{
+    /*background: #eef1f6;*/
+    color: #333;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300 !important;
+    direction: ltr;
+    line-height: 20px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/************** 3. Theme Header Style Start Here ********************/
+
+#app-header
+{
+    background: #fff none repeat scroll 0 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 10;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.app-left-header
+{
+    background: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 50px;
+    position: absolute;
+    float: left;
+    text-align: center;
+    width: 230px;
+    z-index: 999;
+}
+
+    .app-left-header a
+    {
+        color: #1C3669;
+    }
+
+        .app-left-header a:hover,
+        .app-left-header a:focus
+        {
+            color: #1C3669;
+            text-decoration: none;
+        }
+
+        .app-left-header a i
+        {
+            color: #003c70;
+            font-size: 22px;
+            position: relative;
+            top: 3px;
+        }
+
+.app-right-header
+{
+    background: #099db1 none repeat scroll 0 0;
+    height: 65px;
+    line-height: 65px;
+    z-index: 101;
+    position: relative;
+}
+
+    .app-right-header > ul
+    {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+    .app-right-header li
+    {
+        display: inline;
+        float: left;
+    }
+
+    .app-right-header > li a
+    {
+        color: #7e7e7e;
+        padding: 17px 15px;
+    }
+
+    .app-right-header li a:hover,
+    .app-right-header li a:focus
+    {
+        background: rgba(0, 0, 0, 0.14) none repeat scroll 0 0;
+        text-decoration: none;
+    }
+
+    .app-right-header a i
+    {
+        color: #087e8e;
+        font-size: 14px;
+    }
+
+.right-navbar
+{
+    float: right;
+    padding-right: 7px !important;
+}
+
+    .right-navbar li a i
+    {
+        font-size: 14px;
+    }
+
+.left-navbar > li:first-child
+{
+    padding-left: 50px;
+}
+
+.nav .active
+{
+    background-color: #fff;
+    color: #000 !important;
+    box-shadow: 0px 0px 5px rgba(0,0,0,.3);
+}
+
+.app-sidebar-toggle a:after
+{
+    background: transparent;
+    border: 0px solid #efefef;
+    content: "\f0c9";
+    font-family: FontAwesome;
+    font-size: 14px;
+    line-height: 65px;
+    padding: 0px 17px;
+    position: absolute;
+    color: #fff;
+    z-index: 1000;
+}
+
+.app-sidebar-toggle a:hover:after
+{
+    background: rgba(255,255,255,.2);
+    color: #FFF;
+}
+
+.app-left-header > .app-sidebar-toggle > a
+{
+    display: none;
+}
+
+#app-header .app-left-header[app-position-type="relative"]
+{
+    position: relative;
+}
+
+#app-header .app-left-header[app-position-type="absolute"]
+{
+    position: absolute;
+}
+
+#app-header .app-left-header[app-position-type="fixed"]
+{
+    position: fixed;
+}
+
+#app-header .app-right-header[app-position-type="relative"]
+{
+    position: relative;
+}
+
+#app-header .app-right-header[app-position-type="absolute"]
+{
+    position: absolute;
+}
+
+#app-header .app-right-header[app-position-type="fixed"]
+{
+    padding-right: 230px;
+    position: fixed;
+    width: 100%;
+}
+/*******************************Theme Header Style Close Here ***********************************/
+/******************************* 4. main container Style start Here ***********************************/
+#app-container
+{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 700px;
+    position: relative;
+}
+/************************* 4.1 Theme Left Panel Style Start Here *********************************/
+.app-minimized-lpanel #app-left-panel .panel-list > li > a i.ion
+{
+    position: initial;
+}
+
+#app-left-panel
+{
+    background-color: #FFF;
+    color: #7e7e7e;
+    float: left;
+    min-height: 100%;
+    position: fixed;
+    top: 0;
+    width: 230px;
+    z-index: 100;
+    transition-duration: .2s;
+    box-shadow: 0px 0px 10px rgba(0,0,0,.2);
+}
+
+    #app-left-panel .profile-box
+    {
+        background-color: #099db1;
+        background-image: url(../images/probg.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: bottom;
+        min-height: 50px;
+        padding: 12px;
+        position: relative;
+        text-align: center;
+    }
+
+    #app-left-panel .adminprofile-box
+    {
+        background-image: url(../images/aprobg.png);
+    }
+
+    #app-left-panel .profile-box .media a img
+    {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 10px;
+    }
+
+    #app-left-panel .profile-box .media
+    {
+        position: relative;
+    }
+
+        #app-left-panel .profile-box .media a
+        {
+            margin-top: 2px;
+        }
+
+            #app-left-panel .profile-box .media a > img
+            {
+                border: 3px solid rgba(255,255,255,.3);
+            }
+
+
+    #app-left-panel ul
+    {
+        width: 230px;
+        margin: 0;
+        padding: 0;
+    }
+
+    #app-left-panel .nav-level
+    {
+        background-color: #0072C9;
+        color: #fff;
+        font-weight: bold;
+        padding: 12px 15px;
+        text-transform: uppercase;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu
+    {
+        list-style: none;
+    }
+
+    #app-left-panel .panel-list > li
+    {
+        border-bottom: 1px solid #e9e9e9;
+        display: table;
+        width: 100%;
+    }
+
+        #app-left-panel .panel-list > li:last-child
+        {
+            border-bottom: 0px solid #e9e9e9;
+        }
+
+        #app-left-panel .panel-list > li > a
+        {
+            border-top: 1px solid rgba(239, 239, 239, 0.11);
+            color: #1C3669;
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 15px 10px;
+            position: relative;
+        }
+
+        #app-left-panel .panel-list > li:last-child > a
+        {
+            border-bottom: 1px solid rgba(239, 239, 239, 0.11);
+        }
+
+        #app-left-panel .panel-list > li:first-child > a
+        {
+            border-top: 0px solid #efefef;
+        }
+
+        #app-left-panel .panel-list > li > a:hover,
+        #app-left-panel .panel-list > li > a:focus
+        {
+            color: #000;
+            background: #e0e4e7;
+        }
+
+        #app-left-panel .panel-list > li.active > a
+        {
+            background: #f1f1f1;
+            border-top: 1px solid #efefef;
+            color: #000;
+        }
+
+        #app-left-panel .panel-list > li > a > i
+        {
+            display: table-cell;
+            font-size: 16px;
+            padding-right: 6px;
+            color: #0072C9;
+            text-align: center;
+        }
+
+        #app-left-panel .panel-list > li > a span.menu-text2
+        {
+            display: inline-block;
+            padding: 0px 0px 0px 35px;
+        }
+
+        #app-left-panel .panel-list > li > a span.menu-text
+        {
+            position: relative;
+            display: inline-block;
+            padding: 0px 0px 0px 35px;
+            margin: 0px;
+        }
+
+        #app-left-panel .panel-list > li.app-has-menu > a:after
+        {
+            font-family: FontAwesome;
+            content: "\f107";
+            font-size: 15px;
+            position: relative;
+            float: right;
+        }
+
+        #app-left-panel .panel-list > li.app-has-menu.opened > a
+        {
+            background: #f1f1f1;
+            color: #000;
+        }
+
+            #app-left-panel .panel-list > li.app-has-menu.opened > a:after
+            {
+                font-family: FontAwesome;
+                content: "\f106" !important;
+                font-size: 15px;
+                float: right;
+                position: relative;
+            }
+
+        #app-left-panel .panel-list > li.app-has-menu li.app-has-menu > a:after
+        {
+            font-family: FontAwesome;
+            content: "\f103";
+            font-size: 15px;
+            position: relative;
+            float: right;
+        }
+
+        #app-left-panel .panel-list > li.app-has-menu li.app-has-menu.opened > a:after
+        {
+            font-family: FontAwesome;
+            content: "\f102";
+            font-size: 15px;
+            position: relative;
+            float: right;
+        }
+
+    #app-left-panel .panel-list ul
+    {
+        background: #fafafa;
+        box-shadow: -1px 2px 3px 0px rgba(0, 0, 0, 0.2);
+    }
+
+        #app-left-panel .panel-list ul.app-sub-menu li > a
+        {
+            background: transparent;
+            border-top: 1px solid #efefef;
+            color: #7e7e7e;
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 10px 10px 30px;
+            position: relative;
+        }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu
+    {
+        display: none;
+    }
+
+    #app-left-panel .panel-list li.app-has-menu > ul.app-sub-menu li > a:hover,
+    #app-left-panel .panel-list li.app-has-menu > ul.app-sub-menu li > a:focus
+    {
+        text-decoration: none;
+        color: #000;
+        background: #f1f1f1;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul ul
+    {
+        display: none;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu.opened > ul
+    {
+        display: block;
+    }
+
+        #app-left-panel .panel-list > li.app-has-menu.opened > ul > li.app-has-menu.opened > ul
+        {
+            display: block;
+        }
+
+            #app-left-panel .panel-list > li.app-has-menu.opened > ul > li.app-has-menu.opened > ul > li.app-has-menu.opened > ul
+            {
+                display: block;
+            }
+
+    #app-left-panel .panel-list > li.app-has-menu.active > ul
+    {
+        display: block;
+    }
+
+        #app-left-panel .panel-list > li.app-has-menu.active > ul > li.app-has-menu.active > ul
+        {
+            display: block;
+        }
+
+            #app-left-panel .panel-list > li.app-has-menu.active > ul > li.app-has-menu.active > ul > li.app-has-menu.active > ul
+            {
+                display: block;
+            }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul > li > a span.menu-text
+    {
+        padding-left: 15px;
+        position: relative;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu
+    {
+        list-style: outside none none;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu li.app-has-menu > ul.app-sub-menu
+    {
+        list-style: outside none none;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu
+    {
+        list-style: outside none none;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul > li.app-has-menu > ul > li > a span.menu-text
+    {
+        padding-left: 25px;
+        position: relative;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul > li.app-has-menu > ul > li > ul > li > a span.menu-text
+    {
+        padding-left: 35px;
+        position: relative;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul > li.app-has-menu > ul > li > ul > li > ul > li > a span.menu-text
+    {
+        padding-left: 40px;
+        position: relative;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li > a span.menu-text:before
+    {
+        font-family: FontAwesome;
+        content: "\f0da";
+        font-size: 14px;
+        position: relative;
+        float: left;
+        left: 4px;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li > a span.menu-text:before
+    {
+        font-family: FontAwesome;
+        content: "\f0da";
+        font-size: 12px;
+        position: relative;
+        float: left;
+        left: 15px;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li > a span.menu-text:before
+    {
+        font-family: FontAwesome;
+        content: "\f0da";
+        font-size: 14px;
+        position: relative;
+        float: left;
+        left: 18px;
+    }
+
+    #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li > a span.menu-text:before
+    {
+        font-family: FontAwesome;
+        content: "\f0da";
+        font-size: 12px;
+        position: relative;
+        float: left;
+        left: 30px;
+    }
+
+    #app-left-panel .panel-list li.active > a .selected
+    {
+        border-bottom: 7px solid transparent;
+        border-right: 7px solid #7e7e7e;
+        border-top: 7px solid transparent;
+        display: inline-block;
+        height: 0;
+        position: absolute;
+        right: 0;
+        top: 13px;
+        vertical-align: middle;
+        width: 0;
+    }
+
+    #app-left-panel .panel-list li.app-has-menu.active > a .selected
+    {
+        display: none;
+    }
+
+    #app-left-panel .panel-list li a .label
+    {
+        border-radius: 0.25em;
+        color: #7e7e7e;
+        display: inline;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        padding: 4px 3px;
+        position: absolute;
+        right: 10px;
+        text-align: center;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+
+.sul
+{
+    background-color: #ebebeb;
+}
+
+#app-left-panel[app-position-type="relative"]
+{
+    position: relative;
+}
+
+#app-left-panel[app-position-type="absolute"]
+{
+    position: absolute;
+}
+
+#app-left-panel[app-position-type="fixed"]
+{
+    position: fixed;
+    top: 50px;
+}
+
+/********************************** Theme Left Panel Style Close Here ******************************/
+/*************************** 4.2 Theme Content Section Style Start Here ********************************/
+#main-content
+{
+    margin-left: 230px;
+    position: relative;
+    transition-duration: .2s;
+}
+/******************* Theme Content Section Style Close Here *******************************/
+/****************** 4.3 Minimized Left Panel Style Start Here *********************************/
+#app-header.app-minimized-lpanel > .app-right-header[app-position-type="fixed"]
+{
+    margin-left: 50px;
+    padding-right: 50px;
+}
+
+#app-header.app-minimized-lpanel > .app-left-header
+{
+    width: 50px;
+}
+
+    #app-header.app-minimized-lpanel > .app-left-header > a > span
+    {
+        display: none;
+    }
+
+#app-header.app-minimized-lpanel > .app-right-header
+{
+    margin-left: 0px;
+    padding-right: 0px;
+}
+
+.app-minimized-lpanel #app-left-panel
+{
+    width: 50px;
+}
+
+    .app-minimized-lpanel #app-left-panel .profile-box
+    {
+        border-bottom: 0px solid #efefef;
+    }
+
+    .app-minimized-lpanel #app-left-panel .media-body
+    {
+        display: none;
+    }
+
+    .app-minimized-lpanel #app-left-panel .profile-box
+    {
+        padding: 5px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .nav-level
+    {
+        display: none;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li > a span.menu-text
+    {
+        display: none;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > a:after
+    {
+        display: none;
+    }
+
+    .app-minimized-lpanel #app-left-panel .profile-box .media a img
+    {
+        width: 40px;
+        height: 40px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li > a > i
+    {
+        display: inline;
+        font-size: 21px;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li:hover > a,
+    .app-minimized-lpanel #app-left-panel .panel-list > li:focus > a
+    {
+        display: block;
+        position: relative;
+        width: 230px;
+        margin-bottom: -1px;
+        border-radius: 0px 4px 4px 0px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li:hover > a,
+    .app-minimized-lpanel #app-left-panel .panel-list > li:focus > a
+    {
+        border-radius: 0px 4px 4px 0px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu:hover > a,
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu:focus > a
+    {
+        border-radius: 0px 4px 0px 0px;
+        background: #f1f1f1;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li:hover > a span.menu-text,
+    .app-minimized-lpanel #app-left-panel .panel-list > li:focus > a span.menu-text
+    {
+        display: inline-block;
+        position: absolute;
+        left: 52px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list ul.app-sub-menu li
+    {
+        list-style: none;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu
+    {
+        display: none !important;
+        position: absolute;
+        left: 50px;
+        width: 180px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu:hover > ul.app-sub-menu,
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu:focus > ul.app-sub-menu
+    {
+        display: block !important;
+        border-right: 1px solid #efefef;
+        width: 180px;
+        left: 50px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu ul.app-sub-menu
+    {
+        display: none !important;
+        position: absolute;
+        width: 180px;
+        left: 0;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu:hover > ul.app-sub-menu ul.app-sub-menu,
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu:focus > ul.app-sub-menu ul.app-sub-menu
+    {
+        display: none !important;
+        left: 0px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu:hover > ul.app-sub-menu,
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu:focus > ul.app-sub-menu
+    {
+        display: block !important;
+        position: relative;
+        left: 0px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li.app-has-menu:hover > ul.app-sub-menu,
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li.app-has-menu:focus > ul.app-sub-menu
+    {
+        display: block !important;
+        position: relative;
+        left: 0px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu li.app-has-menu > a:after
+    {
+        display: none;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu li.app-has-menu > a:after
+    {
+        font-family: FontAwesome;
+        content: "\f103";
+        font-size: 15px;
+        position: relative;
+        float: right;
+        display: block;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu li.app-has-menu:hover > a:after,
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu li.app-has-menu:focus > a:after
+    {
+        font-family: FontAwesome;
+        content: "\f102";
+        font-size: 15px;
+        position: relative;
+        float: right;
+        display: block;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list li.app-has-menu.active > li.active a .selected
+    {
+        display: block;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.active:hover > a .selected,
+    .app-minimized-lpanel #app-left-panel .panel-list > li.active:focus > a .selected
+    {
+        display: none;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu li > a span.menu-text
+    {
+        padding-left: 15px;
+        position: relative;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li > a span.menu-text:before
+    {
+        left: 4px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li.app-has-menu > ul.app-sub-menu > li > a span.menu-text:before
+    {
+        left: 4px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list li .label
+    {
+        display: none;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list li:hover a .label
+    {
+        display: block;
+        position: absolute;
+        right: 5px;
+        top: 10px;
+    }
+
+    .app-minimized-lpanel #app-left-panel .panel-list > li.app-has-menu.opened > a
+    {
+        background: #f1f1f1;
+        color: #000;
+    }
+
+.app-minimized-lpanel #main-content
+{
+    margin-left: 50px;
+}
+/****************** Minimized Left Panel Style Start Here *********************************/
+
+/******************* 4.4 Theme Style for Phone start here***************************************/
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-left-panel
+{
+    display: none;
+}
+
+#app-wrapper[app-device-type="phone"] #app-header
+{
+    position: none;
+    height: 100px;
+}
+
+#app-wrapper[app-device-type="phone"] .app-left-header
+{
+    width: 100%;
+    float: none;
+}
+
+#app-wrapper[app-device-type="phone"] #app-left-panel[app-position-type="fixed"]
+{
+    top: 100px;
+}
+
+#app-wrapper[app-device-type="phone"] .app-right-header
+{
+    width: 100%;
+    padding-left: 0px !important;
+    position: relative;
+    z-index: 999;
+    top: 50px;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-left-panel
+{
+    display: none;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel .app-right-header
+{
+    margin-left: 0px;
+}
+
+#app-wrapper[app-device-type="phone"] .app-right-header
+{
+    margin-left: 0px;
+}
+
+#app-wrapper[app-device-type="phone"] #app-left-panel
+{
+    display: block;
+    z-index: 1024;
+}
+
+#app-wrapper[app-device-type="phone"] #main-content
+{
+    margin-left: 0px;
+}
+
+
+
+#app-wrapper[app-device-type="phone"] .app-left-header > .app-sidebar-toggle > a
+{
+    display: block;
+}
+
+#app-wrapper[app-device-type="phone"] #app-header > .app-right-header .app-sidebar-toggle a:after
+{
+    display: none !important;
+}
+
+#app-wrapper[app-device-type="desktop"] .app-left-header .app-sidebar-toggle a:after
+{
+    display: none !important;
+}
+
+#app-wrapper[app-device-type="tablet"] .app-left-header .app-sidebar-toggle a:after
+{
+    display: none !important;
+}
+
+#app-wrapper[app-device-type="phone"] .app-left-header .app-sidebar-toggle a:after
+{
+    background: transparent;
+    border-radius: 4px;
+    content: "";
+    font-family: FontAwesome;
+    font-size: 16px;
+    left: 5px;
+    line-height: 39px;
+    padding: 1px 13px;
+    position: absolute;
+    top: 3px;
+    z-index: 1000;
+    display: block !important;
+    color: #003c70;
+    border: 0px solid #003c70;
+    font-size: 14px;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-container[app-lpanel-effect="shrink"] #main-content
+{
+    margin-left: 0px;
+}
+
+#app-wrapper[app-device-type="phone"] #app-container[app-lpanel-effect="shrink"] #main-content
+{
+    margin-left: 230px;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-container[app-lpanel-effect="overlay"] #main-content
+{
+    margin-left: 0px;
+}
+
+#app-wrapper[app-device-type="phone"] #app-container[app-lpanel-effect="overlay"] #main-content
+{
+    margin-left: 0px;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-container[app-lpanel-effect="push"] #main-content
+{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#app-wrapper[app-device-type="phone"] #app-container[app-lpanel-effect="push"] #main-content
+{
+    margin-left: 230px;
+    margin-right: -230px;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-header[app-lpanel-effect="shrink"] .app-right-header[app-position-type="relative"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-header[app-lpanel-effect="shrink"] .app-right-header[app-position-type="fixed"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"] #app-header[app-lpanel-effect="shrink"] .app-right-header[app-position-type="relative"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"] #app-header[app-lpanel-effect="shrink"] .app-right-header[app-position-type="fixed"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-header[app-lpanel-effect="overlay"] .app-right-header[app-position-type="relative"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-header[app-lpanel-effect="overlay"] .app-right-header[app-position-type="fixed"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"]#app-header[app-lpanel-effect="overlay"] .app-right-header[app-position-type="relative"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"] #app-header[app-lpanel-effect="overlay"] .app-right-header[app-position-type="fixed"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-header[app-lpanel-effect="push"] .app-right-header[app-position-type="relative"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"].app-hide-lpanel #app-header[app-lpanel-effect="push"] .app-right-header[app-position-type="fixed"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"] #app-header[app-lpanel-effect="push"] .app-right-header[app-position-type="relative"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+
+#app-wrapper[app-device-type="phone"] #app-header[app-lpanel-effect="push"] .app-right-header[app-position-type="fixed"]
+{
+    margin-left: 0px;
+    padding-right: 0;
+}
+/****************************** Theme Style for Phone Close here **********************************/
+
+/*******************************main container Style Close Here ***********************************/
+
+/****************************** Default Theme Style Close ******************************************/
+
+/*Boxed Theme Layout Style Start*/
+body[theme-layout="box-layout"] #app-wrapper[app-device-type="desktop"]
+{
+    width: 96%;
+    margin: 0 auto;
+}
+/*Boxed Theme Layout Style Close*/
+
+/*Theme Background Color in Start */
+body[theme-layout="box-layout" app-nav-placement="right"] #app-wrapper[app-device-type="desktop"]
+{
+    margin: 0 auto;
+}
+
+body[theme-bg="bg1"]
+{
+    background-image: url("../images/bg1.png");
+}
+
+body[theme-bg="bg2"]
+{
+    background-image: url("../images/bg2.png");
+}
+
+body[theme-bg="bg3"]
+{
+    background-image: url("../images/bg3.png");
+}
+
+body[theme-bg="bg4"]
+{
+    background-image: url("../images/bg4.png");
+}
+
+body[theme-bg="bg5"]
+{
+    background-image: url("../images/bg5.png");
+}
+
+body[theme-bg="bg6"]
+{
+    background-image: url("../images/bg6.png");
+}
+
+body[theme-bg="bg7"]
+{
+    background-image: url("../images/bg7.png");
+}
+
+body[theme-bg="bg8"]
+{
+    background-image: url("../images/bg8.png");
+}
+
+body[theme-bg="bg9"]
+{
+    background-image: url("../images/bg9.png");
+}
+/*Theme Background Color in Close */
+
+.deptname
+{
+    display: inline-block;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 60px;
+}
+
+.table th
+{
+    background-color: #0695a9;
+    color: #fff;
+}
+
+#datetime
+{
+    color: #000;
+}
+
+.admin .content-title .main-title span
+{
+    color: #000000;
+    display: block !important;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+    .admin .content-title .main-title span::before
+    {
+        content: "  " !important;
+    }
+
+.cmolctn
+{
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #099db1;
+    padding-top: 2px;
+}
+
+.table > thead > tr > th
+{
+    vertical-align: middle;
+}
+
+.table > tbody > tr > td .form-control
+{
+    padding: 6px 5px;
+}
+
+.page-instraction ul
+{
+    margin: 0px 0px 15px 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+    .page-instraction ul li
+    {
+        padding-left: 25px;
+        margin-bottom: 6px;
+        text-align: justify;
+    }
+
+        .page-instraction ul li ul li
+        {
+            padding-left: 15px;
+            margin-bottom: 6px;
+            position: relative;
+        }
+
+        .page-instraction ul li a
+        {
+            color: #333;
+        }
+
+        .page-instraction ul li:before
+        {
+            content: "\f0a4";
+            font-family: 'FontAwesome';
+            color: #2d3e50;
+            font-size: 14px;
+            margin-left: -30px;
+            margin-right: 6px;
+            padding: 2px 5px;
+            width: 20px;
+            height: 20px;
+            box-sizing: border-box;
+        }
+
+    .page-instraction ul ul
+    {
+        margin: 5px 10px 5px 17px;
+        padding: 0px;
+        list-style: none;
+    }
+
+        .page-instraction ul ul li:before
+        {
+            content: "\f101";
+            font-family: 'FontAwesome';
+            color: #e8b327;
+            font-size: 18px;
+            margin-left: -29px;
+            margin-right: 6px;
+            border: 0px solid #03356E;
+            border-radius: 50%;
+            padding: 0px;
+            width: 0px;
+            height: 0px;
+            box-sizing: border-box;
+            position: absolute;
+        }
+
+.page-instraction
+{
+    border-bottom: 1px solid #666;
+    margin-bottom: 15px;
+    background: #fff;
+    padding: 0 15px;
+}
+
+.dashboard
+{
+    min-height: 650px;
+}
+
+#divLoader
+{
+    background-color: rgba(0,0,0,0.3);
+    position: absolute;
+    width: 100%;
+    z-index: 99;
+    top: 0;
+    bottom: 0;
+}
+.pt-5 {
+    padding-top:5px;
+}
+.typFaci .row {
+margin-bottom:0;
+}

@@ -1,0 +1,548 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FICModel
+@{
+    ViewBag.Title = "FICRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">Application For Issuance of Fitness Certificate</h3>
+
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm("FICRegistration", "appRegistration", FormMethod.Post, new { @id = "frmFitnessCertificate" }))
+    {
+        @Html.AntiForgeryToken()  
+        @Html.HiddenFor(m => m.regisIdFIC)
+        @Html.HiddenFor(m => m.step)
+        @Html.HiddenFor(m => m.stepValue)
+       
+      
+        <div class="row">
+            @if (Model.step == 0 || Model.stepValue == 0)
+            {
+                <div class="divStep1">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 1</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Reason For Application</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Reason <span class="star">*</span></label>
+                                            @Html.TextAreaFor(m => m.applicationReason, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.applicationReason, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                     <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>OPD Receipt Number <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.opdRecNo, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.opdRecNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                      @* <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Upload Document <span class="text-danger">*</span></label>
+                                    <div class="fileUpload3">
+                                        <span>Upload </span>
+                                        @Html.TextBoxFor(m => m.opdFile, new { @type = "file", @class = "upload3", @onchange = "UploadFile(this)" })
+                                        @Html.HiddenFor(m => m.opdFilePath)
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.opdFile, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group padding-top-30" id="opdFilehdndoc" style="display: none;">
+                                    <a href="#" id="opdFileUploadedDoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                </div>
+                            </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Personal Details</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Full Name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.fullName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Father’s name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.fatherName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.fatherName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>DOB <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.dob, new { @class = "datepicker-here form-control", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+                                            @Html.ValidationMessageFor(m => m.dob, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Gender <span class="star">*</span></label>
+
+                                            <div class="form-control" style="padding: 6px 3px">
+                                                <label>
+                                                    @Html.RadioButtonFor(m => m.gender, "Male") Male
+                                                </label>
+                                                <label>
+                                                    @Html.RadioButtonFor(m => m.gender, "Female") Female
+                                                </label>
+                                                <label>
+                                                    @Html.RadioButtonFor(m => m.gender, "Transgender") Transgender
+                                                </label>
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.gender, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Category <span class="star">*</span></label>
+                                            @Html.DropDownListFor(m => m.categoryId, (IEnumerable<SelectListItem>)ViewBag.Category, "--Select--", new { @class = "form-control select" })
+                                            @Html.ValidationMessageFor(m => m.categoryId, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Mobile No. <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.appmobileNo, new { @class = "form-control", @maxlength = "10", @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.appmobileNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Email Address</label>
+                                            @Html.TextBoxFor(m => m.emailId, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                     <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Address <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.opdAddress, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.opdAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>State <span class="star">*</span> </label>
+
+                                    @Html.DropDownListFor(m => m.opdStateId, (IEnumerable<SelectListItem>)ViewBag.State, "--Select--",new { tabindex = 7, @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.opdStateId, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.opdStateId)
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>District <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.opdDistrictId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.opdDistrictId, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.opdDistrictId)
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Pincode </label>
+                                    @Html.TextBoxFor(m => m.opdPinCode, new { @class = "form-control", @maxlength = "6", @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.opdPinCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Mark Of Identification <span class="text-danger">*</span></label>
+                                    @Html.TextAreaFor(m => m.markOfIdentification, new { @class = "form-control", tabindex = 6 })
+                                    @Html.ValidationMessageFor(m => m.markOfIdentification, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+            }
+            else if (Model.step == 1 || Model.stepValue == 1)
+            {
+                <div class="divStep2">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 2</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Medical History(if Any)</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>DO You Have Any Medical History?<span class="star">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <label>@Html.RadioButtonFor(m => m.isMedicalHistory, "Yes") Yes</label>&nbsp;&nbsp;&nbsp;
+                                        <label>@Html.RadioButtonFor(m => m.isMedicalHistory, "No") No</label>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.isMedicalHistory, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="divMHDetails" style="display: none;">
+                                    <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Details of Medical History <span class="star">*</span></label>
+                                    @Html.TextAreaFor(m => m.detailsMedicalHistory, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.detailsMedicalHistory, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                                  
+                                
+
+                                </div>
+
+
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                       <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>CheckUp Detail</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                 
+                              
+                                </div>
+                                <div class="row">
+                                  
+                                   
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Doctor Name</label>
+                                            @Html.TextBoxFor(m => m.fitnessAdvicedBy, new { @class = "form-control", @placeholder = "Doctor Name" })
+                                            @Html.ValidationMessageFor(m => m.fitnessAdvicedBy, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Date of Check-up <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.opdDate, new { @class = "datepicker-here form-control", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+
+                                            @Html.ValidationMessageFor(m => m.opdDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    
+                                    @*<div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Treatment From <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.treatmentFrom, new { @class = "datepicker-here form-control", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+
+                                            @Html.ValidationMessageFor(m => m.treatmentFrom, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Treatment To <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.treatmentto, new { @class = "datepicker-here form-control", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+
+                                            @Html.ValidationMessageFor(m => m.treatmentto, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+                                
+
+                                </div>
+
+
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Id Detail</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                 
+                              
+                                </div>
+                                <div class="row">
+                                  
+                                   
+                                     <div class="col-md-4" style="margin-bottom: 10px;">
+                                <div class="form-group">
+                                    @* <label>District <span class="text-danger">*</span></label>*@
+                                    <label>Id Type <span class="text-danger">*</span></label>
+                                    @Html.DropDownListFor(m => m.idTypeId, (IEnumerable<SelectListItem>)ViewBag.IdType, "--Select--", new { @class = "form-control", tabindex = 4 })
+                                    @Html.HiddenFor(m => m.idTypeId)
+                                    @Html.ValidationMessageFor(m => m.idTypeId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4" style="margin-bottom: 10px;">
+                                <div class="form-group">
+                                    <label>Id No.<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.idNumber, new { @class = "form-control", tabindex = 8 })
+                                    @Html.ValidationMessageFor(m => m.idNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                                
+
+                                </div>
+
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+           else if (Model.step == 2 || Model.stepValue == 2)
+            {
+                <div class="divStep3">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 3</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Check List</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                 <span id="spanmember" style="display: none" class="text-danger">Please select All Document as they are required</span>
+                                <div class="row">
+                                    @foreach (var v in ViewBag.CheckListILC)
+                                    {
+                                        <div class="form-group">
+                                            <div class="col-md-5">
+                                                <i class="hidden">@v.Value</i>
+                                                <label class="l-20">@v.Text</label>
+                                                 <span id="@v.Value" class="text-danger">*</span>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input type="checkbox" name="chk_checkList" value="@v.Value">
+                                            </div>
+                                        </div>
+                                    } 
+                                </div> 
+                                 <div class="row">
+                                Note:-Kindly collect photo copy of document checked by you.
+                            </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="clearfix"></div>
+
+                </div>
+            }
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    @if ((Model.stepValue == -1 || Model.stepValue > 0) && Model.step != 0)
+                                    {
+                                   
+                                        <div class="col-md-2 col-md-offset-2">
+                                            <a href="@Url.Action("FICRegistration", "appRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdFIC.ToString()), stepValue = Convert.ToInt32(Session["stepValue"]) - 1 })" class="btn btn-block btn-success">Back</a>
+                                        </div>
+                                
+                                    }
+
+                                    <div class="col-md-3 ">
+                                        <button type="submit" class="btn btn-block btn-primary" id="btnsubmit">@ViewBag.Submit</button>
+                                    </div>
+                                    <div class="col-md-2"><a href="@Url.Action("FICRegistration", "AppRegistration")" class="btn btn-block btn-warning">Reset</a> </div>
+                                    @if (Model.step < 3 && Model.step != 0 && Model.step - 1 >= Model.stepValue && Model.stepValue != -1)
+                                    {
+                                        <div class="col-md-2 ">
+                                            <a href="@Url.Action("FICRegistration", "appRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdFIC.ToString()), stepValue = (Convert.ToInt32(Session["stepValue"]) + 1) })" class="btn btn-block btn-success">Next</a>
+                                        </div>  
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          
+        </div>
+    }
+</div>
+<script>
+    $(function () {
+       
+        if ($('input[name=isMedicalHistory]:checked').val() == "Yes") {
+            $("#divMHDetails").show();
+        }
+        else {
+            $("#divMHDetails").hide();
+        }
+        if ('@TempData["Message"]' != '' && '@TempData["status"]' != '') {
+            swal("", '@TempData["Message"]', '@TempData["status"]');
+        }
+        if ('@TempData["distFIC"]' != '') {
+
+            binddist($("#opdStateId").val());
+        }
+    });
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    $('input[name=isMedicalHistory]').click(function () {
+
+        if ($('input[name=isMedicalHistory]:checked').val() == "Yes") {
+            $("#divMHDetails").show();
+        }
+        else {
+            $("#divMHDetails").hide();
+        }
+    });
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#dob').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    $('#opdDate').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    $('#treatmentFrom').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var mindate = new Date(selectedDate);
+            mindate.setDate(mindate.getDate() + 1);
+            $("#treatmentto").datepicker({ minDate: mindate, autoClose: true });
+        },
+        autoClose: true
+    });
+    $('#treatmentto').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var maxdate = new Date(selectedDate);
+            maxdate.setDate(maxdate.getDate() - 1);
+            $("#treatmentFrom").datepicker({ maxDate: maxdate, autoClose: true });
+        },
+        autoClose: true
+    });
+    $("#btnsubmit").click(function () {
+        debugger;
+        if ($("#step").val() == 2 && $("#stepValue").val()==2) {
+            if ($("input[type='checkbox']:checked").length < 2) {
+                $("#spanmember").show();
+
+                return false;
+            }
+            $("#tbUser").html('');
+
+        }
+
+    });
+    $("#opdStateId").change(function () {
+        binddist($("#opdStateId").val());
+    })
+    function binddist(opdStateId) {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("binddistFIC","AppRegistration")',
+                data: { opdStateId: opdStateId },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#opdDistrictId").empty();
+                    $("#opdDistrictId").append("<option value=''>--Select--</option>")
+                    $.each(data, function (i, result) {
+                        $("#opdDistrictId").append("<option value='" + result.Value + "'>" + result.Text + "</option>")
+                    });
+                    if ($("#stepValue").val() == "0") {
+                        var appsubid = '@TempData["distFIC"]';// $('input[name=districtId]').val();
+                    //alert(appsubid);
+                    $('#opdDistrictId').val(appsubid);
+                }
+            },
+                failure: function () {
+                    alert("Failed!");
+                }
+            });
+    }
+</script>
+

@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Confirmation";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="col-md-6 lg-left">
+    <div class="instruction">
+        <h3>Instructions for Citizen Registration</h3>
+        <h4>Login Instructions for Already Registered Citizens</h4>
+        <div class="nano-content" id="demo">
+            <ul>
+                <li>Fill <strong>“Registered Mobile Number/Email Address”</strong> and <strong>“Password”</strong> and click on “Login” button.</li>
+                <li>After clicking on the <strong>“Login”</strong> button you will be redirected to <strong>“Citizen’s Dashboard”</strong>.</li>
+                <div class="note">
+                    <h3>Note :</h3>
+                    If you are not a registered user, then click on “New Registration” button and follow the instructions.
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 bg-color">
+    <div class="row">
+        <div class="lg-right">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#Login">Confirmation</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="Login" class="tab-pane fade in active">
+
+                    <div class="login-content">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <br />
+                                    <br />
+                                    @if (!string.IsNullOrEmpty(ViewBag.Success))
+                                    {
+                                        <label class="text-success" style="font-size: 16px !important;">@ViewBag.Success</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="text-danger" style="font-size: 16px !important;">@ViewBag.Fail</label>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-5">&nbsp;</div>
+                            <div class="col-md-7 text-right">
+                                @if (TempData["ComeFrom"] == "adminarea")
+                                {
+                                    <a href="@Url.Action("Login", "AdminAccount")">Click here to login</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Login", "Account")">Click here to login</a>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

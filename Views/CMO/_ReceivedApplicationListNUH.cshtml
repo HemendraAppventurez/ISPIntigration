@@ -1,0 +1,485 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.NUHDetailsModel>
+@using OTPL_Imp
+
+@using CCSHealthFamilyWelfareDept.Models
+
+@{
+    int sNo = 0;
+    SessionManager SM = new SessionManager();
+}
+
+
+<style>
+    .webgrid-header a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .modal-dialog label::after {
+        content: none;
+    }
+</style>
+<link href="~/js/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#tblCountList').DataTable({
+
+            "ordering": true,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }]
+
+        });
+
+        $('#tblCountList1').DataTable({
+
+            "ordering": true,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }]
+
+        });
+
+        // For Admin
+        var table = $('#tblCountList').DataTable();
+
+        //Turning Off ALL event listeners for the Name Table Cell
+        $(".targetHeaderCell").off();
+
+        //Adding cursor class to testSpan and Removing Cursor class from overall header
+        //$(".targetHeaderCell").css("cursor", "default");
+        $("#testSpan").css("cursor", "pointer");
+        var booleanSortCol1 = false;
+
+        // Attaching CLICK Event Handler on Name Span
+        $("#testSpan").on("click", function () {
+
+            if (booleanSortCol1 == false) {
+                table.order([0, 'desc']).draw();
+                booleanSortCol1 = true;
+            }
+            else {
+                table.order([0, 'asc']).draw();
+                booleanSortCol1 = false;
+            }
+        });
+
+
+        //For CMO
+        var table1 = $('#tblCountList1').DataTable();
+
+        //Turning Off ALL event listeners for the Name Table Cell
+        $(".targetHeaderCell1").off();
+
+        //Adding cursor class to testSpan and Removing Cursor class from overall header
+        //$(".targetHeaderCell").css("cursor", "default");
+        $("#testSpan1").css("cursor", "pointer");
+        var booleanSortCol11 = false;
+
+        // Attaching CLICK Event Handler on Name Span
+        $("#testSpan1").on("click", function () {
+
+            if (booleanSortCol11 == false) {
+                table1.order([0, 'desc']).draw();
+                booleanSortCol11 = true;
+            }
+            else {
+                table1.order([0, 'asc']).draw();
+                booleanSortCol11 = false;
+            }
+        });
+    });
+
+    function OpenQueryModel(_medicalEstID) {
+
+        debugger
+        var MedicalEstID = _medicalEstID;
+        $("input[type=hidden][name=hiddentextID]").val(MedicalEstID);
+        $("#btnShowPopup").click();
+        setTimeout(function () {
+            $('.modal-body').scrollTop(0);
+        }, 300);
+    }
+</script>
+
+
+<script type="text/javascript">
+
+
+
+
+    function SaveQueryByCMO() {
+
+        debugger
+
+        var QueryRaised = $("#txtQueryRaised").val();
+        if (QueryRaised == null || QueryRaised == "") {
+
+            swal("", "Please enter the query !", "warning");
+            return;
+        }
+        var RegiNUHID = $("input[type=hidden][name=hiddentextID]").val();
+        $.ajax({
+            url: '@Url.Action("SaveQueryDetailToApplicant", "CMO")',
+            data: { QueryRaised: QueryRaised, RegisNUHID: RegiNUHID },
+            type: 'GET',
+            dataType: 'HTML',
+            success: function (response) {
+                debugger
+                if (response != "0") {
+                    swal({
+                        title: response,
+                        type: "success",
+                        //showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "OK",
+                        //cancelButtonText: "No, Cancel it !",
+                        closeOnConfirm: true
+                        //closeOnCancel: true
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            $('#Modalpopup').modal('hide');
+                            window.location.reload();
+                        }
+                    });
+                }
+                else {
+
+                    swal("", "Server is not responding");
+                }
+            }
+        })
+
+
+    }
+
+
+</script>
+
+@if (SM.RollID == 8)
+{
+    if (Model != null && Model.Count() > 0)
+    {
+    <div class="row">
+        <div style="max-height: 400px; overflow: scroll">
+            <table id="tblCountList" border="1" class="table-user-information table table-bordered table-striped" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                <thead style="background: #237382; color: #fff; padding: 5px;">
+                    <tr>
+                        <th>Sr.No.</th>
+                        <th class="no-sort"><strong>Application No</strong></th>
+                        @*<th><strong>Application Date</strong></th>*@
+                        <th style="text-align: left;" class="targetHeaderCell"><span id="testSpan" style="padding: 0; margin: 0; box-sizing: content-box; cursor: pointer">Application Date</span></th>
+                        <th class="no-sort"><strong>Establishment Name</strong></th>
+                        <th class="no-sort"><strong>Establishment Category</strong></th>
+                        <th class="no-sort"><strong>MCI/SMF No</strong></th>
+                        <th class="no-sort"><strong>Affidavit</strong></th>
+                        <th class="no-sort"><strong>Status</strong></th>
+                        <th class="no-sort"><strong>Days Of Pendency</strong></th>
+                        <th class="no-sort"><strong>Status Limit</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            sNo++;
+                        <tr>
+                            <td style="text-align: center;">@sNo</td>
+                            @if (ViewBag.CurrLogRollId == 2)
+                            {
+                                <td>@item.registrationNo</td>
+                            }
+                            else
+                            {
+                                <td>
+
+                                    <a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">@item.registrationNo</a>
+
+                                </td>
+                            }
+                            <td>@item.appliedDate</td>
+                            <td>@item.medicalEstablishment</td>
+                            <td>@item.establishmentName</td>
+                            <td>@item.UPMCI_SMF_Number</td>
+
+                            <td>
+
+                                @if (@item.notarizedAffidavitFilePath == "" || @item.notarizedAffidavitFilePath == "Submitted by CMO")
+                                {
+                                    <label></label> 
+                                }
+                                else
+                                {
+                                    <a href="@Url.Content(item.notarizedAffidavitFilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download big"></i></a>
+                                }
+
+                            </td>
+
+                            <td><a href="@Url.Action("GetViewApplicationStatusForDarpan", "public", new { RegistrationID = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()), ServiceId = @OTPL_Imp.CustomCryptography.Encrypt("1") })" target="_blank">@item.appliedStatus</a>
+
+                            </td>
+                            <td>@item.DaysOfPendency</td>
+                            <td>@item.StatusLimit</td>
+                        </tr> 
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>Record Not Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    }
+    else
+    {
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+    }
+}
+else
+{
+    <div class="row">
+        <div style="max-height: 400px; overflow: scroll">
+            <table id="tblCountList1" border="1" class="table-user-information table table-bordered table-striped" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                <thead style="background: #237382; color: #fff; padding: 5px;">
+                    <tr>
+                        <th>Sr.No.</th>
+                        <th class="no-sort"><strong>Application No</strong></th>
+                        @*<th><strong>Application Date</strong></th>*@
+                        <th style="text-align: left;" class="targetHeaderCell1"><span id="testSpan1" style="padding: 0; margin: 0; box-sizing: content-box; cursor: pointer">Application Date</span></th>
+                        <th class="no-sort"><strong>Establishment Name</strong></th>
+                        <th class="no-sort"><strong>Establishment Category</strong></th>
+                        <th class="no-sort"><strong>MCI/SMF No</strong></th>
+                     @*   <th class="no-sort"><strong>Affidavit</strong></th>*@
+                        <th class="no-sort"><strong>Status</strong></th>
+                        <th class="no-sort"><strong>Days Of Pendency</strong></th>
+                        <th class="no-sort"><strong>Status Limit</strong></th>
+                        <th class="no-sort"><strong>Query</strong></th>
+                        <th class="no-sort"><strong>Action</strong></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            sNo++;
+                        <tr>
+                            <td style="text-align: center;">@sNo</td>
+                            @if (ViewBag.CurrLogRollId == 2)
+                            {
+                                <td>@item.registrationNo</td>
+                            }
+                            else
+                            {
+                                <td>
+
+                                    <a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">@item.registrationNo</a>
+
+                                </td>
+                            }
+                            <td>@item.appliedDate</td>
+                            <td>@item.medicalEstablishment</td>
+                            <td>@item.establishmentName</td>
+                            <td>@item.UPMCI_SMF_Number</td>
+
+                           @* <td>*@
+
+@*                                if (@item.notarizedAffidavitFilePath == "" || @item.notarizedAffidavitFilePath == "Submitted by CMO")
+                                {
+                                    <label></label> 
+                                }
+                                else
+                                {
+                                    <a href="@Url.Content(item.notarizedAffidavitFilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download big"></i></a>
+                                }*@
+
+                           @* </td>*@
+                             <td><a href="@Url.Action("GetViewApplicationStatusForDarpan", "public", new { RegistrationID = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()), ServiceId = @OTPL_Imp.CustomCryptography.Encrypt("1") })" target="_blank">@item.appliedStatus</a></td>
+                             <td>@item.DaysOfPendency</td>
+                            <td>@item.StatusLimit</td>
+                            <td>
+
+                                @if (@item.regisIdNUH != 0 || @item.regisIdNUH != null)
+                                {
+                                    <form>
+                                        <input type="hidden" value="" id="hiddentextID" name="hiddentextID" />
+                                        <input  type="hidden" value="@item.QueryStatus" name="hQueryStatus" id="hQueryStatus"/>
+                                    </form> 
+                                    
+                                    if (@item.QueryStatus == null)
+                                    {
+                                    <button id="BtnQuery" data-userId ='@OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString())'  aria-hidden="true" onclick="OpenQueryModel(@item.regisIdNUH)" class="btn btn-primary">Ask Query</button>
+                                    }
+                                    else if (@item.QueryStatus == "Replied")
+                                    {
+                                    <a href="@Url.Action("ViewQueryReplyNUH", "CMO", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">View Reply</a>
+                                    }
+                                    else
+                                    {
+                                    <span>@item.QueryStatus</span>
+                                    }
+                                }
+
+
+                            </td>
+
+                           
+
+                            <td>
+
+                                @if (@item.QueryStatus != "Reply Pending")
+                                {
+                                    <a href="@Url.Action("UpdateAppProcessNUH", "CMO", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()), status = @OTPL_Imp.CustomCryptography.Encrypt(@item.appStatus.ToString()) })" id="BtnActionID" class="" title="Take Action"><i class="icon-grn fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                }
+
+                            </td>
+                        </tr> 
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>Record Not Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    
+}
+
+
+@*if (Model != null && Model.Count() > 0)
+    {
+        WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");         
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">@item.registrationNo</a></text>),
+        // grid.Column(header:"Application Date", columnName:"appliedDate",format:@<div>@item.appliedDate</div>),
+        //   grid.Column("appliedDate", header: "Application Date",format: (@item) => string.Format("{0:dd-MMM-yyyy}", @item.appliedDate)),
+                grid.Column("appliedDate", "Application Date", format: (item) => ((item.appliedDate == null) ? "" : string.Format("{0:MM/dd/yy hh:mm:ss}", item.appliedDate)), canSort: true),
+            grid.Column("establishmentName", header: "Establishment Name"),
+            grid.Column("medicalEstablishment", header: "Establishment Category"),
+            grid.Column("UPMCI_SMF_Number", header: "MCI/SMF No."),
+            grid.Column("UPMCI_SMF_Number", header: "MCI/SMF No."),
+            grid.Column(columnName: "notarizedAffidavitFilePath", header: "Affidavit", format: @<text>
+        @if (@item.notarizedAffidavitFilePath == "" || @item.notarizedAffidavitFilePath == "Submitted by CMO")
+        {
+            <label></label> 
+        }
+        else
+        {
+            <a href="@Url.Content(item.notarizedAffidavitFilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download big"></i></a>
+        }
+        </text>),
+          grid.Column(header: "Query", format: @<text>
+
+        @if (@item.regisIdNUH != 0 || @item.regisIdNUH != null)
+        {
+            <form>
+                <input type="hidden" value="" id="hiddentextID" name="hiddentextID" />
+                <input  type="hidden" value="@item.QueryStatus" name="hQueryStatus" id="hQueryStatus"/>
+            </form> 
+            if (@item.QueryStatus == null)
+            {
+            <button id="BtnQuery" data-userId ='@OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString())'  aria-hidden="true" onclick="OpenQueryModel(@item.regisIdNUH)" class="btn btn-primary">Ask Query</button>
+            }
+            else if (@item.QueryStatus == "Replied")
+            {
+            <a href="@Url.Action("ViewQueryReplyNUH", "CMO", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">View Reply</a>
+            }
+            else
+            {
+            <span>@item.QueryStatus</span>
+            }
+        }
+        </text>),
+
+
+                 grid.Column(header: "Action", format: @<text>
+        @if (@item.QueryStatus != "Reply Pending")
+        {
+            <a href="@Url.Action("UpdateAppProcessNUH", "CMO", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()), status = @OTPL_Imp.CustomCryptography.Encrypt(@item.appStatus.ToString()) })" id="BtnActionID" class="" title="Take Action"><i class="icon-grn fa fa-pencil-square-o" aria-hidden="true"></i></a>
+        }
+        </text>)
+
+                                                ))
+    </div>
+
+    }
+    else
+    {
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+    }*@
+
+
+
+<button id="btnShowPopup" type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none;"></button>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" id="Modalpopup" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>Raised Query</strong></h4>
+            </div>
+            <div class="modal-body" style="max-height: 370px; overflow-y: auto;">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label>Query :&nbsp;<b><span class="text-danger">*</span></b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <textarea id="txtQueryRaised" name="txtQueryRaised" class="form-control"></textarea>
+                        </div>
+
+                        @* <input type="hidden" value="" id="hiddenQueryButtonID" />
+                        <span id="medicalestbLishmentID" style="display: none;"></span>*@
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-4">
+                            <button type="button" onclick="SaveQueryByCMO();" class="btn btn-block btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

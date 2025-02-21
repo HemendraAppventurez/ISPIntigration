@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "LogOut";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@*<div class="col-md-6 lg-left">
+    <div class="instruction">
+        <h3>पंजीकृत नागरिकों के लिए लॉगिन निर्देश </h3>
+        <h4>पहले से पंजीकृत नागरिकों के लिए लॉगिन निर्देश</h4>
+        <div class="nano-content" id="demo">
+            <ul>
+                <li>नागरिक अपना <strong>"Registered Mobile No."</strong> और <strong>"Password"</strong> भरकर <strong>"Login"</strong> बटन पर क्लिक करें।</li>
+                <li><strong>"Login"</strong> बटन पर क्लिक करने के उपरांत आपको <strong>" Citizen’s Dashboard"</strong> प्रदर्शित होने लगेगा|</li>               
+            </ul>
+        </div>
+    </div>
+</div>*@
+<div class="col-md-12 bg-color">
+    <div class="row">
+        <div class="lg-right" style="margin: 0 20px 20px;">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#Login">Log Out</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="Login" class="tab-pane fade in active">
+                    <div class="login-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <br />
+                                    <br />
+                                    <label class="text-success" style="font-size: 20px !important;">@ViewBag.mesg</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-md-offset-3">
+                                <div class="form-group">
+                                    <br />
+                                    <a class="btn btn-warning btn-lg btn-block" href="@Url.Action("Login", "Account")">Click here to login</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    /*To retain on the same view on Back Click*/
+    history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function (event) {
+        history.pushState(null, null, window.location.href);
+        event.preventDefault();
+    });
+</script>

@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>सिटीजन डैशबोर्ड <span class="small">Citizen Dashboard</span></strong>
+        <div class=" small time pull-right padding-top-10" style="font-weight: 600;" id="datetime"></div>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        @* <div class="col-md-12" style="padding-right: 23px !important; padding-left: 23px !important;">
+            <div class="alert alert-warning">
+                <b>नीचे दिये गए विकल्पों में से अपनी आवश्यकता अनुसार सेवा का चयन कर आगे बढ़ें।</b>
+            </div>
+        </div>*@
+        <div class="col-md-12">
+            <ul class="circle">
+
+                @{
+                   
+                    if (SM.ControlID != "" && SM.UnitID != "" && SM.ServiceID != "" && SM.RequestID != "")
+                    {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "NUH")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            1. चिकित्सा प्रतिष्ठान का पंजीकरण
+                        <span class="nmicon2">Registration of Medical Establishment</span>
+                        </a>
+                    </li>
+                    }
+                    else
+                    {
+                        
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "NUH")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            1. चिकित्सा प्रतिष्ठान का पंजीकरण
+                        <span class="nmicon2">Registration of Medical Establishment</span>
+                        </a>
+                    </li>
+                
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "ILC")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            2. बीमारी प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Issuance of Illness Certificate </span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "FIC")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            3. स्वास्थ्य प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Issuance of Fitness Certificates</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("DICDashBoard", "DIC")" class="green">
+                            <img src="@Url.Content("~/images/medical-records.png")">
+                            4. विकलांगता प्रमाणपत्र का निर्गमन 
+                        <span class="nmicon2">Issuance of Disability Certificate</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "IMC")" class="brown">
+                            <img src="@Url.Content("~/images/mammography.png")">
+                            5. टीकाकरण प्रमाणपत्र का निर्गमन 
+                        <span class="nmicon2">Issuance of Immunization Certificate</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("DECDashBoard", "DEC")" class="yellow">
+                            <img src="@Url.Content("~/images/emergency.png")">
+                            6. मृत्यु प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Issuance of Death Certificate</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "FAP")" class="yellow">
+                            <img src="@Url.Content("~/images/billing.png")">
+                            7. असफल परिवार नियोजन का भुगतान
+                        <span class="nmicon2">Payment for Unsuccessful<br>
+                            Family Planning</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "MER")" class="teal">
+                            <img src="@Url.Content("~/images/billing.png")">
+                            8. चिकित्सा प्रतिपूर्ति का भुगतान <span class="nmicon2">Payment of Medical Reimbursement</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("MLCDashBoard", "MLC")" class="red">
+                            <img src="@Url.Content("~/images/diabetes-education.png")">
+                            9. मेडिको लीगल प्रमाण पत्र का निर्गमन 
+                        <span class="nmicon2">Issuance of
+                            <br>
+                            Medico- Legal Certificate</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "AGC")"  class="orange">
+                            <img src="@Url.Content("~/images/stairs.png")">
+                            10. आयु प्रमाणपत्र का निर्गमन 
+                        <span class="nmicon2">Issuance of Age Certificate</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("isRegister", "ICC")" class="indigo">
+                            <img src="@Url.Content("~/images/labor-delivery.png")">
+                            11. बच्चों के टीकाकरण प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Issuance of Immunization<br>
+                            Certificate for Children</span>
+                        </a>
+                    </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

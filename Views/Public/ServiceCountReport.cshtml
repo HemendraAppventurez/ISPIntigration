@@ -1,0 +1,56 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.CountReportModel>
+@{
+    ViewBag.Title = "ServiceCountReport";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+    int sNo = 0;
+}
+
+<div class="container">
+    <div class="services-heading" style="margin-bottom: 35px;">
+        <h2>Services Count Report</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped table-fixed-header" style="border-collapse: collapse;" border="1">
+                <thead class='header'>
+                    <tr class="active">
+                        <th style="width: 5%; text-align: center;">S.No.</th>
+                        <th style="width: 12%; text-align: center;">Service Name</th>
+                        <th style="width: 12%; text-align: center;">Total Received</th>
+                        <th style="width: 5%; text-align: center;">Approved</th>
+                        <th style="width: 5%; text-align: center;">Rejected</th>
+                        <th style="width: 17%; text-align: center;">Pending In-Time Limit</th>
+                        <th style="width: 18%; text-align: center;">Pending After-Time Limit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            sNo++;
+                        <tr>
+                            <td style="text-align: center;">@sNo</td>
+                            <td style="text-align: center;">
+                                <a href="@Url.Action("getServiceWiseCount", "Public", new { serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) })">@item.serviceName</a>
+                            </td>
+                            <td style="text-align: center;">@item.totalReceived</td>
+                            <td style="text-align: center;">@item.approved</td>
+                            <td style="text-align: center;">@item.rejected</td>
+                            <td style="text-align: center;">@item.pendingInTimeLimit</td>
+                            <td style="text-align: center;">@item.pendingOverTimeLimit</td>
+                        </tr>
+                        
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8">Record Not Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

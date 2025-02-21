@@ -1,0 +1,301 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FICModel
+
+@{
+    ViewBag.Title = "ViewFICdetail";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    .stronglbl label {
+        font-weight: 600 !important;
+        display: block;
+    }
+
+    .form-group {
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Fitness Certificate Details
+       
+        <a href="@Url.Action("ViewFIC", "FIC")" class="btn btn-info btn-md pull-right">Back</a></h3>
+</div>
+
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body stronglbl">
+            <h4>Reason For Application
+                <label class="pull-right" style="color: #0b8494;"><strong>Application Number:</strong>   @Model.registrationNo</label></h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Reason</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.applicationReason
+                </div>
+                <div class="col-md-3">
+                    <label>OPD Receipt Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.opdRecNo
+                </div>
+                <div class="clearfix"></div>
+
+
+            </div>
+            <div class="form-group">
+                @if (@Model.opdFilePath != "")
+                {
+                    <div class="col-md-3">
+                        <label>Document</label>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="@Url.Content(Model.opdFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                    </div>
+                }
+                 @if (Model.certificateNo != "" && Model.certificateNo != null)
+                {
+                <div class="col-md-3">
+                        <label>Old Certificate No</label>
+                    </div>
+                    <div class="col-md-3">
+                       @Model.certificateNo
+                    </div>
+                 }
+            </div>
+            <div class="clearfix"></div>
+            <h4>Select Health Unit For Appointment</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Health Unit </label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtypeName
+                </div>
+                <div class="col-md-3">
+                    <label>District </label>
+                </div>
+                <div class="col-md-3">
+                    @Model.healthUnitDistrictName
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>CHC/ PHC/ DH Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtoName
+                </div>
+                <div class="col-md-3">
+                    <label>Doctor Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fitnessAdvicedBy
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Date of Check-up</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.opdDate).ToShortDateString()
+                </div>
+                @if (Model.certificateNo != null && Model.certificateNo != "")
+                {
+                <div class="col-md-3">
+                    <label>Treatment From</label>
+                </div>
+                <div class="col-md-3">
+                   @Model.treatmentFrom
+                </div>
+                }
+            </div>
+            @if (Model.certificateNo != null && Model.certificateNo != "")
+                {
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Treatment To</label>
+                </div>
+                <div class="col-md-3">
+                @Model.treatmentto
+                </div>
+                <div class="col-md-3">
+                    <label>Illnes Detail</label>
+                </div>
+                <div class="col-md-3">
+          @Model.illnessDetail
+                </div>
+            </div>
+            }
+            <div class="clearfix"></div>
+
+            <h4>Personal Details</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Full Name </label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fullName
+                </div>
+                <div class="col-md-3">
+                    <label>Father's name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fatherName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Date of Birth</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.dob).ToShortDateString()
+                </div>
+                <div class="col-md-3">
+                    <label>Gender</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.gender
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Category</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.categoryName
+                </div>
+                <div class="col-md-3">
+                    <label>Mobile Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.mobileNo
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Email Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.emailId
+                </div>
+                <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.opdAddress
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>State</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.StateName
+                </div>
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.DistrictName
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Pin Code</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.opdPinCode
+                </div>
+                <div class="col-md-3">
+                    <label>Mark Of Identification</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.markOfIdentification
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <h4>Upload Documents</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Id Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.idTypeName
+                </div>
+                <div class="col-md-3">
+                    <label>Id No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.idNumber
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                @if (@Model.idFilePath != "")
+                {
+                    <div class="col-md-3">
+                        <label>Id File</label>
+                    </div>
+                    if (Model.idFilePath == "NaN")
+                    {
+                        <div class="col-md-3">
+                      <label>NaN</label>
+                    </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                        <a href="@Url.Content(Model.idFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                    </div>
+                    }
+                    
+                }
+            </div>
+            <div class="clearfix"></div>
+            <h4>Medical History(if Any)</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>DO You Have Any Medical History?</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.isMedicalHistory
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            @if (Model.isMedicalHistory == "Yes")
+            { 
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Hospital Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.opdName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Details of Medical History</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.detailsMedicalHistory
+                    </div>
+                </div>
+            }
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+
+
+

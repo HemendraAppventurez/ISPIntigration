@@ -1,0 +1,516 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.IMCAppProcessModel
+
+@{
+    ViewBag.Title = "UpdateAppProcessIMC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .form-group label {
+        color: #333;
+        font-weight: 600;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">@if (Model.appStatus <= 0)
+                           {
+        <div class="col-md-12 text-left">टीकाकरण  प्रमाणपत्र के लिए लंबित आवेदन की सूची<span class="small display-block">List Of Pending Application for Immunization Certificate</span></div>
+                           }
+                           else
+                           {
+        <div class="col-md-12 text-left">टीकाकरण  प्रमाणपत्र में इन-प्रोसेस आवेदन<span class="small display-block">In-Process Application of Immunization Certificate</span></div>
+                           }
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="divDetails">
+            @Html.Action("IMCAppDetails", "CHC", new { regisIdIMC = Model.regisIdIMC })
+        </div>
+
+        <div class="clearfix"></div>
+        @using (Html.BeginForm("UpdateAppProcessIMC", "CHC", FormMethod.Post, new { @id = "frmUpdateAppProcessIMC" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            if (Model.appStatus == -1)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="current"><a href="javascript:;" class="none">Step 1</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12" id="divstep1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Scrutinize the Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="margin-top-10"><strong>View Application form</strong></label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-block btn-info none ViewApp">View Application</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divstep_1" style="display: none;">
+                <div class="col-md-12 ">
+                    <div id="DIV-ApplicationList" style="margin-bottom: 0;">
+                        @Html.Action("IMCDetailsById", "CHC", new { regisIdIMC = Model.regisIdIMC })
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-body" id="divDataList">
+                                <div class="col-md-2 col-md-offset-4">
+                                    <input type="button" id="btnAccept" onclick="return acceptApp();" value="Accept" class="btn btn-block btn-primary none" />
+                                    <button id="bitAppAccept" name="button" type="submit" value="Accept" style="display: none;" class="btn btn-block btn-primary btnAccept">Accept</button>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="button" value="Reject" class="btn btn-danger btn-block btn-md btnReject reject-rsn" />
+                                </div>
+                            </div>
+                            <div class="panel panel-default rsn-define status_@Model.appStatus" style="display:none;">
+                                <div class="panel-heading">
+                                    <span class="title elipsis">
+                                        <h4>Reject</h4>
+                                    </span>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label><b>Remarks <span class="text-danger">*</span></b> </label>
+                                            @Html.TextAreaFor(m => m.rejectedRemarks, new { @class = "form-control", placeholder = "Enter Reason for Rejection " })
+                                            @Html.ValidationMessageFor(m => m.rejectedRemarks, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer text-center">
+                                    <input type="submit" value="Submit" class="btn btn-primary reject-rsn none" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
+            }
+            if (Model.appStatus == 1)//NEED TO DEL
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 1</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 2</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="divForward">
+                @if (Model.isAlreadyTaken)
+                {
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Forward the Application</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Hospital/Establishment<span>@Html.TextBoxFor(m => m.hospitalEstablishment, new { @class = "form-control", @readonly = "true" })</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-center">
+                                <button type="submit" class="btn btn-primary btn-info">Forward</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Schedule the Inspection</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Hospital/Establishment<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.hospitalEstablishment, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.hospitalEstablishment, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Inspection Date<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.DH_PHC_CHCDate, new { @class = "form-control datepicker-here", placeholder = "dd/mm/yyyy", data_language = "en" })
+                                        @Html.ValidationMessageFor(m => m.DH_PHC_CHCDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-center">
+                                <button type="submit" class="btn btn-primary btn-info">Schedule</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            }
+            if (Model.appStatus == 2)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="current"><a href="javascript:;" class="none">Step 2</a></li>
+                        <li class="active"><a href="javascript:;" class="none">Step 3</a></li>
+                        <li class="active"><a href="javascript:;" class="none">Step 4</a></li>
+                    </ul>
+                </div>
+            </div>            
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>View OPD & Immunization Details</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <label class="col-md-3">View OPD Receipt<span class="star">*</span></label>
+                            <div class="col-md-3">
+
+                                @if (Model.DH_PHC_CHCProofFilePath == "Submitted By Department")
+                                {
+                                    <label>Submitted By Department</label>
+                                }
+                                else
+                                {
+                                    
+                                    <a href="@Url.Content(Model.DH_PHC_CHCProofFilePath)" target="_blank"><i class='fa fa-2x fa-download' aria-hidden='true'></i></a>
+                                     
+                                }
+
+                            </div>
+                            <div class="divtbl">
+                                @Html.Partial("_IMCImmunDetailForRemark", Model)
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-primary">Next</button>
+                    </div>
+                </div>
+            </div>
+            }
+            if (Model.appStatus == 3)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 2</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 3</a></li>
+                        <li class="active"><a href="javascript:;" class="none">Step 4</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Report</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="divCheck col-md-5">
+                                <div class="form-group">
+                                    <label><strong>Is the certificate be issued ?</strong> </label>
+                                    <div class="form-control">
+                                        <label class="radio-inline">
+                                            <input type="radio" class="disposal2" id="disposal" name="rbl_check" value="1">
+                                            Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" id="disposalno" class="disposal2" name="rbl_check" value="2">
+                                            No
+                                        </label>
+                                    </div>
+                                    <span id="spanIsreport" class="text-danger" style="display: none;">Please Choose any one</span>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                            <div class="divReject col-md-6" style="display: none;">
+                                <div class="form-group">
+                                    <label><b>Remarks <span class="text-danger">*</span></b> </label>
+                                    @Html.TextAreaFor(m => m.rejectedRemarks, new { @class = "form-control", placeholder = "Enter Reason for Rejection " })
+                                    @Html.ValidationMessageFor(m => m.rejectedRemarks, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <input type="button" value="Next" class="btn btn-primary btn-md btnNext" id="btnNext" />
+                        <div class="divReject text-center" style="display: none;">
+                            <input type="submit" value="Reject" class="btn btn-primary btnNext" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+            if (Model.appStatus == 5)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 2</a></li>
+                        <li class="completed"><a href="javascript:;" class="none">Step 3</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 4</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Generate Certificate</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary">Generate Certificate </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+            if (Model.appStatus == 6)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 2</a></li>
+                        <li class="completed"><a href="javascript:;" class="none">Step 3</a></li>
+                        <li class="completed"><a href="javascript:;" class="none">Step 4</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Certificate Generated</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h2 class="margin-top-10 text-success"><strong>Certificate Generated</strong> </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @Html.HiddenFor(m => m.appStatus)
+            @Html.HiddenFor(m => m.regisIdIMC)
+            @Html.HiddenFor(m => m.isAlreadyTaken)
+        }
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+
+        if ('@TempData["DatSetIMC"]' != '') {
+            debugger;
+            var regisIdIMC = '@TempData["DatSetIMC"]';
+
+            debugger;
+            var url = '@Url.Action("IMCgeneratedCertificate", "CHC")';
+
+            window.open(url + "?regisIdIMC=" + regisIdIMC, '_blank');
+        };
+
+        $("#btnNext").click(function () {
+            debugger;
+            var isdateEmpty;
+            var LooP = $(".vdate");
+            LooP.each(function () {
+                if ($(this).val() == '') {
+                    isdateEmpty = "yes";
+                    return false;
+                }
+                else {
+                    isdateEmpty = "No";
+                }
+            })
+
+            if (isdateEmpty == "yes") {
+                $("#spandate").show();
+
+                return false;
+            }
+            else {
+                $("#spandate").hide();
+                var value = $('input[name=rbl_check]:checked').val();
+                if ($('input[name=rbl_check]:checked').length == 0) {
+                    $("#spanIsreport").show();
+                    return false;
+                }
+                if (value == 1) {
+                    $("#spanIsreport").hide();
+
+
+                    $.ajax({
+
+                        url: '@Url.Action("UpdateAppProcessIMC", "CHC")',
+                        datatype: "HTML",
+                        type: "POST",
+                        async: false,
+                        data: $("#frmUpdateAppProcessIMC").serialize(),
+                        success: function (data) {; var msg = data.split("_");
+                            if (msg[1] == "3") {
+                                //swal("",msg[0],"success");
+                                window.location.href = '@Url.Action("UpdateAppProcessIMC", "CHC")'
+                            }
+
+
+                        },
+                        error: function () {
+                            swal("", "Some Error Occur!", "error");
+                        }
+                    });
+
+                }
+            }
+        });
+
+        $(".btnReject").click(function () {
+            $(".btnAccept").hide();
+            $(".btnReject").hide();
+            $("#divDataList").hide();
+            $(".status_" + $("#appStatus").val()).show();
+
+        });
+        $('input[name=rbl_check]').click(function () {
+            $("#spanIsreport").hide();
+            if ($('input[name=rbl_check]:checked').val() == 2) {
+                $("#spanIsreport").hide();
+                $(".divReject").show();
+                $("#btnNext").hide();
+                $(".divImm").hide();
+            }
+            else {
+                $(".divImm").show();
+                $(".divReject").hide();
+                $("#btnNext").show();
+            }
+        });
+        $(".btnforward").click(function () {
+
+            $(".divForward").show();
+            $(".btnforward").hide();
+        });
+    });
+    $(".ViewApp").click(function () {
+        $("#divstep_1").show();
+        $("#divstep1").hide();
+        $(".divDetails").hide();
+
+    });
+    function UploadFile(Obj) {
+
+        var ext = Obj.value.match(/\.(.+)$/)[1];
+        var Id = $(Obj).attr("Id");
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+                var fileSize = ($("#" + Id)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + Id).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFileIMC", "CHC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            $("#" + Id + "Path").val(response[1]);
+
+                            var Url = response[1].replace('~/', '');
+                            $(".aInspReport").show();
+                            $(".aInspReport").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+                            return false;
+                        },
+                        error: function () {
+
+                        }
+                    });
+
+                }
+                break;
+            default:
+                swal("", 'Invalid File Format only pdf and jpg files are allow!', "warning");
+                $("#" + Id).val("");
+                $("#" + Id + "Path").val("");
+                $(".aInspReport").hide();
+                this.value = '';
+                return false;
+
+        }
+    }
+
+    function acceptApp() {
+        debugger;
+        swal({
+            title: "Are you sure you want to Accept this Application?",
+            text: "Once you Accept you will not be able to change it.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, Accept it !",
+            cancelButtonText: "No, Cancel it !",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $('#bitAppAccept').click();
+            }
+        });
+    }
+</script>

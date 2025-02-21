@@ -1,0 +1,463 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MLCModel
+@{
+    ViewBag.Title = "PrintApplicationFormMLC";
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link type="text/css" href="~/css/reportstyle.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <title>MLC Details</title>
+</head>
+<body id="content" style="margin: 0px 0px; padding: 15px 0px">
+    <div class="pbtn" style="width: 1170px; margin: 0 auto;">
+        <button type="button" class="btn btn-warning pull-right" style="border-radius: 0; width: 80px; margin-bottom: 8px;" onclick="PrintDoc()">Print</button>
+    </div>
+    <div class="form-wrap2">
+        <table class="tbl-head" style="border-top: 6px solid #666; border-bottom: 6px solid #666; border-left: 1px dashed #666; border-right: 1px dashed #666; font-size: 15px; border-collapse: collapse" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td width="20%">
+                        <img class="logo" style="margin-left: 15px; margin-top: 10px; margin-bottom: 10px" alt="Logo" title="Logo" src="../images/up-logo-en.png"></td>
+                    <td align="left" width="80%">
+                        <h2 style="padding: 0px; margin: 8px 0px 0px 0px; font-size: 22px; font-weight: bold;"><strong>Department of Medical Health and Family Welfare</strong></h2>
+                        <h4 style="padding: 0px; margin: 0px; text-align: left; font-size: 14px; font-weight: bold">Government  of Uttar Pradesh</h4>
+                        <h3 class="headinf-print" style="padding: 0px; margin: 17px 0px 0px 0px; text-align: left; text-decoration: underline; font-size: 16px; font-weight: bold;">Online Application Form for Registration of Medico - Legal Certificate</h3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-wrap">
+        <p style="margin: 0px; padding: 0px; font-size: 18px; font-weight: bold">To, <span style="float: right">Registration Number : @Model.registrationNo</span></p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>The @Model.officer,</strong></p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Distt :</strong> @Model.DistrictName</p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Uttar Pradesh</strong></p>
+        <p style="margin: 0px; padding: 0px; font-size: 18px; font-weight: bold">Sir,</p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Kindly Register my Medico-Legal Certificate details of which are given as below</strong></p>
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">1</span>Brought By:</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Brought By Name</td>
+                    <td width="25%">
+                        @Model.fullName
+                    </td>
+                    @if (Model.broughtByDesignation != "")
+                    {
+                    <td width="25%" style="font-weight: 600;">Designation</td>
+                    <td width="25%">@Model.broughtByDesignation</td>
+                    }
+                    else
+                    {
+                         <td></td>
+                         <td></td>
+                    }
+                </tr>
+                @if (Model.patientBroughtBy == "Police")
+                {
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Patient Brought By</td>
+                    <td width="25%">@Model.patientBroughtBy</td>
+                    <td width="25%" style="font-weight: 600;"></td>
+                    <td width="25%"></td>
+                 </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Police Id</td>
+                    <td width="25%">@Model.idNo</td>
+                    <td width="25%" style="font-weight: 600;">FIR No.</td>
+                    <td width="25%">@Model.FIRno</td>
+                 </tr>
+                }
+                else if (Model.patientBroughtBy == "Relative")
+                {
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Patient Brought By</td>
+                    <td width="25%">@Model.patientBroughtBy</td>
+                    <td width="25%" style="font-weight: 600;">Relation With Patient</td>
+                    <td width="25%">@Model.broughtByPersonrelation</td>
+                 </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Id Type</td>
+                    <td width="25%">@Model.idTypeName</td>
+                    <td width="25%" style="font-weight: 600;">Id No.</td>
+                    <td width="25%">@Model.idNumber</td>
+                 </tr>
+                }
+                else if (Model.patientBroughtBy == "Unknown")
+                {
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Patient Brought By</td>
+                    <td width="25%">@Model.patientBroughtBy</td>
+                    <td width="25%" style="font-weight: 600;"></td>
+                    <td width="25%"></td>
+                 </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Id Type</td>
+                    <td width="25%">@Model.idTypeName</td>
+                    <td width="25%" style="font-weight: 600;">Id No.</td>
+                    <td width="25%">@Model.idNumber</td>
+                 </tr>
+                }
+                @*  <tr>
+                    <td width="25%" style="font-weight: 600;">Patient Brought By</td>
+                    <td width="25%">@Model.patientBroughtBy</td>
+                    @if (Model.patientBroughtBy == "Relative")
+                    {
+                        <td width="25%" style="font-weight: 600;">Relation With Patient</td>
+                        <td width="25%">@Model.broughtByPersonrelation</td>
+                    }
+                    else if (Model.patientBroughtBy == "Police")
+                    {
+                        <td width="25%" style="font-weight: 600;">Police Id</td>
+                        <td width="25%">@Model.idNo</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                </tr>
+              @if (Model.patientBroughtBy != "Police")
+                {
+                      <tr>
+                        <td width="25%" style="font-weight: 600;">Id Type</td>
+                        @if (Model.idTypeName != null)
+                        {
+                            <td width="25%">
+                                @Model.idTypeName
+                            </td>
+                        }
+                        else
+                        {
+                            <td width="25%">
+                                <label>NaN</label>
+                            </td>
+                        }
+                        <td width="25%" style="font-weight: 600;">Id Number</td>
+                        @if (Model.idNumber != "")
+                        {
+                            <td width="25%">@Model.idNumber
+                            </td>}
+                        else
+                        {
+                            <td width="25%">
+                                <label>NaN</label>
+                            </td>
+                        }
+                    </tr>
+                 
+                }*@
+
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Mobile Number</td>
+                    <td width="25%">
+                        @Model.mobileNo
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Email</td>
+                    <td width="25%">@Model.emailId @*@DateTime.Parse(@Model.dob).ToShortDateString()*@
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Address</td>
+                    <td width="25%">
+                        @Model.broughtByaddress
+                    </td>
+                    <td width="25%" style="font-weight: 600;">State</td>
+                    <td width="25%">
+                        @Model.broughtBystateName
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">District</td>
+                    <td width="25%">
+                        @Model.broughtBydistrictName
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Pin Code</td>
+                    <td width="25%">
+                        @Model.pinCode
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Medico-Legal Date</td>
+                    <td width="25%">
+                        @Model.MLCDate
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Medico-Legal Time</td>
+                    <td width="25%">
+                        @Model.MLCtime
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">2</span>Patient Detail:</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Patient`s Name</td>
+                    <td width="25%">
+                        @Model.patientName
+                    </td>
+                    <td width="25%" style="font-weight: 600;">S/O D/O W/O</td>
+                    <td width="25%">
+                        @Model.patientFatherName
+                    </td>
+                  
+                </tr>
+
+                <tr>
+                      <td width="25%" style="font-weight: 600;">Age About</td>
+                   @if (Model.age != null)
+                   {
+                        <td width="25%">@Model.age</td>
+                   }
+                   else
+                   {
+                        <td width="25%">
+                            <label>NaN</label>
+                        </td>
+                   }
+                    <td width="25%" style="font-weight: 600;">Gender</td>
+                    <td width="25%">@Model.patientGender</td>
+                    
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Occupation</td>
+                     @if (Model.occupation != "")
+                     {
+                        <td width="25%">@Model.occupation</td>
+                     }
+                     else
+                     {
+                        <td width="25%">
+                            <label>NaN</label>
+                        </td>
+                     }
+                     <td width="25%" style="font-weight: 600;">
+                        State
+                    </td>
+                    <td width="25%">
+                        @Model.stateName
+                    </td>
+                   
+                  
+                </tr>
+                <tr>
+                     <td width="25%" style="font-weight: 600;">
+                        District
+                    </td>
+                    <td width="25%">
+                        @Model.DistrictName
+                    </td>
+                      <td width="25%" style="font-weight: 600;">Address</td>
+                    <td width="25%">
+                        @Model.address
+                    </td>
+                   
+                </tr>
+                <tr>
+                     <td width="25%" style="font-weight: 600;">Tehsil</td>
+                    <td width="25%">@Model.tehsilName</td>
+                    
+                    <td width="25%" style="font-weight: 600;">Area/Road Name</td>
+                    <td width="25%">@Model.areaRoadName</td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Police Station</td>
+                    <td width="25%">@Model.policeStation</td>
+                    <td width="25%" style="font-weight: 600;">Details</td>
+                    <td width="25%">@Model.details</td>
+                   
+                    
+                </tr>
+                <tr>
+                     <td width="25%" style="font-weight: 600;">Medico-Legal Type</td>
+                    <td width="25%">@Model.medicoLegalType</td>
+                    <td width="25%" style="font-weight: 600;">OPD Number</td>
+                    <td width="25%">@Model.OPDNumber</td>
+                   
+                    
+                </tr>
+                <tr>
+                     <td width="25%" style="font-weight: 600;">Mark Of Identification</td>
+                    <td width="25%">@Model.markOfIdentification</td>
+                </tr>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">3</span>Selected Health Unit For Appointment :</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="15%" style="font-weight: 600;">Health Unit</td>
+                    <td width="20%">@Model.forwardtypeName</td>
+                    <td width="15%" style="font-weight: 600;">District</td>
+                    <td width="18%">@Model.healthUnitDistrictName</td>
+                    <td width="15%" style="font-weight: 600;">Area</td>
+                    <td width="17%">@Model.forwardtoName</td>
+                </tr> 
+            </tbody>
+        </table>
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">4</span>Injury Details:</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="15%" style="font-weight: 600;">Doctor Name:</td>
+                    <td width="20%">@Model.doctorName</td>
+                    <td width="15%" style="font-weight: 600;">Designation:</td>
+                    <td width="18%">@Model.Designation</td>
+                </tr> 
+                 <tr>
+                    <td width="15%" style="font-weight: 600;">Seniority No:</td>
+                    <td width="20%">@Model.seniorityNo</td>
+                    <td width="15%" style="font-weight: 600;">Number of days for rest</td>
+                    <td width="18%">@Model.restDays
+                    </td>
+                </tr> 
+            </tbody>
+        </table>
+
+      
+         <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">5</span>Enquiry Detail :</h3>
+        <div id="childlist">
+        </div>
+       
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%">
+                        <p style="text-align: left;">&nbsp;</p>
+                        <p><strong>Date</strong></p>
+                    </td>
+                    <td width="25%">
+                        <p style="text-align: left;">&nbsp;</p>
+                        <p style="text-align: left;"><strong>Place</strong></p>
+                    </td>
+                    <td width="50%">
+                        <p style="text-align: center;">
+                            <strong>&nbsp;</strong>
+                        </p>
+                        <p style="text-align: center; font-weight: 600;">Signature of Person Incharge </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="margin: 0px; padding: 0px;"><strong>Note :</strong></p>
+        <p style="margin: 0px 0px 10px 0px; padding: 0px 0px;"><span style="margin: 0px 15px 0px 0px; padding: 0px;">1.</span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is </p>
+        <p style="margin: 0px 0px 10px 0px; padding: 0px 0px;"><span style="margin: 0px 15px 0px 0px; padding: 0px;">2.</span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is </p>
+        <p style="margin: 0px 0px 10px 0px; padding: 0px 0px;"><span style="margin: 0px 15px 0px 0px; padding: 0px;">3.</span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is </p>
+    </div>
+    <style>
+        .form-wrap
+        {
+            width: 1170px;
+            margin: auto !important;
+            padding: 15px !important;
+            border: 1px dashed #000 !important;
+        }
+
+        .form-wrap2
+        {
+            width: 1170px;
+            margin: 0 auto;
+        }
+
+        #childlist th a
+        {
+            color: #000;
+            text-decoration: none;
+        }
+
+        @@media print
+        {
+            .form-wrap
+            {
+                width: 700px !important;
+                margin: auto !important;
+                padding: 15px !important;
+                border: 1px dashed #000 !important;
+            }
+
+            .form-wrap2
+            {
+                width: 700px !important;
+                margin: auto !important;
+            }
+
+            .tbl-head
+            {
+                width: 700px !important;
+                /*margin-left: 9px;*/
+            }
+
+            #childlist th a
+            {
+                color: #000;
+                text-decoration: none;
+            }
+        }
+    </style>
+
+    <script src="~/js/jquery-1.11.3.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            if ('@TempData["reg"]' != '') {
+                debugger;
+                var reg = '@TempData["reg"]';
+
+                ChildList(reg);
+            }
+        });
+        function ChildList(_registrationNo) {
+            debugger;
+            $.ajax({
+                url: '@Url.Action("BindCHCChildList", "CHC")',
+            data: { registrationNo: _registrationNo },
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlist").html(data);
+            },
+        });
+    }
+
+    </script>
+
+    <script>
+
+        function PrintDoc() {
+
+            var toPrint = document.getElementById('content');
+
+            var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+            popupWin.document.open();
+
+            popupWin.document.write('<html><title>Department of Health and Family Welfare</title><link href="../css/bootstrap.min.css" rel="stylesheet" /><link type="text/css" href="../css/font-awesome.min.css" rel="stylesheet" /><link href="../css/reportstyle.css" rel="stylesheet" /> <style>.pbtn{display:none;} a:link:after, a:visited:after {content: normal !important} a[href]:after {content: normal !important;} .owner{margin-bottom: 45px !important;} </style> </head><body onload="window.print()">')
+
+            popupWin.document.write(toPrint.innerHTML);
+
+            popupWin.document.write('</body></html>');
+
+            popupWin.document.close();
+
+        }
+    </script>
+</body>
+</html>

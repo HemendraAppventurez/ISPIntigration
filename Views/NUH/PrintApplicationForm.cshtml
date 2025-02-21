@@ -1,0 +1,881 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.NUHmodel
+
+@{
+    ViewBag.Title = "NUHDetails";
+    //Layout = "~/Views/Shared/_UserLayout.cshtml";
+    Layout = null;
+    int io = @ViewBag.VBoutpateint.Count;
+    int il = @ViewBag.VBolaboratory.Count;
+    int ii = @ViewBag.VBimaging.Count;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link type="text/css" href="~/css/reportstyle.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <title>NUH Details</title>
+</head>
+<body id="content" style="margin: 0px 0px; padding: 15px 0px">
+    <div class="pbtn" style="width: 1170px; margin: 0 auto;">
+        <button type="button" class="btn btn-warning pull-right" style="border-radius: 0; width: 80px; margin-bottom: 8px;" onclick="PrintDoc()">Print</button>
+    </div>
+    <div class="form-wrap2">
+        <table class="tbl-head" style="border-top: 6px solid #666; border-bottom: 6px solid #666; border-left: 1px dashed #666; border-right: 1px dashed #666; font-size: 15px; border-collapse: collapse" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td width="20%">
+                        <img class="logo" style="margin-left: 15px; margin-top: 10px; margin-bottom: 10px" alt="Logo" title="Logo" src="../images/up-logo-en.png"></td>
+                    <td align="left" width="80%">
+                        <h2 style="padding: 0px; margin: 8px 0px 0px 0px; font-size: 22px; font-weight: bold;"><strong>Department of Medical Health and Family Welfare</strong></h2>
+                        <h4 style="padding: 0px; margin: 0px; text-align: left; font-size: 14px; font-weight: bold">Government  of Uttar Pradesh</h4>
+                        <h3 class="headinf-print" style="padding: 0px; margin: 17px 0px 0px 0px; text-align: left; text-decoration: underline; font-size: 16px; font-weight: bold;">Online Application Form for Registration of Medical Establishment </h3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-wrap">
+        <p style="margin: 0px; padding: 0px; font-size: 18px; font-weight: bold">To, <span style="float: right">Application Number : @Model.registrationNo</span></p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>The Chief Medical Office,</strong></p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Distt :</strong> @Model.DistrictName</p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Uttar Pradesh</strong></p>
+        <p style="margin: 0px; padding: 0px; font-size: 18px; font-weight: bold">Sir,</p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Kindly Register my Clinic/medical establishment details of which are given as below</strong></p>
+
+        @if (Model.isCertificateFromPortal == false && Model.isRenewal == true)
+        {
+            <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;"></span>Details of Previous Certificate :</h3>
+            <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+                <tbody>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Old Registration Number</td>
+                        <td width="25%">
+                            @Model.outerRegistrationNo
+                        </td>
+                        <td width="25%" style="font-weight: 600;">Old Certificate Number</td>
+                        <td width="25%">
+                            @Model.outerCertificateNo
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Old Certificate</td>
+                        <td width="25%">
+                            <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div>
+                        </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%"></td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">1</span>Details of Establishment :</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Establishment Area</td>
+                    <td width="25%">
+                        @Model.establishmentArea
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Place of Establishment</td>
+                    <td width="25%">
+                        @Model.establishmentPlace
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Type Of Land</td>
+                    <td width="25%">
+                        @Model.landType
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Establishment Name</td>
+                    <td width="25%">
+                        @Model.establishmentName
+                    </td>
+                </tr>
+                <tr>
+
+                    <td width="25%" style="font-weight: 600;">Category</td>
+                    <td width="25%">
+                        @Model.medicalEstablishmentName
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Operated By</td>
+                    <td width="25%">@Model.operatedBy</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">HFR ID No.</td>
+                    <td width="25%">@Model.HfrNo</td>
+                    <td width="25%" style="font-weight: 600;">Name of @Model.operatedBy</td>
+                    <td width="25%">@Model.operatedName</td>
+                 
+                </tr>
+                <tr>
+                       <td width="25%" style="font-weight: 600;">Building Structural Layout</td>
+                       <td width="25%">
+                        @if (!string.IsNullOrEmpty(Model.structuralLyoutFile))
+                        {
+                            <a href="@Url.Content(Model.structuralLyoutFile)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                        }
+                    </td>
+                </tr>
+
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">2</span>Address of Medical Establishment : </h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Telephone / Mobile No.</td>
+                    <td width="25%">
+                        @if (Model.telephoneNo != "")
+                        {
+                            @Model.telephoneNo
+                        }
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Website</td>
+                    <td width="25%">
+                        @if (@Model.website != "")
+                        {
+                            @Model.website                    
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Address</td>
+                    <td width="25%">@Model.address</td>
+                    <td width="25%" style="font-weight: 600;">District</td>
+                    <td width="25%">@Model.DistrictName</td>
+                </tr>
+                <tr>
+
+                    <td width="100px" style="font-weight: 600;">State</td>
+                    <td width="174px">@Model.StateName</td>
+                    <td width="100px" style="font-weight: 600;">Pincode</td>
+                    <td width="285px;">@Model.pinCode</td>
+                </tr>
+                <tr>
+
+                    <td width="25%" style="font-weight: 600;">Address Proof</td>
+                    <td width="25%">
+                        @if (!string.IsNullOrEmpty(Model.addressproofFilePath))
+                        {
+                            <a href="@Url.Content(Model.addressproofFilePath)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                        }
+                    </td>
+                    @if (Model.isRenewal == true)
+                    {
+                        if (Model.isMEEaddressChange == true)
+                        {
+                        <td width="25%" style="font-weight: 600;">Address is changed</td>
+                        }
+                        else
+                        {
+                        <td width="25%" style="font-weight: 600;">Address is same</td>
+                        }
+                    }
+                </tr>
+            </tbody>
+        </table>
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">3</span>Medical facilities:</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="21%" style="font-weight: 600;">Details of Medical facilities offered</td>
+                    <td width="62%">@Model.medicalFacilities</td>
+                </tr>
+            </tbody>
+        </table>
+        @if (Model.operatedBy != "Firm")
+        {
+            <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">4</span>Details of Owner :</h3>
+            <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped owner" style="font-size: 15px; border-collapse: collapse">
+                <tbody>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Name</td>
+                        <td width="25%">@Model.ownerName</td>
+                        <td width="25%" style="font-weight: 600;">Age</td>
+                        <td width="25%">@Model.ownerAge</td>
+
+                    </tr>
+                    <tr>
+
+                        <td width="25%" style="font-weight: 600;">Father Name</td>
+                        <td width="25%">@Model.ownerFatherName</td>
+                        <td width="25%" style="font-weight: 600;">Mobile Number</td>
+                        <td width="25%">@Model.ownerMobileNo</td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">E-mail Id</td>
+                        <td width="25%">@Model.ownerEmailId</td>
+                        <td width="25%" style="font-weight: 600;">Address</td>
+                        <td width="25%">@Model.ownerAddress</td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">State</td>
+                        <td width="25%">@Model.ownernStateName</td>
+                        <td width="25%" style="font-weight: 600;">District</td>
+                        <td width="25%">@Model.ownernDistrictName</td>
+
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Pin Code</td>
+                        <td width="25%">@Model.ownerPincode</td>
+                        <td width="25%" style="font-weight: 600;">Photo</td>
+                        <td width="25%">
+                            @if (!string.IsNullOrEmpty(Model.ownerPhotograph))
+                            {
+                                <a href="@Url.Content(Model.ownerPhotograph)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                            }
+                        </td>
+
+
+                    </tr>
+                    <tr>
+
+                        <td width="25%" style="font-weight: 600;">Signature</td>
+                        <td width="25%">
+                            <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div>
+                        </td>
+                        <td width="25%" style="font-weight: 600;">Owner & Person in charge are same?</td>
+                        @if (Model.isBelongToMedical == true)
+                        {
+                            <td width="25%">Yes</td>
+                        }
+                        else
+                        {
+                            <td width="25%">No</td>
+                        }
+
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">4</span>Details of Partner :</h3>
+            <table class="table-user-information table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Sl.No.</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Father Name</th>
+                        <th>Mobile No.</th>
+                        <th>Email Id</th>
+                        <th>Address</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>Pin Code</th>
+                        <th>Photo</th>
+                        <th>Signature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.NUHPartnerList != null && Model.NUHPartnerList.Count > 0)
+                    {
+                        int slno = 1;
+                        foreach (var item in Model.NUHPartnerList)
+                        {
+                        <tr>
+                            <td>@slno</td>
+                            <td>@item.ownerName</td>
+                            <td>@item.ownerAge</td>
+                            <td>@item.ownerFatherName</td>
+                            <td>@item.ownerMobileNo</td>
+                            <td>@item.ownerEmailId</td>
+                            <td>@item.ownerAddress</td>
+                            <td>@item.StateName</td>
+                            <td>@item.DistrictName</td>
+                            <td>@item.ownerPincode</td>
+                            <td>@if (!string.IsNullOrEmpty(item.ownerPhotograph))
+                                {
+                                <a href="@Url.Content(@item.ownerPhotograph)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                                }</td>
+                            <td>@if (!string.IsNullOrEmpty(item.ownerSignature))
+                                {
+                                <a href="@Url.Content(@item.ownerSignature)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                                }</td>
+                        </tr>
+                                slno = slno + 1;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="12">Detail not found!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+             
+
+        }
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">5</span>Details of Person Incharge :</h3>
+
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Name</td>
+                    <td width="25%">@Model.applicantName</td>
+                    <td width="25%" style="font-weight: 600;">Mobile Number</td>
+                    <td width="25%">@Model.applicantMobileNo</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">E-mail</td>
+                    <td width="25%">@Model.applicantEmailId</td>
+                    <td width="25%" style="font-weight: 600;">Relevant Qualification</td>
+                    <td width="25%">@Model.qualification</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Institution Name</td>
+                    <td width="25%">@Model.institution</td>
+                    <td width="25%" style="font-weight: 600;">Registration No(MCI/SMF).</td>
+                    <td width="25%">@Model.registrationNumber</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Name of Central/ State Council</td>
+                    <td width="25%">@Model.Central_StateCouncilName</td>
+                    <td width="25%" style="font-weight: 600;">Address</td>
+                    <td width="25%">@Model.applicantAddress</td>
+                </tr>
+                <tr>
+
+                    <td width="25%" style="font-weight: 600;">State</td>
+                    <td width="25%">@Model.applicantStateName</td>
+                    <td width="25%" style="font-weight: 600;">District</td>
+                    <td width="25%">@Model.applicantDistrictName</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Pincode</td>
+                    <td width="25%">@Model.applicantPincode</td>
+                    <td width="25%" style="font-weight: 600;">Photo</td>
+                    <td width="25%">
+                         @if (!string.IsNullOrEmpty(Model.piPhotograph))
+                        {
+                            <a href="@Url.Content(Model.piPhotograph)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                        }
+                    </td>
+                </tr>
+                <tr>
+
+                    <td width="25%" style="font-weight: 600;">MCI/SMF Certificate</td>
+                    <td width="25%">
+                        @if (!string.IsNullOrEmpty(Model.upmci_smfCertificateFilePath))
+                        {
+                            <a href="@Url.Content(Model.upmci_smfCertificateFilePath)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                        }
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000">
+            <span style="margin: 0px 15px 0px 0px; padding: 0px;">6</span>Doctor's Details :
+        </h3>
+        @* <p class="text-danger">
+            <strong>Note:-</strong> Please fill details and upload records up to 5 doctors through Add more option & Furnish details of rest doctors in affidavit
+                                in same format as mentioned below. Submit hardcopy of all the remaining records (qualification document) of doctors to the CMO Office/ Committee.
+        </p>*@
+        <table class="table-user-information table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Sl.No.</th>
+                    <th>Doctor Name</th>
+                    <th>Father Name</th>
+                    <th>Relevant Qualification</th>
+                    <th>Foundation</th>
+                    <th>Registration Type</th>
+                    <th>Registration No.</th>
+                      <th>HPR ID No.</th>
+                    <th>Part/Full Time</th>
+                    <th>Attachment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.NUHDOCList != null && Model.NUHDOCList.Count > 0)
+                {
+                    int slno = 1;
+                    foreach (var item in Model.NUHDOCList)
+                    {
+                    <tr>
+                        <td>@slno</td>
+                        <td>@item.doctorName</td>
+                        <td>@item.doctorFathersName</td>
+                        <td>@item.doctorQualification</td>
+                        <td>@item.NameofFoundation</td>
+                        <td>@item.doctorregistrationType</td>
+                        <td>@item.doctorregistrationNo</td>
+                        <td>@item.doctorHprNo</td>
+                        <td>@item.doctorPart_FullTime</td>
+                        <td>@if (!string.IsNullOrEmpty(item.docFilePath))
+                            {
+                            <a href="@Url.Content(@item.docFilePath)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                            }</td>
+                    </tr>
+                            slno = slno + 1;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9">Detail not found!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @*<div id="childlistDOC">
+        </div>*@
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">7</span>Paramedical Staff Details :
+        </h3>
+     @*   <p class="text-danger">
+            <strong>Note:-</strong>  Please fill details and upload records up to 5 ParaMedical Staff through Add more option & Furnish details  of rest ParaMedical
+                                 Staff in affidavit in same format as mentioned below. Submit hardcopy of all the remaining records (qualification document) of ParaMedical Staff to the CMO Office/ Committee.
+        </p>*@
+        <table class="table-user-information table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Sl.No.</th>
+                    <th>Name</th>
+                    <th>Father Name</th>
+                    <th>Relevant Qualification</th>
+                    <th>Institution</th>
+                    <th>Registration Type</th>
+                    <th>Registration No.</th>
+                      <th>HPR ID No.</th>
+                    <th>Part/Full Time</th>
+                    <th>Attachment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.NUHModelList != null && Model.NUHModelList.Count > 0)
+                {
+                    int slno = 1;
+                    foreach (var item in Model.NUHModelList)
+                    {
+                    <tr>
+                        <td>@slno</td>
+                        <td>@item.staffName</td>
+                        <td>@item.stafffatherName</td>
+                        <td>@item.staffqualification</td>
+                        <td>@item.staffinstitution</td>
+                        <td>@item.staffRegistrationType</td>
+                        <td>@item.staffRegistrationNo</td>
+                        <td>@item.staffHprNo</td>
+                        <td>@item.part_fullTime</td>
+                        <td>@if (!string.IsNullOrEmpty(item.filePath))
+                            {
+                            <a href="@Url.Content(@item.filePath)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                            }</td>
+                    </tr>
+                            slno = slno + 1;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9">Detail not found!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">8</span>Type Of Facility Offered :</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                @if (Model.isInPatient == true)
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">InPatient</td>
+                        <td width="25%" style="font-weight: 600;">Yes </td>
+                        <td width="25%" style="font-weight: 600;">No. of Bed</td>
+                        <td width="25%" style="font-weight: 600;">@Model.numberofBed </td>
+                    </tr>
+                   
+                }
+                else
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">InPatient</td>
+                        <td width="25%" style="font-weight: 600;">No </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                    </tr>
+                }
+                @if (Model.isOutPatient == true)
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">OutPatient</td>
+                        <td width="25%" style="font-weight: 600;">Yes </td>
+                        <td width="25%" style="font-weight: 600;">Other OutPatient</td>
+                        <td width="25%" style="font-weight: 600;">@Model.otherOutPatient </td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">OutPatient Type</td>
+                        <td width="25%" style="font-weight: 600;">
+
+                            @foreach (var v in ViewBag.VBoutpateint)
+                            {                    
+              
+                                <span>@v.outPatientName
+                                    @if (io > 1)
+                                    { 
+                                        <span>,</span>
+                                    }
+
+                                </span>
+                                    io--;
+                            }
+                        </td>
+
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">OutPatient</td>
+                        <td width="25%" style="font-weight: 600;">No </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                    </tr>
+                }
+
+                @if (Model.isLaboratory == true)
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Laboratory</td>
+                        <td width="25%" style="font-weight: 600;">Yes </td>
+                        <td width="25%" style="font-weight: 600;">Other Laboratory</td>
+                        <td width="25%" style="font-weight: 600;">@Model.otherOutPatient </td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Laboratory Type</td>
+                        <td width="25%" style="font-weight: 600;">
+
+                            @foreach (var v in ViewBag.VBolaboratory)
+                            {                    
+              
+                                <span>@v.laboratoryName
+                                    @if (il > 1)
+                                    { 
+                                        <span>,</span>
+                                    }
+
+                                </span>
+                                    il--;
+                            }
+                        </td>
+
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Laboratory</td>
+                        <td width="25%" style="font-weight: 600;">No </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                    </tr>
+                }
+                @if (Model.isImaging == true)
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Imaging</td>
+                        <td width="25%" style="font-weight: 600;">Yes </td>
+                        <td width="25%" style="font-weight: 600;">Other Imaging</td>
+                        <td width="25%" style="font-weight: 600;">@Model.otherImaging </td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Imaging Type</td>
+                        <td width="25%" style="font-weight: 600;">
+
+                            @foreach (var v in ViewBag.VBimaging)
+                            {                    
+              
+                                <span>@v.imagingName
+                                    @if (il > 1)
+                                    { 
+                                        <span>,</span>
+                                    }
+
+                                </span>
+                                    il--;
+                            }
+                        </td>
+
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Imaging</td>
+                        <td width="25%" style="font-weight: 600;">No </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+
+
+
+
+                @if (Model.isNOC == true)
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">NOC from Pollution control Board</td>
+                        <td width="25%" style="font-weight: 600;">Yes </td>
+                        <td width="25%" style="font-weight: 600;">Certificate Number</td>
+                        <td width="25%" style="font-weight: 600;">@Model.nocCertificationNo </td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">NOC from Pollution control Board Certificate</td>
+                        <td width="25%" style="font-weight: 600;">
+
+                            @if (!string.IsNullOrEmpty(Model.nOCFilePath))
+                            {
+                                <a href="@Url.Content(@Model.nOCFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            }
+                        </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;">
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">NOC from Pollution control Board</td>
+                        <td width="25%" style="font-weight: 600;">No </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+
+
+
+
+                @if (Model.isDispose == true)
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Certificate from agency to Disposal of Medical Waste</td>
+                        <td width="25%" style="font-weight: 600;">Yes </td>
+                        <td width="25%" style="font-weight: 600;">Certificate Number</td>
+                        <td width="25%" style="font-weight: 600;">@Model.disposedNo </td>
+                    </tr>
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Certificate from agency to Disposal of Medical Waste</td>
+                        <td width="25%" style="font-weight: 600;">
+
+                            @if (!string.IsNullOrEmpty(Model.disposedFile))
+                            {
+                                <a href="@Url.Content(@Model.disposedFile)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            }
+                        </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Certificate from agency to Disposal of Medical Waste</td>
+                        <td width="25%" style="font-weight: 600;">No </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                    </tr>
+                     
+                }
+
+            </tbody>
+        </table>
+
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+
+
+
+
+
+
+                @if (Model.isFirefightingSystem == true)
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Firefighting System in the Establishment</td>
+                        <td width="25%" style="font-weight: 600;">Yes </td>
+                        <td width="25%" style="font-weight: 600;">Firefighting System in the Establishment Certificate</td>
+                        <td width="25%" style="font-weight: 600;">
+
+                            @if (!string.IsNullOrEmpty(Model.firefightingSystemFilePath))
+                            {
+                                <a href="@Url.Content(@Model.firefightingSystemFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            }
+                        </td>
+                    </tr>
+                    
+                }
+                else
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Firefighting System in the Establishment</td>
+                        <td width="25%" style="font-weight: 600;">No </td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                        <td width="25%" style="font-weight: 600;"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">9</span>Attachment :</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="50%" style="font-weight: 600;">Address Proof </td>
+                    <td align="center">
+
+                        @if (!string.IsNullOrEmpty(Model.addressproofFilePath))
+                        {
+                            <a href="@Url.Content(Model.addressproofFilePath)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50%" style="font-weight: 600;">Upload MCI/SMF Certificate</td>
+                    <td align="center">
+
+                        @if (!string.IsNullOrEmpty(Model.upmci_smfCertificateFilePath))
+                        {
+                            <a href="@Url.Content(Model.upmci_smfCertificateFilePath)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                        }
+                    </td>
+                </tr>
+                @* <tr>
+                    <td width="50%" style="font-weight: 600;">Attach Qualification Document</td>
+                    <td align="center">
+
+                        <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div>
+                    </td>
+                </tr>*@
+                <tr>
+                    <td width="50%" style="font-weight: 600;">Notarized Affidavit from Person Incharge of Establisment </td>
+                    <td align="center">
+
+                        @if (!string.IsNullOrEmpty(Model.notarizedAffidavitFilePath))
+                        {
+                            <a href="@Url.Content(Model.notarizedAffidavitFilePath)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%">
+                        <p style="text-align: left;">&nbsp;</p>
+                        <p><strong>Date</strong></p>
+                    </td>
+                    <td width="25%">
+                        <p style="text-align: left;">&nbsp;</p>
+                        <p style="text-align: left;"><strong>Place</strong></p>
+                    </td>
+                    <td width="50%">
+                        <p style="text-align: center;">
+                            <strong>&nbsp;</strong>
+                        </p>
+                        <p style="text-align: center; font-weight: 600;">Signature of Person Incharge </p>
+                        &nbsp;&nbsp;
+                         @if (!String.IsNullOrEmpty(Model.ownerSignature))
+                         {
+                             <img src="@Url.Content(Model.ownerSignature)" alt="Owner Signature" width="250" height="100">
+                         }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <style>
+        .form-wrap {
+            width: 1170px;
+            margin: auto !important;
+            padding: 15px !important;
+            border: 1px dashed #000 !important;
+        }
+
+        .form-wrap2 {
+            width: 1170px;
+            margin: 0 auto;
+        }
+
+        #childlist th a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        @@media print {
+            .form-wrap {
+                width: 700px !important;
+                margin: auto !important;
+                padding: 15px !important;
+                border: 1px dashed #000 !important;
+            }
+
+            .form-wrap2 {
+                width: 700px !important;
+                margin: auto !important;
+            }
+
+            .tbl-head {
+                width: 700px !important;
+            }
+
+            #childlist th a {
+                color: #000;
+                text-decoration: none;
+            }
+        }
+    </style>
+
+    <script src="~/js/jquery-1.11.3.min.js"></script>
+
+    <script>
+
+        function PrintDoc() {
+
+            var toPrint = document.getElementById('content');
+
+            var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+            popupWin.document.open();
+
+            popupWin.document.write('<html><title>Department of Health and Family Welfare</title><link href="../css/bootstrap.min.css" rel="stylesheet" /><link type="text/css" href="../css/font-awesome.min.css" rel="stylesheet" /><link href="../css/reportstyle.css" rel="stylesheet" /> <style>.pbtn{display:none;} a:link:after, a:visited:after {content: normal !important} a[href]:after {content: normal !important;} .owner{margin-bottom: 45px !important;} </style> </head><body onload="window.print()">')
+
+            popupWin.document.write(toPrint.innerHTML);
+
+            popupWin.document.write('</body></html>');
+
+            popupWin.document.close();
+
+        }
+    </script>
+</body>
+</html>

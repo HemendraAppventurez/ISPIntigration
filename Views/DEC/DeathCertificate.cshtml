@@ -1,0 +1,713 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DECModel
+@{
+    ViewBag.Title = "DeathCertificate";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">Application Form for Death  <strong>Certificate</strong></h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm("DeathCertificate", "DEC", FormMethod.Post, new { @id = "frmDeathCertificate" }))
+    {
+  
+@*<div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <b>निम्नलिखित फ़ॉर्म भरकर “Submit” बटन पर क्लिक करें। “Submit” बटन पर क्लिक करने के उपरांत स्क्रीन पर एक पॉप-अप प्रदर्शित होगा, इस पॉप-अप में प्रदर्शित फ़ॉर्म को अच्छी तरह से पढ़ लें तथा “Confirm” बटन पर क्लिक करें। “Confirm” बटन पर क्लिक करने के उपरांत आपका आवेदन संबंधित डीएच (जिला अस्पताल)/ सीएचसी(सामुदायिक स्वास्थ्य केंद्र)/ पीएचसी(प्राथमिक स्वास्थ्य केंद्र) को भेजा जाएगा। अपने आवेदन की स्थिति को देखने हेतु “View Status” बटन पर क्लिक करें। </b>
+                </div>
+            </div>
+        </div>*@
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Requester Details</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.fullName, new { @class = "form-control", tabindex = 1  })
+                                    @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mobile Number<span class="star">*</span> </label>
+                                    @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @maxlength = 10, tabindex = 2, @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.mobileNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>E-mail Address<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", tabindex = 3 })
+                                    @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Address<span class="star">*</span></label>
+                                    @Html.TextAreaFor(m => m.address, new { @class = "form-control", tabindex = 4 })
+                                    @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>State</label>
+                                    @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State, new { @class = "form-control", @readonly = "true", tabindex = "5" })
+                                    @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>District <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.districtid, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "6" })
+                                    @Html.ValidationMessageFor(m => m.districtid, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Pin code <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", @maxlength = "6", @placeholder = "Pin Code", tabindex = "7", @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.pinCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Relation with Death Person<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.relationWithDeathPerson, new { @class = "form-control", tabindex = "8"})
+                                    @Html.ValidationMessageFor(m => m.relationWithDeathPerson, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Death Person's Detail </h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                             <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Type of Health Unit&nbsp;<span class="star">*</span></label>
+                                    <div class="form-control">
+                                        @foreach (var type in ViewBag.forwardTypes)
+                                        {
+                                            <label>
+                                                <input type="radio" name="forwardtypeId" id="forwardtypeId" value="@type.forwardtypeId">
+                                                @type.forwardtypeName
+                                            </label>
+                                        }
+                                    </div>
+                                    <label id="lbltype" class="text-danger" style="display: none;">Select Health Unit</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>District&nbsp;<span class="star">*</span></label>
+                                @Html.DropDownListFor(m => m.healthUnitDistrictId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "9" })
+                                @Html.ValidationMessageFor(m => m.healthUnitDistrictId, "", new { @class = "text-danger" })
+                              
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <label>Area&nbsp;<span class="star">*</span></label>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.forwardtoId, (IEnumerable<SelectListItem>)ViewBag.forwardTo, "--Select--", new { @class = "form-control" , tabindex = "10"})
+                                    @Html.ValidationMessageFor(m => m.forwardtoId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Name of Death Person<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.deathPersonName, new { @class = "form-control", tabindex = "11" })
+                                    @Html.ValidationMessageFor(m => m.deathPersonName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Aadhaar Number</label>
+                                    @Html.TextBoxFor(m => m.aadhaarNo, new { @class = "form-control", @maxlength = 12, tabindex = "12"})
+                                    @Html.ValidationMessageFor(m => m.aadhaarNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                             <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Gender<span class="star">*</span></label><br>
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.DeathPersonGender, "Male")
+                                        Male
+                                        </label>
+                                        <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.DeathPersonGender, "Female")
+                                        Female
+                                            </label>
+                                            <label class="radio-inline">
+                                         @Html.RadioButtonFor(m => m.DeathPersonGender, "Transgender")
+                                        Transgender
+                                    </label>
+                                    
+                                </div>
+                                @Html.ValidationMessageFor(m => m.DeathPersonGender, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Marital Status<span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.maritalStatusId, (IEnumerable<SelectListItem>)ViewBag.maritalStatus, "--select--", new { @class = "form-control", tabindex = "13",@onchange="manageSpouse(this);" })
+                                    @Html.ValidationMessageFor(m => m.maritalStatusId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-4" id="divSpouseName" style="display:none;">
+                                <div class="form-group">
+                                    <label>Spouse Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.spouseName, new { @class = "form-control", tabindex = "15"  })
+                                    @Html.ValidationMessageFor(m => m.spouseName, "", new { @class = "text-danger" })
+                                </div>
+                            </div> 
+                            
+                             <div class="clearfix"></div> 
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Father's Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.fathersName, new { @class = "form-control", tabindex = "16" })
+                                    @Html.ValidationMessageFor(m => m.fathersName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mother’s Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.motherName, new { @class = "form-control", tabindex = "17" })
+                                    @Html.ValidationMessageFor(m => m.motherName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Religion<span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.religionId, (IEnumerable<SelectListItem>)ViewBag.Religion, "--select--", new { @class = "form-control", tabindex = "14" })
+                                    @Html.ValidationMessageFor(m => m.religionId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            
+                             <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Date of Death<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.dod, new { @class = "datepicker-here form-control", tabindex = "18", @data_language = "en",@readonly="true", @placeholder = "dd/mm/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.dod, "", new { @class = "text-danger" })
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Cause of Death </h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label>Was the cause of death is medically certified?</label>
+                                </div>
+                                <div class="col-md-12 isCauseCertified">
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.isCauseCertified,1)
+                                        Yes
+                                    </label>
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.isCauseCertified, 2)
+                                        No
+                                    </label>
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.isCauseCertified, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-4" id="diseaseName_Cause" style="display: none">
+                                    <div class="form-group">
+                                        <label>Cause of death<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.diseaseNameOrCause, new { @class = "form-control", tabindex = "17" })
+                                        @Html.ValidationMessageFor(m => m.diseaseNameOrCause, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Undertaking </h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <b>I hereby declare that the details furnished above are true and correct to the best of my knowledge and belief and I undertake to inform you of any changes therein, immediately. In case any of the above information is found to be false or untrue or misleading or misrepresenting, I am aware that I may be held liable for it.
+                                    </b>
+
+                                    <br />
+                                  
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.isInfoCorrect, true)
+                                            I Agree</label>
+                                   
+                                    @Html.HiddenFor(m => m.isInfoCorrect) &nbsp;&nbsp;&nbsp;
+                                    @Html.ValidationMessageFor(m => m.isInfoCorrect, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2 col-md-offset-4">
+                                    <button id="btnsubmit" type="button" class="btn btn-block btn-primary">Save </button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button id="btnreset" type="reset" class="btn btn-block btn-warning">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+@*popup*@
+        <button id="btnShowPopup" type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none;"></button>
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Application form for Death Certificate</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 470px; overflow-y: auto;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-default">
+                                    <div class="panel-body">
+                                        <h4>Requester Details</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Full Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanfullName"></span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Mobile Number</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanmobileNo"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Email Id</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanemailId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanaddress"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>State</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanState"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>District</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanDistrict"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>PinCode</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanPincode"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Relation With Death Person</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanrelationWithDeathPerson"></span>
+                                            </div>
+                                        </div>
+                                        <h4>Death Person Detail</h4>
+                                         <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Heath Unit</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanHealthUnit"></span>
+                                            </div>
+                                        </div>
+                                         <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Heath Unit District</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanHealthUnitDistrict"></span>
+                                            </div>
+                                        </div>
+                                         <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Area</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanHealthUnitArea"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Name of Death Person</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandeathPersonName"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Adhaar No</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanaadhaarNo"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Gender</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanGender"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Marital Status</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanmaritalStatusId"></span>
+                                            </div>
+                                        </div> 
+                                        
+                                        <div class="row" id="divViewSN" style="display:none;">
+                                            <div class="col-md-6">
+                                                <label>Spouse Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanspouseName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Father's Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanfathersName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Mother's Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanmotherName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Religion</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanreligionId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Date Of Death</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandod"></span>
+                                            </div>
+                                        </div>
+                                        <h4>Cause Of Death</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>cause of death is medically certified</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanisCauseCertified"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="divdeccone" style="display: none;">
+                                            <div class="col-md-6">
+                                                <label>Cause Of death</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandiseaseNameOrCause"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2 col-md-offset-4">
+                                    <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+@*popup*@
+
+      
+
+    }
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+    });
+
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#dod').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    $('input[name=forwardtypeId]').click(function () {
+        $("#lbltype").hide();
+    });
+    $("#healthUnitDistrictId").change(function () {
+        binddropdown($("input[name=forwardtypeId]:checked").val(), $(this).val());
+    });
+
+    $("input[name=forwardtypeId]").change(function () {
+        binddropdown($(this).val(), $("#healthUnitDistrictId").val());
+    });
+    $("#btnsubmit").click(function () {
+        debugger;
+        var isShowPopup = true;
+        var val = $("#frmDeathCertificate").validate();
+
+        val.form();
+        val.showErrors();
+        if (!val.valid()) {
+            if ($('input[name=forwardtypeId]:checked').length == 0) {
+                $("#lbltype").show();
+            }
+            else {
+                $("#lbltype").hide();
+            }
+            swal("", "Some mandatory fields are Empty, Kindly check Application Form and fill the required Data.", "warning");
+            isShowPopup = false;
+        }
+        if (isShowPopup) {
+
+            $('#spanfullName').text($('#fullName').val());
+            $('#spanmobileNo').text($('#mobileNo').val());
+            $('#spanemailId').text($('#emailId').val());
+            $('#spanaddress').text($('#address').val());
+            $('#spanState').text($('#stateId option:selected').text());
+            $('#spanDistrict').text($('#districtid option:selected').text());
+            $('#spanPincode').text($('#pinCode').val());
+            $('#spanrelationWithDeathPerson').text($('#relationWithDeathPerson').val());
+            if ($('input[name=forwardtypeId]:checked').val() == 3) {
+                $('#spanHealthUnit').text("Community Health Center (CHC)");
+            }
+            if ($('input[name=forwardtypeId]:checked').val() == 5) {
+                $('#spanHealthUnit').text("District Hospital (DH)");
+            }
+
+            $('#spanHealthUnitDistrict').text($('#healthUnitDistrictId option:selected').text());
+            $('#spanHealthUnitArea').text($('#forwardtoId option:selected').text());
+            $('#spandeathPersonName').text($('#deathPersonName').val());
+            if ($('#aadhaarNo').val() != "") {
+                $('#spanaadhaarNo').text($('#aadhaarNo').val());
+            }
+            else {
+                $('#spanaadhaarNo').text("NA");
+            }
+            $('#spanGender').text($('input[name=DeathPersonGender]:checked').val());
+            $('#spanmaritalStatusId').text($('#maritalStatusId option:selected').text());
+
+            if ($('#maritalStatusId option:selected').val() == "2") {
+                $('#divViewSN').show();
+                $('#spanspouseName').text($('#spouseName').val());
+            }
+            else {
+                $('#divViewSN').hide();
+            }
+
+            $('#spanreligionId').text($('#religionId option:selected').text()); 
+            $('#spanfathersName').text($('#fathersName').val());
+            $('#spanmotherName').text($('#motherName').val());
+            $('#spandod').text($('#dod').val());
+            if ($('input[name=isCauseCertified]:checked').val() == 1) {
+
+                $('#spanisCauseCertified').text('Yes');
+                $('#divdeccone').show();
+                $('#spandiseaseNameOrCause').text($('#diseaseNameOrCause').val());
+            }
+            else if ($('input[name=isCauseCertified]:checked').val() == 2) {
+
+                $('#divdeccone').hide();
+                $('#spanisCauseCertified').text('No');
+            }
+
+            $('#btnShowPopup').click();
+            setTimeout(function () {
+                $('.modal-body').scrollTop(0);
+            }, 300);
+        }
+
+
+    });
+
+
+
+    function binddropdown(Id, distId) {
+
+        $.ajax({
+            url: '@Url.Action("BindForwardDropdownlist", "DEC")',
+            data: { rollId: Id, opdDistrictId: distId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $("#forwardtoId").empty();
+                $("#forwardtoId").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#forwardtoId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+            },
+            error: function (xhr, status) {
+                $("#forwardtoId").empty();
+                $("#forwardtoId").append('<option value="">--Select--</option>');
+            }
+        });
+    }
+
+    function showtxt(obj) {
+        debugger;
+
+        if (obj.value == 3) {
+            $('#OPOD').show();
+        }
+        else {
+            $('#OPOD').hide();
+        }
+    }
+    $('input[name="isCauseCertified"]').change(function () {
+        if (this.value == 1) {
+            $('#diseaseName_Cause').show();
+        }
+        else {
+            $('#diseaseName_Cause').hide();
+        }
+    });
+
+    function manageSpouse(obj) {
+        if ($(obj).val() == '2') {
+            $("#divSpouseName").show();
+        }
+        else {
+            $("#divSpouseName").hide();
+            $('#spouseName').val('');
+        }
+    }
+
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function isalphabet(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+
+        if (!(charCode >= 65 && charCode <= 120) && (charCode != 32 && charCode != 0))
+            return false;
+        return true;
+    }
+</script>

@@ -1,0 +1,87 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.CountReportModel>
+@{
+    ViewBag.Title = "getServiceWiseCount";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+    int sNo = 0, rowSpan = 1;
+    string preValue = "";
+}
+
+<div class="container">
+    <div class="services-heading">
+        <h2>@Model.Select(m => m.serviceName).FirstOrDefault() Status Report </h2>
+        <a href="@Url.Action("ServiceCountReport")" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top:-40px;">Back</a>
+    </div>
+
+    @*<div class="row">
+        <div class="col-md-12">
+            <div class="form-group" style="border-bottom: 1px solid #333; padding-bottom: 5px;">
+                <label class="bold">Service Name : </label>
+                @if (Model != null && Model.Count > 0)
+                {
+                    <label>@Model.Select(m => m.serviceName).FirstOrDefault()</label>
+                }
+            </div>
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped table-fixed-header" style="border-collapse: collapse;" border="1">
+                <thead class='header'>
+                    <tr class="active">
+                        <th style="width: 5%; text-align: center;">S.No.</th>
+                        <th style="width: 12%; text-align: center;">Division Name</th>
+                        <th style="width: 12%; text-align: center;">Type</th>
+                        <th style="width: 12%; text-align: center;">Total Received</th>
+                        <th style="width: 5%; text-align: center;">Approved</th>
+                        <th style="width: 5%; text-align: center;">Rejected</th>
+                        <th style="width: 17%; text-align: center;">Pending In-Time Limit</th>
+                        <th style="width: 18%; text-align: center;">Pending After-Time Limit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                        
+                        <tr>
+
+                            @if (preValue != item.zoneName)
+                            {
+
+                                sNo++;
+                                rowSpan = Model.Where(m => m.zoneName == item.zoneName).Count();
+                                <td rowspan="@rowSpan" style="text-align: center;" >@sNo</td>
+                                <td rowspan="@rowSpan" style="text-align: center;">
+                                    <a href="@Url.Action("getDistrictWiseServiceCount", "Public", new { serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()) })">@item.zoneName</a>
+                                </td>
+                        
+                            }
+                            <td style="text-align: center;">
+
+                                <a href="@Url.Action("getDivisionServiceRollWiseCount", "Public", new { serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()) })">@item.CMServiceName</a>
+
+
+                            </td>
+                            <td style="text-align: center;">@item.totalReceived</td>
+                            <td style="text-align: center;">@item.approved</td>
+                            <td style="text-align: center;">@item.rejected</td>
+                            <td style="text-align: center;">@item.pendingInTimeLimit</td>
+                            <td style="text-align: center;">@item.pendingOverTimeLimit</td>
+
+                        </tr>
+                            preValue = item.zoneName;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8">Record Not Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

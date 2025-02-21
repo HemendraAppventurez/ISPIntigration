@@ -1,0 +1,379 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DICModel
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Applied For</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                <div class="col-md-3">
+                    <label>Applying For</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.ApplyingFor
+                </div>
+                 @if (Model.ApplyingFor != "New Certificate")
+                    {
+                <div class="col-md-3">
+                    <label>Certificate generated this Portal</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.isCertFromPortal
+                </div>}
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+             @if (Model.ApplyingFor != "New Certificate" && Model.isCertFromPortal == "Yes")
+                    {
+             <div class="form-group">
+                <div class="col-md-3">
+                    <label>Old Certificate Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.oldCertificateNumber
+                </div>
+               
+                <div class="clearfix"></div>
+            </div>
+             }
+
+          else if (Model.ApplyingFor != "New Certificate" && Model.isCertFromPortal == "No")
+             {
+             <div class="form-group">
+                <div class="col-md-3">
+                    <label>Previous Certificate</label>
+                </div>
+                  @if (Model.step==0 &&(Model.releventProof == "" || Model.releventProof == null))
+                    {
+                <div class="col-md-3">
+                    <label></label>
+                </div>
+                 }
+                else if (Model.step!=0 &&(Model.releventProof == "" || Model.releventProof == null))
+                {
+                      <div class="col-md-3">
+                    <label>Submitted By Department</label>
+                </div>
+                 }
+               else 
+                {
+                      <div class="col-md-3">
+                    <a href="@Url.Content(@Model.releventProof)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+                 }
+               
+                <div class="clearfix"></div>
+            </div>
+             }
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Personal Details</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Registration No.</label>
+                    </div>
+                    <div class="col-md-3">@Model.registrationNo</div>
+                    <div class="col-md-3">
+                        <label>Full Name</label>
+                    </div>
+                    <div class="col-md-3">@Model.fullName</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Father Name</label>
+                    </div>
+                    <div class="col-md-3">@Model.fatherName </div>
+                    <div class="col-md-3">
+                        <label>Date of Birth</label>
+                    </div>
+                    <div class="col-md-3">@Model.dob </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Category</label>
+                    </div>
+                    <div class="col-md-3">@Model.categoryName </div>
+                    <div class="col-md-3">
+                        <label>Mobile Number</label>
+                    </div>
+                    <div class="col-md-3">@Model.mobileNo </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-md-3">@Model.emailId
+                    </div>
+                    <div class="col-md-3">
+                    <label>Adhar Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.adharNumber
+                </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Full Address</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-3">@Model.address </div>
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">@Model.DistrictName </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">@Model.StateName </div>
+                    <div class="col-md-3">
+                        <label>Pin Code</label>
+                    </div>
+                    <div class="col-md-3">@Model.pinCode </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Disability</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+               <div class="form-group">
+                <div class="col-md-3">
+                    <label>Disability Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.disabilityTypeName
+                </div>
+                <div class="col-md-3">
+                    <label>Other Disability Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.disabilityType
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+               
+                <div class="col-md-3">
+                    <label>Disability Details</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.disabilityDetail
+                </div>
+                <div class="clearfix"></div>
+            </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Uploaded Document</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                <div class="col-md-3">
+                    <label>Photograph as disability proof</label>
+                </div>
+                     @if (Model.step == 0 && (Model.photoPath == "" || Model.photoPath == null))
+                    {
+                <div class="col-md-3">
+                    <label></label>
+                </div>
+                 }
+                     else if (Model.step != 0 && (Model.photoPath == "" || Model.photoPath == null))
+                {
+                      <div class="col-md-3">
+                    <label>Submitted By Department</label>
+                </div>
+                 }
+               else 
+                {
+                      <div class="col-md-3">
+                    <a href="@Url.Content(@Model.photoPath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+                 }
+
+
+               
+               
+                <div class="col-md-3">
+                    <label>Profile Photograph</label>
+                </div>
+
+                      @if (Model.step == 0 && (Model.passportsizephoto == "" || Model.passportsizephoto == null))
+                    {
+                <div class="col-md-3">
+                    <label></label>
+                </div>
+                 }
+                      else if (Model.step != 0 && (Model.passportsizephoto == "" || Model.passportsizephoto == null))
+                {
+                      <div class="col-md-3">
+                    <label>Submitted By Department</label>
+                </div>
+                 }
+               else 
+                {
+                      <div class="col-md-3">
+                    <a href="@Url.Content(@Model.passportsizephoto)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+                      }
+               
+               
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Photo Id Proof Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.idProofName
+                </div>
+                <div class="col-md-3">
+                    <label>Photo Id Proof</label>
+                </div>
+
+                   @if (Model.step == 0 && (Model.idProofPath == "" || Model.idProofPath == null))
+                    {
+                <div class="col-md-3">
+                    <label></label>
+                </div>
+                 }
+                   else if (Model.step != 0 && (Model.idProofPath == "" || Model.idProofPath == null))
+                {
+                      <div class="col-md-3">
+                    <label>Submitted By Department</label>
+                </div>
+                 }
+               else 
+                {
+                      <div class="col-md-3">
+                    <a href="@Url.Content(@Model.idProofPath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+                      }
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Address Proof Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.addressProofName
+                </div>
+
+                <div class="col-md-3">
+                    <label>Address Proof</label>
+                </div>
+
+                   @if (Model.step == 0 && (Model.documentPath == "" || Model.documentPath == null))
+                    {
+                <div class="col-md-3">
+                    <label></label>
+                </div>
+                 }
+                   else if (Model.step != 0 && (Model.documentPath == "" || Model.documentPath == null))
+                {
+                      <div class="col-md-3">
+                    <label>Submitted By Department</label>
+                </div>
+                 }
+               else 
+                {
+                      <div class="col-md-3">
+                    <a href="@Url.Content(@Model.documentPath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+                      }
+
+
+
+
+                 
+                
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Photo Id No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.photoIdNo
+                </div>
+
+                
+                <div class="clearfix"></div>
+            </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+

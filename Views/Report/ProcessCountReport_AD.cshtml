@@ -1,0 +1,140 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ReportsModel
+@{
+    ViewBag.Title = "ProcessCountReport_AD";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("ProcessCountReport_AD", "Report", FormMethod.Post, new { @id = "frmCountCertificate" }))
+{
+    <section>
+        <div class="content-title">
+            <h3 class="main-title">Count Process <strong>Report</strong></h3>
+        </div>
+        <div id="content" class="dashboard padding-20 margin-bottom-50">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4></h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Application <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.appTypeId, (IEnumerable<SelectListItem>)ViewBag.Application,"--select--" ,new { @class = "form-control", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.appTypeId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.appTypeId)
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-3">
+                                    <div class="">
+                                        <label>District <span class="star">*</span></label>
+                                        <span id="spanmember" style="display: none" class="text-danger">Please select Atleast One DIstrict</span>
+                                        <div class="example">
+                                            @Html.DropDownListFor(m => m.DistrictIds, (IEnumerable<SelectListItem>)ViewBag.District, new { @multiple = "multiple", @class = "reasondropdown ddlmultiple" })
+                                            @Html.ValidationMessageFor(m => m.DistrictId)
+                                        </div>
+
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>From<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fromDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.fromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>To <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.toDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.toDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-4">
+                                        <input type="submit" id="btnsearch" value="Search" class="btn btn-block btn-success" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("ProcessCountReportAdmin", "Report")" class="btn btn-block btn-warning">Reset</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </section>    
+}
+<script src="~/js/bootstrap-multiselect.js"></script>
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+
+<script>
+
+    $(document).ready(function () {
+        
+        $('#DistrictIds').hide();
+        $('.ddlmultiple').multiselect({
+
+            includeSelectAllOption: true,
+            enableClickableOptGroups: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            nSelectedText: 'Reason Selected'
+        });
+    });
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    $('#fromDate').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var mindate = new Date(selectedDate);
+            mindate.setDate(mindate.getDate() + 1);
+            $("#toDate").datepicker({ minDate: mindate, autoClose: true });
+        },
+        autoClose: true
+    });
+    $('#toDate').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var maxdate = new Date(selectedDate);
+            maxdate.setDate(maxdate.getDate() - 1);
+            $("#fromDate").datepicker({ maxDate: maxdate, autoClose: true });
+        },
+        autoClose: true
+    });
+    $("#btnsearch").click(function () {
+        if ('@TempData["RptType"]' != '1') {
+            if ($('#DistrictIds').val() == null || $('#DistrictIds').val() == '') {
+                $("#spanmember").show();
+                return false;
+            }
+            else {
+                $("#spanmember").hide();
+                return true;
+            }
+        }
+    });
+</script>
+

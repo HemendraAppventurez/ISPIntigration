@@ -1,0 +1,90 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.IMCModel>
+
+@{
+    ViewBag.Title = "ViewIMCList";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<style>
+    .webgrid-header {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+<div class="content-title">
+    <h3 class="main-title">Immunization Certificate List <a href="@Url.Action("ImmunizationDashBoard", "IMC")" class="btn btn-info btn-md pull-right">Back</a></h3>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body">
+            @if (Model != null && Model.Count() > 0)
+            {
+                WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                <div id="divDataList" class="table-responsive">
+                    @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column(columnName: "registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("IMCDetails", "IMC", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdIMC.ToString()) })">@item.registrationNo</a></text>),
+            grid.Column("requestDate", header: "Application Date", format: @<text>@DateTime.Parse(@item.requestDate).ToShortDateString()</text>),
+            grid.Column("fullName", header: "Name"),
+            grid.Column("mobileNo", header: "Mobile"),
+            grid.Column("inspectionDate", header: "Inspection Date"),    
+            grid.Column("RejectRemark", header: "Reject Remark"),    
+            grid.Column("appliedStatus", header: "Status"),
+            grid.Column(header: "Print", format: @<text><a href="@Url.Action("PrintApplicationForm", "IMC", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdIMC.ToString()) })"  class="btn btn-green btn-sm" target="_blank">Print form</a></text>),
+
+            grid.Column(columnName: "regisIdIMC", header: "Certificate", format: @<text>
+                        @if (@item.appliedStatus == "Certificate Generated")
+                        {
+                           if (@item.isUpload && !string.IsNullOrEmpty(@item.uploadCertificatePath))
+                            {
+                                <a href="@Url.Action("DownloadFileByPath", "IMC", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt(@item.uploadCertificatePath)) })" aria-hidden="true" class="fa fa-download icon-grn" target="_blank"></a>
+                            }
+                            else
+                            {
+                                <label>Pending</label>   
+                            }
+                            @*<a href="@Url.Action("IMCgeneratedCertificate", "IMC",new {regisIdIMC= @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdIMC.ToString())})" target="_blank"><i class="fa fa-download fa-2x"></i></a>*@
+                           
+                        }
+                        else
+                        {
+                            <label>Pending</label>    
+                        }
+                        </text>)
+          
+                    ))
+           
+                </div>
+            }
+            else
+            {
+    
+                <table class="table table-bordered norecord">
+                    <thead class="bg-info">
+                        <tr>
+                            <th>No Record Found</th>
+                        </tr>
+                    </thead>
+                </table>
+            }
+        </div>
+    </div>
+</div>

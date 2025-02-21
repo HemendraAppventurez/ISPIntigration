@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "CMOSRVCountReportDivisionWise";
+    Layout = "~/Views/Shared/_DarpanLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        @if (!string.IsNullOrEmpty(@ViewBag.ServiceId))
+        {
+            string serviceName = null;
+            if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 1)
+            {
+                serviceName = "Registration of Medical Establishment";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 2)
+            {
+                serviceName = "Issuance of Illness Certificate";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 3)
+            {
+                serviceName = "Issuance of Fitness Certificates";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 4)
+            {
+                serviceName = "Issuance of Disability Certificate";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 5)
+            {
+                serviceName = "Issuance of Immunization Certificate";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 6)
+            {
+                serviceName = "Issuance of Death Certificate";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 7)
+            {
+                serviceName = "Payment for Unsuccessful Family Planning";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 8)
+            {
+                serviceName = "Payment of Medical Reimbursement";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 9)
+            {
+                serviceName = "Issuance of Medico- Legal Certificate";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 10)
+            {
+                serviceName = "Issuance of Age Certificate";
+            }
+            else if (@Convert.ToInt64(OTPL_Imp.CustomCryptography.Decrypt(ViewBag.ServiceId)) == 11)
+            {
+                serviceName = "Immunization Certificate for Children";
+            }
+            <strong>
+                सी.एम.ओ. जिला वार रिपोर्ट की गणना
+        <span class="small">CMO District Wise @serviceName Count Report</span>
+            </strong>
+        }
+        else
+        {
+            <strong>
+                सी.एम.ओ. सर्विस वार रिपोर्ट की गणना
+        <span class="small">Service Wise Count Report</span>
+            </strong>
+        }
+        @*<a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack" >Back</a>*@
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @*<div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Division</label>
+                                 
+                            </div>
+                        </div> 
+                        <div class="col-md-4">
+                            <label>&nbsp;</label>
+                            <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                        </div>
+                        <div class="col-md-4">
+                             <label>&nbsp;</label>
+                            <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Refresh</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div class="row"> 
+        
+                 
+                    @if (!string.IsNullOrEmpty(@ViewBag.ServiceId))
+                    {
+                        @Html.Action("CMOSRVCountReportDistrictWiseList", "public", new { serviceId = @ViewBag.ServiceId })
+                    }
+                 
+            
+    </div>
+</div>
+
+<script>
+    $(function () {
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+
+        $("#btnSearch").click(function () {
+            bindCMOSRVCountReportList($("#zoneId").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#zoneId").val('');
+            bindCMOSRVCountReportList('0');
+        });
+    });
+
+    function bindCMOSRVCountReportList(_zoneId) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("CMOSRVCountReportListDarpan", "public")',
+            data: { zoneId: _zoneId },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+</script>

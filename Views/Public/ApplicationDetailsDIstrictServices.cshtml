@@ -1,0 +1,235 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ApplicationDetailsModel
+@{
+    ViewBag.Title = "ApplicationDetailsDIstrictServices";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+}
+@{
+    int sNo = 0; 
+}
+   <div class="container"> 
+
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="content-title">
+    <h3 class="main-title">
+        @if (Model.appCurrStatus == 0)
+        {
+            <strong>@ViewBag.RollNameHi - कुल प्राप्त आवेदन
+        <span class="small">@ViewBag.RollName - Total Received Application</span>
+            </strong>
+        }
+        else if (Model.appCurrStatus == 1)
+        {
+            <strong>
+                @ViewBag.RollNameHi - स्वीकृत आवेदन
+                <span class="small">@ViewBag.RollName - Approved Application</span>
+            </strong>
+        }
+        else if (Model.appCurrStatus == 2)
+        {
+            <strong>
+                @ViewBag.RollNameHi - अस्वीकृत आवेदन
+                <span class="small">@ViewBag.RollName - Rejected Application</span>
+            </strong>
+        }
+        else if (Model.appCurrStatus == 3)
+        {
+            <strong>
+                @ViewBag.RollNameHi - समय सीमा में लंबित आवेदन
+                <span class="small">@ViewBag.RollName - Pending In-Time Limit Application</span>
+            </strong>
+        }
+        else if (Model.appCurrStatus == 4)
+        {
+            <strong>
+                @ViewBag.RollNameHi - समय सीमा के बाद लंबित आवेदन
+                <span class="small">@ViewBag.RollName - Pending After-Time Limit Application</span>
+            </strong>
+        }
+
+        <button type="button" class="btn btn-block btn-warning  btn-sm pull-right btnHistoryBac" style="margin-top: -10px; width: 150px; margin-right: 71px;" id="btnExportExcel">Export Excel</button>
+        <a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top: -10px;">Back</a>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div style="border-bottom: 1px solid #333; margin-bottom: 15px;">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bold">Division Name : </label>
+                                <label>@Model.zoneName</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bold">District : </label>
+                                <label>@Model.DistrictName</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bold">Application Name : </label>
+                                <label>@Model.serviceName</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div > <input id="myInput" class="form-control" type="text" placeholder="Search.." style="background-color:white;margin-bottom:10px" >
+
+              </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table  class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%; text-align: center;">S.No.</th>
+                                    <th style="width: 5%; text-align: center;">Application No.</th>
+                                    <th style="width: 5%; text-align: center;">Application Date</th>
+                                    <th style="width: 5%; text-align: center;">Applicant Name</th>
+                                    <th style="width: 5%; text-align: center;">Mobile No.</th>
+                                    @if (Model.appCurrStatus == 1)
+                                    {
+                                        <th style="width: 5%; text-align: center;">Approved On</th> 
+                                    }
+                                    else if (Model.appCurrStatus == 2)
+                                    {
+                                        <th style="width: 5%; text-align: center;">Rejected On</th> 
+                                        <th style="width: 5%; text-align: center;">Rejection Remark</th>
+                                    }
+                                    else if (Model.appCurrStatus == 3 || Model.appCurrStatus == 4)
+                                    {
+                                        <th style="width: 5%; text-align: center;">Time Limit Days</th> 
+                                        <th style="width: 5%; text-align: center;">Received Days</th> 
+                                    }
+                                 
+                                         <th style="width: 5%; text-align: center;">Type</th> 
+                                        <th style="width: 5%; text-align: center;">Facility Name</th> 
+                                       
+                                       <th style="width: 5%; text-align: center;">Application Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tableData">
+                                @if (Model.appDetailList != null && Model.appDetailList.Count > 0)
+                                {
+                                    foreach (var item in Model.appDetailList)
+                                    {
+                                        sNo++;
+                                    <tr>
+                                        <td style="text-align: center;">@sNo</td>
+                                        @if (ViewBag.CurrLogRollId == "2")
+                                        {
+                                            <td>@item.registrationNo</td>
+                                            
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @if (Model.serviceId == 1)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormNUH", "Public", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisId.ToString()) })"  target="_blank">@item.registrationNo</a>
+                                                }
+                                                else if (Model.serviceId == 10)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormAGC", "Public", new { regisIdAGC = @item.regisId })"  target="_blank">@item.registrationNo</a> 
+                                                }
+                                                else if (Model.serviceId == 4)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormDIC", "Public", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(@item.registrationNo.ToString()) })"  target="_blank">@item.registrationNo</a> 
+                                                }
+                                                else if (Model.serviceId == 7)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormFAP", "Public", new { regisIdFAP = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisId.ToString()) })"  target="_blank">@item.registrationNo</a> 
+                                                }
+                                                else if (Model.serviceId == 8)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormMER", "Public", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisId.ToString()) })"  target="_blank">@item.registrationNo</a> 
+                                                }
+                                                else if (Model.serviceId == 2)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormILC", "Public", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisId.ToString()) })" target="_blank">@item.registrationNo</a>
+                                                }
+                                                else if (Model.serviceId == 3)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormFIC", "Public", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(@item.registrationNo) })" target="_blank">@item.registrationNo</a>
+                                                }
+                                                else if (Model.serviceId == 6)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormDEC", "Public", new { regisIdDEC = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisId.ToString()) })"  target="_blank">@item.registrationNo</a> 
+                                                }
+                                                else if (Model.serviceId == 11)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormICC", "Public", new { regisIdICC = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisId.ToString()) })"  target="_blank">@item.registrationNo</a>
+                                                }
+                                                else if (Model.serviceId == 5)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormIMC", "Public", new { regisIdIMC = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisId.ToString()) })"  target="_blank">@item.registrationNo</a>
+                                                }
+                                                else if (Model.serviceId == 9)
+                                                {
+                                                    <a href="@Url.Action("PrintApplicationFormMLC", "Public", new { regisIdMLC = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisId.ToString()) })"  target="_blank">@item.registrationNo</a>
+                                                }
+                                            </td>
+                                        }
+                                        <td>@item.applicationDate</td>
+                                        <td>@item.applicantName</td>
+                                        <td>@item.applicantMobileNo</td>
+                                        @if (Model.appCurrStatus == 1)
+                                        {
+                                            <td>@item.approvedDate</td>
+                                        }
+                                        else if (Model.appCurrStatus == 2)
+                                        {
+                                            <td>@item.rejectedDate</td>
+                                            <td>@item.rejectedRemark</td>
+                                        }
+                                        else if (Model.appCurrStatus == 3 || Model.appCurrStatus == 4)
+                                        {
+                                            <td>@item.timeLimitDays</td>
+                                            <td>@item.receivedDays</td>
+                                        }
+
+                                      
+                                            <td>@item.HospitalName</td>
+                                            <td>@item.opdAdd</td>
+                                             <td>@item.applicationStatus</td>
+                                       
+                                    </tr> 
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="@(Model.appCurrStatus == 0 ? 5 : Model.appCurrStatus == 1 ? 6 : 7)">Record Not Found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       </div>
+</div>
+<script>
+
+    $("#btnExportExcel").click(function () {
+
+        window.location.href = '@Url.Action("ExportToExcelApplication", "Public")';
+
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tableData tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

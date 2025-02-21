@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx?wsdl" filename="upswp_niveshmitraservices.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx?disco" filename="upswp_niveshmitraservices.disco" />
+  </Results>
+</DiscoveryClientResultsFile>

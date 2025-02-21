@@ -1,0 +1,86 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.Declaration
+
+@{
+    ViewBag.Title = "DeclarationForm";
+    Layout = "~/Views/Shared/_PublicLayout1.cshtml";
+}
+
+<div style="width: 900px; margin: 0 auto; padding: 15px; background-color: #fff;">
+    <table border="0" style="width: 100%; border-collapse: collapse; font-family: 'Arial Unicode MS';  line-height:2;">
+        <tbody>
+            <tr>
+                <td style="text-align: center" colspan="3">
+                    <div style="font-size: 1.35rem; font-weight: 600;">चिकित्सक/पैरामेडिकल/अन्य का घोषणा पत्र</div>
+                    <div style="font-size: 1.05rem; font-weight: 600;">समक्षः मुख्य चिकित्सा अधिकारी, लखनऊ</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center; border-bottom: 1px solid #000; padding: 3px;"></td>
+            </tr>
+            @*<tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <input id="txtRegisNo" type="text" placeholder="Registration No." style="border: 1px solid #858585; padding: 8px; border-radius: 4px;" />
+                    <button style="margin-left: 8px; border-radius: 4px; border: 1px solid #1270d3; background-color: #1874d3; color: #fff; padding: 8px 15px;" onclick="FilterList()">Search</button>
+                    <a style="margin-left: 8px; border-radius: 4px; border: 1px solid #ef6262; background-color: #ef6262; color: #fff; padding: 8px 15px; display:inline-block" href="@Url.Action("ClericalNUH", "Public")">Reset</a>
+                </td>
+            </tr>*@
+            <tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <p>प्रमाणित किया जाता है कि मै <strong><u>@Model.ownerName</u></strong> आयु लगभग <strong><u>@Model.ownerAge</u></strong> वर्ष पुत्र <strong><u>@Model.ownerFatherName</u></strong> निवासी <strong><u>@Model.ownerAddress, @Model.ownerDistrict-@Model.ownerPincode</u></strong> का हूँ तथा शपथपूर्वक निम्न  बयान करता हूँ:-</p>
+                    <ol>
+                        <li>यह कि शपथी <strong><u>@Model.Central_StateCouncilName,  @Model.InchargeDiscrict</u></strong> के एक रजिस्टर्ड डाक्टर है जिसका रजिस्ट्रेशन नम्बर <strong><u>@Model.registrationNumber</u></strong> है। पंजीकरण प्रमाण-पत्र की छायाप्रति संलग्न है।</li>
+                        <li>यह कि शपथी क्लीनिक स्थित <strong><u>@Model.ClinicAddress , @Model.ClinicDistrict-@Model.ClinicPinCode</u></strong> में अंशकालिक कार्यरत है।</li>
+                        <li>यह कि शपथी किसी सरकारी/अर्द्धसरकारी/गैर-सरकारी/अन्य प्रतिष्ठान  में पूर्णकालिक/अंशकालिक/ऑन-कॉल कार्यरत नही है।</li>
+                    </ol>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2" style="text-align: center; width: 35%">
+                    <strong>शपथी</strong><br />
+                     <img src="@Model.ownerSignature" height="50px" width="50px" /><br />
+                    <strong>(@Model.ownerName</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong>स्थानः @Model.ownerDistrict।</strong><br />
+                    <strong>मोबाइल नम्बरः @Model.ownerMobileNo</strong><br />
+                    <strong>दिनांक: @Model.GetDate</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center;">
+                    <div style="font-size: 1.05rem; font-weight: 600;"><strong><u>सत्यापन</u></strong></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <p>
+                       <input type="checkbox"/>&nbsp; मै शपथी <strong><u>@Model.ownerName</u></strong> उपरोक्त शपथ-पत्र  की धारा-1 से 3 तक सत्यापित करता हूँ जो मेरे निजी ज्ञान में सत्य है। पंजीकरण आवेदन  पत्र में किसी भी तथ्य का न भ्रामक ढंग से लिखा गया है और न ही इसमें कुछ छिपाया गया  है। अगर कोई असत्य तथ्य संज्ञान में आता है तो कानूनी कार्यवाही के लिये शपथी पूर्ण  रूप से जिम्मेदार होगा।<br />
+                        आज दिनांक <strong><u>@Model.GetDate</u></strong> को अपने हस्ताक्षर  बनाकर सत्यापित किया।
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2" style="text-align: center; width: 35%">
+                    <strong>शपथी</strong><br />
+                     <img src="@Model.ownerSignature" height="50px " width="50px" /><br />
+                    <strong>(@Model.ownerName)</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong>स्थानः  @Model.ownerDistrict।</strong><br />
+                    <strong>मोबाइल नम्बरः @Model.ownerMobileNo</strong><br /><br />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align:center; border-top:1px solid #ccc; padding:8px;">
+                    <a href="@Url.Action("Affidavit","Public")" style="margin-left: 8px; border-radius: 4px; border: 1px solid #1270d3; background-color: #1874d3; color: #fff; padding: 3px 15px; display:inline-block; text-decoration:none;" onclick="FilterList()">Proceed</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

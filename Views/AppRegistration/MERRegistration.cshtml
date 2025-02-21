@@ -1,0 +1,1362 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MERModel
+@{
+    ViewBag.Title = "MERRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+</style>
+<div class="content-title">
+    <h3 class="main-title">Application form for Medical Reimbursement                      
+    </h3>
+
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+
+    @using (Html.BeginForm("MERRegistration", "appRegistration", FormMethod.Post, new { @id = "frmdata" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.regisIdMER)
+        @Html.HiddenFor(m => m.step)
+        @Html.HiddenFor(m => m.stepValue)
+        @Html.HiddenFor(m => m.totalCalAmt)
+        @Html.HiddenFor(m => m.ROLL)
+        <div class="row" style="margin-bottom: 5px;">
+            <div class="col-md-12">
+                <div class="panel panel-default" style="margin-bottom: 5px;">
+                    <div class="panel-body" style="padding: 3px 10px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if (Model.ROLL == "5")
+                                {
+                                    <strong>Note :-  <span class="text-danger">Fill only those applications whose amount of reimbursement(Total Claimed Amount) is less than Rs. 50000/-.</span></strong>
+                                }
+                                else
+                                {
+                                    <strong>Note :-  <span class="text-danger">Fill only those applications whose amount of reimbursement(Total Claimed Amount) is greater than or equal Rs. 50000/-.</span></strong>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @if (Model.step == 0 || Model.stepValue == 0)
+            {
+                <div class="divStep1">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 id="headingId" class="color-white">Step 1</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Treatment Type</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Type of Treatment<span class="star">*</span> </label>
+                                            @Html.DropDownListFor(m => m.treatmentId, (IEnumerable<SelectListItem>)ViewBag.TreatmentType, "--Select--", new { @class = "form-control select", tabindex = 1 })
+                                            @Html.ValidationMessageFor(m => m.treatmentId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Employee Detail</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Full Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.empfullName, new { @class = "form-control", tabindex = 2, @onblur = "SelfDependCase();", @maxlength = "250" })
+                                            @Html.ValidationMessageFor(m => m.empfullName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Father Name/Husband Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.father_HusbandName, new { @class = "form-control", tabindex = 3, @maxlength = "250" })
+                                            @Html.ValidationMessageFor(m => m.father_HusbandName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Designation<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.designation, new { @class = "form-control", tabindex = 4, @maxlength = "100" })
+                                            @Html.ValidationMessageFor(m => m.designation, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Department Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.deptName, new { @class = "form-control", tabindex = 5, @maxlength = "100" })
+                                            @Html.ValidationMessageFor(m => m.deptName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Basic Salary/Wages Scale/Grade<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.basicSalary, "{0:#.#}", new { @class = "form-control", tabindex = 6, @onkeypress = " return isNumberKey(event);", @maxlength = "7" })
+                                            @Html.ValidationMessageFor(m => m.basicSalary, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Aadhaar No.<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.manavSampda_AadharNo, new { @class = "form-control", tabindex = 8, @maxlength = "12", @onblur = "SelfDependCase();", @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.manavSampda_AadharNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Date Of Birth<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.dob, new { @class = "datepicker-here form-control", tabindex = "9", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy", @onblur = "SelfDependCase();" })
+                                            @Html.ValidationMessageFor(m => m.dob, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Gender<span class="star">*</span></label>
+                                            <div class="form-group">
+                                                <div class="form-control">
+                                                    <label>@Html.RadioButtonFor(m => m.gender, "Male") Male</label>
+                                                    &nbsp;&nbsp;&nbsp;
+                                            <label>@Html.RadioButtonFor(m => m.gender, "Female") Female</label>
+                                                    &nbsp;&nbsp;&nbsp;
+                                            <label>@Html.RadioButtonFor(m => m.gender, "Other")
+                                                Transgender
+                                            </label>
+                                                </div>
+                                                @Html.ValidationMessageFor(m => m.gender, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Mobile No.<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.appMobile, new { @class = "form-control", tabindex = 10, @maxlength = "10", @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.appMobile, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>Are you Retired from Employeement? <span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(m => m.isRetirement, true)
+                                                Yes
+                                            </label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(m => m.isRetirement, false)
+                                                No
+                                            </label>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.isRetirement, "", new { @class = "text-danger" })
+                                        <div class="clearfix"></div>
+                                        <br>
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4" id="divIsRetired" style="display: none;">
+                                            <div class="form-group3">
+
+                                                @Html.TextBoxFor(m => m.ppotreament, new { @class = "form-control", @placeholder = "PPO Number", @maxlength = "100" })
+                                                @Html.ValidationMessageFor(m => m.ppotreament, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4 id="Yhed" style="display: none">Address of Your Treasury</h4>
+                                    <h4 id="Nhed" style="display: none">Address of Your Current Posting</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Office Name<span class="star on">*</span></label>
+                                            @Html.TextBoxFor(m => m.officeName, new { @class = "form-control", tabindex = 11, @maxlength = "250" })
+                                            @Html.ValidationMessageFor(m => m.officeName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Office Incharge Name<span class="star on">*</span></label>
+                                            @Html.TextBoxFor(m => m.officeInchargeName, new { @class = "form-control", tabindex = 12, @maxlength = "100" })
+                                            @Html.ValidationMessageFor(m => m.officeInchargeName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Address<span class="star">*</span></label>
+                                            @Html.TextAreaFor(m => m.postingAddress, new { @class = "form-control", tabindex = 13, @maxlength = "250" })
+                                            @Html.ValidationMessageFor(m => m.postingAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>State</label>
+                                            @Html.DropDownListFor(m => m.postingStateId, (IEnumerable<SelectListItem>)ViewBag.State, new { @class = "form-control", @readonly = "true", tabindex = 14 })
+                                            @Html.ValidationMessageFor(m => m.postingStateId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>District<span class="star">*</span></label>
+                                            @Html.DropDownListFor(m => m.postingDistrictId, (IEnumerable<SelectListItem>)ViewBag.PostingDistrict, new { @class = "form-control", tabindex = 15, @readonly = true })
+                                            @Html.ValidationMessageFor(m => m.postingDistrictId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Pincode<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.postingPinCode, new { @class = "form-control", tabindex = 16, @maxlength = "6", @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.postingPinCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Permanent Address</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Address<span class="star">*</span></label>
+                                            @Html.TextAreaFor(m => m.permAddress, new { @class = "form-control", tabindex = 17, @maxlength = "500" })
+                                            @Html.ValidationMessageFor(m => m.permAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>State</label>
+                                            @Html.DropDownListFor(m => m.permStateId, (IEnumerable<SelectListItem>)ViewBag.State1, "--Select--", new { @class = "form-control", tabindex = 18 })
+                                            @Html.ValidationMessageFor(m => m.permStateId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>District<span class="star">*</span></label>
+                                            @Html.DropDownListFor(m => m.permDistrictId, (IEnumerable<SelectListItem>)ViewBag.District1, "--Select--", new { @class = "form-control", tabindex = 19 })
+                                            @Html.ValidationMessageFor(m => m.permDistrictId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Pincode<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.permPinCode, new { @class = "form-control", tabindex = 20, @maxlength = "6", @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.permPinCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Patient`s Details</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Requesting Medical Reimbursement for <span class="star">*</span> : </label>
+                                        <div class="form-group">
+                                            <div class="form-control">
+                                                <label>
+                                                    @Html.RadioButtonFor(m => m.patientType, "Self")
+                                                    Self</label>
+                                                &nbsp;&nbsp;&nbsp;
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.patientType, "Dependent")
+                                            Dependent
+                                        </label>
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.patientType, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Hospital Type <span class="star">*</span> : </label>
+                                        <div class="form-group">
+                                            <div class="form-control">
+                                                <label>
+                                                    @Html.RadioButtonFor(m => m.hospitalType, "Govt")
+                                                    Govt.</label>
+                                                &nbsp;&nbsp;&nbsp;
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.hospitalType, "Pvt")
+                                            Pvt.
+                                        </label>
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.hospitalType, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Patient Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patientName, new { @class = "form-control", tabindex = 21, @maxlength = "250" })
+                                            @Html.ValidationMessageFor(m => m.patientName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Age<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patientage, "{0:#.#}", new { @class = "form-control", tabindex = 22, @onkeypress = " return isNumberKey(event);", @maxlength = "2" })
+                                            @Html.ValidationMessageFor(m => m.patientage, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Gender<span class="star">*</span></label>
+                                            <div class="form-control">
+                                                <label id="l1">
+                                                    @Html.RadioButtonFor(m => m.patientgender, "Male")
+                                                    Male
+                                                </label>
+                                                &nbsp;&nbsp;
+                                        <label id="l2">
+                                            @Html.RadioButtonFor(m => m.patientgender, "Female")
+                                            Female
+                                        </label>
+                                                &nbsp;&nbsp;
+                                        <label id="l3">
+                                            @Html.RadioButtonFor(m => m.patientgender, "Other")
+                                            Transgender
+                                        </label>
+
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.patientgender, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Disease Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patientdiseaseName, new { @class = "form-control", tabindex = 23, @maxlength = "50" })
+                                            @Html.ValidationMessageFor(m => m.patientdiseaseName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Place where Disease Identified<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patientplaceOfDisease, new { @class = "form-control ", tabindex = 24, @maxlength = "50" })
+                                            @Html.ValidationMessageFor(m => m.patientplaceOfDisease, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Hospital Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patienthospitalName, new { @class = "form-control", tabindex = 25, @maxlength = "250" })
+                                            @Html.ValidationMessageFor(m => m.patienthospitalName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Doctor Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patientdoctorName, new { @class = "form-control", tabindex = 26, @maxlength = "250" })
+                                            @Html.ValidationMessageFor(m => m.patientdoctorName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Treatment Period From<span class="star">*</span>  </label>
+                                            @Html.TextBoxFor(m => m.patienttreatmentFromDate, new { @class = "form-control datepicker-here", @placeholder = "dd/mm/yyyy", @readonly = "true", data_language = "en", tabindex = 27 })
+                                            @Html.ValidationMessageFor(m => m.patienttreatmentFromDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Treatment Period To <span class="star">*</span> </label>
+                                            @Html.TextBoxFor(m => m.patienttreatmentToDate, new { @class = "form-control datepicker-here", @placeholder = "dd/mm/yyyy", @readonly = "true", data_language = "en", tabindex = 28 })
+                                            @Html.ValidationMessageFor(m => m.patienttreatmentToDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Patient Aadhaar no</label>
+                                            @Html.TextBoxFor(m => m.patientAadhaarNo, new { @class = "form-control", tabindex = 29, @maxlength = 12, @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.patientAadhaarNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Relation with Employee<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.patientrelationsWithEmployee, new { @class = "form-control", tabindex = 30, @maxlength = "250" })
+                                            @Html.ValidationMessageFor(m => m.patientrelationsWithEmployee, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+            else if (Model.step == 1 || Model.stepValue == 1)
+            {
+                <div class="divStep2">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 id="headingId" class="color-white">Step 2</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Advance Detail</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Have you already taken Advance <span class="star">*</span> : </label>
+                                        <div class="form-group">
+                                            <div class="form-control">
+                                                <label>
+                                                    @Html.RadioButtonFor(m => m.isAdvanceTaken, "Yes")
+                                                    Yes</label>
+                                                &nbsp;&nbsp;&nbsp;
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.isAdvanceTaken, "No")
+                                            No
+                                        </label>
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.isAdvanceTaken, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div id="advtaken" style="display: none">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Amount<span class="star">*</span></label>
+                                                @Html.TextBoxFor(m => m.advanceAmount, new { @class = "form-control", tabindex = 31, @onkeypress = " return isNumberKey(event);" })
+                                                @Html.ValidationMessageFor(m => m.advanceAmount, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Letter No<span class="star">*</span></label>
+                                                @Html.TextBoxFor(m => m.advanceLetterNo, new { @class = "form-control", tabindex = 32, @maxlength = "50" })
+                                                @Html.ValidationMessageFor(m => m.advanceLetterNo, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Date<span class="star">*</span></label>
+                                                @Html.TextBoxFor(m => m.advanceDate, new { @class = "form-control datepicker-here", @placeholder = "dd/mm/yyyy", @readonly = "true", data_language = "en", tabindex = 33 })
+                                                @Html.ValidationMessageFor(m => m.advanceDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Bank Details of Employee</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Bank Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.bankName, new { @class = "form-control", tabindex = 34, @maxlength = "50" })
+                                            @Html.ValidationMessageFor(m => m.bankName, "", new { @class = "text-danger" })
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch Name<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.branchName, new { @class = "form-control", tabindex = 35, @maxlength = "50" })
+                                            @Html.ValidationMessageFor(m => m.branchName, "", new { @class = "text-danger" })
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Account Number<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.accountNo, new { @class = "form-control", tabindex = 36, @onkeypress = "return isNumberKey(event);", @maxlength = "30" })
+                                            @Html.ValidationMessageFor(m => m.accountNo, "", new { @class = "text-danger" })
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>IFSC Code<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.ifscCode, new { @class = "form-control", tabindex = 37, @maxlength = "20" })
+                                            @Html.ValidationMessageFor(m => m.ifscCode, "", new { @class = "text-danger" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Details of Expenditure</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered css-serial tbUser" id="tbUser" style="margin-bottom: 2px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" width="10%">Sl.No.</th>
+                                                <th class="text-center" width="15%">Bill Type<span class="star">*</span></th>
+                                                <th width="15%">Bill No.<span class="star">*</span></th>
+                                                <th width="15%">Bill Date<span class="star">*</span></th>
+                                                <th width="15%">Amount<span class="star">*</span></th>
+                                                <th width="15%">Delete Record</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbAdd">
+                                            @if (Model.step == 2)
+                                            {
+                                                for (int i = 0; i < Model.MERModelList.Count(); i++)
+                                                {
+                                                    
+                                                <tr>
+                                                    <td align="center"></td>
+                                                    <td align="center"><span class="form-group">
+                                                        @Html.DropDownListFor(modelItem => Model.MERModelList[i].billId, new SelectList(ViewBag.BillType, "Value", "Text", Model.MERModelList[i].billId), "--Select--", new { @class = "form-control select", @Name = "billId" })
+
+                                                    </span></td>
+                                                    <td align="center"><span class="form-group">
+                                                        <input type="text" id="billNo" name="billNo" maxlength="20" class="form-control alphaN" value="@Model.MERModelList[i].billNo"/>
+
+                                                    </span></td>
+                                                    <td align="center"><span class="form-group">
+                                                        <input type="text" id="billdate" name="billdate" class="form-control datepicker-here" data-language="en" placeholder = "dd/mm/yyyy" value="@Model.MERModelList[i].billdate"/>
+
+                                                    <td align="center"><span class="form-group">
+                                                        <input type="text" id="billAmount" name="billAmount" class="nr form-control" value="@Model.MERModelList[i].billAmount" onblur = "TotalAmount(this);" onkeypress = "return isNumberKey(event);"/>
+
+                                                    </span></td>
+
+                                                    <td align="center">
+
+                                                        <span>
+                                                            <button type="button" onclick="DeleteRow(this);"><i class="fa fa-trash fa-2x text-warning"></i></button>
+                                                        </span>
+
+                                                    </td>
+                                                </tr> 
+                                                
+                                                }
+                                            }
+                                            else
+                                            { 
+                                                <tr>
+                                                    <td align="center"></td>
+                                                    <td align="center"><span class="form-group">
+                                                        @Html.DropDownListFor(m => m.billId, (IEnumerable<SelectListItem>)ViewBag.BillType, "--Select--", new { @class = "form-control select" })
+
+                                                    </span></td>
+                                                    <td align="center"><span class="form-group">
+                                                        @Html.TextBoxFor(m => m.billNo, new { @class = "form-control alphaN" })
+                                                    </span></td>
+                                                    <td align="center"><span class="form-group">
+                                                    @Html.TextBoxFor(m => m.billdate, new { @class = "form-control datepicker-here", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+                                                    <td align="center"><span class="form-group">
+                                                        @Html.TextBoxFor(m => m.billAmount, new { @class = "nr form-control", @onblur = "TotalAmount(this);", @onkeypress = " return isNumberKey(event);" })
+
+                                                    </span></td>
+                                                    <td align="center">
+                                                        <span>
+                                                            <button type="button" onclick="DeleteRow(this);"><i class="fa fa-trash fa-2x text-warning"></i></button>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                           
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr>
+                                                <th colspan="4" style="text-align: right; width: 56%; padding: 8px;">
+                                                    <label>Total:</label></th>
+                                                <th style="padding: 8px; width: 10%">
+                                                    <input type="text" class="form-control " id="txttotal" disabled="disabled" /></th>
+                                                <th colspan="2" style="width: 34%;"></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button id="btnadd" type="button" class="btn btn-info btn-md pull-right">Add More</button>
+                                    @Html.ValidationMessageFor(m => m.billId, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(m => m.billAmount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.step == 2 || Model.stepValue == 2)
+            {
+                <div class="divStep3">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 id="headingId" class="color-white">Step 3</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Check List</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <span id="spanmember" style="display: none" class="text-danger">Please select All Document as they are required</span>
+                                <div class="row">
+                                    @foreach (var v in ViewBag.CheckList)
+                                    {
+                                        <div class="form-group">
+                                            <div class="col-md-5">
+                                                <i class="hidden">@v.Value</i>
+                                                <label class="l-20">@v.Text</label>
+                                                <span id="@v.Value" class="text-danger">*</span>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input type="checkbox" name="chk_checkList" value="@v.Value">
+                                            </div>
+                                        </div>
+                                    }
+
+
+
+                                </div>
+                                <div class="row">
+                                    Note:-Kindly collect photo copy of document checked by you.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    @if ((Model.stepValue == -1 || Model.stepValue > 0) && Model.step != 0)
+                                    {
+                                   
+                                        <div class="col-md-2 col-md-offset-2">
+                                            <a href="@Url.Action("MERRegistration", "appRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdMER.ToString()), stepValue = Convert.ToInt32(Session["stepValue"]) - 1 })" class="btn btn-block btn-success">Back</a>
+                                        </div>
+                                
+                                    }
+
+                                    <div class="col-md-3 ">
+                                        <button id="btnSave" type="submit" class="btn btn-block btn-primary">@ViewBag.Submit</button>
+                                    </div>
+                                    <div class="col-md-2"><a href="@Url.Action("MERRegistration", "AppRegistration")" class="btn btn-block btn-warning">Reset</a> </div>
+                                    @if (Model.step < 3 && Model.step != 0 && Model.step - 1 >= Model.stepValue && Model.stepValue != -1)
+                                    {
+                                        <div class="col-md-2 ">
+                                            <a href="@Url.Action("MERRegistration", "appRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdMER.ToString()), stepValue = (Convert.ToInt32(Session["stepValue"]) + 1) })" class="btn btn-block btn-success">Next</a>
+                                        </div>  
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/Scripts/AuditScripts.js"></script>
+<script>
+
+    $(function () {
+
+        addEvent();
+
+        if ('@TempData["Message"]' != '') {
+            swal("", '@TempData["Message"]', 'success');
+        }
+        if ('@TempData["MessageError"]' != '') {
+            swal("", '@TempData["MessageError"]', 'error');
+        }
+        if ('@TempData["StepValue"]' == '0') {
+            debugger;
+            var ReqFor = $("input[name=patientType]:checked").val();
+            if (ReqFor == 'Self') {
+
+
+                $("input[name=patientgender]").prop('disabled', true);
+                $('#patientName').attr('readonly', true);
+                $('#patientName').addClass('input-disabled');
+                $('#patientage').attr('readonly', true);
+                $('#patientage').addClass('input-disabled');
+                $('#patientAadhaarNo').attr('readonly', true);
+                $('#patientAadhaarNo').addClass('input-disabled');
+
+                $('#patientrelationsWithEmployee').attr('readonly', true);
+                $('#patientrelationsWithEmployee').addClass('input-disabled');
+            }
+            if ($('input[name=isRetirement]:checked').val() == "True") {
+
+                $("#divIsRetired").show();
+                $("#Yhed").show();
+                $("#Nhed").hide();
+                $(".on").hide();
+                $("#officeName").rules("remove", "required");
+                $("#officeInchargeName").rules("remove", "required");
+            }
+            else {
+                $("#divIsRetired").hide();
+                $("#Nhed").show();
+                $("#Yhed").hide();
+                $(".on").show();
+                $("#officeName").rules("add", "required");
+                $("#officeInchargeName").rules("add", "required");
+            }
+            if ('@TempData["permDistrictId"]' != '') {
+
+                binddist($("#permStateId").val());
+            }
+        };
+        if ('@TempData["StepValue"]' == '1') {
+            debugger;
+            var totalCalAmt = $('#totalCalAmt').val();
+            $("#txttotal").val(totalCalAmt);
+
+            var advance = $("input[name=isAdvanceTaken]:checked").val();
+            if (advance == "Yes") {
+                $('#advtaken').show();
+            }
+            else {
+                $('#advtaken').hide();
+            }
+        };
+
+    });
+
+    $('input[name="patientType"]').change(function () {
+        debugger;
+
+        if (this.value == "Self") {
+            var name = $('#empfullName').val();
+            var dob = $('#dob').val();
+            if (dob != "") {
+                var values = dob.split("/");
+                var date = values[0];
+                var month = values[1];
+                var year = values[2];
+
+                var currentdate = new Date();
+                var currentyear = currentdate.getYear() + 1900;
+                var currentmonth = currentdate.getMonth() + 1;
+                var currentdate = currentdate.getDate();
+
+                var calculateYear = currentyear - year;
+                var calculatemonth = 0;
+                var calculatedate = 0;
+                if (month > currentmonth) {
+                    calculateYear--;
+                    calculatemonth = month - currentmonth;
+                }
+
+
+
+            }
+            var gender = $("input[name=gender]:checked").val();
+
+            var manavSampda_AadharNo = $("#manavSampda_AadharNo").val();
+
+            if (name != "" && dob != "" && gender != "" && manavSampda_AadharNo != "") {
+                if ($(this).is(':checked')) {
+
+                    $("#patientName").val(name);
+                    $("#patientage").val(calculateYear);
+
+                    $("input[name=patientgender][value=" + gender + "]").prop('checked', true);
+                    $("input[name=patientgender]").prop('disabled', true);
+
+
+                    $("#patientAadhaarNo").val(manavSampda_AadharNo);
+
+                    $("#patientrelationsWithEmployee").val('Self');
+
+                    $('#patientName').attr('readonly', true);
+                    $('#patientName').addClass('input-disabled');
+                    $('#patientage').attr('readonly', true);
+                    $('#patientage').addClass('input-disabled');
+                    $('#patientAadhaarNo').attr('readonly', true);
+                    $('#patientAadhaarNo').addClass('input-disabled');
+
+                    $('#patientrelationsWithEmployee').attr('readonly', true);
+                    $('#patientrelationsWithEmployee').addClass('input-disabled');
+                }
+                else {
+                    $("#patientName").val("");
+                    $("#patientage").val("");
+                    $("#patientAadhaarNo").val("");
+                    $("#patientrelationsWithEmployee").val("");
+
+
+                    $('#patientName').removeAttr('readonly');
+                    $('#patientName').addClass('input-enabled');
+                    $('#patientage').removeAttr('readonly');
+                    $('#patientage').addClass('input-enabled');
+                    $('#patientAadhaarNo').removeAttr('readonly');
+                    $('#patientAadhaarNo').addClass('input-enabled');
+
+                    $('#patientrelationsWithEmployee').removeAttr('readonly');
+                    $('#patientrelationsWithEmployee').addClass('input-enabled');
+
+                    $("input[name=patientgender]").removeAttr('checked');
+                    $("input[name=patientgender]").removeAttr('disabled');
+                }
+            }
+        }
+        else {
+            $("#patientName").val("");
+            $("#patientage").val("");
+            $("#patientAadhaarNo").val("");
+            $("#patientrelationsWithEmployee").val("");
+
+            $('#patientName').removeAttr('readonly');
+            $('#patientName').addClass('input-enabled');
+            $('#patientage').removeAttr('readonly');
+            $('#patientage').addClass('input-enabled');
+            $('#patientAadhaarNo').removeAttr('readonly');
+            $('#patientAadhaarNo').addClass('input-enabled');
+
+            $('#patientrelationsWithEmployee').removeAttr('readonly');
+            $('#patientrelationsWithEmployee').addClass('input-enabled');
+
+            $("input[name=patientgender]").removeAttr('checked');
+            $("input[name=patientgender]").removeAttr('disabled');
+        }
+    })
+    $('input[name="isAdvanceTaken"]').change(function () {
+        debugger;
+        if (this.value == "Yes") {
+            $('#advtaken').show();
+
+        }
+        else {
+            $('#advtaken').hide();
+            $('#advanceAmount').val('');
+            $('#advanceLetterNo').val('');
+            $('#advanceDate').val('');
+        }
+    })
+
+    var rowCount = 0;
+    if ('@ViewBag.MERChildListCount' != '') {
+        rowCount = '@ViewBag.MERChildListCount';
+    }
+    $("#btnadd").click(function () {
+
+        debugger;
+        var markup = "<tr><td align='center'></td><td><select class='billId_" + rowCount + " form-control select' name='billId'></select></td><td align='center'><input type='text' name='billNo' id='billNo'  class ='form-control alphaN' style ='height:45px'></td> <td align='center'><input type='text' name='billdate' class ='dateSet_" + rowCount + " form-control'  placeholder='dd/mm/yyyy' data-language='en' readonly='true' style ='height:45px' /></td><td align='center'><input type='text' name='billAmount' id='billAmount'class = 'nr form-control' style ='height:45px'  onblur='TotalAmount(this);' onkeypress='return isNumberKey(event)'></td> <td align='center'><span><button id='btndel' onclick='DeleteRow(this);' type='button'><i class='fa fa-trash fa-2x text-warning'></i></button></span></td></tr>";
+        $("table #tbAdd").append(markup);
+        $.ajax({
+            url: '@Url.Action("Dropdown", "appRegistration")',
+            datatype: "json",
+            type: 'GET',
+            async: false,
+            success: function (data) {
+
+                $(".billId_" + rowCount).empty();
+                $(".billId_" + rowCount).append("<option value=''>--Select--</option>");
+                $.each(data, function (i, result) {
+
+
+                    $(".billId_" + rowCount).append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                });
+
+            },
+            error: function () {
+            }
+        });
+
+        var strBillDate1 = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+        $('.dateSet_' + rowCount).datepicker({
+            maxDate: new Date(strBillDate1),
+            autoClose: true
+        });
+
+        rowCount++;
+
+        addEvent();
+    });
+
+
+
+    function DeleteRow(obj) {
+
+        debugger
+        if (rowCount > 0) {
+
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this Data!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+function () {
+    $(obj).closest('tr').remove();
+    rowCount--;
+    check = 1;
+    TotalAmount(obj);
+    swal("Deleted!", "Your Data has been deleted.", "success");
+});
+        }
+        else {
+            check = 1;
+            swal("", "Record  cannot be deleted", "warning");
+        }
+    }
+
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    var amount = 0;
+    function TotalAmount(obj) {
+        amount = 0;
+        $('#tbUser tbody tr').each(function () {
+            var currentAmount = $(this).find("td:eq(4) input[type='text']").val();
+            if (currentAmount != '') {
+                amount = amount + parseInt(currentAmount);
+            }
+        });
+
+        if (amount == 0) {
+            $("#txttotal").val('');
+        }
+        else {
+            $("#txttotal").val(amount);
+        }
+    }
+
+    var dateBeforeThreeMonth = '@DateTime.Now.AddMonths(-3).AddDays(1)' + "";
+    var strDate1 = dateBeforeThreeMonth.split(' ')[0]
+    var strMinDate = strDate1.split('/')[2] + "/" + strDate1.split('/')[1] + "/" + strDate1.split('/')[0]
+
+    var strMaxDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    $('#patienttreatmentFromDate').datepicker({
+        maxDate: new Date(strMaxDate),
+        onSelect: function (selectedDate) {
+
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var mindate = new Date(selectedDate);
+            mindate.setDate(mindate.getDate() + 1);
+            $("#patienttreatmentToDate").datepicker({ minDate: mindate, autoClose: true });
+        },
+        autoClose: true
+    });
+
+    $('#patienttreatmentToDate').datepicker({
+        minDate: new Date(strMinDate),
+        maxDate: new Date(strMaxDate),
+        onSelect: function (selectedDate) {
+
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var maxdate = new Date(selectedDate);
+            maxdate.setDate(maxdate.getDate() - 1);
+            $("#patienttreatmentFromDate").datepicker({ maxDate: maxdate, autoClose: true });
+        },
+        autoClose: true
+    });
+
+    var strDate = @DateTime.Now.Year -18 + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#dob').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+    var stradvanceDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    $('#advanceDate').datepicker({
+        maxDate: new Date(stradvanceDate),
+        autoClose: true
+    });
+    var strBillDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#billdate').datepicker({
+        maxDate: new Date(strBillDate),
+        autoClose: true
+    });
+
+    $('input[name="gender"]').change(function () {
+        SelfDependCase();
+    });
+
+    function SelfDependCase() {
+        debugger;
+        var patientType = $("input[name=patientType]:checked").val();
+        if (patientType == "Self") {
+            $("input[name=patientType]").removeAttr('checked');
+            $("#patientName").val("");
+            $("#patientage").val("");
+            $("input[name=patientgender]").removeAttr('checked');
+            $("input[name=patientgender]").removeAttr('disabled');
+
+            $("#patientAadhaarNo").val("");
+            $("#patientrelationsWithEmployee").val("");
+
+            $('#patientName').removeAttr('readonly');
+            $('#patientName').addClass('input-enabled');
+            $('#patientage').removeAttr('readonly');
+            $('#patientage').addClass('input-enabled');
+            $('#patientAadhaarNo').removeAttr('readonly');
+            $('#patientAadhaarNo').addClass('input-enabled');
+
+            $('#patientrelationsWithEmployee').removeAttr('readonly');
+            $('#patientrelationsWithEmployee').addClass('input-enabled');
+        }
+    }
+    var check = 2;
+    $("#btnsubmit").click(function () {
+        debugger;
+        var val = $("#frmdata").validate();
+        val.form();
+        val.showErrors();
+
+        if (val.valid()) {
+            $("#tbUser tr:gt(0)").each(function (index, obj) {
+                alert('q');
+                index = index + 1;
+                var currRow = $(this);
+                var _billtype = currRow.find('td:eq(1)').find('select[name="billId"]').val();
+                var _billNo = currRow.find('td:eq(2)').find('input[type=text]').val();
+                var _billdate = currRow.find('td:eq(3)').find('input[type=text]').val();
+                var _Amount = currRow.find('td:eq(4)').find('input[type=text]').val();
+                debugger;
+
+                if (_billtype == '' && _billNo == '' && _billdate == '' && _Amount == '' && index == 1) {
+                    swal("", "Details of Expenditure is required !", "warning");
+                    check = 0;
+                    return false;
+                }
+                else if (index == 1) {
+
+                    if (_billtype == '') {
+                        swal("", "Select Bill type at row No. " + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (_billNo == '') {
+                        swal("", "Enter Bill No. at row No. " + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (_billNo.length > 20) {
+                        swal("", "Bill No. is too long at row No. " + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (_billdate == '') {
+                        swal("", "Enter Bill date  at row No." + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (_Amount == '') {
+                        swal("", "Enter Bill amount at row No. " + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                }
+
+                if ((_billtype != '' || _billNo != '' || _billdate != '' || _Amount != '') && index > 1) {
+
+                    if (_billtype == '') {
+                        swal("", "Select Bill type at row No. " + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (_billNo == '') {
+                        swal("", "Enter Bill No. at row No. " + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (_billNo.length > 20) {
+                        swal("", "Bill No. is too long at row No. " + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (_billdate == '') {
+                        swal("", "Enter Bill date  at row No." + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (_Amount == '') {
+                        swal("", "Enter Bill amount at row No. " + index + " of  Expenditure!", "warning");
+                        check = 0;
+                        return false;
+                    }
+                }
+            });
+        }
+        if (check == 2) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    });
+
+    $('input[name=isRetirement]').click(function () {
+
+        var v = $('input[name=isRetirement]:checked').val();
+
+        if (v == "True") {
+            $("#divIsRetired").show();
+            $("#ppotreament").val('');
+            $("#Yhed").show();
+            $("#Nhed").hide();
+            $(".on").hide();
+            $("#officeName").rules("remove", "required");
+            $("#officeInchargeName").rules("remove", "required");
+        }
+        else {
+            $("#divIsRetired").hide();
+            $("#ppotreament").val('');
+            $("#Nhed").show();
+            $("#Yhed").hide();
+            $(".on").show();
+            $("#officeName").rules("add", "required");
+            $("#officeInchargeName").rules("add", "required");
+        }
+    });
+    $("#btnSave").click(function () {
+
+        check = 2;
+        debugger;
+        if ($("#headingId").text().split(' ')[1] == 2) {
+            var val = $("#frmdata").validate();
+            val.form();
+            val.showErrors();
+
+            if (val.valid()) {
+
+                $("#tbUser tbody tr").each(function (index, obj) {
+
+                    index = index + 1;
+                    var currRow = $(this);
+                    var _billtype = currRow.find('td:eq(1)').find('select[name="billId"]').val();
+                    var _billNo = currRow.find('td:eq(2)').find('input[type=text]').val();
+                    var _billdate = currRow.find('td:eq(3)').find('input[type=text]').val();
+                    var _Amount = currRow.find('td:eq(4)').find('input[type=text]').val();
+
+
+                    if (_billtype == '' && _billNo == '' && _billdate == '' && _Amount == '' && index == 1) {
+                        swal("", "Details of Expenditure is required !", "warning");
+                        check = 0;
+                        return false;
+                    }
+                    else if (index == 1) {
+
+                        if (_billtype == '') {
+                            swal("", "Select Bill type at row No. " + index + " of  Expenditure!", "warning");
+                            check = 0;
+                            return false;
+                        }
+                        else if (_billNo == '') {
+                            swal("", "Enter Bill No. at row No. " + index + " of  Expenditure!", "warning");
+                            check = 0;
+                            return false;
+                        }
+                        else if (_billdate == '') {
+                            swal("", "Enter Bill date  at row No." + index + " of  Expenditure!", "warning");
+                            check = 0;
+                            return false;
+                        }
+                        else if (_Amount == '') {
+                            swal("", "Enter Bill amount at row No. " + index + " of  Expenditure!", "warning");
+                            check = 0;
+                            return false;
+                        }
+                    }
+
+                    if ((_billtype != '' || _billNo != '' || _billdate != '' || _Amount != '') && index > 1) {
+
+                        if (_billtype == '') {
+                            swal("", "Select Bill type at row No. " + index + " of  Expenditure!", "warning");
+                            check = 0;
+                            return false;
+                        }
+                        else if (_billNo == '') {
+                            swal("", "Enter Bill No. at row No. " + index + " of  Expenditure!", "warning");
+                            check = 0;
+                            return false;
+                        }
+                        else if (_billdate == '') {
+                            swal("", "Enter Bill date  at row No." + index + " of  Expenditure!", "warning");
+                            check = 0;
+                            return false;
+                        }
+                        else if (_Amount == '') {
+                            swal("", "Enter Bill amount at row No. " + index + " of  Expenditure!", "warning");
+                            check = 0;
+                            return false;
+                        }
+                    }
+                });
+
+                if (check == 2 && $("#ROLL").val() != "5") {
+                    if ($("#txttotal").val() < 50000) {
+                        swal("", "Total Bill Amount can not be less than Rs.50000", "warning");
+                        check = 0;
+                    }
+                }
+
+                if (check == 2 && $("#ROLL").val() == "5") {
+                    if ($("#txttotal").val() > 49999) {
+                        swal("", "Total Bill Amount can not be greater than Rs.49999", "warning");
+                        check = 0;
+                    }
+                }
+            }
+
+            if (check == 2) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if ($("#headingId").text().split(' ')[1] == 3) {
+            if ($("input[type='checkbox']:checked").length == 0) {
+                $("#spanmember").show();
+                return false;
+            }
+            $("#tbUser").html('');
+        }
+    });
+    $("#permStateId").change(function () {
+        binddist($("#permStateId").val());
+    })
+    function binddist(permStateId) {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("binddist", "AppRegistration")',
+            data: { permStateId: permStateId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#permDistrictId").empty();
+                $("#permDistrictId").append("<option value=''>--Select--</option>")
+                $.each(data, function (i, result) {
+                    $("#permDistrictId").append("<option value='" + result.Value + "'>" + result.Text + "</option>")
+                });
+                if ('@TempData["permDistrictId"]' != '') {
+                    var appsubid = '@TempData["permDistrictId"]';
+                    $("#permDistrictId").val(appsubid);
+                }
+            },
+            failure: function () {
+                alert("Failed!");
+            }
+        });
+    }
+</script>
+

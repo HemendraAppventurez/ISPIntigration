@@ -1,0 +1,133 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.NUHmodel
+@{
+    ViewBag.Title = "UploadAffidavit";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">Application form for Registration  of <strong>Medical Establishment</strong>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm("UploadAffidavit", "NUH", FormMethod.Post, new { @id = "frmUploadAffidavit" }))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default" style="margin-bottom: 5px;">
+                    <div class="panel-body" style="padding: 3px 10px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong>Note :-  <span class="text-danger">File that will be uploaded should be in .jpg and .pdf format and maximum file size should be 2080 KB (2 MB).</span></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Upload Affidavit</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-5 padding-top-20">
+                                    <label>Notarized  Affidavit from person incharge of establishment <span class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-md-2 padding-top-10" id="file-5">
+                                    <div class="form-group3">
+                                        <div class="fileUpload3">
+                                            <span>Upload </span>
+                                            @Html.TextBoxFor(m => m.notarizedAffidavitFile, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                            @Html.HiddenFor(m => m.notarizedAffidavitFilePath)
+                                            @Html.ValidationMessageFor(m => m.notarizedAffidavitFile, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 padding-top-20">
+                                    <a href="#" id="aAffidavit" target="_blank" style="display: none;"><i class="fa fa-download fa-2x"></i></a>
+                                </div>
+                                <div class="col-md-4 padding-top-10 text-right">
+                                    <a href="@Url.Action("DownloadFileByPath", "NUH", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt(@ViewBag.AffidavitProforma)) })" aria-hidden="true" class="btn btn-success" target="_blank">Download Affidavit Format</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        @Html.HiddenFor(m => m.regisIdNUH)
+                        <button type="submit" class="btn btn-primary">Final Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        if ('@ViewBag.msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", '@ViewBag.msg', '@ViewBag.MsgStatus');
+        }
+    });
+
+    //BEGIN fup path
+    function Fileupload(obj) {
+        debugger;
+        var fileId = $(obj).attr("id");
+        var ext = obj.value.match(/\.(.+)$/)[1];
+
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+
+                var fileSize = ($("#" + fileId)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + fileId).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "NUH")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            if (response[1] == 'SNV') {
+                                swal("", 'Maximum 2 MB file size are allowed !', "warning");
+                            }
+                            else if (response[1] == 'TNV') {
+                                swal("", 'Only pdf and jpg files are allowed !', "warning");
+                            }
+                            else {
+
+                                var url3 = '@Url.Content("~/Content/writereaddata/NUH/")' + response[0];
+                                $('#aAffidavit').removeAttr('href');
+                                $('#aAffidavit').attr('href', url3);
+                                $('#aAffidavit').show();
+                                $("#" + fileId + "Path").val(response[1]);
+                            }
+                            return false;
+                        },
+                        error: function () {
+                        }
+                    });
+
+            }
+            break;
+        default:
+            swal("", 'This is not an allowed file type only pdf and jpg  file valid for this', "warning");
+            this.value = '';
+            return false;
+    }
+
+}
+</script>

@@ -1,0 +1,443 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ReportsModel
+@{
+    ViewBag.Title = "CMOfficeCountProcessDetailsList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    SessionManager SMOBj = new SessionManager();
+}
+
+
+@using CCSHealthFamilyWelfareDept.Models;
+@{
+
+    int i = 1, totalPage = 1;
+}
+
+
+
+<div class="content-title">
+    <h3 class="main-title">
+        @if (SMOBj.ReportName == "total")
+        {
+            <strong><span style="color: #0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - कुल प्राप्त आवेदनों की संख्या
+        <span class="small">@ViewBag.RollName - Total No. of Applications Received</span>
+            </strong>
+        }
+        @if (SMOBj.ReportName == "Resolved")
+        {
+            <strong><span style="color: #0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 1 आवेदनों की संख्‍या की कुल संख्‍या
+        <span class="small">@ViewBag.RollName - Step 1 Total No. of Applications Resolved</span>
+            </strong>
+        }
+
+        @if (SMOBj.ReportName == "pending")
+        {
+            <strong><span style="color: #0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - लंबित आवेदनों की कुल संख्या
+        <span class="small">@ViewBag.RollName - Total No. of Applications Pending</span>
+
+            </strong>
+            
+        }
+
+@*        @if (SMOBj.ReportName == "Step1Re")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 1 खारिज किए गए आवेदनों की कुल संख्या
+        <span class="small">@ViewBag.RollName - Step 1 Total No. of Applications Rejected</span>
+            </strong>
+        }
+        @if (SMOBj.ReportName == "Step1Accep")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 1 स्वीकृत आवेदनों की कुल संख्या
+        <span class="small">@ViewBag.RollName - Step 1 Total No. of Applications Accepted</span>
+            </strong>
+        }
+        @if (SMOBj.ReportName == "Step2InsSch")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 2 निर्धारित निरीक्षण की कुल संख्या 
+        <span class="small">@ViewBag.RollName - Step 2 Total No. of Inspections Scheduled</span>
+            </strong>
+              
+        }
+        @if (SMOBj.ReportName == "Step3InsRepUp")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 3 अपलोड किए गए निरीक्षण रिपोर्ट की कुल संख्या
+        <span class="small">@ViewBag.RollName - Step 3 Total No. of Inspection Reports Uploaded</span>
+            </strong>
+        }
+
+        @if (SMOBj.ReportName == "Step4Re")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 4 पंजीकरण की अंतिम स्थिति अस्वीकृत की कुल संख्या 
+        <span class="small">@ViewBag.RollName - Step 4 Total No. of Final Status of Registration Rejected</span>
+            </strong>
+        }
+
+        @if (SMOBj.ReportName == "Step4ReAccep")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 4 पंजीकरण की अंतिम स्थिति स्वीकृत की कुल संख्या 
+        <span class="small">@ViewBag.RollName - Step 4 Total No. of Final Status of Registration Approved</span>
+            </strong>
+        }
+
+        @if (SMOBj.ReportName == "Step5CertificateIssue")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 5 कुल जारी प्रमाणपत्रों की संख्या 
+        <span class="small">@ViewBag.RollName - Step 5 Total No. of Certificates Issued</span>
+            </strong>
+        }*@
+
+        <a href="@Url.Action("CMOfficeCountProcessDeathRpt", "Report", new { ReportName = @OTPL_Imp.CustomCryptography.Encrypt(SMOBj.ReportName),FromDate = @OTPL_Imp.CustomCryptography.Encrypt(SMOBj.FromDate), ToDate = @OTPL_Imp.CustomCryptography.Encrypt(SMOBj.ToDate) })" class="btn btn-primary btn-sm pull-right">Print</a>
+        <a href="@Url.Action("CMOfficeCountProcessDeathExcel", "Report", new { ReportName = @OTPL_Imp.CustomCryptography.Encrypt(SMOBj.ReportName),FromDate = @OTPL_Imp.CustomCryptography.Encrypt(SMOBj.FromDate), ToDate = @OTPL_Imp.CustomCryptography.Encrypt(SMOBj.ToDate) })" class="btn btn-primary btn-sm pull-right">Export To Excel</a>
+        @Html.HiddenFor(m => SMOBj.FromDate)
+        @Html.HiddenFor(m => SMOBj.ToDate)
+        <a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack">Back</a>
+    </h3>
+</div>
+@using (Html.BeginForm("CMOfficeCountProcessDetailsList", "Report", FormMethod.Post, new { @id = "frmCountCertificate" }))
+{
+    <section>
+        @* <div class="content-title">
+            <h3 class="main-title">Count Process <strong>Report</strong></h3>
+            <a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack">Back</a>
+        </div>*@
+        <div id="content" class="dashboard padding-20 margin-bottom-50">
+            <div class="row">
+
+                <div class="col-md-12" id="FilterDiv" style="display: none;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4></h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                                @*<div class="col-md-3 a" style="display: none">
+                                    <div class="form-group">
+                                        <label>Application <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.appTypeId, (IEnumerable<SelectListItem>)ViewBag.Application, "--select--", new { @class = "form-control", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.appTypeId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.appTypeId)
+                                    </div>
+                                </div>*@
+
+                                @*<div class="col-md-3 d" style="display: none">
+                                    <div class="">
+                                        <label>District <span class="star">*</span></label>
+                                        <span id="spanmember" style="display: none" class="text-danger">Please select Atleast One DIstrict</span>
+                                        <div class="example">
+                                            @Html.DropDownListFor(m => m.DistrictIds, (IEnumerable<SelectListItem>)ViewBag.District, new { @multiple = "multiple", @class = "reasondropdown ddlmultiple" })
+                                            @Html.ValidationMessageFor(m => m.DistrictId)
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>From<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => SMOBj.FromDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.fromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>To <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => SMOBj.ToDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.toDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <input type="submit" id="btnsearch" value="Search" class="btn btn-block btn-success" />
+                                        @Html.HiddenFor(m => m.RptType)
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <a href="@Url.Action("CMOfficeCountProcessDetailsList", "Report")" class="btn btn-block btn-warning">Reset</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*  <div class="col-md-12" id="FilterDivButton">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                        </div>
+                    </div>
+                </div>*@
+                <div class="clearfix"></div>
+                @{
+    List<ReportsModel> rows = ViewData["CMOfficeCountReportList"] as List<ReportsModel>;
+
+    if (rows != null && rows.Count > 0)
+    {
+                    <div class="col-md-12" id="FilterDivTotalList">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4></h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <table border="1" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                                        <thead>
+                                            <tr>
+                                                <td rowspan="3"><strong>S. No</strong></td>
+                                                <td rowspan="3"><strong>District Wise</strong></td>
+                                                <td rowspan="2" style="font-weight: 900; font-size: 15px; text-align: center;"><strong>Total Application's</strong></td>
+                                                @*<td colspan="3"><strong>No. of Applications    Received Through</strong></td>*@
+
+                                                @*<td colspan="3"><strong>STEP - 1</strong> </td>
+                                                    <td><strong>STEP - 2</strong></td>
+                                                    <td><strong>STEP - 3</strong></td>
+                                                    <td colspan="2"><strong>STEP - 4</strong></td>
+                                                    <td><strong>STEP - 5</strong></td>*@
+                                                @*<td rowspan="3"><strong>No. of  Applications Pending </strong></td>*@
+                                            </tr>
+                                            @* <tr>
+                                                    <td rowspan="2"><strong>Health Portal</strong></td>
+                                                    <td rowspan="2"><strong>E-district</strong></td>
+                                                    
+                                                    <td colspan="3"><strong>No.    of Applications</strong></td>
+                                                    <td rowspan="2"><strong>No.    of Inspections Scheduled</strong></td>
+                                                    <td rowspan="2">
+                                                        <strong>
+                                                            No.    of Inspection
+                                                            <br />
+                                                            Reports Uploaded
+                                                        </strong>
+                                                    </td>
+                                                    <td colspan="2"><strong>Final Status of Registration</strong> </td>
+                                                    <td rowspan="2"><strong>No. of Certificates Issued</strong></td>
+                                                </tr>*@
+                                            @*<tr>
+                                                    <td><strong>Scrutnized</strong></td>
+                                                    <td><strong>Rejected</strong></td>
+                                                    <td><strong>Accepted</strong></td>
+                                                    <td><strong>Rejected</strong></td>
+                                                    <td><strong>Approved</strong></td>
+                                                </tr>*@
+                                        </thead>
+
+                                        <tbody>
+
+                                            @foreach (var r in rows)
+                                            {
+
+                                                <tr>
+                                                    <td style="text-align: center;"><span>@i</span></td>
+                                                    <td style="text-align: left;"><span>@r.DistrictName</span></td>
+                                                    @*<td><span>@r.citizen</span></td>
+                                                    <td><span>@r.cmo</span></td>*@
+                                                    @if (SMOBj.ReportName == "total")
+                                                    { 
+                                                        <td style="text-align: center;">@Html.Raw(r.total > 0 ? "<b><a target='_blank' href=" + @Url.Action("CMOfficeAppCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("0"), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("total"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.total + "</a></b>" : r.total.ToString())</td>
+                                                    }
+                                                    else if (SMOBj.ReportName == "Resolved")
+                                                    {
+                                                        <td style="text-align: center;">@Html.Raw(r.Application_Accepted > 0 ? "<b><a target='_blank' href=" + @Url.Action("CMOfficeAppCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("1"), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Resolved"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Application_Accepted + "</a></b>" : r.Application_Accepted.ToString())</td>
+                                                    }
+                                                    else if (SMOBj.ReportName == "pending")
+                                                    { 
+                                                        <td style="text-align: center;">@Html.Raw(r.Pending > 0 ? "<b><a target='_blank' href=" + @Url.Action("CMOfficeAppCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("4"), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("pending"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Pending + "</a></b>" : r.Pending.ToString())</td>
+                                                    }
+                                                    
+                                                   
+
+@*<td style="text-align: center;">@Html.Raw(r.Application_Accepted > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step1Accep"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Application_Accepted + "</a>" : r.Application_Accepted.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Inspection_Scheduled > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step2InsSch"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Inspection_Scheduled + "</a>" : r.Inspection_Scheduled.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Inspection_Rpt_uploaded > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step3InsRepUp"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Inspection_Rpt_uploaded + "</a>" : r.Inspection_Rpt_uploaded.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.InspectionRpt_Rejected > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step4Re"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.InspectionRpt_Rejected + "</a>" : r.InspectionRpt_Rejected.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Inspection_Rpt_Acc > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step4ReAccep"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Inspection_Rpt_Acc + "</a>" : r.Inspection_Rpt_Acc.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.Certificate_Generated > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Step5CertificateIssue"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.Certificate_Generated + "</a>" : r.Certificate_Generated.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.TotalPending > 0 ? "<a href=" + @Url.Action("ApplicationCountProcessDetails", "Report", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(r.registrationNo), appDate = @OTPL_Imp.CustomCryptography.Encrypt(""), status = @OTPL_Imp.CustomCryptography.Encrypt(""), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("TotalPending"), DistrictID = @OTPL_Imp.CustomCryptography.Encrypt(Convert.ToString(r.DistrictId)) }) + ">" + r.TotalPending + "</a>" : r.TotalPending.ToString())</td>*@
+
+
+                                                </tr>
+                                                    i++;
+                                                
+@*  if (i == 20)
+                                                    {
+                                                        totalPage++;
+                                                        <tr style="page-break-after: always;">
+                                                        </tr>
+                                                    }
+                                                    else if (i == 48)
+                                                    {
+                                                        totalPage++;
+                                                        <tr style="page-break-after: always;">
+                                                        </tr>
+                                                    }*@
+                                            }
+
+                                            @{
+                                                <tr style="font-weight: 900; font-size: 15px;">
+                                                    <td>&nbsp;</td>
+                                                    <td style="font-weight: 900; font-size: 15px;"><strong>Total</strong></td>
+
+                                                    @*<td><span>@rows.Sum(r => r.citizen)</span></td>
+                                                        <td><span>@rows.Sum(m => m.cmo)</span></td>*@
+
+                                                    @if (SMOBj.ReportName == "total")
+                                                    {
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.total)</span></td>
+                                                    }
+                                                    else if (SMOBj.ReportName == "Resolved")
+                                                    { 
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.Application_Accepted)</span></td>
+                                                    }
+                                                    else if (SMOBj.ReportName == "pending")
+                                                    {
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.Pending)</span></td>
+                                                    }
+@* <td style="text-align: center;"><span>@rows.Sum(m => m.Pending)</span></td>
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.ApplicationRejected)</span></td>
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.Application_Accepted)</span></td>
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.Inspection_Scheduled)</span></td>
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.Inspection_Rpt_uploaded)</span></td>
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.InspectionRpt_Rejected)</span></td>
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.Inspection_Rpt_Acc)</span></td>
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.Certificate_Generated)</span></td>
+
+                                                        <td style="text-align: center;"><span>@rows.Sum(m => m.TotalPending)</span></td>*@
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    }
+
+                }
+            </div>
+        </div>
+    </section>
+
+}
+<script src="~/js/bootstrap-multiselect.js"></script>
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+
+<script>
+
+    $(document).ready(function () {
+       
+        debugger
+        if ('@TempData["RptType"]' == '1') {
+
+            $('.d').hide();
+            $('.a').hide();
+        }
+        else {
+            $('.d').show();
+            $('.a').show();
+        }
+    });
+    $('#DistrictIds').hide();
+    $('.ddlmultiple').multiselect({
+
+        includeSelectAllOption: true,
+        enableClickableOptGroups: true,
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        nSelectedText: 'Reason Selected'
+    });
+
+    $("#btnRefresh").click(function () {
+        $("#txtAppNumber").val('');
+        $("#ddlAppStatus").val('');
+        $("#txtAppDate").val('');
+            
+    });
+
+
+    });
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    $('#fromDate').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var mindate = new Date(selectedDate);
+            mindate.setDate(mindate.getDate() + 1);
+            $("#toDate").datepicker({ minDate: mindate, autoClose: true });
+        },
+        autoClose: true
+    });
+    $('#toDate').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var maxdate = new Date(selectedDate);
+            maxdate.setDate(maxdate.getDate() - 1);
+            $("#fromDate").datepicker({ maxDate: maxdate, autoClose: true });
+        },
+        autoClose: true
+    });
+    $("#btnsearch").click(function () {
+
+        $("#dvLoader").show();
+
+        if ('@TempData["RptType"]' != '1') {
+            if ($('#DistrictIds').val() == null || $('#DistrictIds').val() == '') {
+                $("#spanmember").show();
+                return false;
+            }
+            else {
+                $("#spanmember").hide();
+                return true;
+            }
+        }
+    });
+
+    
+    function SubmitForm() {
+        debugger
+        localStorage.setItem('back', 1);
+        localStorage.setItem('reportName', localStorage.getItem('reportName'));
+        if ('@SMOBj.AppTypeID' != "" && '@SMOBj.AppTypeID' != 0) {
+            //debugger
+            var ApptypeId = '@SMOBj.AppTypeID';
+            var fromDate = '@SMOBj.FromDate';
+            var toDate = '@SMOBj.ToDate';
+            $("#appTypeId").val(ApptypeId);
+            $("#fromDate").val(fromDate);
+            $("#toDate").val(toDate);
+
+            $('#frmCountCertificate').submit(function () {
+                // debugger
+                bindApplicationList(localStorage.getItem('reportName'), "");
+            });
+
+        }
+    }
+</script>
+
+

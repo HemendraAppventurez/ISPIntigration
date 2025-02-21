@@ -1,0 +1,57 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.ManageAccountModel>
+@{
+    int allowedWrongAttampt = System.Configuration.ConfigurationManager.AppSettings["AllowedMaxWrongAtt"] == null ? 5 : Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["AllowedMaxWrongAtt"].ToString());
+    }
+
+<style>
+    .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+             
+    <div id="divDataList" class="table-responsive">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "Sl.No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("userName", header: "User ID"), 
+            grid.Column("rollName", header: "User Type"),
+            grid.Column("DistrictName", header: "District"),
+            grid.Column(header: "Account", format: @<text> 
+        @if (@item.failLoginCount < allowedWrongAttampt)
+        {
+            <span>No Lock</span>
+        }
+        else
+        {
+            <a data-userId="@OTPL_Imp.CustomCryptography.Encrypt(@item.userId.ToString())" onclick="ManageAccount(this);" class="btn btn-block btn-info none" title="Account Unlock">Unlock</a> 
+        }
+
+        </text>),
+            grid.Column(header: "Password", format: @<text> 
+         
+            <a data-userId="@OTPL_Imp.CustomCryptography.Encrypt(@item.userId.ToString())" onclick="ManageAccount(this);" class="btn btn-block btn-info none" title="Reset Password">Reset</a> 
+         
+        </text>)
+            ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+}

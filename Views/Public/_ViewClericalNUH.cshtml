@@ -1,0 +1,120 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.NUHDetailsModel>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table style="width: 100%; border-collapse: collapse; margin: 15px 0 25px; font-size: 0.85rem;" border="1" cellpadding="5">
+        <tr>
+            <td style="width: 25%;">
+                <b>Registration No.</b>
+            </td>
+            <td>@Model.Select(r => r.meeRegisNo).FirstOrDefault()</td>
+        </tr>
+        <tr>
+            <td>
+                <b>Registration Date</b>
+            </td>
+            <td>@Model.Select(r => r.meeRegisNoGenDate).FirstOrDefault()</td>
+        </tr>
+        <tr>
+            <td>
+                <b>Establishment Name</b>
+            </td>
+            <td>@Model.Select(r => r.establishmentName).LastOrDefault()</td>
+        </tr>
+        <tr>
+            <td>
+                <b>Establishment Type</b>
+            </td>
+            <td>@Model.Select(r => r.EstablishmentType).LastOrDefault()</td>
+        </tr>
+        <tr>
+            <td>
+                <b>Establishment Address</b>
+            </td>
+            <td>@Model.Select(r => r.address).LastOrDefault(),&nbsp;@Model.Select(r => r.DistrictName).LastOrDefault(),&nbsp;@Model.Select(r => r.StateName).LastOrDefault()&nbsp;-&nbsp;@Model.Select(r => r.pinCode).LastOrDefault()</td>
+        </tr>
+        <tr>
+            <td>
+                <b>In Patient</b>
+            </td>
+            <td>@if (Model.Select(r => r.isInPatient).LastOrDefault())
+                {
+                <span>Yes</span> 
+                }
+                else
+                { 
+                <span>No</span> 
+                }</td>
+        </tr>
+        <tr>
+            <td>
+                <b>No. of Beds</b>
+            </td>
+            <td>@if (Model.Select(r => r.isInPatient).LastOrDefault())
+                {
+                <span>@Model.Select(r => r.numberofBed).LastOrDefault()</span> 
+                }
+                else
+                { 
+                <span>NA</span> 
+                }</td>
+        </tr>
+    </table>
+    <div style="font-size: 1rem; font-weight: 600; text-decoration: underline; padding-bottom: 8px; text-align: center;">Renewal Status</div>
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;" border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th style="text-align: center;">S. No.</th>
+                <th style="text-align: center;">Renewal Year</th>
+                <th style="text-align: center;">Renewal Registration Certificate No.</th>
+                <th style="text-align: center;">Issued By</th>
+                <th style="text-align: center;">Issued On</th>
+                <th style="text-align: center;">Valid Till</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int rowNo = 0;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="text-align: center;">@(++rowNo)</td>
+                    <td style="text-align: center;">@item.NewRenewYear</td>
+                    <td style="text-align: center;">@item.CertificateNo</td>
+                    <td style="text-align: center;">@item.certiGendBy&nbsp;@item.districtGendBy</td>
+                    <td style="text-align: center;">@item.IssuedOn</td>
+                    <td style="text-align: center;">@item.ValidTill</td>
+                </tr>
+            }
+
+            @*<tr>
+                <td style="text-align: center;">2</td>
+                <td style="text-align: center;">2020</td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">3</td>
+                <td style="text-align: center;">2021</td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">4</td>
+                <td style="text-align: center;">2022</td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+            </tr>*@
+        </tbody>
+    </table>
+}
+else
+{
+    <script>
+        swal("", "Record not found.", "warning");
+    </script>
+    @*<label>Record not found.</label>*@
+}
+

@@ -1,0 +1,46 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.NUHmodel>
+
+<style>
+    .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+<h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px;"><span style="margin: 0px 15px 0px 0px; padding: 0px;"></span>Paramedical Staff Details</h3>
+        @* <p class="text-danger">
+            <strong>Note:-</strong>  Please fill details and upload records up to 5 ParaMedical Staff through Add more option & Furnish details  of rest ParaMedical
+                                 Staff in affidavit in same format as mentioned below. Submit hardcopy of all the remaining records (qualification document) of ParaMedical Staff to the CMO Office/ Committee.
+        </p>*@
+        @if (Model != null && Model.Count() > 0)
+        {
+            WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+             
+            <div id="divDataList">
+                @grid.GetHtml(htmlAttributes: new {  id = "result" },tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("staffName", header: "Name"),
+            grid.Column("stafffatherName", header: "Father Name"),
+            grid.Column("staffqualification", header: "Relevant Qualification"),
+            grid.Column("staffinstitution", header: "Institution"),
+            grid.Column("staffRegistrationType", header: "Registration Type"),
+            grid.Column("staffRegistrationNo", header: "Registration No."),
+             grid.Column("staffHprNo", header: "HPR ID No."),
+            grid.Column("part_fullTime", header: "Part/Full Time"),
+            grid.Column(header: "Attachment",format: @<text>
+                @if (!string.IsNullOrEmpty(item.filePath))
+                {
+                <a href="@Url.Content(@item.filePath)" target="_blank"><i class='fa fa-download' aria-hidden='true'></i></a>
+                }
+                </text>)
+            ))
+            </div>
+        }
+    

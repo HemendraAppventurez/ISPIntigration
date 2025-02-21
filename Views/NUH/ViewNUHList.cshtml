@@ -1,0 +1,544 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.NUHmodel>
+@using OTPL_Imp
+@{
+    ViewBag.Title = "NUHList";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+}
+<style>
+    .webgrid-header {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        debugger
+        if ('@SM.ControlID' != "" && '@SM.UnitID' != "" && '@SM.ServiceID' != "" && '@SM.RequestID' != "") {
+
+            $("#BtnBack").hide();
+        }
+        else {
+
+            $("#BtnBack").show();
+
+        }
+
+    });
+
+
+</script>
+
+
+<div class="content-title">
+    <h3 class="main-title">List of Submitted Application <a href="@Url.Action("NursingDashBoard", "NUH")" style="display:none;"  id="BtnBack" class="btn btn-info pull-right">Back</a></h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                Once your application form is approved by the Chief Medical Officer CMO, you can download the certification of Registration from  <strong>Download Certificate </strong>column.
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                    <div id="divDataList" class="table-responsive">
+                        @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+
+            grid.Column(columnName: "registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("NUHDetails", "NUH", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })">@item.registrationNo</a></text>),
+            grid.Column("requestDate", header: "Application Date"),
+            grid.Column("establishmentName", header: "Establishment Name"),
+            grid.Column(header: "Print", format: @<text><a href="@Url.Action("PrintApplicationForm", "NUH", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  class="btn btn-green btn-sm" target="_blank">Print form</a></text>),
+             grid.Column("appliedStatus", header: "Current Status", format: @<text> @item.appliedStatus</text>),
+                        grid.Column("RejectRemark", header: "Reject Remark / Canceled Remark", format: @<text>
+
+                        @if (!string.IsNullOrEmpty(@item.AppCancleFilePath))
+                        {
+                            @item.RejectRemark
+
+                            <a href="@Url.Action("DownloadFileByPath", "NUH", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt(@item.AppCancleFilePath)) })" aria-hidden="true" class="fa fa-download fa-2x" target="_blank" style="margin-left: 10px;"></a>
+                        }
+                        else
+                        {
+                            @item.RejectRemark
+                        }
+
+                        </text>),
+
+                        grid.Column("appType", header: "Application Type"),
+
+                  /*   grid.Column(columnName: "affidavit", header: "Affidavit", format: @<text>
+                        @if (string.IsNullOrEmpty(@item.notarizedAffidavitFilePath))
+                        {
+                            <a href="@Url.Action("UploadAffidavit", "NUH", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })" title="Upload Affidavit"><i class="fa fa-upload fa-2x"></i></a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Content(item.notarizedAffidavitFilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                        </text>),*/
+                     grid.Column(columnName: "affidavit", header: "Certificate", format: @<text>
+                        @if (@item.appliedStatus == "Certificate Generated")
+                        {
+                            if (@item.isUpload && !string.IsNullOrEmpty(@item.uploadCertificatePath))
+                            {
+                            <a href="@Url.Action("DownloadFileByPath", "NUH", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt(@item.uploadCertificatePath)) })" aria-hidden="true" class="fa fa-download fa-2x" target="_blank"></a>
+                            }
+                            else
+                            {
+                            <label>Pending</label> 
+@*<a href="@Url.Action("NUHgeneratedCertificate", "NUH", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()), certGenrBy = @OTPL_Imp.CustomCryptography.Encrypt(@item.certGenrBy.ToString()) })" aria-hidden="true" class="fa fa-download fa-2x"></a>*@
+                            }
+
+                        }
+                        else if (@item.appliedStatus != "Application Canceled")
+                        {
+                            <label>Pending</label>      
+                        }
+                        else
+                        {
+                            <label>Certificate Canceled</label>
+                        }
+
+                        </text>),
+                                   grid.Column(header: "Reply Query", format: @<text>
+
+                        @if (@item.QueryRaisedByCMO != null)
+                        {
+                            <form>
+                                <input type="hidden" value="" id="hiddentextID" name="hiddentextID" />
+                                <input  type="hidden" value="@item.QueryStatus" name="hQueryStatus" id="hQueryStatus"/>
+                            </form>
+                            
+                            
+@*<button id="BtnQuery" data-userId ='@OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString())'  aria-hidden="true" onclick="OpenQueryModel(@item.regisIdNUH,'@item.QueryRaisedByCMO')" class="btn btn-primary">Reply</button>*@
+                            <button id="BtnQuery" data-userId ='@OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString())'  aria-hidden="true" onclick="OpenQueryModel(@item.regisIdNUH)" class="btn btn-primary">Reply</button>
+                            <span id="QueryStatus"></span>
+
+                        }
+                        </text>),
+                        grid.Column(header: "Download Receipt",format: @<text>
+                        @if (!string.IsNullOrEmpty(@item.appType) && (@item.appType == "Renewal"))
+                        {
+                            @*<a href="@Url.Action("PrintApplicationForm", "NUH", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  class="btn btn-green btn-sm" target="_blank">Print form</a>*@
+                            <a href="@Url.Action("DownloadReceipt","NUH", new {regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })" class="btn btn-green btn-sm" target="_blank">View Receipt</a>
+                        }
+                        else
+                        {
+                        }
+                        
+                        
+                        
+                        </text>)
+                        
+                        
+                        
+                        
+                        
+                                       ))
+                   
+                                       </div>
+                }
+                else
+                {
+    
+                    <table class="table table-bordered norecord">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>No Record Found</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<a href="#" data-toggle="modal" data-target=".mymodal">&nbsp; <i class="fa fa-eye"></i></a>*@
+
+<div class="modal fade mymodal" tabindex="-1" role="dialog">
+    @*<link href="~/css/proccessstyle.css" rel="stylesheet" />*@
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Application  Status</h4>
+            </div>
+            <div class="modal-body" style="padding: 3px 15px 0;">
+                <div class="row">
+                    <div class="col-md-4 text-center"><span style="display: inline-block; background-color: #75ce66; padding: 3px 10px; margin: 0 5px;">&nbsp;</span>Completed</div>
+                    <div class="col-md-4 text-center"><span style="display: inline-block; background-color: #f0ca45; padding: 3px 10px; margin: 0 5px;">&nbsp;</span>In Progress</div>
+                    <div class="col-md-4 text-center"><span style="display: inline-block; background-color: #c03b44; padding: 3px 10px; margin: 0 5px;">&nbsp;</span>Pedding</div>
+                </div>
+                <div class="row">
+                    <section class="cd-timeline js-cd-timeline" style="background-color: #e9f0f5;">
+                        <div class="cd-timeline__container">
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--picture js-cd-img">
+                                    <img src="@Url.Content("~/images/pwomens-health.png")" alt="Picture">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 1</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?</p>
+                                    <span class="cd-timeline__date">Step 1</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--location js-cd-img">
+                                    <img src="@Url.Content("~/images/pimmunizations.png")" alt="Movie">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 2</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?</p>
+                                    <span class="cd-timeline__date">Step 2</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                                    <img src="@Url.Content("~/images/pregistration.png")" alt="Picture">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 3</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?</p>
+                                    <span class="cd-timeline__date">Step 3</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                                    <img src="@Url.Content("~/images/pmedical-records.png")" alt="Location">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 4</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?</p>
+                                    <span class="cd-timeline__date">Step 4</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                                    <img src="@Url.Content("~/images/pmammography.png")" alt="Location">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 5</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum.</p>
+                                    <span class="cd-timeline__date">Step 5</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                                    <img src="@Url.Content("~/images/pemergency.png")" alt="Movie">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 6</h2>
+                                    <p>This is the content of the last section</p>
+                                    <span class="cd-timeline__date">Step 6</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                                    <img src="@Url.Content("~/images/pdiabetes-education.png")" alt="Movie">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 7</h2>
+                                    <p>This is the content of the last section</p>
+                                    <span class="cd-timeline__date">Step 7</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                                    <img src="@Url.Content("~/images/pstairs.png")" alt="Movie">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 8</h2>
+                                    <p>This is the content of the last section</p>
+                                    <span class="cd-timeline__date">Step 8</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                                    <img src="@Url.Content("~/images/pview_icon.png")" alt="Movie">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Title of section 9</h2>
+                                    <p>This is the content of the last section</p>
+                                    <span class="cd-timeline__date">Step 9</span>
+                                </div>
+                            </div>
+                            <div class="cd-timeline__block js-cd-block">
+                                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                                    <img src="@Url.Content("~/images/pprint_icon.png")" alt="Movie">
+                                </div>
+                                <div class="cd-timeline__content js-cd-content">
+                                    <h2>Final Section</h2>
+                                    <p>This is the content of the last section</p>
+                                    <span class="cd-timeline__date">Step 10</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                @*<a  href="@Url.Action("NUHDetails", "NUH", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })">@item.registrationNo</a>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="btnShowPopup" type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none;"></button>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" id="Modalpopup" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>Reply Query</strong></h4>
+            </div>
+            <div class="modal-body" style="max-height: 370px; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>Note :-  <span class="text-danger">File that will be uploaded should be in .jpg and .pdf format and maximum file size should be 5242880 KB (5 MB).</span></strong>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10px;">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label>Query :&nbsp;<b></b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <span id="sQueryRaisedByCMO"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2">
+                            <label>Reply :&nbsp;<b><span class="text-danger">*</span></b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <textarea id="txtQueryRaised" name="txtQueryRaised" class="form-control"></textarea>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2" style="padding-top: 10px">
+                            <div class="form-group">
+                                <label>Upload File <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="padding-top: 10px">
+                            <div class="fileUpload3">
+                                <span>Upload </span>
+                                <input type="file" class="upload3" onchange="fupstafffile(this);" id="staffFile_do">
+                                <input type="hidden" value="queryFilePath" class="clsFilePath_do" name="queryFilePath" id="queryFilePath" />
+
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="margin-left: 309px; margin-top: -40px;">
+                            <div class="padding-top-10">
+                                <a class="clsFilePathAnchor_do" href="#" style="display: none;" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-4">
+                            <button type="button" onclick="SaveQueryByCMO();" class="btn btn-block btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*changes Vinod*@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        debugger
+        if ('@TempData["Message"]' != '') {
+            swal("", '@TempData["Message"]', 'success');
+        }
+    });
+
+
+    function OpenQueryModel(_medicalEstID) {
+
+        debugger
+        // alert(OpenQueryModel);
+        GetQueryDetails(_medicalEstID);
+        var MedicalEstID = _medicalEstID;
+        $("input[type=hidden][name=hiddentextID]").val(MedicalEstID);
+        // $("#sQueryRaisedByCMO").text(QueryDetail);
+        $("#btnShowPopup").click();
+        setTimeout(function () {
+            $('.modal-body').scrollTop(0);
+        }, 300);
+    }
+
+
+    function GetQueryDetails(MedicalEstablishmentID) {
+
+        $.ajax({
+            url: '@Url.Action("GetQueryDetailsByCMO", "NUH")',
+            data: { MedicalEstablishmentID: MedicalEstablishmentID },
+            type: 'GET',
+            dataType: 'HTML',
+            success: function (response) {
+                debugger
+                if (response != "") {
+
+                    // $("input[type=hidden][name=hQueryRaisedByCMO]").val(response);
+                    $("#sQueryRaisedByCMO").text(response);
+                }
+                else {
+
+                    swal("", "Server is not responding");
+                }
+            }
+        });
+
+    }
+
+
+    function SaveQueryByCMO() {
+
+        debugger
+        //   alert($("input[type=hidden][name=hiddentextID]").val());
+        //alert(queryFilePath);
+        //alert(queryFile);
+        var QueryRaised = $("#txtQueryRaised").val();
+        var file = $(".clsFilePath_do").val();
+        if (QueryRaised == null || QueryRaised == "") {
+
+            swal("", "Please enter the Reply !", "warning");
+            return;
+        }
+
+        var RegiNUHID = $("input[type=hidden][name=hiddentextID]").val();
+        $.ajax({
+            url: '@Url.Action("SaveQueryDetailToApplicant", "NUH")',
+            data: { QueryRaised: QueryRaised, RegisNUHID: RegiNUHID, file: file },
+            type: 'GET',
+            dataType: 'HTML',
+            success: function (response) {
+                debugger
+                if (response != "0") {
+                    swal({
+                        title: response,
+                        type: "success",
+                        //showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "OK",
+                        //cancelButtonText: "No, Cancel it !",
+                        closeOnConfirm: true
+                        //closeOnCancel: true
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            $('#Modalpopup').modal('hide');
+                            window.location.reload();
+                        }
+                    });
+
+                }
+                else {
+
+                    swal("", "Server is not responding");
+                }
+            }
+        })
+
+
+    }
+
+    function fupstafffile(obj) {
+        debugger;
+        var fileId = $(obj).attr("id");
+        var ext = obj.value.match(/\.(.+)$/)[1];
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+                var data = $("#" + fileId);
+                var fileSize = ($("#" + fileId)[0].files[0].size / 1024 / 1024);
+
+                if (fileSize > 5) {
+                    swal("", "Maximum 5MB file size are allowed", "warning");
+                    return false;
+                }
+
+                    // Before
+                    //if (fileSize > 2) {
+                    //    swal("", "Maximum 2MB file size are allowed", "warning");
+                    //    return false;
+                    //}
+                else {
+                    var data = new FormData();
+                    var files = $("#" + fileId).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "NUH")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+
+                            if (response[1] == 'SNV') {
+                                swal("", 'Maximum 5 MB file size are allowed !', "warning");
+                            }
+                            else if (response[1] == 'TNV') {
+                                swal("", 'Only pdf and jpg files are allowed !', "warning");
+                            }
+                            else {
+                                var url = '@Url.Content("~/Content/writereaddata/NUH/")' + response[0];
+                                $(".clsFilePathAnchor_" + fileId.split('_')[1]).removeAttr('href');
+                                $(".clsFilePathAnchor_" + fileId.split('_')[1]).attr('href', url);
+                                $(".clsFilePathAnchor_" + fileId.split('_')[1]).show();
+                                $(".clsFilePath_" + fileId.split('_')[1]).val(response[1]);
+                            }
+                        },
+                        error: function () {
+                        }
+                    });
+
+            }
+            break;
+        default:
+            swal("", 'This is not an allowed file type.only pdf file valid for this', "warning");
+            this.value = '';
+            return false;
+    }
+}
+</script>
+

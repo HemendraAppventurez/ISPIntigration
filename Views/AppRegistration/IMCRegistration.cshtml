@@ -1,0 +1,737 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.IMCModel
+@{
+    ViewBag.Title = "IMCRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+</style>
+<div class="content-title">
+    <h3 class="main-title">Application For Issuance of Immunization <strong>Certificate</strong></h3>
+
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+
+    @using (Html.BeginForm("IMCRegistration", "appRegistration", FormMethod.Post, new { @id = "frmdata", @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()   
+        @Html.HiddenFor(m => m.regisIdIMC)
+        @Html.HiddenFor(m => m.step)
+        @Html.HiddenFor(m => m.stepValue)   
+        <div class="row">
+            @if (Model.step == 0 || Model.stepValue == 0)
+            {
+                <div class="divStep1">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 1</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>OPD Details</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Reason for Application <span class="star">*</span></label>
+                                            @Html.TextAreaFor(m => m.reason, new { @class = "form-control", tabindex = 1 })
+                                            @Html.ValidationMessageFor(m => m.reason, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>OPD Reciept No. <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.opdReciept, new { @class = "form-control", tabindex = 1 })
+                                            @Html.ValidationMessageFor(m => m.opdReciept, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Personal Details</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.fullName, new { @class = "form-control", tabindex = 1 })
+                                            @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Father`s Name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.fatherName, new { @class = "form-control", tabindex = 2 })
+                                            @Html.ValidationMessageFor(m => m.fatherName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>DOB <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.dob, new { @class = "datepicker-here form-control", @data_language = "en", tabindex = 3, @readonly = "readonly", @onblur = "calAge();", @placeholder = "dd/mm/yyyy" })
+                                            @Html.ValidationMessageFor(m => m.dob, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Age <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.age, new { @Value = "", @class = "form-control", tabindex = 4, @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(m => m.age, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Mobile Number <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.appmobileNo, new { @class = "form-control", @maxlength = 10, tabindex = 5, @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.appmobileNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>E-mail</label>
+                                            @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", tabindex = 6 })
+                                            @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Passport Number</label>
+                                            @Html.TextBoxFor(m => m.passportNo, new { @class = "form-control", tabindex = 7 })
+                                            @Html.ValidationMessageFor(m => m.passportNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Address <span class="star">*</span></label>
+                                            @Html.TextAreaFor(m => m.address, new { @class = "form-control", tabindex = 8 })
+                                            @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>State<span class="star">*</span> </label>
+                                            @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State, "--Select--", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>District<span class="star">*</span> </label>
+                                            @Html.DropDownListFor(m => m.districtId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { tabindex = 9, @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.districtId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Pin code</label>
+                                            @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", tabindex = 10, @maxlength = 6, @onkeypress = "return isNumberKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.pinCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Mark Of Identification <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.markOfIdentification, new { @class = "form-control", tabindex = 8 })
+                                            @Html.ValidationMessageFor(m => m.markOfIdentification, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-md-offset-2">
+                                            <button type="submit" class="btn btn-block btn-primary">Save and Continue</button>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a href="@Url.Action("IMCRegistration", "AppRegistration")" class="btn btn-block btn-warning">Reset</a>
+                                        </div>
+                                        @if (Convert.ToInt32(Session["UpdateStep"].ToString()) >= 1 && Model.step == 2)
+                                        {
+                                            <div class="col-md-2">
+                                                <a href="@Url.Action("IMCRegistration", "appRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdIMC.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) + 1),
+                                            UpdateStep = 2
+                                        })" class="btn btn-block btn-success">Next</a>
+                                            </div>  
+                                        }
+                                        @if (Convert.ToInt32(Session["UpdateStep"].ToString()) >= 1 && Model.step == 1)
+                                        {
+                                            <div class="col-md-2">
+                                                <a href="@Url.Action("IMCRegistration", "appRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdIMC.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) + 1),
+                                            UpdateStep = 0
+                                        })" class="btn btn-block btn-success">Next</a>
+                                            </div>  
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.step == 1 || Model.stepValue == 1)
+            {
+                <div class="divStep2">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 2</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>List Of Immunization</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Immunization Name <span class="text-danger">*</span></label>
+                                            @Html.DropDownListFor(m => m.immuCertiTypeName, (IEnumerable<SelectListItem>)ViewBag.ImmunizationType, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                            @Html.ValidationMessageFor(m => m.immuCertiTypeName, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Immunization Date<span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.ImmunizationDate, "", new { @class = "datepicker-here form-control", @readonly = "readonly", @data_language = "en" })
+                                            @Html.ValidationMessageFor(m => m.ImmunizationDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Doctor Name</label>
+                                            @Html.TextBoxFor(m => m.immunizationDoctor, "", new { @class = "form-control", @onchange = "FilterContant(this)", @onkeypress = "return FilterTextKey(event);" })
+                                            @Html.ValidationMessageFor(m => m.immunizationDoctor, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <button id="btnadd" type="button" class="btn btn-info btn-md pull-right">Add Immunization</button>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <span id="spantabelmember" style="display: none" class="text-danger">Immunization Name and Date are required for Immunization Details</span>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered css-serial tbViewImmun" style="display: none">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%" class="text-center">S.No.</th>
+                                                <th width="20%">Immunization Name<span class="text-danger">*</span></th>
+                                                <th width="20%" style="display: none">Immunization ID</th>
+                                                <th width="20%">Immunization Date<span class="text-danger">*</span></th>
+                                                <th width="20%">Doctor Name</th>
+                                                <th width="20%">Delete</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.step == 2)
+                                            {
+                                                foreach (var v in ViewBag.ImmunList)
+                                                {
+                                                <tr>
+                                                    <td align="center"></td>
+                                                    <td align="center">
+                                                        <label name="addimmuName" id="immuName">@v.vaccineName</label>
+
+                                                    </td>
+                                                    <td align="center" style="display: none">
+                                                        <input type="text" value="@v.vaccineId" name="addimmunId" id="immunId" class ="form-control"  style ="height:45px">
+                                                    </td>
+                                                    <td align="center">
+                                                        <label id="adddateOfImmunization">@v.ImmunizationDate</label>
+                                                        <input type="hidden" name="adddateOfImmunization" value="@v.ImmunizationDate" >
+                                                    </td>
+                                                    <td align="center">
+                                                        <label>@v.doctorName</label>
+                                                        <input type="hidden" name="addimmunizationDoctor" value="@v.doctorName" >
+                                                    </td>
+                                                    <td align="center">
+                                                        <div class="padding-top-10">
+                                                            <button onclick="DeleteRow(this);" type="button"><i class="fa fa-trash fa-2x text-warning"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                }
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <a href="@Url.Action("IMCRegistration", "AppRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdIMC.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) - 1),
+                                            UpdateStep = 1
+                                        })" class="btn btn-block btn-success">Back</a>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button id="btnSavetbl" type="submit" class="btn btn-block btn-primary">Save and Continue</button>
+
+                                        </div>
+
+                                        <div class="col-md-2"><a href="@Url.Action("IMCRegistration", "AppRegistration")" class="btn btn-block btn-warning">Reset</a></div>
+                                        @if (Model.step == 2)
+                                        {
+                                            <div class="col-md-2">
+                                                <a href="@Url.Action("IMCRegistration", "appRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdIMC.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) + 1),
+                                            UpdateStep = 3
+                                        })" class="btn btn-block btn-success">Next</a>
+                                            </div>  
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.step == 2 || Model.stepValue == 2)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading bg-redd">
+                                <span class="title elipsis">
+                                    <h4 class="color-white">Step 3</h4>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Check List</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <span id="spanmember" style="display: none" class="text-danger">Please select OPD File Document</span>
+                                <div class="row">
+                                    @foreach (var v in ViewBag.CheckListIMC)
+                                    {
+                                        <div class="form-group">
+                                            <div class="col-md-5">
+                                                <i class="hidden">@v.Id</i>
+                                                <label class="l-20">@v.Name</label>
+                                                @if (@v.chkType == "chk")
+                                                {
+                                                    <span class="text-danger">*</span>
+                                                }
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input type="checkbox" id="@v.chkType" name="chk_checkList" value="@v.Id">
+                                                <input type="hidden" id="chkim" name="chk_Type" value="@v.chkType">
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row">
+                                    Note:-Kindly collect photo copy of document checked by you.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+
+                                        <div class="col-md-2 col-md-offset-3">
+                                            <a href="@Url.Action("IMCRegistration", "AppRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdIMC.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) - 1),
+                                            UpdateStep = 2
+                                        })" class="btn btn-block btn-success">Back</a>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button id="btnSavechk" type="submit" class="btn btn-block btn-primary">SUBMIT</button>
+
+                                        </div>
+
+                                        <div class="col-md-2"><a href="@Url.Action("IMCRegistration", "AppRegistration")" class="btn btn-block btn-warning">Reset</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+
+        </div>
+        <div>
+            @Html.HiddenFor(m => m.districtId)
+        </div>
+        
+    }
+</div>
+<script src="~/Scripts/AuditScripts.js"></script>
+<script>
+    $(function () {
+        $("#OPD Receipt").show();
+        if ($('#dob').val() != "" && $("#stepValue").val() == "0") {
+            calAge();
+        }
+        if ('@TempData["Message"]' != '' && '@TempData["status"]' != '') {
+            swal("", '@TempData["Message"]', '@TempData["status"]');
+        }
+        if ('@TempData["showtb"]' == 'shw') {
+
+            $('.tbViewImmun').show();
+        }
+        if ('@TempData["dist"]' != '') {
+            bindDistDropdown($("#stateId").val());
+        }
+    });
+
+    $("#btnadd").click(function () {
+        debugger;
+        AddRow();
+    });
+    var rowCount = $("#tbViewImmun td").closest("tr").length;
+    var ARY = [];
+    function AddRow() {
+        debugger;
+        var immunId = $('#immuCertiTypeName option:selected').val();
+        var immuName = $('#immuCertiTypeName option:selected').text();
+        var date = $('#ImmunizationDate').val();
+        var immunDoctor = $('#immunizationDoctor').val();
+
+        if ($("#stepValue").val() == 1) {
+
+            $("#tbUser").html('');
+            $(".tbViewImmun tr:gt(0)").each(function (index, obj) {
+                debugger;
+                imm = "true";
+                var currRow = $(this);
+                var _Id = currRow.find('td:eq(2)').find('input[name=addimmunId]').val();
+                if (_Id != "") {
+                    ARY.push(_Id);
+                }
+
+            });
+        }
+        var key = 'Not exist';
+        for (var i = 0; i < ARY.length; i++) {
+            var ar = ARY[i];
+
+            if (ar == immunId) {
+                key = 'Exist';
+            }
+            else {
+
+            }
+        }
+        ARY.push(immunId);
+
+
+
+
+        if (immunId == "") {
+            swal("", "Immunization Name is Required", "warning");
+            return false;
+        }
+        if (date == "") {
+            console.log(ARY)
+            var index = ARY.indexOf(immunId);
+            for (var i = 0; i < ARY.length; i++) {
+                var index = ARY.indexOf(immunId);
+                if (index > -1) {
+                    ARY.splice(index, 1);
+                }
+            }
+            swal("", "Immunization Date is Required", "warning");
+            return false;
+        }
+        else if (key == 'Exist') {
+            swal("", "Immunization Name already exsists", "warning");
+            return false;
+        }
+        else {
+
+            var markup = "<tr><td align='center'></td><td align='center'><label name='addimmuName' id='immuName'>" + immuName + "</label></td><td style='display:none'><input type='text' value=" + immunId + " name='addimmunId' id='immunId' class ='form-control'  style ='height:45px'></td><td align='center'><label>" + date + "</label><input type='hidden' name='adddateOfImmunization' value=" + date + " ></td><td align='center'><label>" + immunDoctor + "</label><input type='hidden' name='addimmunizationDoctor' value=" + immunDoctor + " ></td><td align='center'><div class='padding-top-10'><button id='btndel' onclick='DeleteRow(this);' type='button' ><i class='fa fa-trash fa-2x text-warning'></i></button></div></td></tr>";
+
+
+
+            $(".tbViewImmun tbody").append(markup);
+            rowCount++;
+            $('#ImmunizationDate').val(''); $("#immuCertiTypeName")[0].selectedIndex = 0; $("#immunizationDoctor").val('');
+            $('.tbViewImmun').show();
+            $("#spantabelmember").hide();
+
+
+        }
+    }
+    function DeleteRow(obj) {
+        debugger;
+
+        var immunId = $(obj).parent().parent().parent().find('input[name="addimmunId"]').val();
+
+
+        swal({
+            title: "Are you sure?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, Delete it !",
+            cancelButtonText: "No, Cancel it !",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                console.log(ARY)
+                var index = ARY.indexOf(immunId);
+                for (var i = 0; i < ARY.length; i++) {
+                    var index = ARY.indexOf(immunId);
+                    if (index > -1) {
+                        ARY.splice(index, 1);
+                    }
+                }
+
+                console.log(ARY);
+
+                $(obj).closest('tr').remove();
+                rowCount--;
+            }
+        });
+
+    }
+
+    $("#stateId").change(function () {
+        debugger;
+        bindDistDropdown($(this).val());
+    })
+    function bindDistDropdown(stateId) {
+
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindDistrictlist", "AppRegistration")',
+            data: { stateId: stateId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $("#districtId").empty();
+                $("#districtId").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#districtId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+                if ($("#stepValue").val() == "0") {
+                    var appsubid = '@TempData["dist"]';// $('input[name=districtId]').val();
+                    $('#districtId').val(appsubid);
+                }
+            },
+            error: function (xhr, status) {
+
+            }
+        });
+    }
+    $("#btnSavetbl").click(function () {
+        debugger;
+        var count = 1;
+        var imm = "false";
+        $("#tbUser").html('');
+        $(".tbViewImmun tr:gt(0)").each(function (index, obj) {
+            debugger;
+            imm = "true";
+            var currRow = $(this);
+            var _Date = currRow.find('td:eq(3)').find('input[name=adddateOfImmunization]').val();
+            if (_Date == "") {
+                imm = "false";
+            }
+            count++;
+        });
+        if (imm == "false") {
+            $("#spantabelmember").show();
+
+            return false;
+
+        }
+    });
+
+    var strDate = @DateTime.Now.Year -18 + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#dob').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+
+    function calAge() {
+
+        var dob = $('#dob').val();
+        if (dob != "") {
+            var values = dob.split("/");
+            var date = values[0];
+            var month = values[1];
+            var year = values[2];
+
+            var currentdate = new Date();
+            var currentyear = currentdate.getYear() + 1900;
+            var currentmonth = currentdate.getMonth() + 1;
+            var currentdate = currentdate.getDate();
+
+            var calculateYear = currentyear - year;
+            var calculatemonth = 0;
+            var calculatedate = 0;
+            if (month > currentmonth) {
+                calculateYear--;
+                calculatemonth = month - currentmonth;
+            }
+            $("#age").val(calculateYear);
+
+
+        }
+    }
+
+
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function UploadFile(Obj) {
+        var ext = Obj.value.match(/\.(.+)$/)[1];
+        var Id = $(Obj).attr("Id");
+
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+                var fileSize = ($("#" + Id)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + Id).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "IMC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            $("#" + Id + "Path").val(response[1]);
+
+
+                            $("#" + Id + "VALUE").show();
+                            var Url = response[1].replace('~/', '');
+                            $("." + Id + "doc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+                            return false;
+                        },
+                        error: function () {
+
+                        }
+                    });
+
+                }
+                break;
+            default:
+                swal("", 'Invalid File Format only pdf and jpg files are allowed!', "warning");
+                this.value = '';
+                return false;
+        }
+    }
+    $("#btnSavechk").click(function () {
+
+        debugger;
+
+        if ($("#step").val() == 2 && $("#stepValue").val() == 2) {
+            if ($("input[id='chk']").prop("checked") == false) {
+                $("#spanmember").show();
+                return false;
+            }
+            $("#tbUser").html('');
+        }
+
+    });
+</script>

@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "CMOSRVCountReport";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+}
+<style>
+    @@media print {
+        a:link:after, a:visited:after {
+            content: normal !important;
+        }
+
+        a[href]:after {
+            content: normal !important;
+        }
+    }
+</style>
+<div class="container">
+    <div class="services-heading" style="margin-bottom: 15px;">
+        <h2>@ViewBag.RollNameHi सर्विस विभाग वार रिपोर्ट की गणना</h2>
+        <h3>@ViewBag.RollName Service Division Wise Count Report</h3>
+    </div>
+
+    @if (ViewBag.ZoneId == 0)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4 style="margin:0;">Filter Criteria</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Division</label>
+                                    @Html.DropDownList("zoneId", (IEnumerable<SelectListItem>)ViewBag.DLLZone, "--Select--", new { @class = "form-control select" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Refresh</button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button type="button" class="btn btn-block btn-primary" data-print="modal" onclick="PrintDoc()">Print</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="DIV-ApplicationList">
+                        @Html.Action("CMOSRVCountReportList", "Public", new { rollId = ViewBag.RollId, zoneId = ViewBag.ZoneId })
+                    </div>
+                    <input type="hidden" id="hdnRollId" value="@ViewBag.RollId" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+
+        $("#btnSearch").click(function () {
+            bindCMOSRVCountReportList($("#zoneId").val(), $("#hdnRollId").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#zoneId").val('');
+            bindCMOSRVCountReportList('0', $("#hdnRollId").val());
+        });
+    });
+
+    function bindCMOSRVCountReportList(_zoneId, _rollId) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("CMOSRVCountReportList", "Public")',
+            data: { zoneId: _zoneId, rollId: _rollId },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }    
+</script>
+
+<script>
+
+    function PrintDoc() {
+
+        var toPrint = document.getElementById('DIV-ApplicationList');
+
+        var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+        popupWin.document.open();
+
+        popupWin.document.write('<html><title>::Preview::</title> <style>body{font-family:Arial} table tr td, table tr th{font-size:14px; padding:5px;} a:link:after, a:visited:after{content: normal !important;} a[href]:after{content: normal !important;} a{text-decoration: none; color: #000; cursor: default;}</style></head><body onload="window.print()"><h2 style="text-align:center; margin:0px 0 3px 0; padding-right:50px;"><img src="../Images/logo.jpg" style="float:left;" />Department of Medical Health & Family Welfare <br> <span style="font-size:20px;"> Government of Uttar Pradesh</span></h2><h3 style="border-bottom:1px solid #333; margin:0px 0 10px 0; padding-bottom:5px; text-align:center; font-size:16px;">Division Wise Count Report</h3> ')
+
+        popupWin.document.write(toPrint.innerHTML);
+
+        popupWin.document.write('</body></html>');
+
+        popupWin.document.close();
+
+    }
+</script>

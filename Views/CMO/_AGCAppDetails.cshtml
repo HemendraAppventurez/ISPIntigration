@@ -1,0 +1,43 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.AGCModel
+
+@if (Model != null)
+{
+    <link href="~/css/stepsstyle.css" rel="stylesheet" />
+    <div class="panel-body">
+        <h4>Applicant Details</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td style="width: 16%"><strong>Application No.</strong></td>
+                    <td>@Model.registrationNo</td>
+                    <td style="width: 15%"><strong>Application Date</strong></td>
+                    <td>@Model.appliedDate</td>
+                    </tr>
+                <tr></tr>
+                    <tr>
+
+                    <td style="width: 12%"><strong>Applicant Name</strong></td>
+                    <td style="width: 10%">@Model.fullName
+                    </td>
+                    <td style="width: 12%"><strong>District</strong></td>
+                    <td style="width: 10%">@Model.DistrictName
+                </tr>
+              
+            </table>
+        </div>
+       @* <div class="row">
+            <div class="col-sm-12">
+                <nav>
+                    <ol class="cd-multi-steps text-center custom-icons">
+                        <li class="@(Model.appStatus==-1?"current":Model.appStatus>-1?"visited":"")">@Html.Raw(Model.appStatus==-1?"<em>Application Accept / Reject</em>":Model.appStatus>-1?"<a href='#0'>Application Accepted</a>":"<a href='#0'>Application Accepted</a>")</li>
+                        <li class="@(Model.appStatus==1?"current":Model.appStatus>1?"visited":"")">@Html.Raw(Model.appStatus==1?"<em>Schedule Inspection</em>":Model.appStatus>1?"<a href='#0'>Inspection Scheduled</a>":"<a href='#0'>Inspection to be Scheduled</a>")</li>
+                        <li class="@(Model.appStatus==2?"current":Model.appStatus>2?"visited":"")">@Html.Raw(Model.appStatus==2?"<em>Upload Inspection Report</em>":Model.appStatus>2?"<a href='#0'>Inspection Report Uploaded</a>":"<a href='#0'>Inspection Report to be Uploaded</a>")</li>
+                        <li class="@(Model.appStatus==3?"current":Model.appStatus>3?"visited":"")">@Html.Raw(Model.appStatus==3?"<em>Inspection Report Accept / Reject</em>":Model.appStatus>3?"<a href='#0'>Inspection Report Accepted</a>":"<a href='#0'>Inspection Report to be Accepted / Rejected</a>")</li>
+                        <li class="@(Model.appStatus==5?"current":"")">@Html.Raw(Model.appStatus==5?"<em>Generate Certificate</em>":"<a href='#0'>Certificate to be Generated</a>")</li>
+                    </ol>
+                </nav>
+              
+            </div>
+        </div>*@
+    </div>
+}

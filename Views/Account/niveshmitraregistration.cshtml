@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "niveshmitraregistration";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("niveshmitraregistration", "Account", FormMethod.Post, new { @id = "frmniveshMitra", @style = "height:220px;" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Control ID:</label>
+                <input type="text" id="TxtControlID" name="TxtControlID" value="UPSWP220001922" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Unit ID:</label>
+                <input type="text" id="TxtUnitID" name="TxtUnitID" value="UPSWP22000192222" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Service ID:</label>
+                <input type="text" id="TxtServiceID" name="TxtServiceID" value="SC33001" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Request ID:</label>
+                <input type="text" id="TxtRequestID" name="TxtRequestID" value="22000192222330010001" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="row" style="float:right;margin-right: 164px;">
+
+        <div class="col-md-4">
+            <input type="submit" id="btnSubmit" value="Submit" class="btn btn-primary" />
+            @* <ul>
+                <li><a href="#" class="btn btn-primary" onclick="PostData();">Send User Detail</a></li>
+            </ul>*@
+        </div>
+    </div>
+    
+}
+

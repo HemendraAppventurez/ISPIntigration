@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "SRVCountReportDistrictWiseForCMO";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="content-title">
+    <h3 class="main-title"> 
+        <strong>@ViewBag.RollNameHi सर्विस जिला वार रिपोर्ट की गणना
+        <span class="small">@ViewBag.RollName Service District Wise Count Report</span>
+        </strong> 
+        <a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top: -40px;">Back</a>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+ 
+    <div class="row">
+
+        @Html.Action("SRVCountReportDistrictWiseListForCMO", "Report", new { rollId = @ViewBag.RollId, districtId = @ViewBag.DistrictId, serviceId = @ViewBag.ServiceId })
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+
+        
+    });
+
+  
+</script>
+

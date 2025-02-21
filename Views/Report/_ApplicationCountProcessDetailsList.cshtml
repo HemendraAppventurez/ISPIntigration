@@ -1,0 +1,121 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.ApplicationStatusReportDetailsModel>
+@using OTPL_Imp
+
+<style>
+    .webgrid-header a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .modal-dialog label::after {
+        content: none;
+    }
+</style>
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");         
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("GetApplicationStatusList", "Report", new { RegistrationID = @OTPL_Imp.CustomCryptography.Encrypt(@item.RegistrationId.ToString()) })">@item.registrationNo</a></text>),
+            grid.Column("appliedDate", header: "Application Date"),
+            grid.Column("establishmentName", header: "Establishment Name"),
+            //grid.Column("medicalEstablishment", header: "Establishment Category"),
+            grid.Column("UPMCI_SMF_Number", header: "MCI/SMF No."),
+            grid.Column(columnName: "notarizedAffidavitFilePath", header: "Affidavit", format: @<text>
+        @if (@item.notarizedAffidavitFilePath == "" || @item.notarizedAffidavitFilePath == "Submitted by CMO")
+        {
+            <label></label> 
+        }
+        else
+        {
+            <a href="@Url.Content(item.notarizedAffidavitFilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download big"></i></a>
+        }
+        </text>)))
+    </div>
+
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+}
+
+
+@*<table id="tblCountList" border="1" class="table-user-information table table-bordered table-striped" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+    <thead style="background: #237382; color: #fff; padding: 5px;">
+        <tr>
+            <td>Sr.No.</td>
+            <td><strong>Application No</strong></td>
+            <td><strong>Application Date</strong></td>
+            <td><strong>Establishment Name</strong></td>
+            <td><strong>Establishment Category</strong></td>
+            <td><strong>MCI/SMF No</strong></td>
+            <td><strong>Affidavit</strong></td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.ReportModelList.Count > 0)
+        {
+            foreach (var item in Model.ReportModelList)
+            {
+                sNo++;
+            <tr>
+                <td style="text-align: center;">@sNo</td>
+                @if (ViewBag.CurrLogRollId == 2)
+                {
+                    <td>@item.registrationNo</td>
+                }
+                else
+                {
+                    <td>
+                        @if (Model.appTypeId == 1)
+                        {
+                            <a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = CustomCryptography.Encrypt(@item.RegistrationId.ToString()) })"  target="_blank">@item.registrationNo</a>
+                        }
+                    </td>
+                }
+                <td>@item.appliedDate</td>
+                <td>@item.medicalEstablishment</td>
+                <td>@item.establishmentName</td>
+                <td>@item.UPMCI_SMF_Number</td>
+
+                <td>
+
+                    @if (@item.notarizedAffidavitFilePath == "" || @item.notarizedAffidavitFilePath == "Submitted by CMO")
+                    {
+                        <label></label> 
+                    }
+                    else
+                    {
+                        <a href="@Url.Content(item.notarizedAffidavitFilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download big"></i></a>
+                    }
+
+                </td> 
+            </tr> 
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="@Model.appStatus == 0 ? 5 : Model.appStatus == 1 ? 6 : 7)">Record Not Found</td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+
+
+
+

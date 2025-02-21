@@ -1,0 +1,118 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FAPAppProcessModel
+@{
+    ViewBag.Title = "ConfirmAppProcessFAP";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .form-group label {
+        color: #333;
+        font-weight: 600;
+    }
+</style>
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">असफल परिवार नियोजन के भुगतान का अस्वीकृत आवेदन<span class="small display-block">Application Request for the Payment of Unsuccessful Family Planning</span></div>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="details">
+            @Html.Action("FAPAppDetails", "CMO", new { regisFAPId = Model.regisIdFAP })
+        </div>
+        <div class="clearfix"></div>
+
+        @using (Html.BeginForm("ConfirmAppProcessFAP", "CMO", FormMethod.Post, new { @id = "frmdata" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-md-12" id="divstep1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Scrutinize the Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <strong class="margin-top-10">View the Application form</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-2"><a href="#" class="btn btn-block btn-info none ViewApp">View Application</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 " id="divstep_1" style="display: none;">
+                <div class="row" id="DIV-ApplicationList" style="margin-bottom: 0;">
+                    @Html.Action("FAPDetailsById", "CMO", new { regisFAPId = Model.regisIdFAP })
+                </div>
+                @if (Model.appStatus == 2)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="divDataList" class="table-responsive">
+                                        <div class="col-md-2 col-md-offset-4">
+                                            <input type="submit" value="Approve" class="btn btn-block btn-primary none btnVerify" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="button" value="Disapprove" class="btn btn-danger btn-block btn-md btnReject reject-rsn" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 rsn-define Remark" style="display: none;">
+                                        <div class="col-md-6">
+                                            @Html.TextAreaFor(m => m.rejectedRemarks, new { @class = "form-control", placeholder = "Enter Reason for Rejection " })
+                                            @Html.ValidationMessageFor(m => m.rejectedRemarks)
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="submit" value="Reject" class="btn btn-block btn-danger reject-rsn none margin-top-20" />
+                                             
+                                        </div>
+                                        <div class="col-md-2">
+                                           
+                                             <input type="button" value="Cancel" class="btn btn-primary btnCacelReject margin-top-20" /> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>    
+            @Html.HiddenFor(m => m.regisIdFAP)
+            @Html.HiddenFor(m => m.appStatus)
+        }
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+        $(".btnCacelReject").click(function () {
+            $(".Remark").hide();
+            $(".btnVerify").show();
+            $(".btnReject").show();
+
+
+        });
+        $(".btnReject").click(function () {
+            $(".Remark").show();
+            $(".btnVerify").hide();
+            $(".btnReject").hide();
+
+
+        });
+        $(".ViewApp").click(function () {
+            $(".details").hide();
+            $("#divstep1").hide();
+            $("#divstep_1").show();
+        });
+    });
+
+</script>

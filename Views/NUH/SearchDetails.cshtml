@@ -1,0 +1,113 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.SearchDetailModel
+@using OTPL_Imp
+
+@{
+    ViewBag.Title = "SearchDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">Application form for Renewal Certificate of <strong>Medical Establishment</strong>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+
+    @using (Html.BeginForm("SearchDetails", "NUH", FormMethod.Post, new { @id = "frmSearchDetails" }))
+    { 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Renewal Certificate</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                              <div class="col-md-4">
+                                <label>Have you generated your old registration certificate from this portal? <span class="star">*</span> : </label>
+                                <div class="form-group">
+                                    <div class="form-control">
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.isCertFrmPortal, "Yes")
+                                            Yes</label>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.isCertFrmPortal, "No")
+                                            No
+                                        </label>
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.isCertFrmPortal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3 yes" style="display:none">
+                                <div class="form-group">
+                                    <label>Establishment Registration Number <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.meeRegisNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.meeRegisNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3 yes" style="display:none">
+                                <div class="form-group">
+                                    <label>Certificate Number<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.certificateNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.certificateNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>&nbsp;</label>
+                                <button type="submit" class="btn btn-block btn-primary">Search</button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>&nbsp;</label>
+                                <a href="@Url.Action("NursingDashBoard", "NUH")" class="btn btn-block btn-warning">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", '@ViewBag.msg', '@ViewBag.MsgStatus');
+        }
+       
+    });
+    $('input[name="isCertFrmPortal"]').change(function () {
+        debugger;
+        $("input[name=isCertFrmPortal]").prop('disabled', true);
+        if (this.value == "Yes") {
+
+            $(".yes").show();
+          //  $("input[name=isCertFrmPortal]").prop('disabled', true);
+        }
+        else {
+            $(".yes").hide();
+            swal({
+                title: "Are you sure your Previous certificate is not generated from this portal?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, I am sure !",
+                cancelButtonText: "No, I am not sure!",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    var url = '@Url.Action("NursingHome", "NUH")';
+                    url = url + '?type=renewal';
+                    window.location.href = url;
+                }
+                else {
+                    location.reload();
+                }
+            });
+        }
+    })
+   
+</script>

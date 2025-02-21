@@ -1,0 +1,32 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.ICCModel>
+
+<style>
+    .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+@*<h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px;><span style="margin: 0px 15px 0px 0px; padding: 0px;"></span>Immunization Detail For Children</h3>*@
+        
+        @if (Model != null && Model.Count() > 0)
+        {
+            WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+             
+            <div id="divDataList">
+                @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("immuName", header: "Immunization Name"),
+            grid.Column("iscertified", header: "Is Immunized?"),
+            grid.Column("dateOfImmunization", header: "ImmunizationDate")
+            ))
+            </div>
+        }
+    

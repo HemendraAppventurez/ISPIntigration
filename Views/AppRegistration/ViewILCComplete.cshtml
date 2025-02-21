@@ -1,0 +1,124 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.ILCModel>
+@{
+    ViewBag.Title = "ViewILCComplete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .webgrid-header
+    {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a
+        {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Complete Registration List
+        <a href="@Url.Action("ILCRegistration", "AppRegistration")" class="btn btn-info pull-right">New Registration</a>
+        <a href="@Url.Action("ViewILCInComplete", "AppRegistration")" class="btn btn-info pull-right">View In-Completed</a></h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    
+
+     <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Certificate No.</label>
+                                <input type="text" id="txtcertificateno" class="form-control" />
+                            </div>
+                        </div>
+                      
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                               <a href="@Url.Action("ViewILCComplete", "AppRegistration")" class="btn btn-block btn-danger">Refresh</a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                    @Html.Action("ViewILCListComplete", "AppRegistration")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@TempData["Message"]' != '') {
+            swal("", '@TempData["Message"]', 'success');
+         }
+    });
+    $(function () {
+
+        $("#btnSearch").click(function () {
+            bindApplicationList($("#txtcertificateno").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#txtAppNumber").val('');
+            // $("#ddlAppStatus").val('');
+            $("#txtRequestdate").val('');
+
+            bindApplicationList($("#txtcertificateno").val());
+        });
+
+    });
+
+    function bindApplicationList(_certificateno) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("ViewILCListComplete", "AppRegistration")',
+            data: { certificateno: _certificateno },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+
+</script>
+
+
+
+
+

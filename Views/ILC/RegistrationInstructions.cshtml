@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "RegistrationInstructions";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .page-instraction {
+        min-height:550px;
+    }
+</style>
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>बीमारी प्रमाणपत्र<span class="small">Illness Certificate Instructions</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 page-instraction">
+                            <h4>Procedure to Fill Application Form</h4>
+                            <ul>
+                                <li>Before filling this form, Kindly arrange the Scan Copy of following documents ready with you:-
+                                    <ul>
+                                        <li>OPD Slip</li>
+                                        <li>Photo ID</li>
+                                    </ul>
+                                    <strong>Note:- </strong>
+                                    <ul>
+                                        <li>All files should be uploaded in jpg/pdf format and maximum file size allowed up to (2MB)</li>
+                                        <li>Fields marked with * are mandatory.</li>
+                                    </ul>
+                                </li>
+                                <li>Fill all the required fields & attached the relevant documents then click on “Save” button</li>
+                                <li>A preview page will appear, now check all the details carefully filled by you.</li>
+                                <li>If every details is correct & no change is required then click on “Submit” button</li>
+                                <li>Note down your Application Reference number for future use.</li>
+                                <li>You will be redirected to the new window. You have two options in New Window, one is “New Registration-Registration form” and “View application form Status” tab. </li>
+                                <li>You can use “New Registration-Registration form” tab to fill new form.</li>
+                                <li>You can check the current status of your application by clicking on the “View Submitted Application Status” </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 page-instraction">
+                            <h4>Terms &amp; Conditions</h4>
+                            <ul>
+                                <li>It is the right of nodal officer to accept or reject the application form. If he/she reject the application will mention the “cause of rejection.”</li>
+                                <li>Nodal officer will schedule the date of inspection, applicants need to be physically present at hospital on the date of inspection.</li>
+                                <li>Applicant will bring all attached document with him/her during inspection.</li>
+                                <li>District hospital will upload the inspection report in the portal.</li>
+                                <li>Based on the inspection report district hospital  is free to approve or reject the application</li>
+                                <li>If approved, then Computer Generated Registration Certificate will be made available on the dashboard of applicants.</li>
+                                <li>Applicants can also collect their computer generate registration certificate from the office of Chief Medical Superintendent.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <b>I have read and Understood all the Terms & Conditions regarding the applications Process.</b><br />
+                                <b>
+                                    <label>
+                                        <input id="chkConfirm" name="chkConfirm" type="checkbox" />
+                                        I Agree
+                                    </label>
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input name="btnProceed" value="Proceed" onclick="return proceedToRegistration();" disabled="disabled" id="btnProceed" class="btn btn-warning btn-block btn-lg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#chkConfirm').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#btnProceed').removeAttr('disabled');
+            } else {
+                $('#btnProceed').attr('disabled', 'disabled');
+            }
+        });
+    });
+
+    function proceedToRegistration() {
+
+        if ($('#chkConfirm').is(':checked')) {
+            @* var url = '@Url.Action("ILCRegistration", "ILC")';
+            window.location.href = url;*@
+            var AppType = '@TempData["AppType"]';
+
+
+            var url = '@Url.Action("ILCRegistration", "ILC")';
+
+            window.location = url + "?AppType=" + AppType;
+        } else {
+            swal("", "First select Agree, Then Proceed To Registration !", "warning");
+            return false;
+        }
+    }
+
+</script>
+@*if ('@TempData["DatSetMER"]' != '') {
+            debugger;
+            var regisId = '@TempData["DatSetMER"]';
+
+            debugger;
+            var url = '@Url.Action("MERgeneratedCertificate", "CMO")';
+
+            window.location = url + "?regisId=" + regisId;
+
+
+        };*@

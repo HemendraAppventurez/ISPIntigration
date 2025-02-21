@@ -1,0 +1,157 @@
+﻿@model  CCSHealthFamilyWelfareDept.Models.Declaration
+
+@{
+    ViewBag.Title = "Affidavit";
+    Layout = "~/Views/Shared/_PublicLayout1.cshtml";
+}
+<style>
+    .online-services {
+        padding: 8px 0px 40px;
+    }
+</style>
+
+
+@*<div style="text-align: right; padding-bottom: 8px; width: 900px; margin: 0 auto;">
+    <a href="@Url.Action("DeclarationForm", "Public")" style="margin-left: 8px; border-radius: 4px; border: 1px solid #ef6262; background-color: #ef6262; color: #fff; padding: 3px 15px; display:inline-block; text-decoration:none;" onclick="FilterList()">Back</a>
+</div>*@
+
+@using (Html.BeginForm("Affidavit", "NUH", FormMethod.Post))
+{
+<div style="width: 900px; margin: 0 auto; padding: 15px; background-color: #fff;">
+    <table border="0" style="width: 100%; border-collapse: collapse; font-family: 'Arial Unicode MS'; line-height: 2;">
+
+        @Html.HiddenFor(m=>m.regisIdNUH)
+       @Html.HiddenFor(m=>m.operatedId)
+        <tbody>
+            <tr>
+                <td style="text-align: center" colspan="3">
+                    <div style="font-size: 1.35rem; font-weight: 600;">आवेदक का शपथ पत्र वर्ष 2022 से 2023 तक के पंजीकरण हेतु</div>
+                    <div style="font-size: 1.05rem; font-weight: 600;">समक्ष: मुख्य चिकित्सा अधिकारी, (जिले का नाम)</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center; border-bottom: 1px solid #000; padding: 3px;"></td>
+            </tr>
+            @*<tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <input id="txtRegisNo" type="text" placeholder="Registration No." style="border: 1px solid #858585; padding: 8px; border-radius: 4px;" />
+                    <button style="margin-left: 8px; border-radius: 4px; border: 1px solid #1270d3; background-color: #1874d3; color: #fff; padding: 8px 15px;" onclick="FilterList()">Search</button>
+                    <a style="margin-left: 8px; border-radius: 4px; border: 1px solid #ef6262; background-color: #ef6262; color: #fff; padding: 8px 15px; display:inline-block" href="@Url.Action("ClericalNUH", "Public")">Reset</a>
+                </td>
+            </tr>*@
+            <tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <p>प्रमाणित किया जाता है कि मै, शपथी श्री / <strong><u>@Model.ownerName</u></strong> आयु  लगभग<strong> @Model.ownerAge</strong> वर्ष पुत्र <strong><u>श्री @Model.ownerFatherName</u></strong> निवासी <strong><u>@Model.ownerAddress, @Model.ownerDistrict-@Model.ownerPincode</u></strong> का हूँ तथा शपथपूर्वक निम्न बयान करता हूँ :-</p>
+                    <ol>
+
+                        @if (@Model.operatedId == 2)
+                        { 
+                               <li>यह कि शपथी मेसर्स<strong><u> @Model.ownerName </u></strong> स्थित<strong><u> @Model.establishmentPlace,</u></strong> का  भागीदार और अन्य भागीदार, पॉवर ऑफ एटार्नी ऑफ एटार्नी होल्डर है, जिसकी भागीदारी डीड / पावर ऑफ एटार्नी संलग्न है (नाम भागीदार)।  <br />
+                                 
+                                     @foreach (var x in Model.OwnerList)
+                                   {
+                                    
+                                    <li><strong>Name:-@x.ownerName</strong></li>
+                                           
+                                         }
+
+
+                             
+                            </li>
+                       
+                        }
+                         else
+                            {
+
+                         <li>यह कि शपथी मेसर्स<strong><u> @Model.establishmentName</u></strong> स्थित<strong><u>  @Model.establishmentPlace</u></strong> का  स्वामी  है |</li>@*
+                             <p style="text-align:center">OR</p>*@
+
+                                 
+                             
+                         
+                        }
+
+<li>यह कि शपथी की यूनिट <strong><u> @Model.establishmentPlaceUnit,</u></strong>  उसमें बिजली व्यवस्था है |</li>
+<li>यह कि शपथी के यूनिट में निम्नलिखित चिकित्सक / पैरामेडिकल / अन्य के रूप में कार्य करेंगे जिनकी पंजीकरण संख्या तथा प्रमाण-पत्र की वैधता निम्नवत है (छायाप्रति संलग्न):</li>
+<li>यह कि शपथी के यूनिट के नाम से अथवा मिलते - जुलते नाम से कोई अन्य यूनिट / प्रतिष्ठान स्थापित नही है।</li>
+<li>यह कि शपथी का यूनिट @Model.landType@*(आवासीय / व्यवसायिक )( शहरी / ग्रामीण)*@,@Model.establishmentArea क्षेत्र में स्थित है।</li>
+<li>यह कि शपथी उपरोक्त यूनिट जिसके लिये पंजीकरण कराया गया है, में उसके अतिरिक्त अन्य कोई कार्य सम्पादित नहीं करेगा। अगर ऐसा पाया गया तो कानूनी कार्यवाही की पूर्ण जिम्मेदारी शपथी की होगी।</li>
+         </ol>
+                </td>
+
+            </tr>
+            <tr>
+                <td> </td>
+                <td colspan="2" style="text-align: center; width: 35%">
+
+                    <strong>शपथी</strong><br />
+                     <img src="@Model.ownerSignature" height="50px " width="200px" /><br />
+                    <strong>(@Model.ownerName)</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong>स्थानः  @Model.ownerDistrict </strong><br />
+                 @*   <strong>दूरभाष संख्या :  </strong><br />*@
+                    <strong>मोबाइल नम्बरः @Model.ownerMobileNo</strong><br />
+                    <strong>दिनांक: @Model.GetDate</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center;">
+                    <div style="font-size: 1.05rem; font-weight: 600;"><strong><u>सत्यापन</u></strong></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <p>
+                         <input type="checkbox" name="isDeclared" value="@Model.OwnerList"  class="OwnerList" required = "required"  />
+                 @*@Html.CheckBoxFor(m => m.isDeclared, new { required="required"}) *@  &nbsp; मै शपथी <strong><u>@Model.ownerName</u></strong>उपरोक्त शपथ - पत्र की धारा - 1 से 6 तक सत्यापित करता हूँ जो कि मेरे निजी ज्ञान में सत्य है। पंजीकरण आवेदन पत्र में किसी भी तथ्य का न भ्रामक ढंग से लिखा गया है और न ही इसमें कुछ छिपाया गया है। अगर कोई असत्य तथ्य संज्ञान में आता है तो कानूनी कार्यवाही के लिये शपथी पूर्ण रूप से जिम्मेदार होगा।<br />
+                        आज दिनांक <strong><u>@Model.GetDate</u></strong> को अपने हस्ताक्षर  बनाकर सत्यापित किया।
+                    </p>
+                </td>
+             @Html.HiddenFor(m=>m.isRenewal)
+              
+                @Html.HiddenFor(m=>m.isDeclared)
+
+            </tr>
+
+            @* <tr>
+                <td  colspan="3" id="reg" style="display:none">
+                   
+                  <strong>Registration Number:  @Model.registrationNumber</strong>
+                     </td>
+                  
+                 <td><strong>Name:@Model.ownerName</strong></td>
+               
+                    </tr>*@
+
+            <tr>
+                <td></td>
+                <td colspan="2" style="text-align: center; width: 35%">
+                    <strong>शपथी</strong><br />
+                     <img src="@Model.ownerSignature" height="50px " width="200px" /><br />
+                    <strong>(@Model.ownerName)</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                   
+                    <strong>स्थानः  @Model.ownerDistrict </strong><br />
+                    <strong>मोबाइल नम्बरः @Model.ownerMobileNo</strong><br />
+                    <br />
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+      <input type="hidden" name="NuhId" value="@Model.regisIdNUH"/>
+
+    <button class="btn btn-success" type="submit" > Submit</button>
+
+                      
+
+</div>
+}
+

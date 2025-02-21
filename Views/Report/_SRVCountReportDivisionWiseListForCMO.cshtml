@@ -1,0 +1,80 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.CountReportModel>
+@{
+    int rowSpan = 1, sNo = 0;
+    string preValue = "";
+}
+
+<div class="col-md-12">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group" style="border-bottom: 1px solid #333; padding-bottom: 5px;">
+                    <label class="bold">Division Name : </label>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <label>@Model.Select(m => m.DistrictName).FirstOrDefault()</label>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%; text-align: center;">S.No.</th>
+                          
+                             <th>Service Name</th>
+                            <th style="width: 5%; text-align: center;">Total Received</th>
+                            <th style="width: 5%; text-align: center;">Approved</th>
+                            <th style="width: 5%; text-align: center;">Rejected</th>
+                            <th style="width: 5%; text-align: center;">Pending In-Time Limit</th>
+                            <th style="width: 5%; text-align: center;">Pending After-Time Limit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            { 
+                            <tr>
+                              
+                                @if (preValue != item.serviceName)
+                                    {
+                                        sNo++;
+                                        rowSpan = Model.Where(m => m.serviceName == item.serviceName).Count();
+                                    <td rowspan="@rowSpan" style="text-align: center;">@sNo</td>  
+                                     <td rowspan="@rowSpan">
+                                        <a href="@Url.Action("SRVCountReportDistrictWiseForCMO", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) })">@item.serviceName</a>
+                                    </td>
+                                    }
+                                   
+                                <td style="text-align: center;">@item.totalReceived</td>
+                                <td style="text-align: center;">@item.approved</td>
+                                <td style="text-align: center;">@item.rejected</td>
+                                <td style="text-align: center;">@item.pendingInTimeLimit</td>
+                                <td style="text-align: center;">@item.pendingOverTimeLimit</td>
+                            </tr>
+                                if (ViewBag.ServiceId == 0)
+                                {
+                                    preValue = item.serviceName;
+                                }
+                                else
+                                {
+                                    preValue = item.serviceName;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8">Record Not Found</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

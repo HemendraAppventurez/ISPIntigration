@@ -1,0 +1,191 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<script type="text/javascript">
+    function RefreshCaptcha() {
+        var img = document.getElementById("imgCaptcha");
+        img.src = '@Url.Action("GetCaptchaimage", "Account")' + "?query=" + Math.random();
+    }
+</script>
+
+<div class="col-md-6 lg-left">
+    <div class="instruction">
+        <h3>पंजीकृत नागरिकों के लिए लॉगिन निर्देश </h3>
+        <h4>पहले से पंजीकृत नागरिकों के लिए लॉगिन निर्देश</h4>
+        <div class="nano-content" id="demo">
+            <ul>
+                <li>नागरिक अपना <strong>"Registered Mobile No.", "Password"</strong> और <strong>"Captcha"</strong> भरकर <strong>"Login"</strong> बटन पर क्लिक करें।</li>
+                <li><strong>"Login"</strong> बटन पर क्लिक करने के उपरांत आपको <strong>" Citizen’s Dashboard"</strong> प्रदर्शित होने लगेगा|</li>
+                <li>यदि आप उपयुक्त जानकारी दुबारा भरना चाहते है तो “Reset” बटन पर क्लिक करे |</li>
+                <div class="note">
+                    <h3>नोट: - </h3>
+                    यदि आप पंजीकृत उपयोगकर्ता नहीं हैं, तो <strong>"For New Registration"</strong> बटन पर क्लिक करें और निर्देशों का पालन करें।
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 bg-color">
+    <div class="row">
+        <div class="lg-right">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#Login">Login</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="Login" class="tab-pane fade in active">
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "frmLogin" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="login-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group on-focus">
+                                        <label>Registered Mobile Number <span style="color: red;">*</span></label>
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Registered Mobile Number", @autocomplete = "off", @readonly = "readonly", @onfocus = "this.removeAttribute('readonly');" })
+                                        <div class="tool-tip  slideIn">Enter Registered Mobile Number</div>
+                                        @Html.ValidationMessageFor(m => m.UserName)
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group on-focus">
+                                        <label>Password <span style="color: red;">*</span></label>
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @type = "password", @autocomplete = "off", @onchange = "ConvertPassword(this.id)" })
+                                        <div class="tool-tip  slideIn">Enter Your Password</div>
+                                        @Html.ValidationMessageFor(m => m.Password)
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-5" style="padding: 0; margin: 0;">
+                                        <label>Captcha <span style="color: red;">*</span></label>
+                                        @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control captcha-text", autocomplete = "off", placeholder = "CAPTCHA" })
+                                    </div>
+                                    <div class="col-md-7 smalltext" style="padding-right: 0px;">
+                                        <label>&nbsp;</label>
+                                        <div class="captcha">
+                                            <img src='@Url.Action("GetCaptchaimage", "Account")' style="border:solid 1px" id="imgCaptcha" class="captchimg" />
+                                            <a href="javascript:void()" onclick="javascript: RefreshCaptcha();">
+                                                <img src="~/Images/refresh.png" alt="Refresh Captcha" title="Refresh Captcha" /></a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12" style="padding: 0">
+                                        @Html.ValidationMessageFor(m => m.Captcha)
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                @Html.HiddenFor(m => m.seed)
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-warning btn-block">Login</button>
+                                        @*<a href="dashboard.html" class="btn btn-warning btn-lg btn-block">Login</a>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="button" value="Reset" id="btnReset" class="btn btn-default btn-block" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5"><a href="@Url.Action("ForgotPassword", "Account")">Forgot Password ?</a></div>
+                                <div class="col-md-7 text-right"><a href="@Url.Action("Registration", "Account")">For New Registration</a></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+
+            if ('@ViewBag.MsgStatus' != 'success') {
+                $("#Captcha").val('');
+            }
+        }
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+
+        $("#btnReset").click(function () {
+            $("#Password").val('');
+            $("#Captcha").val('');
+            $("#UserName").val('');
+            $(".field-validation-error").empty();
+        });
+        
+    });
+
+    function ConvertPassword(obj) {
+        var pwd = $('#' + obj).val();
+        var seed = $('#seed').val();
+
+        var pwdVal = MD5(pwd);
+        var addseed = MD5(pwdVal.toUpperCase() + seed)
+
+        $('#' + obj).val(addseed);
+    }
+
+    function checkStatus() {
+        debugger;
+        var username = "A0NUDTWR8M2B";
+        var password = "XROK4UWYPU80";
+
+        //var username = "A0NUDTWR8M2B";
+        //var password = "XROK4UWYPU80";
+        //$.ajax({
+        //    type: "POST",
+        //    url: "http://localhost:2632/api/values",
+        //    dataType: "xml",
+        //   contentType: "application/xml; charset=utf-8",
+        //    data: "<RecRequest><Appl_User_ID>266183F0BBFBF17C8BE517063058F6A5</Appl_User_ID><Req_id>3300000075</Req_id><Req_dtls>10.00</Req_dtls><Req_dt_time>2016-11-16 10:26:51</Req_dt_time><Corp_code>0235</Corp_code></RecRequest>",
+        //    success: function (res) {
+        //        alert(res);
+        //    },
+        //    error: function (xhr, ajaxOptions, thrownError) {
+        //        console.log("XML: not working! " + xhr.statusText);
+        //    } 
+        //});
+    }
+
+</script>
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        
+        var apiurl = "http://localhost:2632/api/values";
+        var data = "<students><stu><name>Abdul</name><mob>8726550348</mob></stu></students>";
+        //var data = { 'name': 'azeez', 'mob': '1235647892' }
+
+        $.ajax({
+            type: 'POST',
+            url: apiurl,
+            contentType: "application/xml; charset=utf-8",
+            dataType: 'xml',
+            headers:
+                {
+                    'Authorization': 'Basic ' + btoa('abdul:123')
+                },
+            data: data,  
+            success: function (d) {
+                //alert("Saved Successfully");
+                console.log(d);
+                //alert($(d).find("body").text());
+            },
+            complete: function (jqXHR) {
+                if (jqXHR.status == '401') {
+                    //alert(jqXHR.status + ' Unauthorize Access');
+                }
+            }
+        });
+    });
+
+</script>*@

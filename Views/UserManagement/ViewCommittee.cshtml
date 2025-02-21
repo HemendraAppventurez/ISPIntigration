@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "ViewCommittee";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">View Committee Member@*<span class="small display-block">View Committee Member</span>*@</div>
+
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" id="txtName" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Designation</label>
+                                <input type="text" id="txtDesignation" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <a href="@Url.Action("ViewCommittee")" class="btn btn-block btn-danger">Reset</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-UserList">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(function () {
+        bindUserList("", "");
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+        if ('@TempData["Message"]' != '') {
+            swal("", "@TempData["Message"]", "success");
+        }
+        $("#btnSearch").click(function () {
+            bindUserList($("#txtName").val().trim(), $("#txtDesignation").val().trim());
+        });
+
+      
+
+    });
+
+    function bindUserList(_name, _designation) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-UserList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("ViewCommitteeMemberList", "UserManagement")',
+            data: { name: _name, designation: _designation },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            if (returndata == "TO") {
+                swal("", 'No Data Found in Committee !', "info");
+                window.location.reload();
+            }
+            else {
+                $('#DIV-UserList').html(returndata);
+            }
+        })
+        .error(function (xhr, status) {
+            $('#DIV-UserList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+
+    }
+
+    function ManageActivateDeactivateList(obj) {
+        debugger;
+
+        var encUserId = $(obj).attr("data-userId")
+        var activeStatus = $(obj).attr("data-active")
+        var msgQury = activeStatus ? "Are you want to Activate it?" : "Are you want to Deactivate it?";
+        var cnfbtnText = activeStatus ? "Yes, Activate it!" : "Yes, Deactivate it?";
+        
+
+        swal({
+            title: msgQury,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: cnfbtnText,
+            cancelButtonText: "No, Cancel it !",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+
+                $.ajax({
+                    url: '@Url.Action("ActiveDeactiveMember", "UserManagement")',
+                    data: { 'userId': encUserId, 'active': activeStatus },
+                    type: 'post',
+                    dataType: 'json'
+                })
+        .success(function (returndata) {
+            if (returndata != null) {
+                if (returndata.res > 0) {
+                    swal("", returndata.msg, "success");
+                    bindUserList($("#txtName").val().trim(), $("#txtDesignation").val().trim());
+                }
+                else {
+                    swal("", returndata.msg, "error");
+                }
+            }
+            else {
+                swal("", "", "error");
+            }
+        })
+        .error(function (xhr, status) {
+           
+            swal("", 'Details Not Found !', "warning");
+        });
+            }
+        });
+
+    }
+
+</script>
+

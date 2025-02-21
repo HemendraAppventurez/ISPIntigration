@@ -1,0 +1,39 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DICModel
+
+@if (Model != null)
+{ 
+@*<div class="panel-body">
+        <h4></h4>
+        <div class="table-responsive">*@
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Disability Application Details</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td style="width: 15%"><strong>Application No.</strong></td>
+                        <td style="width: 15%">@Model.registrationNo</td>
+                        <td style="width: 15%"><strong>Application Date</strong></td>
+                        <td style="width: 15%">@Model.requestDate</td>
+                        <td><strong>Full Name</strong></td>
+                        <td>@Model.fullName</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Disability Type</strong></td>
+                        <td>@Model.disabilityType</td>                        
+                        <td><strong>District</strong></td>
+                        <td>@Model.DistrictName</td>
+                        <td style="width: 10%"><strong>Status</strong></td>
+                        <td style="width: 20%">@Model.appliedStatus</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+@*</div> 
+    </div>*@
+}

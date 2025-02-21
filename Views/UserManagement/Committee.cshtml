@@ -1,0 +1,99 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.CommitteeModel
+@{
+    ViewBag.Title = "Committee";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("Committee", "UserManagement", FormMethod.Post, new { @id = "frmCreateUser" }))
+{
+    @Html.AntiForgeryToken()
+    <section>
+        <div class="content-title">
+            <h3 class="main-title">Committee</h3>
+        </div>
+
+        <div id="content" class="dashboard padding-20 margin-bottom-50">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Add Committee Member</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Name <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(m => m.commMemName, new { @class = "form-control", tabindex = "13" })
+                                        @Html.ValidationMessageFor(m => m.commMemName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Department <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(m => m.commMemDept, new { @class = "form-control", tabindex = "13" })
+                                        @Html.ValidationMessageFor(m => m.commMemDept, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Designation <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(m => m.commMemDesig, new { @class = "form-control", tabindex = "13" })
+                                        @Html.ValidationMessageFor(m => m.commMemDesig, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12"> 
+                                    @Html.HiddenFor(m => m.commMemId) 
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-4">
+                                        <button type="submit" class="btn btn-block btn-primary">@ViewBag.btntext</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("Committee", "UserManagement")" class="btn btn-block btn-warning">Reset</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+    </section>
+    
+    
+}
+
+<script>
+    $(document).ready(function () {
+
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+
+        if ('@TempData["Message"]' != '') {
+            swal("", '@TempData["Message"]', 'success');
+        }
+
+    });
+
+
+
+</script>

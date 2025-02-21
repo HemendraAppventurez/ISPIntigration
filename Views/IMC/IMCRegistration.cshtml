@@ -1,0 +1,1255 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.IMCModel
+
+@{
+    ViewBag.Title = "IMCRegistration";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+
+    .modal-dialog label {
+        display: block;
+        position: relative;
+        font-weight: 600;
+    }
+
+        .modal-dialog label:after {
+            content: ":";
+            float: right;
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    .modal-dialog h4 {
+        margin: 0;
+        color: #09707d;
+    }
+
+    .modal-dialog .panel-heading {
+        padding: 0 15px 10px;
+    }
+
+    .modal-dialog .row {
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Application Form for Immunization <strong>Certificate</strong></h3>
+
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm("IMCRegistration", "IMC", FormMethod.Post, new { @id = "frmdata", @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default" style="margin-bottom: 5px;">
+                    <div class="panel-body" style="padding: 3px 10px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong>Note :-  <span class="text-danger">All files that will be uploaded should be in .jpg and .pdf format and maximum file size should be 2080 KB (2 MB).</span></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Are you Already Vaccinated</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Are you Already Vaccinated? <span class="star">*</span></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.isVaccined, true)
+                                    Yes
+                                </label>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.isVaccined, false)
+                                    No
+                                </label>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.isVaccined, "", new { @class = "text-danger" })
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class=" alreadyVaccined" style="display: none">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>OPD Details</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Reason for Application <span class="star">*</span></label>
+                                        @Html.TextAreaFor(m => m.reason, new { @class = "form-control", tabindex = 1 })
+                                        @Html.ValidationMessageFor(m => m.reason, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>OPD Reciept No. <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.opdReciept, new { @class = "form-control", tabindex = 1 })
+                                        @Html.ValidationMessageFor(m => m.opdReciept, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <span>
+                                        <label>Upload OPD Reciept <span class="text-danger">*</span></label>
+                                    </span>
+                                    <div class="fileUpload3">
+                                        <span>Upload </span>
+                                        @Html.TextBoxFor(m => m.opdFile, new { @class = "upload3", @type = "file", @onchange = "UploadFile(this);" })
+                                        @Html.HiddenFor(m => m.opdFilePath)
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.opdFile, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group padding-top-30" id="opdFileVALUE" style="display: none;">
+                                        <label></label>
+                                        @if (Model != null && !string.IsNullOrEmpty(Model.opdFilePath))
+                                        {
+                                            <a href="@Url.Content(Model.opdFilePath)" class="opdFiledoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="opdFiledoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Personal Details</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fullName, new { @class = "form-control", tabindex = 1 })
+                                        @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Father`s Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fatherName, new { @class = "form-control", tabindex = 2 })
+                                        @Html.ValidationMessageFor(m => m.fatherName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>DOB <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.dob, new { @class = "datepicker-here form-control", @data_language = "en", tabindex = 3, @readonly = "readonly", @onblur = "calAge();", @placeholder = "dd/mm/yyyy" })
+                                        @Html.ValidationMessageFor(m => m.dob, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Age <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.age, new { @Value = "", @class = "form-control", tabindex = 4, @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.age, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Mobile Number <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @maxlength = 10, tabindex = 5, @onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.mobileNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>E-mail</label>
+                                        @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", tabindex = 6 })
+                                        @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Passport Number</label>
+                                        @Html.TextBoxFor(m => m.passportNo, new { @class = "form-control", tabindex = 7 })
+                                        @Html.ValidationMessageFor(m => m.passportNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Address <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.address, new { @class = "form-control", tabindex = 8 })
+                                        @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>State<span class="star">*</span> </label>
+                                        @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State, "--Select--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>District<span class="star">*</span> </label>
+                                        @Html.DropDownListFor(m => m.districtId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { tabindex = 9, @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.districtId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Pin code</label>
+                                        @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", tabindex = 10, @maxlength = 6, @onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.pinCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Mark Of Identification <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.markOfIdentification, new { @class = "form-control", tabindex = 8 })
+                                        @Html.ValidationMessageFor(m => m.markOfIdentification, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>List Of Immunization</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Immunization Name <span class="text-danger">*</span></label>
+                                        @Html.DropDownListFor(m => m.immuCertiTypeName, (IEnumerable<SelectListItem>)ViewBag.ImmunizationType, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.immuCertiTypeName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Immunization Date<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.ImmunizationDate, "", new { @class = "datepicker-here form-control", @readonly = "readonly", @data_language = "en" })
+                                        @Html.ValidationMessageFor(m => m.ImmunizationDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Doctor Name</label>
+                                        @Html.TextBoxFor(m => m.immunizationDoctor, "", new { @class = "form-control alpha" })
+                                        @Html.ValidationMessageFor(m => m.immunizationDoctor, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <span>
+                                        <label>Upload Proof</label>
+                                    </span>
+                                    <div class="fileUpload3">
+                                        <span>Upload </span>
+                                        @Html.TextBoxFor(m => m.immunizationProofFile, new { @class = "upload3", @type = "file", @onchange = "UploadFile(this);" })
+                                        @Html.HiddenFor(m => m.immunizationProofFilePath)
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.immunizationProofFilePath, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group padding-top-30" id="immunizationProofFileVALUE" style="display: none;">
+                                        <label></label>
+                                        @if (Model != null && !string.IsNullOrEmpty(Model.immunizationProofFilePath))
+                                        {
+                                            <a href="@Url.Content(Model.immunizationProofFilePath)" class="immunizationProofFiledoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="immunizationProofFiledoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+                                        <button id="btnadd" type="button" class="btn btn-info btn-md pull-right">Add Immunization</button>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <span id="spanmember" style="display: none" class="text-danger">Immunization Name and Date are required for Immunization Details</span>
+                            <div class="table-responsive">
+                                <table class="table table-bordered css-serial tbViewImmun" style="display: none">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" class="text-center">S.No.</th>
+                                            <th width="20%">Immunization Name<span class="text-danger">*</span></th>
+                                            <th width="20%" style="display: none">Immunization ID</th>
+                                            <th width="20%">Immunization Date<span class="text-danger">*</span></th>
+                                            <th width="20%">Doctor Name</th>
+                                            <th width="20%">Proof</th>
+                                            <th width="20%">Delete</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Select Health Unit</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+
+                                <div class="clearfix"></div>
+                                <div class="col-md-8">
+                                    <label>Health Unit&nbsp;<span class="text-danger">*</span></label>
+                                    <div class="form-control">
+                                        @foreach (var type in ViewBag.forwardTypes)
+                                        {
+                                            <label>
+                                                <input type="radio" name="forwardtypeId" id="forwardtypeId" value="@type.forwardtypeId">
+                                                @type.forwardtypeName
+                                            </label>
+                                        }
+                                    </div>
+                                    <label id="lbltype" class="text-danger" style="display: none;">Select Health Unit</label>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label>District<span class="text-danger">*</span></label>
+                                    @Html.DropDownListFor(m => m.forwardDistrictId, (IEnumerable<SelectListItem>)ViewBag.DistrictCHCPCH, "--Select--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.forwardDistrictId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    <label>CHC/PHC/DH Name<span class="text-danger">*</span></label>
+                                    @Html.DropDownListFor(m => m.forwardtoId, (IEnumerable<SelectListItem>)ViewBag.forwardTo, "--Select--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.forwardtoId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Undertaking</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        I hereby declare that the details furnished above are true and correct to the best of my knowledge and belief and I undertake to inform you of any changes therein, immediately. In case any of the above information is found to be false or untrue or misleading or misrepresenting, I am aware that I may be held liable for it.
+                                    
+
+                                    <br />
+                                        <br />
+                                        <b>
+                                            <label>
+                                                <input type="radio" id="rblchk" name="rblchk" />
+                                                I Agree</label>
+                                        </b>
+                                        @Html.HiddenFor(m => m.isCertify)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-4">
+                                        <button id="btnSave" type="button" class="btn btn-block btn-primary">Preview</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button id="btnreset" type="reset" class="btn btn-block btn-warning">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class=" alreadyNotVaccined" style="display: none">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Not Vaccinated</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Not Vaccinated</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+
+
+            <button id="btnShowPopup" type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none;"></button>
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Application Form for Immunization Certificate </h4>
+                        </div>
+                        <div class="modal-body" style="max-height: 470px; overflow-y: auto;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel-default">
+                                        <div class="panel-heading">
+                                            <span class="title elipsis">
+                                                <h4>Preview Of OPD Details</h4>
+                                            </span>
+                                        </div>
+                                        <div class="panel-body">
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Are you Already Vaccinated?</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanisVaccined"></span>
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="panel-default">
+                                        <div class="panel-heading">
+                                            <span class="title elipsis">
+                                                <h4>OPD Details</h4>
+                                            </span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Reason For Application</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanReason"></span>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>OPD Reciept No</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanopdReciept"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>OPD Reciept Uploaded</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a href="#" id="spanDocument" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="panel-default">
+                                        <div class="panel-heading">
+                                            <span class="title elipsis">
+                                                <h4>Personal Detail</h4>
+                                            </span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanName"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Father's Name</label>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanfatherName"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>DOB</label>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanDob"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Age</label>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanAge"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Mobile No</label>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanMobile"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Email Address </label>
+
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanEmail"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Passport Number</label>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanPassport"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Address  </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanAddress"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>State </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanState"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>District</label>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanDistrict"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Pincode </label>
+
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanPincode"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Mark Of Identification  </label>
+
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanmarkOfIdentification"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="panel-default">
+                                        <div class="panel-heading">
+                                            <h4>List Of Immunization</h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table id="Vaccine" class="table table-bordered css-serial">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="5%" class="text-center">S.No.</th>
+                                                            <th width="22%" class="text-center">Immunization Name</th>
+                                                            <th width="14%" class="text-center">Immunization Date</th>
+                                                            <th width="22%" class="text-center">Doctor Name</th>
+                                                            <th width="14%" class="text-center">Proof</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbUser">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-12">
+                                    <div class="panel-default">
+
+                                        <div class="panel-heading">
+                                            <span class="title elipsis">
+                                                <h4>Health Unit For Appointment</h4>
+                                            </span>
+                                        </div>
+                                        <div class="panel-body">
+
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>Health Unit</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanType"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>District</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanforwardDistrictId"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <label>CHC/PHC/DH Name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanDC"></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-4">
+                                        <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    }
+    <div class="clearfix"></div>
+    <script src="~/Scripts/AuditScripts.js"></script>
+    <script>
+        $(document).ready(function () {
+            addEvent();
+            CalculateclaimantAge();
+        });
+
+        $('input[name=isVaccined]').click(function () {
+            var v = $('input[name=isVaccined]:checked').val();
+            if (v == "True") {
+                $(".alreadyVaccined").show();
+                $(".alreadyNotVaccined").hide();
+                $("#opdReciept").val('');
+                $("#opdFilePath").val('');
+                $("#opdFileVALUE").hide();
+            }
+            else {
+                $(".alreadyVaccined").hide();
+                $(".alreadyNotVaccined").show();
+                $("#opdReciept").val('');
+                $("#opdFilePath").val('');
+                $("#opdFileVALUE").hide();
+            }
+        });
+        $("#healthUnitDistrictId").change(function () {
+            binddropdown($("input[name=forwardtypeId]:checked").val(), $(this).val());
+        });
+        $("#stateId").change(function () {
+            debugger;
+            bindDistDropdown($(this).val());
+        })
+        $("input[name=forwardtypeId]").change(function () {
+            $("#lbltype").hide();
+            binddropdown($(this).val(), $("#healthUnitDistrictId").val());
+        });
+        $("#btnadd").click(function () {
+            debugger;
+            AddRow();
+        });
+        var rowCount = $("#tbViewImmun td").closest("tr").length;
+        var ARY = [];
+        function AddRow() {
+            debugger;
+            var immunId = $('#immuCertiTypeName option:selected').val();
+            var immuName = $('#immuCertiTypeName option:selected').text();
+            var date = $('#ImmunizationDate').val();
+            var immunDoctor = $('#immunizationDoctor').val();
+            var doc = $('#immunizationProofFilePath').val();
+
+            var key = 'Not exist';
+            for (var i = 0; i < ARY.length; i++) {
+                var ar = ARY[i];
+
+                if (ar == immunId) {
+                    key = 'Exist';
+                }
+                else {
+
+                }
+            }
+            ARY.push(immunId);
+
+
+            if (immunId == "") {
+
+
+                console.log(ARY);
+                swal("", "Immunization Name is Required", "warning");
+                return false;
+            }
+            if (date == "") {
+                console.log(ARY)
+                var index = ARY.indexOf(immunId);
+                // for (var i = 0; i < ARY.length; i++) {
+                var index = ARY.indexOf(immunId);
+                if (index > -1) {
+                    ARY.splice(index, 1);
+                }
+                //}
+                swal("", "Immunization Date is Required", "warning");
+                return false;
+            }
+            else if (key == 'Exist') {
+                swal("", "Immunization Name already exsists", "warning");
+                return false;
+            }
+            else {
+                if (doc == '') {
+                    var markup = "<tr><td align='center'></td><td><label name='addimmuName' id='immuName'>" + immuName + "</label></td><td style='display:none'><input type='text' value=" + immunId + " name='addimmunId' id='immunId' class ='form-control'  style ='height:45px'></td><td><label>" + date + "</label><input type='hidden' name='adddateOfImmunization' value=" + date + " ></td><td><label>" + immunDoctor + "</label><input type='hidden' name='addimmunizationDoctor' value=" + immunDoctor + " ></td><td><div class='col-md-3'><input type='hidden' class='immunizationProofFiledoc" + rowCount + "' name='addimmunizationProofFilePath' value=" + doc + "><div class='padding-top-10'><label value=" + doc + "></label></div></div></div></td><td align='center'><div class='padding-top-10'><button id='btndel' onclick='DeleteRow(this);' type='button' ><i class='fa fa-trash fa-2x text-warning'></i></button></div></td></tr>";
+                }
+                else {
+                    var markup = "<tr><td align='center'></td><td><label name='addimmuName' id='immuName'>" + immuName + "</label></td><td style='display:none'><input type='text' value=" + immunId + " name='addimmunId' id='immunId' class ='form-control'  style ='height:45px'></td><td><label>" + date + "</label><input type='hidden' name='adddateOfImmunization' value=" + date + " ></td><td><label>" + immunDoctor + "</label><input type='hidden' name='addimmunizationDoctor' value=" + immunDoctor + " ></td><td><div class='col-md-3'><input type='hidden' class='immunizationProofFiledoc" + rowCount + "' name='addimmunizationProofFilePath' value=" + doc + "><div class='padding-top-10'><a class='immunizationProofFiledoc" + rowCount + "' href=" + doc.replace('~/', '/') + " target='_blank'><i class='fa fa-download fa-2x'></i></a></div></div></div></td><td align='center'><div class='padding-top-10'><button id='btndel' onclick='DeleteRow(this);' type='button' ><i class='fa fa-trash fa-2x text-warning'></i></button></div></td></tr>";
+                }
+
+
+                $(".tbViewImmun tbody").append(markup);
+                rowCount++;
+                $('#ImmunizationDate').val(''); $("#immuCertiTypeName")[0].selectedIndex = 0; $("#immunizationDoctor").val('');
+                $('.tbViewImmun').show();
+                $("#spanmember").hide();
+                $("#immunizationProofFileVALUE").hide();
+                $('#immunizationProofFilePath').val('');
+
+            }
+        }
+        function DeleteRow(obj) {
+            debugger;
+
+            var immunId = $(obj).parent().parent().parent().find('input[name="addimmunId"]').val();
+
+
+            swal({
+                title: "Are you sure?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, Delete it !",
+                cancelButtonText: "No, Cancel it !",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    console.log(ARY)
+                    var index = ARY.indexOf(immunId);
+                    for (var i = 0; i < ARY.length; i++) {
+                        var index = ARY.indexOf(immunId);
+                        if (index > -1) {
+                            ARY.splice(index, 1);
+                        }
+                    }
+
+                    console.log(ARY);
+
+                    $(obj).closest('tr').remove();
+                    rowCount--;
+                }
+            });
+
+        }
+        $("#btnSave").click(function () {
+            debugger;
+            var isShowPopup = true;
+            var val = $("#frmdata").validate();
+            val.form();
+            val.showErrors();
+            var isVaccined = $('input[name=isVaccined]:checked').val();
+            if (!val.valid()) {
+                swal("", "Some mandatory fields are Empty, Kindly check Application Form and fill the required Data.", "warning");
+                isShowPopup = false;
+
+
+                if ($('input[name=forwardtypeId]:checked').length == 0) {
+                    $("#lbltype").show();
+                    isShowPopup = false;
+                }
+                else {
+                    $("#lbltype").hide();
+                }
+            } else
+                if (ARY == "") {
+                    $("#spanmember").show();
+                    isShowPopup = false;
+                    return false;
+                }
+
+                else if (isShowPopup) {
+                    if ($('input[name=rblchk]:checked').length == 0) {
+                        swal("", "Please confirm terms & conditions", "warning");
+                        return false;
+                    }
+                    else {
+                        $("#isCertify").val(true);
+                        var vacc = $("input[name='isVaccined']:checked").val();
+                        if (vacc == "True") {
+                            $("#spanisVaccined").text('Yes');
+
+                            $("#spanopdReciept").text($("#opdReciept").val());
+                            var certificate = $('#opdFilePath').val().split('/');
+                            var url1 = '@Url.Content("~/Content/writereaddata/IMC/")' + certificate[certificate.length - 1];
+                        $('#spanDocument').removeAttr('href');
+                        $('#spanDocument').attr('href', url1);
+
+
+                        var count = 1;
+                        $("#tbUser").html('');
+                        $(".tbViewImmun tr:gt(0)").each(function (index, obj) {
+                            debugger;
+
+                            var currRow = $(this);
+
+                            var _Immun = currRow.find('td:eq(1)').text();
+                            var _Certified = 'yes';
+                            var _Date = currRow.find('td:eq(3)').find('input[name=adddateOfImmunization]').val();
+                            var _DocName = currRow.find('td:eq(4)').find('input[name=addimmunizationDoctor]').val();
+                            var _DocUrl = currRow.find('td:eq(5)').find('input[name=addimmunizationProofFilePath]').val();
+
+                            if (_Date != '') {
+                                if (_DocUrl == '') {
+
+                                    var newRow = '<tr><td></td><td align="center">' + _Immun + '</td><td align="center">' + _Date + '</td><td align="center">' + _DocName + '</td><td align="center"><label value="' + _DocUrl + '"></label></td></tr>';
+                                }
+                                else {
+
+                                    var newRow = '<tr><td></td><td align="center">' + _Immun + '</td><td align="center">' + _Date + '</td><td align="center">' + _DocName + '</td><td align="center"><a href="' + _DocUrl.replace('~/', '/') + '" id="aDocument" target="_blank"><i class="fa fa-download fa-2x"></i></a></td></tr>';
+                                }
+
+                                count++;
+                                $("#tbUser").append(newRow);
+                            }
+                        });
+                    }
+
+                    $("#spanmarkOfIdentification").text($("#markOfIdentification").val());
+                    $("#spanName").text($("#fullName").val());
+                    $("#spanfatherName").text($("#fatherName").val());
+                    $("#spanDob").text($("#dob").val());
+                    $("#spanAge").text($("#age").val());
+                    $("#spanMobile").text($("#mobileNo").val());
+                    $("#spanEmail").text(($("#emailId").val() == '') ? 'NaN' : ($("#emailId").val()));
+                    $("#spanPassport").text(($("#passportNo").val() == '') ? 'NaN' : ($("#passportNo").val()));
+                    $("#spanAddress").text($("#address").val());
+                    $("#spanState").text($("#stateId option:selected").text());
+                    $("#spanDistrict").text($("#districtId option:selected").text());
+                    $("#spanPincode").text(($("#pinCode").val() == '') ? 'NaN' : ($("#pinCode").val()));
+
+                    $("#spanReason").text($("#reason").val());
+                    $("#spanforwardDistrictId").text($("#forwardDistrictId option:selected").text());
+                    if ($("input[name=forwardtypeId]:checked").val() == 3) {
+                        $("#spanType").text("Community Health Center (CHC)");
+                    }
+                    if ($("input[name=forwardtypeId]:checked").val() == 4) {
+                        $("#spanType").text("Primary Health Centre (PHC)");
+                    }
+                    if ($("input[name=forwardtypeId]:checked").val() == 5) {
+                        $("#spanType").text("District Hospital (DH)");
+                    }
+                    $("#spanDC").text($("#forwardtoId option:selected").text());
+                    $('#btnShowPopup').click();
+                    setTimeout(function () {
+                        $('.modal-body').scrollTop(0);
+                    }, 300);
+                    return true;
+                }
+            }
+        });
+
+function CalculateclaimantAge() {
+    var DOB = $("#dob").val();
+    if (DOB != "") {
+        var values = DOB.split("/");
+        var date = values[0];
+        var month = values[1];
+        var year = values[2];
+
+        var currentdate = new Date();
+        var currentyear = currentdate.getYear() + 1900;
+        var currentmonth = currentdate.getMonth() + 1;
+        var currentdate = currentdate.getDate();
+
+        var calculateYear = currentyear - year;
+        var calculatemonth = 0;
+        var calculatedate = 0;
+        if (month > currentmonth) {
+            calculateYear--;
+            calculatemonth = month - currentmonth;
+        }
+
+        $("#age").val(calculateYear);
+    }
+
+}
+
+$("#dob").blur(function () {
+    if ($("#dob").val() != "") {
+        CalculateAge();
+    }
+});
+
+function CalculateAge() {
+    var DOB = $("#dob").val();
+
+    if (DOB != "") {
+        var values = DOB.split("/");
+        var date = values[0];
+        var month = values[1];
+        var year = values[2];
+        var currentdate = new Date();
+        var currentyear = currentdate.getYear() + 1900;
+        var currentmonth = currentdate.getMonth() + 1;
+        var currentdate = currentdate.getDate();
+        var calculateYear = currentyear - year;
+        var calculatemonth = 0;
+        var calculatedate = 0;
+        if (month > currentmonth) {
+            calculateYear--;
+            calculatemonth = month - currentmonth;
+        }
+        $("#age").val(calculateYear);
+    }
+
+}
+
+$("#forwardDistrictId").change(function () {
+
+    binddropdown($("input[name=forwardtypeId]:checked").val(), $(this).val());
+});
+function binddropdownFwdTo() {
+    //$("#forwardDistrictId").click(function () {
+    if ($("input[name=forwardtypeId]:checked").val() != null && $("#forwardDistrictId").val() != null) {
+
+        binddropdown($("input[name=forwardtypeId]:checked").val(), $("#forwardDistrictId").val());
+    }
+    else {
+        return false;
+    }
+
+    //})
+}
+$("input[name=forwardtypeId]").click(function () {
+    if ($("input[name=forwardtypeId]:checked").val() != null && $("#forwardDistrictId").val() != null) {
+        binddropdown($("input[name=forwardtypeId]:checked").val(), $("#forwardDistrictId").val());
+    }
+    else {
+        return false;
+    }
+});
+function binddropdown(Id, distId) {
+
+    debugger;
+    $.ajax({
+        url: '@Url.Action("BindForwardDropdownlist", "IMC")',
+        data: { rollId: Id, DistrictId: distId },
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            $("#forwardtoId").empty();
+            $("#forwardtoId").append('<option value="">--Select--</option>');
+            $.each(data, function (id, result) {
+                $("#forwardtoId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+            })
+        },
+        error: function (xhr, status) {
+
+        }
+    });
+}
+
+function bindDistDropdown(stateId) {
+
+    debugger;
+    $.ajax({
+        url: '@Url.Action("BindDistrictlist", "IMC")',
+        data: { stateId: stateId },
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            $("#districtId").empty();
+            $("#districtId").append('<option value="">--Select--</option>');
+            $.each(data, function (id, result) {
+                $("#districtId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+            })
+        },
+        error: function (xhr, status) {
+
+        }
+    });
+}
+var strDate = @DateTime.Now.Year -18 + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+        $('#dob').datepicker({
+            maxDate: new Date(strDate),
+            autoClose: true
+        });
+
+        var strDate1 = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+        $('#DH_PHC_CHCDate').datepicker({
+            maxDate: new Date(strDate1),
+            autoClose: true
+        });
+
+        function UploadFile(Obj) {
+            debugger;
+            var ext = Obj.value.match(/\.(.+)$/)[1];
+            var Id = $(Obj).attr("Id");
+
+            switch (ext) {
+                case 'pdf':
+                case 'jpg':
+                    var fileSize = ($("#" + Id)[0].files[0].size / 1024 / 1024);
+                    if (fileSize > 2) {
+                        swal("", "Maximum 2MB file size are allowed", "warning");
+                        return false;
+                    }
+                    else {
+                        var data = new FormData();
+                        var files = $("#" + Id).get(0).files;
+                        if (files.length > 0) {
+                            data.append("File", files[0]);
+                        }
+                        $.ajax({
+                            url: '@Url.Action("UploadFile", "IMC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            if (response[2] == "0") {
+                                $("#" + Id + "Path").val(response[1]);
+                                $("#" + Id + "VALUE").show();
+                                var Url = response[1].replace('~/', '');
+                                $("." + Id + "doc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+                        }
+                        else {
+                            swal("", response[2], "warning");
+                        }
+                            return false;
+                        },
+                        error: function () {
+
+                        }
+                    });
+
+            }
+            break;
+        default:
+            swal("", 'Invalid File Format only pdf and jpg files are allowed!', "warning");
+            this.value = '';
+            return false;
+    }
+}
+
+function calAge() {
+    var dob = $('#dob').val();
+    if (dob != "") {
+        var values = dob.split("/");
+        var date = values[0];
+        var month = values[1];
+        var year = values[2];
+
+        var currentdate = new Date();
+        var currentyear = currentdate.getYear() + 1900;
+        var currentmonth = currentdate.getMonth() + 1;
+        var currentdate = currentdate.getDate();
+
+        var calculateYear = currentyear - year;
+        var calculatemonth = 0;
+        var calculatedate = 0;
+        if (month > currentmonth) {
+            calculateYear--;
+            calculatemonth = month - currentmonth;
+            $("#patientage").val(calculateYear);
+        }
+    }
+}
+function isNumberKey(evt) {
+    debugger;
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+function isalphabet(evt) {
+    debugger;
+    var charCode = (evt.which) ? evt.which : event.keyCode
+
+    if (!(charCode >= 65 && charCode <= 120) && (charCode != 32 && charCode != 0))
+        return false;
+    return true;
+}
+    </script>
+    @*region ISP*@
+
+    <script>
+        $(document).ready(function () {
+            if ('@TempData["ApplicantCommanDetails1"] ' != '' && '@TempData["ApplicantCommanDetails1"]' != '') {
+                readonlyControlles();
+            }
+
+
+        });
+        function readonlyControlles() {
+            $('#fullName').attr("readonly", true);
+            $('#fatherName').attr("readonly", true);
+            $('#mobileNo').attr("readonly", true);
+            $('#emailId').attr("readonly", true);
+            $('#opdAddress').attr("readonly", true);
+            $('#opdPinCode').attr("readonly", true);
+            $('#categoryId').attr("style", "pointer-events: none;");
+        }
+
+    </script>
+    @*endregion*@

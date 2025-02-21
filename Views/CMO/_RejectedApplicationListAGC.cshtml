@@ -1,0 +1,193 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.AGCModel>
+@using OTPL_Imp
+@{
+    
+    int sNo = 0;
+}
+<style>
+    .webgrid-header a {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+
+<link href="~/js/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $('#tblCountList').DataTable({
+
+            "ordering": true,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }]
+
+        });
+
+        //For CMO
+        var table = $('#tblCountList').DataTable();
+
+        //Turning Off ALL event listeners for the Name Table Cell
+        $(".targetHeaderCell").off();
+
+        //Adding cursor class to testSpan and Removing Cursor class from overall header
+        //$(".targetHeaderCell").css("cursor", "default");
+        $("#testSpan").css("cursor", "pointer");
+        var booleanSortCol1 = false;
+
+        // Attaching CLICK Event Handler on Name Span
+        $("#testSpan").on("click", function () {
+
+            if (booleanSortCol1 == false) {
+                table.order([0, 'desc']).draw();
+                booleanSortCol1 = true;
+            }
+            else {
+                table.order([0, 'asc']).draw();
+                booleanSortCol1 = false;
+            }
+        });
+    });
+
+
+</script>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="row">
+        <div style="max-height: 400px; overflow: scroll">
+            <table id="tblCountList" border="1" class="table-user-information table table-bordered table-striped" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                <thead style="background: #237382; color: #fff; padding: 5px;">
+                    <tr>
+                        <th class="no-sort">Sr.No.</th>
+                        <th class="no-sort"><strong>Application No</strong></th>
+                        @*<th><strong>Application Date</strong></th>*@
+                        <th style="text-align: left;" class="targetHeaderCell"><span id="testSpan" style="padding: 0; margin: 0; box-sizing: content-box; cursor: pointer">Application Date</span></th>
+                        <th class="no-sort"><strong>Full Name</strong></th>
+                        <th class="no-sort"><strong>Mobile Number</strong></th>
+                        <th class="no-sort"><strong>Email Id</strong></th>
+                        <th class="no-sort"><strong>Inspection Report</strong></th>
+
+                        <th class="no-sort"><strong>Rejected Date</strong></th>
+                        <th class="no-sort"><strong>Rejection Remark</strong></th>
+                        <th class="no-sort"><strong>Status</strong></th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            sNo++;
+                        <tr>
+                            <td style="text-align: center;">@sNo</td>
+
+                            <td>
+
+                                <a href="@Url.Action("PrintApplicationFormAGC", "CMO", new { regisIdAGC = @item.regisIdAGC })"  target="_blank">@item.registrationNo</a>
+
+                            </td>
+
+                            <td>@item.appliedDate</td>
+                            <td>@item.fullName</td>
+                            <td>@item.mobileNo</td>
+                            <td>@item.emailId</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(@item.inspReportFilePath))
+                                {
+                                    <a href="@Url.Content(@item.inspReportFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                }
+                                else
+                                {
+
+
+                                }
+                            </td>
+
+                            <td>@item.RejectDate</td>
+                            <td>@item.RejectRemark</td>
+                            <td>@item.appliedStatus</td>
+                          
+                        </tr> 
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>Record Not Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+@*@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("PrintApplicationFormAGC", "CMO", new { regisIdAGC = @item.regisIdAGC })" target="_blank">@item.registrationNo</a></text>),
+            grid.Column("appliedDate", header: "Application Date"),
+            grid.Column("fullName", header: "Name"),
+             grid.Column("mobileNo", header: "Mobile No"),
+            grid.Column("emailId", header: "Email"),
+
+             grid.Column(header: "Inspection Report", format: @<text>
+        @if (!string.IsNullOrEmpty(@item.inspReportFilePath))
+        {
+            <a href="@Url.Content(@item.inspReportFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+        }
+        else
+        {
+
+
+        }</text>),
+        grid.Column("RejectDate", header: "Reject Date"),
+        grid.Column("RejectRemark", header: "Reject Remark"),
+            grid.Column("appliedStatus", header: "Status")
+
+            ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+}*@

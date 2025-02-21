@@ -1,0 +1,199 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MyAccountModel
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">Welcome <strong>@Model.userName</strong></h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <!-- InstanceBeginEditable name="content" -->
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>My Profile</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("MyProfile", "Account", FormMethod.Post, new { @id = "frmMyProfile" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Full Name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.userName, new { @class = "form-control", @placeholder = "Full Name" })
+                                            @Html.ValidationMessageFor(m => m.userName)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Father's / Husband's Name <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.fatherName, new { @class = "form-control", @placeholder = "Father's / Husband's Name" })
+                                            @Html.ValidationMessageFor(m => m.fatherName)
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Designation <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.designation, new { @class = "form-control", @placeholder = "Designation" })
+                                            @Html.ValidationMessageFor(m => m.designation)
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Email ID <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", @placeholder = "Email ID" })
+                                            @Html.ValidationMessageFor(m => m.emailId)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Mobile No. <span class="star">*</span></label>
+                                            @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @placeholder = "Email ID", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(m => m.mobileNo)
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Upload Photo <span class="star">*</span></label>
+                                            <div class="form-control">
+                                                <input type="file" id="uploadProfilePic" onchange="uploadImage(this);" accept=".jpg,.jpeg" />
+                                                
+                                            </div>
+                                        </div>
+                                        <span id="span1" class="field-validation-error" style="display: none;">Upload Photo !</span>
+                                        @Html.HiddenFor(m => m.profilePicName)
+                                    </div>
+
+                                    <div class="col-md-2 col-xs-12">
+                                        <div class="form-group">
+                                            <button type="submit" onclick="return checkRequired();" class="btn btn-block btn-warning">Submit</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xs-12">
+                                        <div class="form-group">
+                                            <a href="@Url.Action("Dashboard", "Home")" class="btn btn-block btn-default">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <img src="@Url.Content(!string.IsNullOrEmpty(Model.profilePicPath) ? Model.profilePicPath : "~/images/avatar-1.jpg")" id="imgProfilePic" class="img-responsive profilepic" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+             swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+     });
+    function checkRequired() {
+        var val = $("#frmMyProfile").validate();
+        val.form();
+        val.showErrors();
+        if (val.valid()) {
+            //alert();
+            $('#span1').css('display', 'none');
+            if ($("#profilePicName").val() == "" || $("#profilePicName").val() == null) {
+                $('#span1').css('display', 'block');
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    }
+
+    function uploadImage(obj) {
+
+        $('#span1').css('display', 'none');
+
+        var inputFileId = $(obj).attr('id');
+
+        var fileData = new FormData();
+        var file = $('#' + inputFileId).get(0).files;
+        console.log(file);
+        var size = file[0].size;
+
+        var ext = $('#' + inputFileId).val().split('.').pop().toLowerCase();
+        var ValidExtFile = ['jpg', 'jepg']
+        var ValidSize = "51200";  // 2MB
+
+        switch (ext) {
+            case 'jpg':
+            case 'jepg':
+                if (size > ValidSize) {
+                    swal("", "File should not be greater than 50 KB.", "warning");
+                    $('#' + inputFileId).val('');
+                }
+                else {
+
+                    fileData.append("Imgfile", file[0]);
+                    fileData.append('prefixFileName', 'ProfilePic');
+                    $.ajax({
+                        url: '@Url.Action("UploadProfilePic", "Account")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: fileData,
+                        success: function (response) {
+                            if (response[0] == "Valid") {
+                                $('#profilePicName').val(response[2]);
+                                $("#imgProfilePic").attr('src', 'data:image/png;base64,' + response[1]);
+                            }
+                            else {
+                                swal("", response[0], "warning");
+                                $('#' + inputFileId).val('');
+                            }
+                        },
+                        error: function (er) {
+                            //alert(er); 
+                            //swal("", er, "error");
+                        }
+                    });
+                }
+                break;
+            default:
+                swal("", 'Upload only .jpg or .jpeg file.', "warning");
+                $('#' + inputFileId).val('');
+        }
+    }
+
+    function getNameFromPath(strFilepath) {
+        var objRE = new RegExp(/([^\/\\]+)$/);
+        var strName = objRE.exec(strFilepath);
+        if (strName == null) {
+            return null;
+        }
+        else {
+            return strName[0];
+        }
+    }
+</script>

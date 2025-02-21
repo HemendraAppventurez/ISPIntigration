@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "AdminDashboard";
+    if (ViewBag.IsWithoutLayout)
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+}
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group text-center" style="padding: 15% 0;">
+                                <h1 class="text-danger">Unauthorise Access !</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

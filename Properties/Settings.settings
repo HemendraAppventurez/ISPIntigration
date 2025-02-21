@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CCSHealthFamilyWelfareDept.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CCSHealthFamilyWelfareDept_EDistrictSVC_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://164.100.181.28/DeptWebIntService/Service.asmx</Value>
+    </Setting>
+    <Setting Name="CCSHealthFamilyWelfareDept_UPHEALTHNIC_upswp_niveshmitraservices" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

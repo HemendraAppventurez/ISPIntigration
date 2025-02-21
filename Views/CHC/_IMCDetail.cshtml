@@ -1,0 +1,324 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.IMCModel
+@{
+   
+    //int i = @ViewBag.Vaccine.Count;
+}
+<style>
+    #childlist h3 {
+        margin: 0 !important;
+        padding: 0px 0px 10px !important;
+    }
+
+        #childlist h3 span {
+            margin: 0 !important;
+            padding: 0px !important;
+        }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Are You Already Vaccinated</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>Are you already Vaccinated?</label>
+                        </div>
+                        @if (Model.isVaccined == true)
+                        {
+                            <div class="col-md-3">
+                                <label>Yes</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <label>No</label>  
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>OPD Detail</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Reason For Application</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.reason
+
+                        </div>
+                        @if (Model.isVaccined == true)
+                        {
+                            <div class="col-md-3">
+                                <label>OPD Reciept No.</label>
+                            </div>
+                            <div class="col-md-3">
+                                @Model.opdReciept
+                            </div>
+                        }
+                    </div>
+                    @if (Model.isVaccined == true)
+                    {
+                        <div class="form-group">
+
+
+                            <div class="col-md-3">
+                                <label>OPD Reciept</label>
+                            </div>
+                            @if (Model.opdFilePath == "Submitted By Department")
+                            {
+                                <div class="col-md-3">
+                                    <label>Submitted By Department</label>
+                                </div>
+                            }
+                            else if (Model.opdFilePath == "" || Model.opdFilePath == null)
+                            {
+                                <div class="col-md-3">
+                                    <label>Not Uploaded</label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-3">
+                                    <a href="@Url.Content(@Model.opdFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                </div>
+                            }
+
+                        </div>
+                    }
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Personal Details</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Registration No.</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.registrationNo
+
+                        </div>
+                        <div class="col-md-3">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.fullName
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Father Name</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.fatherName
+
+                        </div>
+                        <div class="col-md-3">
+                            <label>Date of Birth</label>
+                        </div>
+                        <div class="col-md-3">
+                            @DateTime.Parse(@Model.dob).ToShortDateString()
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Age</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.age
+
+                        </div>
+                        <div class="col-md-3">
+                            <label>Mobile Number</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.mobileNo
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        @if (@Model.emailId != "")
+                        {
+                            <div class="col-md-3">
+                                <label>E-mail</label>
+                            </div>
+                            <div class="col-md-3">
+                                @Model.emailId
+                            </div>
+                        }
+                        <div class="col-md-3">
+                            <label>Passport Number</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.passportNo
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>State</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.StateName
+                        </div>
+                        <div class="col-md-3">
+                            <label>Address</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.address
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>District </label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.DistrictName
+                        </div>
+                        <div class="col-md-3">
+                            <label>Pin code </label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.pinCode
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Mark Of Identification </label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.markOfIdentification
+                        </div>
+                        <div class="col-md-3">
+                            <label></label>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12" id="childlist">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Health Unit</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+
+
+
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Health Unit</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.forwardtoName
+                        </div>
+                        <div class="col-md-3">
+                            <label>District</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.forwardDistrictName
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+
+
+                        <div class="col-md-3">
+                            <label>Area</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.forwardtypeName
+                        </div>
+
+                    </div>
+
+
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        IMMlist();
+
+    });
+    function IMMlist() {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindImmunList", "CHC")',
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlist").html(data);
+            },
+        });
+    }
+
+
+</script>
+

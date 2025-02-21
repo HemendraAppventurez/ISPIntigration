@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "RegistrationInstructions";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>मेडिको लीगल प्रमाणपत्र<span class="small">Medico Legal Certificate Instructions</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12 page-instraction">
+                            <h4>Procedure to Fill Application Form</h4>
+                            <ul>
+                                <li>This service(Online application form) is available for district hospitals only. Citizen(if already registered) can search and download the certificate from his/her dashboard.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <b>I have read and Understood all the Terms & Conditions regarding the applications Process.</b><br />
+                                <br />
+                                <b>
+                                    <input id="chkConfirm" name="chkConfirm" type="checkbox" />
+                                    I Agree</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input name="btnProceed" value="Proceed" onclick="return proceedToRegistration();" disabled="disabled" id="btnProceed" class="btn btn-warning btn-block btn-lg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#chkConfirm').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#btnProceed').removeAttr('disabled');
+            } else {
+                $('#btnProceed').attr('disabled', 'disabled');
+            }
+        });
+    });
+
+    function proceedToRegistration() {
+
+        if ($('#chkConfirm').is(':checked')) {
+            var url = '@Url.Action("MedicoLegalCertificate", "MLC")';
+            window.location.href = url;
+        } else {
+            swal("", "First select Agree, Then Proceed To Registration !", "warning");
+            return false;
+        }
+    }
+
+</script>
+
+

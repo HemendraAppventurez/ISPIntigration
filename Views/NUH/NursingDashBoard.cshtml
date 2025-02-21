@@ -1,0 +1,155 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.NUHmodel>
+@{
+    ViewBag.Title = "Medical Establishment";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .modal-dialog label {
+        display: block;
+        position: relative;
+        font-weight: 600;
+    }
+
+        .modal-dialog label:after {
+            content: ":";
+            float: right;
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    .modal-dialog h4 {
+        margin: 0;
+        color: #09707d;
+    }
+
+    .modal-dialog .panel-heading {
+        padding: 0 15px 10px;
+    }
+
+    .modal-dialog .row {
+        margin-bottom: 5px;
+    }
+</style>
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>चिकित्सा प्रतिष्ठान डैशबोर्ड <span class="small">Medical Establishment Dashboard</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-90 margin-bottom-50">
+    <div class="row">
+        @if (Model != null && Model.Count() > 0)
+        {
+            <div class="col-md-12">
+                <h3 class="main-title">
+                    <span class="small">Application has been already Submitted for this request.</span>
+                </h3>
+                <ul class="circle">
+                    <li class="col-md-4 col-sm-6 col-xs-12" id="ViewSubmittedTile2">
+                        <a href="@Url.Action("ViewNUHList", "NUH")" class="indigo">
+                            <img src="@Url.Content("~/images/view_icon.png")"><br />
+                            View Submitted Application Status 
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12">
+                <ul class="circle">
+                    @* <li class="col-md-2 col-sm-6 col-xs-12"></li>
+               <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("PrintApplicationForm", "NUH")" class="red" target="_blank">
+                        <img src="@Url.Content("~/images/print_icon.png")"><br />
+                        Print Your Submitted Application 
+                    </a>
+                </li>*@
+
+                    @* id="NewRegistrationTile" style="display: none"*@
+                    <li class="col-md-4 col-sm-6 col-xs-12" id="NewRegistrationTile" style="display: none">
+                        <a href="@Url.Action("RegistrationInstructions", "NUH")" class="red">
+                            <img src="@Url.Content("~/images/print_icon.png")"><br />
+                            New Registration Application Form
+                        </a>
+                    </li>
+                    <li class="col-md-4 col-sm-6 col-xs-12" id="RNewRegistrationTile" style="display: none">
+                        <a href="@Url.Action("RegistrationInstructionsRenew", "NUH")" class="red">
+                            <img src="@Url.Content("~/images/print_icon.png")"><br />
+                            Renew Registration Application Form
+                        </a>
+                    </li>
+                    <li class="col-md-4 col-sm-6 col-xs-12" id="ViewSubmittedTile">
+                        <a href="@Url.Action("ViewNUHList", "NUH")" class="indigo">
+                            <img src="@Url.Content("~/images/view_icon.png")"><br />
+                            View Submitted Application Status 
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        debugger
+        if ('@TempData["Message"]' != '') {
+
+            $('#NewRegistrationTile').show();
+            $('#RNewRegistrationTile').show();
+            swal("", '@TempData["Message"]', 'success');
+
+        }
+
+
+        else if ('@TempData["Event"]' != '') {
+
+            $('#NewRegistrationTile').show();
+            $('#RNewRegistrationTile').show();
+
+        }
+
+        if ('@TempData["affidavitFile"]' != '') {
+
+            $('#NewRegistrationTile').hide();
+            $('#RNewRegistrationTile').hide();
+            //$('#NewRegistrationTile').prop('disable', true);
+            //$('#RNewRegistrationTile').prop('disable', true);
+
+        }
+        else {
+
+
+            $('#NewRegistrationTile').show();
+            $('#RNewRegistrationTile').show();
+
+        }
+
+
+        if ('@TempData["AffidavitUploadMessage"]' != '') {
+
+            $('#NewRegistrationTile').hide();
+            $('#RNewRegistrationTile').hide();
+            swal("", '@TempData["AffidavitUploadMessage"]', 'success');
+
+        }
+
+        @*if ('@TempData["FormNotSubmitted"]' != '') {
+            var tempdata = '@TempData["FormNotSubmitted"]';
+            if (tempdata == 'Submitted') {
+
+                $('#NewRegistrationTile').hide();
+                $('#RNewRegistrationTile').hide();
+
+            }
+        }*@
+
+    });
+
+</script>
+

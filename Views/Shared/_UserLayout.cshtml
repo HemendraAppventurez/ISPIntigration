@@ -1,0 +1,506 @@
+﻿<!DOCTYPE html>
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+}
+<html class=" gecko win js" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title Health and Family Welfare Department Uttar Pradesh</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/app.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/essentials.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/extra.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/nanoscroller.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/css/datepicker.css">
+    <link href="~/css/sweetalert.css" rel="stylesheet" />
+    <style>
+        #dvLoader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            background: #000;
+            opacity: 0.7;
+            filter: alpha(opacity=50);
+            display: none;
+            z-index: 99999;
+        }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin: -28px 0 0 -25px;
+            z-index: 99999;
+        }
+    </style>
+
+    <script type="text/javascript" src="~/js/jquery-1.11.3.min.js"></script>
+    @*<script type="text/javascript" src="~/js/app.js"></script>*@
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.nicescroll.js"></script>
+    <script type="text/javascript" src="~/js/datepicker.js"></script>
+    <script type="text/javascript" src="~/js/datepicker.en.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/sweetalert.min.js"></script>
+    <script src="~/js/md5.js"></script>
+    <script type="text/ecmascript">
+
+    </script>
+    <style>
+        .left_logo_head h2 {
+            padding-top: 0px;
+            font-size: 40px;
+            font-weight: 500;
+            /*font-family: 'Arial Rounded MT','regular';*/
+            color: #02486d;
+            padding-bottom: 5px;
+        }
+
+        .left_logo_head p {
+            font-size: 15px;
+            font-weight: 500;
+            font-family: "Open Sans", sans-serif;
+            font-weight: bold;
+            color: #02486d;
+            margin: 0;
+        }
+
+        a.btnnivesh {
+            color: #fff;
+            padding: 11px 8px;
+            background: #3682b7;
+        }
+    </style>
+</head>
+<body>
+    <div id="app-wrapper" class="app-hide-lpanel">
+
+        <div id="app-container">
+
+            <aside id="app-left-panel">
+                <div class="profile-box">
+                    <div class="media">
+                        <a class="avtarpic" href="javascript:void(0)">
+                            <img class="img-circle" src="@Url.Content(SM.ProfilePicPath)">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">@SM.DisplayName</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nano-content" id="demo" style="height: 79vh">
+                    <ul class="nav panel-list">
+
+                        @{ 
+                            if (SM.ControlID != "" && SM.UnitID != "" && SM.ServiceID != "" && SM.RequestID != "")
+                            {
+                                
+                            <li>
+                                <a href="@Url.Action("Dashboard", "Home")">
+                                    <i class="fa fa-tachometer ion"></i>
+                                    <span class="menu-text2">Dashboard</span>
+                                </a>
+                            </li>
+                            }
+                            
+                            //hemendra
+                            else   
+                            {
+                                if (SM.IspFlag == true)
+                                {                                  
+                                         @*<li>
+                                <a href="@Url.Action("Dashboard", "Home")">
+                                    <i class="fa fa-tachometer ion"></i>
+                                    <span class="menu-text2">Dashboard</span>
+                                </a>
+                            </li>*@
+                                    if (SM.ServiceCode == "")
+                                    {
+                              <li>
+                                <a href="@Url.Action("isRegister", "NUH")">
+                                    <i class="ion">1</i>
+                                    <span class="menu-text">Registration of Medical Establishment</span>
+                                </a>
+                            </li>
+                                    }
+
+                                    if (SM.ServiceCode == "IVT53")
+                                    {
+                                          <li>
+                                <a href="@Url.Action("isRegister", "ILC")">
+                                    <i class="ion">2</i>
+                                    <span class="menu-text">Issuance of Illness Certificate </span>
+                                </a>
+                            </li>
+                                    }
+
+
+                                    if (SM.ServiceCode == "ISY70")
+                                    {
+                                        <li>
+                                <a href="@Url.Action("isRegister", "FIC")">
+                                    <i class="ion">3</i>
+                                    <span class="menu-text">Issuance of Fitness Certificates</span>
+                                </a>
+                            </li>
+                                    }
+                                    
+
+                                    if (SM.ServiceCode == "DRP71")
+                                    {
+                            <li>
+                                <a href="@Url.Action("isRegister", "DIC")">
+                                    <i class="ion">4</i>
+                                    <span class="menu-text">Issuance of Disability Certificate</span>
+                                </a>
+                            </li>
+                                    }
+                                    if (SM.ServiceCode == "IPN95")
+                                    {
+                            <li>
+                                <a href="@Url.Action("isRegister", "IMC")">
+                                    <i class="ion">5</i>
+                                    <span class="menu-text">Issuance of Immunization Certificate</span>
+                                </a>
+                            </li>
+                                    }
+
+                                    if (SM.ServiceCode == "DVI93")
+                                    {
+                            <li>
+                                <a href="@Url.Action("DECDashBoard", "DEC")">
+                                    <i class="ion">6</i>
+                                    <span class="menu-text">Issuance of Death Certificate</span>
+                                </a>
+                            </li>
+                                    }
+
+                                    if (SM.ServiceCode == "UVI24")
+                                    {
+                            <li>
+                                <a href="@Url.Action("isRegister", "FAP")">
+                                    <i class="ion">7</i>
+                                    <span class="menu-text">Payment for Unsuccessful
+                                    <br>
+                                        Family Planning
+                                    </span>
+                                </a>
+                            </li>
+                                    }
+                                    if (SM.ServiceCode == "MYX79")
+                                    {
+                            <li>
+                                <a href="@Url.Action("isRegister", "MER")">
+                                    <i class="ion">8</i>
+                                    <span class="menu-text">Payment of Medical Reimbursement</span>
+                                </a>
+                            </li>
+                                    }
+
+                                    if (SM.ServiceCode == "MUD38")
+                                    {
+                            <li>
+                                <a href="@Url.Action("MLCDashBoard", "MLC")">
+                                    <i class="ion">9</i>
+                                    <span class="menu-text">Issuance of Medico- Legal Certificate</span>
+                                </a>
+                            </li>
+                                    }
+                                    if (SM.ServiceCode == "AEF80")
+                                    {
+                            <li>
+                                <a href="@Url.Action("isRegister", "AGC")">
+                                    <i class="ion">10</i>
+                                    <span class="menu-text">Issuance of Age Certificate</span>
+                                </a>
+                            </li>
+                                    }
+                                    if (SM.ServiceCode == "IBV84")
+                                    {
+                            <li>
+                                <a href="@Url.Action("isRegister", "ICC")">
+                                    <i class="ion">11</i>
+                                    <span class="menu-text">Issuance of Immunization Certificate for Children</span>
+                                </a>
+                            </li>
+                        } 
+                        
+                        // hemendra
+                                
+                                    }
+
+                                    else
+                                    {
+                                
+                            <li>
+                                <a href="@Url.Action("Dashboard", "Home")">
+                                    <i class="fa fa-tachometer ion"></i>
+                                    <span class="menu-text2">Dashboard</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "NUH")">
+                                    <i class="ion">1</i>
+                                    <span class="menu-text">Registration of Medical Establishment</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "ILC")">
+                                    <i class="ion">2</i>
+                                    <span class="menu-text">Issuance of Illness Certificate </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "FIC")">
+                                    <i class="ion">3</i>
+                                    <span class="menu-text">Issuance of Fitness Certificates</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "DIC")">
+                                    <i class="ion">4</i>
+                                    <span class="menu-text">Issuance of Disability Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "IMC")">
+                                    <i class="ion">5</i>
+                                    <span class="menu-text">Issuance of Immunization Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("DECDashBoard", "DEC")">
+                                    <i class="ion">6</i>
+                                    <span class="menu-text">Issuance of Death Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "FAP")">
+                                    <i class="ion">7</i>
+                                    <span class="menu-text">Payment for Unsuccessful
+                                    <br>
+                                        Family Planning
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "MER")">
+                                    <i class="ion">8</i>
+                                    <span class="menu-text">Payment of Medical Reimbursement</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("MLCDashBoard", "MLC")">
+                                    <i class="ion">9</i>
+                                    <span class="menu-text">Issuance of Medico- Legal Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "AGC")">
+                                    <i class="ion">10</i>
+                                    <span class="menu-text">Issuance of Age Certificate</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("isRegister", "ICC")">
+                                    <i class="ion">11</i>
+                                    <span class="menu-text">Issuance of Immunization Certificate for Children</span>
+                                </a>
+                            </li>
+                                    }
+                                }
+                            }
+                    </ul>
+                </div>
+            </aside>
+
+            <section id="main-content">
+                <header id="app-header">
+                    @{ 
+                        if (SM.ControlID != "" && SM.UnitID != "" && SM.ServiceID != "" && SM.RequestID != "")
+                        {
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background: white; padding-left: 0px; padding-right: 0px; border: 1px solid #E1E1E1;">
+                            <div class="col-md-3 col-lg-3 left_logo_head" style="text-align: left;">
+                                <a href="http://up.gov.in/" target="_blank" onclick="return confirm('You are being redirected to an external website.');">
+                                    <img id="Image12" title="Govt. of Uttar Pradesh " class="img-circle" src="../images/govt_up.png" style="float: left; padding: 10px; width: 34%;"></a>
+                            </div>
+                            <div class="col-md-6 col-lg-6 left_logo_head " style="text-align: center;">
+                                <h2 style="margin-top: 0px; margin-bottom: 0px;" id="chg_head">Nivesh Mitra</h2>
+                                <p><span style="font-size: 20px;">Single Window System,Govt. of Uttar Pradesh</span> </p>
+                            </div>
+                            <div class="col-md-2 col-lg-2 left_logo_head_2">
+                                <div style="margin-top: 45px;">
+                                    <a class="btnnivesh" href="@Url.Action("BackToNiveshMitra", "NUH")"><i class="fa fa-arrow-circle-left"></i>Go Back</a>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-lg-1 left_logo_head" style="text-align: right;">
+                                <a href="http://udyogbandhu.com/" target="_blank" onclick="return confirm('You are being redirected to an external website.');">
+                                    <img id="Image17" src="../images/Invest_UP.png" style="width: 85%; padding-top: 10px;">
+                                </a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div style="text-align: center; font-weight: 600; border-top: 1px solid #E1E1E1; width: 100%; padding: 5px 15px; font-size: 15px;">
+                                Department of Medical Health and Family Welfare Government of Uttar Pradesh
+                                 <a href="@Url.Action("Dashboard", "Home")" class="btn btn-primary btn-xs" style="margin: -2px 0 0 0; position: absolute; right: 15px;">
+                                     <i class="fa fa-tachometer ion"></i>
+                                     <span class="menu-text2">Dashboard</span>
+                                 </a>
+                            </div>
+                        </div>
+                        }
+                        else
+                        {
+                        <div class="app-right-header">
+                            <span class="app-sidebar-toggle"><a href="javascript:;"></a></span>
+                            <span class="deptname">
+                                <img src="~/images/logo.png" alt="" class="img-responsive" /></span>
+                            <ul class="right-navbar">
+                                <li class="dropdown app-rheader-submenu app-header-profile">
+                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span>
+                                            <img class="img-circle " src="@Url.Content(SM.ProfilePicPath)"></span>
+                                        <span><b>@SM.DisplayName </b><i class=" fa fa-angle-down"></i></span>
+                                    </a>
+                                    <ul class="dropdown-menu ">
+
+                                        @{ 
+                            if (SM.ControlID != "" && SM.UnitID != "" && SM.ServiceID != "" && SM.RequestID != "")
+                            {
+                                       
+                                            <li><a href="@Url.Action("LogOut", "Account")"><i class="fa fa-sign-out"></i>Logout</a></li>
+                            }
+                            else
+                            {
+                                            
+                                            <li><a href="@Url.Action("MyProfile", "Account")"><i class="fa fa-user"></i>My Profile</a></li>
+                                            <li><a href="@Url.Action("ChangePassword", "Account")"><i class="fa fa-unlock-alt"></i>Change Password</a></li>
+@*<li><a href="javascript:void(0)"><i class="fa fa-envelope-o"></i>Message</a></li>*@
+                                            <li><a href="@Url.Action("LogOut", "Account")"><i class="fa fa-sign-out"></i>Logout</a></li>
+                                            
+                                            
+                            }
+                                        }
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        }
+                    }
+                </header>
+
+                @RenderBody()
+                <div id="dvLoader">
+                    <img src="@Url.Content("~/Images/loadingImg.gif")" alt="not showing" id="loading" />
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@SM.ControlID' != "" && '@SM.UnitID' != "" && '@SM.ServiceID' != "" && '@SM.RequestID' != "") {
+                $("#app-left-panel").hide();
+                $("#main-content").css({ "margin-left": "0" });
+            }
+        });
+
+        $(document).ajaxError(function (xhr, props) {
+            $("#dvLoader").hide();
+            if (props.status === 401) {
+                location.reload();
+            }
+        });
+
+
+
+        $(document).ajaxStart(function () {
+            $("#dvLoader").show();
+        });
+        $(document).ajaxComplete(function (event, request, settings) {
+            $("#dvLoader").hide();
+        });
+
+
+    </script>
+
+    <script type="text/javascript">
+        /*To retain on the same view on Back Click*/
+        history.pushState(null, null, window.location.href);
+        window.addEventListener('popstate', function (event) {
+            history.pushState(null, null, window.location.href);
+            event.preventDefault();
+        });
+    </script>
+
+    <script>
+        $(".file-3").on("change", function () {
+            var id = $(this).attr('id');
+            if (id == 'file-none') {
+                $("#file-hide2").hide();
+            }
+            else {
+                $("#file-hide2").show();
+            }
+
+        });
+
+        $(function () {
+            $("#demo").customScroll({ scrollbarWidth: 5 });
+        });
+
+        $(document).ready(function () {
+            $("#disposal-file-hide").hide();
+            $("#file-hide2").hide();
+            $('a').each(function () {
+                if (location.href === this.href) {
+                    $(this).addClass('active');
+                    $('a').not(this).addClass('none');
+                    return false;
+                }
+            });
+
+            $('.datepicker-here').datepicker({
+                autoClose: true
+            });
+        });
+
+
+        $(".disposal2").on("change", function () {
+            var id = $(this).attr('id');
+            if (id == 'disposalno') {
+                $("#disposal-file-hide").hide();
+            }
+            else {
+                $("#disposal-file-hide").show();
+            }
+
+        });
+
+        $("#death").click(function () {
+            $("#deathnone").toggle();
+        });
+
+        $(window).scroll(function () {
+            var height = $(window).scrollTop();
+            if (height > 90) {
+                $(".content-title").addClass("titelFxd");
+            }
+            if (height < 90) {
+                $(".content-title").removeClass("titelFxd");
+            }
+        });
+
+    </script>
+
+
+</body>
+</html>

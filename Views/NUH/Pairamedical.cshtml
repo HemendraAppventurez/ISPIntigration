@@ -1,0 +1,234 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.PairamedicalModel
+@{
+    ViewBag.Title = "Pairamedical";
+    Layout = "~/Views/Shared/_PublicLayout1.cshtml";
+}
+
+@*@using (Html.BeginForm("Pairamedical", "NUH", FormMethod.Post))
+{ *@
+   <div style="text-align: right; padding-bottom: 10px; width: 900px; margin: -30px auto 0;">
+        <button type="button" class="btn btn-default btn-primary" data-print="modal" onclick="PrintDoc()">Print</button>
+    </div>
+    <div id="prodiv">
+        @Html.HiddenFor(m => m.regisIdNUH)
+        @Html.HiddenFor(m => m.registrationNo);
+        @Html.HiddenFor(m => m.isRenewal)
+
+        @foreach (var item in Model.Paramedicallist)
+        {
+            <div style="width: 900px; margin: 0 auto 10px; padding: 15px; background-color: #fff; page-break-after: always;">
+                <table border="0" style="width: 100%; border-collapse: collapse; font-family: 'Lato', sans-serif; line-height: 2.5;" id="tblHead" >
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center; border-bottom: 1px solid #000;" colspan="3">
+                                <div style="font-size: 1.35rem; font-weight: 600;">चिकित्सक/पैरामेडिकल/अन्य का शपथ पत्र</div>
+                                <div style="font-size: 1.05rem; font-weight: 600;">समक्ष: मुख्य चिकित्सा अधिकारी, (जिले का नाम)</div>
+                            </td>
+                        </tr>
+
+                       
+
+                       @* @Html.HiddenFor(m => m.doctorId )*@
+                        <tr >
+                            <td colspan="3" style="padding-top: 15px;">
+                                
+                                <p>प्रमाणित किया जाता है कि मै, शपथी श्री / <strong><u>@item.doctorName</u></strong> आयु  लगभग <strong><u>@item.doctorAge</u> </strong>वर्ष पुत्र <strong><u>श्री @item.doctorFathersName </u></strong>निवासी <strong><u>@item.doctoraddress</u></strong> का हूँ तथा शपथपूर्वक निम्न बयान करता हूँ :-</p>
+                                <ol>
+                                    <li>यह कि शपथी (भारतीय चिकित्सा परिषद / अन्य / उत्तर प्रदेश फार्मेसी / स्टेट मेडिकल काउन्सिल लखनऊ) से एक रजिस्टर्ड डाक्टर है जिसका रजिस्ट्रेशन नम्बर <strong><u>@item.doctorregistrationNo </u></strong>है जो @*वर्ष <strong><u>@item.dyear</u> </strong>तक*@ वैध है। पंजीकरण प्रमाण - पत्र की छायाप्रति संलग्न है।</li>
+                                    <li>यह कि शपथी यूनिट में <strong><u>@item.doctorPart_FullTime</u></strong> @*(पूर्णकालिक / अंशकालिक / ऑन - कॉल ) *@@*कार्यरत पूर्णकालिक*@ कार्यरत हूँ।</li>
+                                    <li>यह कि शपथी किसी सरकारी / अर्द्धसरकारी / गैर - सरकारी / अन्य प्रतिष्ठान में पूर्णकालिक / अंशकालिक / ऑन - कॉल कार्यरत नही है। </li>
+                                    <li>यह कि शपथी उपरोक्त प्रतिष्ठान से जब भी कार्य छोङेगा इसकी सूचना प्रतिष्ठान के स्वामी तथा अधोहस्ताक्षरी कार्यालय को एक माह पूर्व दे देगा। </li>
+                                </ol>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="2" style="text-align: center; width: 35%">
+                                <strong>शपथी</strong><br />
+                                <img src="@item.dsignature" height="50px " width="200px" /><br />
+                                <strong>(@item.doctorName)</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <strong>स्थानः @item.doctoraddress </strong><br />
+                                @*<strong>दूरभाष संख्या :  </strong>*@
+                                <br />
+@*                                <strong>मोबाइल नम्बरः @item.ownerMobileNo</strong><br />*@
+                                <strong>दिनांक: @item.GetDate</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center;">
+                                <div style="font-size: 1.05rem; font-weight: 600;"><strong><u>सत्यापन</u></strong></div>
+                            </td>
+                        </tr>
+                        <tr class="tbllist">
+                            <td colspan="3">
+                              @*<input type="hidden" value="@item.doctorId" name="doctorId" class="doctorId"/>*@
+                            @* <input type="hidden" value="@item.isParamedicaDeclared" name="isParamedicaDeclared"/>*@
+                                <p>
+                                 
+                                    <input type="checkbox" name="isParamedicaDeclared" value="@item.doctorId"  class="doctorId" required = "required"  />
+                                   @* @Html.CheckBoxFor(m => m.isParamedicaDeclared, new { required = "required", @class = "isDeclared" }) *@&nbsp; मै शपथी <strong><u>@item.doctorName</u></strong> उपरोक्त शपथ - पत्र की धारा - 1 से 4 तक सत्यापित करता हूँ जो कि मेरे निजी ज्ञान में सत्य है। पंजीकरण आवेदन पत्र में किसी  भी तथ्य का न भ्रामक ढंग से लिखा गया है और न ही इसमें कुछ छिपाया गया है। अगर कोई असत्य तथ्य संज्ञान में आता है तो कानूनी कार्यवाही के लिए शपथी पूर्ण रूप से जिम्मेदार होगा।
+                                <br />
+                                    आज दिनांक <strong><u>@item.GetDate</u></strong> को अपने हस्ताक्षर  बनाकर सत्यापित किया।
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="2" style="text-align: center; width: 35%">
+                                <strong>शपथी</strong><br />
+                                <img src="@item.dsignature" height="50px " width="200px" /><br />
+                                <strong>(@item.doctorName)</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <strong>स्थानः @item.doctoraddress </strong><br />
+                               @* <strong>मोबाइल नम्बरः @item.ownerMobileNo</strong><br />*@
+                                <br />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+        }
+@*        @Html.HiddenFor(m => m.isParamedicaDeclared)*@
+        <input type="hidden" name="isParamedicaDeclared" />
+         <input type="hidden" name="NuhId" value="@Model.regisIdNUH" id="NuhId"/>
+    </div>
+    <div style="width: 900px; margin: 10px auto; padding: 10px; background-color: #fff; text-align: center">
+       
+        <button class="btn btn-success" type="button" onclick="btnsave()" id="btnsubmit">Submit</button>
+    </div>
+ @*   
+}*@
+
+
+
+
+
+<script>
+
+    //$("#btnsubmit").click(function () {
+    //var check = $('input[name=isParamedicaDeclared]:checked').length > 0
+    //// alert(check);
+    //var isOk = true;
+    //debugger;
+    //$(".doctorId").each(function () {  ///call  input box validate class here each box
+    //    if (check == false) {
+    //        $(this).focus().click();
+
+    //        swal({ title: "Pls seleced checkbox checked!", text: $(this).attr("data-err"), type: "warning", html: true, confirmButtonText: "OK" });
+    //        isOk = false;
+    //        return false;
+    //        //return isOk;
+    //    }
+           
+    //});
+    //return isOk;
+    //});
+
+
+    function btnsave() {
+        debugger;
+        var check = $('input[name=isParamedicaDeclared]:checked').length > 0
+        // alert(check);
+        var isOk = true;
+        debugger;
+        $(".doctorId").each(function () {  ///call  input box validate class here each box
+            if (check == false) {
+                //$(this).focus().click();
+
+                swal({ title: "Please checked checkbox !", text: $(this).attr("data-err"), type: "warning", html: true, confirmButtonText: "OK" });
+                isOk = false;
+                return false;
+
+            }
+        });  
+             
+        if (check == true) {
+            var list = [];
+            var model = new Object();
+            // model.isParamedicaDeclared = $(".doctorId").val();
+            model.isParamedicaDeclared = check;
+            model.NuhId = $("#NuhId").val();
+            model.isRenewal = $("#isRenewal").val();
+            $('.tbllist td').each(function (e) {
+                var obj1 = new Object();
+
+                if ($(this).find('.doctorId').is(":checked")) {
+                    obj1.doctorId = $(this).find("input[name='isParamedicaDeclared']").val();
+                    //obj1.isParamedicaDeclared = $(this).find("input[name='isParamedicaDeclared']").val();
+                    //obj1.doctorId = $(this).find("input[name='doctorId']").val();
+
+                }
+
+                list.push(obj1)
+
+            })
+            model.doctorlist = JSON.stringify(list);
+
+            debugger;
+
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: '@Url.Action("Pairamedical", "NUH")',
+                data: (model),
+                dataType: 'json',
+                success: function (data) {
+                    if (data != null) {
+                        if (data.isSuccess == 1) {
+                            var redUrl = '@Url.Action("RegistrationConfirmation","NUH")' + '?isRenewal=' + data.isRenewal;
+                            //  alert(redUrl);
+                            window.location.href = redUrl;
+                        }
+                        else {
+                            alert(data.message);
+                        }
+                    }
+                    else {
+                        alert("Some error Occured");
+                    }
+                },
+                error: function (error) {
+                    alert("Some error Occured");
+                }
+            });
+        }
+        else {
+            return false;
+        }
+            
+
+        
+        //return isOk;
+    }
+</script>
+
+
+ 
+<script>
+    function PrintDoc() {
+        // $('#tableID').DataTable().destroy();
+        var toPrint = document.getElementById('prodiv');
+
+        var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+        popupWin.document.open();
+
+        popupWin.document.write('<html><title>::Paramedical::</title><head><style>body{font-family:Arial} .noprint{display: none;} table{width:100%; border-collapse:collapse;} .table tr th, .table tr td{border:1px solid #000; padding:3px 5px; font-size: 12px;}</style></head><body onload="window.print()">')
+
+        popupWin.document.write(toPrint.innerHTML);
+
+        popupWin.document.write('</body></html>');
+
+        popupWin.document.close();
+
+        // $('#tableID').DataTable();
+    }
+</script>

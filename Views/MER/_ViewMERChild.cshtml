@@ -1,0 +1,60 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.MERModel>
+<style>
+    .webgrid-header {
+        color: white;
+        background-color: lightblue;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+<div class="col-md-12">
+    <div class="panel-body">
+        @if (Model != null && Model.Count() > 0)
+        {
+            WebGrid grid = new WebGrid(Model, canPage: false, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+            <div id="divDataList" class="table-responsive">
+                @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S.No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("BillName",header: "Bill Type"),
+            grid.Column("billNo", header: "Bill No."),
+            grid.Column("billdate", header: "Date",format:@<text>  @DateTime.Parse(@item.billdate).ToShortDateString() </text>),
+            grid.Column("billAmount", header: "Amount",format:@<text>  @item.billAmount </text>, style: "amount"),
+            grid.Column("billFilePath", header: "Download",format :@<text>
+                @if (@item.billFilePath == "Submitted By CMO")
+                {
+                @item.billFilePath
+                }
+                else
+                {
+                <a href="@Url.Content(@item.billFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                }
+                </text>)
+
+            ))
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var total = 0;
+        $('#divDataList .amount').each(function () {
+            total = total + parseFloat($(this)[0].innerHTML.toLocaleString());
+        });
+        $('#divDataList tbody').append('<tr><td colspan="4" style="text-align:right;"><b>Total</b></td><td><b>' + total.toFixed(2) + '</b></td></tr>');
+    });
+</script>

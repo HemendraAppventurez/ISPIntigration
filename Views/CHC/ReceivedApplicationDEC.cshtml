@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "ReceivedApplicationDEC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">मृत्यु का कुल लंबित आवेदन<span class="small display-block">Total Pending Application for Death Certificate</span></div>
+
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Application No.</label>
+                                <input type="text" id="txtAppNumber" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Application Date</label>
+                                <input type="text" id="txtAppDate" class="datepicker-here form-control" data-language="en" placeholder="dd/mm/yyyy" readonly="readonly" />
+                            </div>
+                        </div>
+                       @* <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Application Status</label>
+                                @Html.DropDownList("ddlAppStatus", (IEnumerable<SelectListItem>)ViewBag.DLLAppStatus, "--Select--", new { @class = "form-control" })
+                            </div>
+                        </div>*@
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                    @Html.Action("ReceivedApplicationListDEC", "CHC")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(function () {
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+
+        $("#btnSearch").click(function () {
+            bindApplicationList($("#txtAppNumber").val().trim(), $("#txtAppDate").val().trim());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#txtAppNumber").val('');
+           
+            $("#txtAppDate").val('');
+
+            bindApplicationList($("#txtAppNumber").val().trim(), $("#txtAppDate").val().trim());
+        });
+
+    });
+
+    function bindApplicationList(_registrationNo, _appDate) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("ReceivedApplicationListDEC", "CHC")',
+            data: { registrationNo: _registrationNo, appDate: _appDate },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+
+    function GenrateCertificateDEC(obj) {
+        
+        var _regisId = $(obj).attr("data-regisId");
+      
+        $.ajax({
+            url: '@Url.Action("GenrateCertificateDEC", "CHC")',
+            data: { regisId: _regisId },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            if (returndata.split('_')[0] == "success") {
+
+                bindApplicationList($("#txtAppNumber").val().trim(), $("#txtAppDate").val().trim());
+
+                var url = '@Url.Action("DECgeneratedCertificate", "CHC")';
+
+                window.open(url + "?regisIdDEC=" + returndata.split('_')[1], '_blank');
+            }
+            else {
+                swal("", 'Error at generate certificate.', "error");
+            }
+        })
+        .error(function (xhr, status) {
+            swal("", 'Error at generate certificate.', "error");
+        });
+    }
+
+</script>
+

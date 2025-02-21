@@ -1,0 +1,667 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.AGCModel
+@{
+    ViewBag.Title = "AGCRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+<style>
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Application for <strong>Age Certificate</strong></h3>
+
+</div>
+
+@using (Html.BeginForm("AGCRegistration", "AppRegistration", FormMethod.Post, new { @id = "frmData" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="content" class="dashboard padding-20 margin-bottom-50">
+        @if (Model.step == 0 || Model.stepValue == 0)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading bg-redd">
+                            <span class="title elipsis">
+                                <h4 class="color-white">Step 1</h4>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Requester's Details</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Requested By <span class="star">*</span></label>
+                                        <div class="rbtnApType form-control">
+                                            @foreach (var v in ViewBag.ApplicantType)
+                                            {
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="applicantTypeId" id="applicantTypeIdR"  value="@v.Value">
+                                                    @v.Text
+                                                </label>
+                                            }
+                                        </div>
+                                     
+                                        @Html.ValidationMessageFor(m => m.applicantTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div id="divReqByType" class="col-md-4" style="display: none;">
+                                    <div class="form-group">
+                                        <label><span id="lblReqByType"></span>&nbsp;<span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.applicantSubTypeId, (IEnumerable<SelectListItem>)ViewBag.ApplicantSubType, "--Select--", new { @class = "form-control", @tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.applicantSubTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div id="divReqByTypeOther" class="col-md-4" style="display: none;">
+                                    <div class="form-group">
+                                        <label>Other&nbsp;<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.applicantSubTypeOther, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.applicantSubTypeOther, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <label>Order Details <span class="star">*</span></label>
+                                    @Html.TextAreaFor(m => m.orderDetail, new { @class = "form-control", tabindex = "1",@maxlength = "50" })
+                                    @Html.ValidationMessageFor(m => m.orderDetail, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Order/Index Number <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.orderNo,"{0:#.#}", new { @class = "form-control", tabindex = "1" ,@maxlength = "50"})
+                                    @Html.ValidationMessageFor(m => m.orderNo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Order Date <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.orderDate, new { @class = "datepicker-here form-control", tabindex = "3", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.orderDate, "", new { @class = "text-danger" })
+                                </div>
+                               @* <div class="col-md-2">
+                                    <label>Upload<span class="star">*</span></label>
+                                    <div class="fileUpload3">
+                                        <span>Upload</span>
+                                        @Html.TextBoxFor(m => m.orderFile, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                        @Html.HiddenFor(m => m.orderFilePath)
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.orderFile, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group padding-top-30" id="orderFileVALUE" style="display: none;">
+                                        @if (Model != null && !string.IsNullOrEmpty(Model.orderFilePath))
+                                        {
+                                            <a href="@Url.Content(Model.orderFilePath)" id="orderFiledoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" id="orderFiledoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                    </div>
+                                    <div class="col-md-1">
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Brought by Details/Self</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fullName, new { @class = "form-control", tabindex = "1",@maxlength = "100"})
+                                        @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Gender <span class="star">*</span></label>
+                                        <div class="form-control">
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(m => m.gender, "Male")
+                                                Male
+                                            </label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(m => m.gender, "Female")
+                                                Female
+                                            </label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(m => m.gender, "Transgender")
+                                                Transgender
+                                            </label>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.gender, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>ID Number <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.idNumber, new { @class = "form-control", tabindex = "1",@maxlength = "50"})
+                                        @Html.ValidationMessageFor(m => m.idNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>ID Type <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.idTypeId, (IEnumerable<SelectListItem>)ViewBag.IdType, "Select ID", new { @class = "form-control", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.idTypeId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.idTypeId)
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mobile Number  <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.applicantMobileNo, new { @class = "form-control", tabindex = "1", @maxlength = "10", @onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.applicantMobileNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", tabindex = "1",@maxlength = "50" })
+                                        @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Address <span class="star">*</span></label>
+                                        @Html.TextAreaFor(m => m.address, new { @class = "form-control", tabindex = "1",@maxlength = "250" })
+                                        @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>State <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.stateId, (IEnumerable<SelectListItem>)ViewBag.State, new { @class = "form-control", @readonly = "true", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.stateId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.stateId)
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>District <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.districtId, (IEnumerable<SelectListItem>)ViewBag.District, "Select District", new { @class = "form-control", tabindex = "1", })
+                                        @Html.ValidationMessageFor(m => m.districtId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.districtId)
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Pin code <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", tabindex = "1", @maxlength = "6" , @onkeypress = "return isNumberKey(event);"})
+                                        @Html.ValidationMessageFor(m => m.pinCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                               @* <div class="col-md-2">
+                                    <label>Upload Document <span class="star">*</span></label>
+                                    <div class="fileUpload3">
+                                        <span>Upload</span>
+                                        @Html.TextBoxFor(m => m.documentFile, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                        @Html.HiddenFor(m => m.documentFilePath)
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.documentFile, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group padding-top-30" id="documentFileVALUE" style="display: none;">
+                                        @if (Model != null && !string.IsNullOrEmpty(Model.documentFilePath))
+                                        {
+                                            <a href="@Url.Content(Model.documentFilePath)" id="documentFiledoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" id="documentFiledoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Person's details </h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.susName, new { @class = "form-control", tabindex = "1" ,@maxlength = "50"})
+                                        @Html.ValidationMessageFor(m => m.susName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Father`s Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.susFatherName, new { @class = "form-control", tabindex = "1" ,@maxlength = "50"})
+                                        @Html.ValidationMessageFor(m => m.susFatherName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mother’s Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.susMotherName, new { @class = "form-control", tabindex = "1",@maxlength = "50" })
+                                        @Html.ValidationMessageFor(m => m.susMotherName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Father Age</label>
+                                        @Html.TextBoxFor(m => m.susFatherAge,"{0:#.#}", new { @class = "form-control", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.susFatherAge, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mother Age</label>
+                                        @Html.TextBoxFor(m => m.susMotherAge, "{0:#.#}",new { @class = "form-control", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.susMotherAge, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mobile Number</label>
+                                        @Html.TextBoxFor(m => m.susMobileNo, new { @class = "form-control", tabindex = "1", @maxlength = "10" , @onkeypress = "return isNumberKey(event);"})
+                                        @Html.ValidationMessageFor(m => m.susMobileNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        @Html.TextBoxFor(m => m.susEmail, new { @class = "form-control", tabindex = "1" ,@maxlength = "50"})
+                                        @Html.ValidationMessageFor(m => m.susEmail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Date of Appointment <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.appointmentDate, new { @class = "datepicker-here form-control", tabindex = "3", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+                                        @Html.ValidationMessageFor(m => m.appointmentDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Address <span class="star">*</span></label>
+                                        @Html.TextAreaFor(m => m.susaddress, new { @class = "form-control", tabindex = "1",@maxlength = "250" })
+                                        @Html.ValidationMessageFor(m => m.susaddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>State <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.susstateId, (IEnumerable<SelectListItem>)ViewBag.State, new { @class = "form-control", @readonly = "true", tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.susstateId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.susstateId)
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>District <span class="star">*</span></label>
+                                        @Html.DropDownListFor(m => m.susdistrictId, (IEnumerable<SelectListItem>)ViewBag.District, "Select District", new { @class = "form-control", tabindex = "1",@readonly="readonly" })
+                                        @Html.ValidationMessageFor(m => m.susdistrictId, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.susdistrictId)
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Pin code <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.suspinCode, new { @class = "form-control", tabindex = "1", @maxlength = "6", @onkeypress = "return isNumberKey(event);" })
+                                        @Html.ValidationMessageFor(m => m.suspinCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                 <div class="clearfix"></div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mark Of Identification<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.markOfIdentification, new { @class = "form-control", tabindex = "1",@maxlength = "150"})
+                                        @Html.ValidationMessageFor(m => m.markOfIdentification, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    @*@if (Model.step <= 1 && Model.step != 0 && Model.step - 1 == Model.stepValue && Model.stepValue != -1)*@
+                                    @if (Convert.ToInt32(Session["UpdateStep"].ToString()) >= 1)
+                                    {
+                                        <div class="col-md-2">
+                                            <a href="@Url.Action("AGCRegistration", "appRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdAGC.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) + 1),
+                                            UpdateStep = 0
+                                        })" class="btn btn-block btn-success">Next</a>
+                                        </div>  
+                                    }
+                                    <div class="col-md-3 col-md-offset-4">
+                                        <button type="submit" class="btn btn-block btn-primary">Save and Continue</button>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="#" class="btn btn-block btn-warning">Reset</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Model.step == 1 || Model.stepValue == 1)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading bg-redd">
+                            <span class="title elipsis">
+                                <h4 class="color-white">Step 2</h4>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+  <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Check List</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <span id="spanmember" style="display: none" class="text-danger">Please select All Document as they are required</span>
+                            <div class="row">
+                                @foreach (var v in ViewBag.DocumnetCheckListAGC)
+                                {
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <i class="hidden">@v.Value</i>
+                                            <label class="l-20">@v.Text</label>
+                                            <span id="@v.Value" class="text-danger">*</span>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="checkbox" name="chk_checkList" value="@v.Value">
+                                        </div>
+                                    </div>
+                                }
+
+
+
+                            </div>
+                            <div class="row">
+                                Note:-Kindly collect photo copy of document checked by you.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                   
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <a href="@Url.Action("AGCRegistration", "AppRegistration",
+                                        new
+                                        {
+                                            regisId = @OTPL_Imp.CustomCryptography.Encrypt(@Model.regisIdAGC.ToString()),
+                                            stepValue = (Convert.ToInt32(Session["stepValue"]) - 1),
+                                            UpdateStep=1
+                                        })" class="btn btn-block btn-success">Back</a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button id="btnSave" type="submit" class="btn btn-block btn-primary">SUBMIT</button>
+                                        
+                                    </div>
+                                         
+                                    <div class="col-md-2"><a href="#" class="btn btn-block btn-warning">Reset</a> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        }
+        <div class="text-center">
+            @Html.HiddenFor(m => m.documentFile, new { @id="hdndocumentfile"})
+                @Html.HiddenFor(m => m.regisIdAGC)
+              @Html.HiddenFor(m => m.documentFile)
+                @Html.HiddenFor(m => m.orderFile)
+                 @Html.HiddenFor(m => m.applicantSubTypeId)
+            @Html.HiddenFor(m => m.applicantTypeId)
+               @* @Html.HiddenFor(m => m.admittedDate)*@
+            </div>
+    </div>
+}
+
+<div class="clearfix"></div>
+<script>
+    $(document).ready(function () {
+        $("#susdistrictId").prop("disabled", true);
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+         swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+        if ('@TempData["UpdateStep"]' == '1' && '@TempData["UpdateStep"]' != '-1') {
+
+
+            $("#orderFile").rules("remove", "required");
+            $("#documentFile").rules("remove", "required");
+
+            $('#documentFileVALUE').show();
+            $('#orderFileVALUE').show();
+            var appId = $("#applicantTypeId").val();
+            debugger;
+            $("input[name=applicantTypeId][value=" + appId + "]").prop('checked', true);
+            if (appId != 4) {
+                $("#divReqByType").show();
+               
+            }
+            else {
+                $("#divReqByTypeOther").show();
+            }
+            if($("#regisIdAGC").val()!=0)
+            {
+                if ($("input[name=applicantTypeId]:checked").length > 0) {
+                    getEsubCat($("input[name=applicantTypeId]:checked").val());
+                    //var appsubid = $('input[name=applicantSubTypeId]').val();
+                    //alert(appsubid);
+                    //$('#applicantSubTypeId').val(appsubid);
+                }
+            }
+          
+        }
+ });
+
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#orderDate').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    $('#appointmentDate').datepicker({
+        minDate: new Date(strDate),
+        autoClose: true
+    });
+    //$('#applicantTypeId')
+    function getEsubCat(obj) {
+        debugger;
+        //var v = (obj).attr("Id");
+       // alert(obj);
+        $("#divReqByType").hide();
+        $("#divReqByTypeOther").hide();
+      
+        if ($(obj).parent().text().trim() == 'Other' || obj =='4') {
+            $("#divReqByTypeOther").show();
+        }
+        else {
+            $("#divReqByType").show();
+            if ($(obj).parent().text().trim() == 'Court' || obj == '1') {
+                $("#lblReqByType").text('Court');
+            }
+            else {
+                $("#lblReqByType").text('Head Of Department');
+            }
+            //$("#lblReqByType").text($(obj).parent().text().trim());
+
+            $.ajax({
+
+                url: "getEsubcatList",
+                type: 'Post',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ applicantTypeId: obj }),
+                datatype: 'json',
+                success: function (data) {
+
+                    $('#applicantSubTypeId').empty();
+                    $('#applicantSubTypeId').append('<option value="">--Select--</option>');
+                    $.each(data, function (i, d) {
+
+                        $('#applicantSubTypeId').append('<option value="' + d.Value + '">' + d.Text + '</option>');
+                    });
+                    ///////////
+                    if ('@TempData["UpdateStep"]' == '1' && '@TempData["UpdateStep"]' != '-1') {
+                        var appsubid = $('input[name=applicantSubTypeId]').val();
+                        //alert(appsubid);
+                        $('#applicantSubTypeId').val(appsubid);
+                    }
+                    ////////////
+                    //data-val-required
+                },
+                error: function (i, d) {
+                    console.log(i);
+                    console.log(d);
+                }
+
+            });
+        }
+    }
+
+    $("input[name=applicantTypeId]").click(function () {
+
+        if ($("input[name=applicantTypeId]:checked").length > 0) {
+            getEsubCat($("input[name=applicantTypeId]:checked").val());
+        }
+
+    });
+    function Fileupload(obj) {
+        debugger;
+        var fileId = $(obj).attr("id");
+        var ext = obj.value.match(/\.(.+)$/)[1];
+
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+
+                var fileSize = ($("#" + fileId)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + fileId).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "AGC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            $("#" + fileId + "Path").val(response[1]);
+
+                            $("#" + fileId + "VALUE").show();
+                            var Url = response[1].replace('~/', '');
+                            $("#" + fileId + "doc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+
+                            return false;
+                        },
+                        error: function () {
+                        }
+                    });
+
+                }
+                break;
+            default:
+                swal("", 'This is not an allowed file type only pdf and jpg  file valid for this', "warning");
+                this.value = '';
+                return false;
+        }
+
+    }
+    function isNumberKey(event) {
+        debugger;
+        var charCode = (event.which) ? event.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function isalphabet(event) {
+        debugger;
+        var charCode = (event.which) ? event.which : event.keyCode
+
+        if ((charCode >= 65 && charCode <= 91) || charCode == 8 || charCode == 32 ||
+             (charCode >= 97 && charCode <= 122) || charCode == 46)
+            return true;
+        else
+            return false;
+    }
+    $("#btnSave").click(function () {
+        debugger;
+        if ($("input[type='checkbox']:checked").length < 4) {
+            $("#spanmember").show();
+
+            return false;
+        }
+        $("#tbUser").html('');
+
+
+
+    });
+</script>

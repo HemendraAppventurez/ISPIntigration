@@ -1,0 +1,224 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MLCModel
+@{
+    ViewBag.Title = "GetCertificateMLC";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">Medico-Legal Certificate</span></div>
+
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Download Certificate</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "frmGetCertificate" }))
+                    {
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>OPD Number <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.OPDNumber, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.OPDNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div> 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Patient`s Name <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.patientName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.patientName, "", new { @class = "text-danger" })
+                                </div>
+                            </div> 
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="display: block" class="margin-bottom-10">Gender <span class="star">*</span> </label>
+                                    <div class="form-control">
+                                        <label>@Html.RadioButtonFor(m => m.patientGender, "Male") Male</label>
+                                        <label>@Html.RadioButtonFor(m => m.patientGender, "Female") Female</label>
+                                        <label>@Html.RadioButtonFor(m => m.patientGender, "TransGender") TransGender</label>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(m => m.patientGender, "", new { @class = "text-danger" })
+                            </div> 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Medico-Legal Date <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.MLCDate, new { @class = "datepicker-here form-control", tabindex = "3", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy", @onblur = "SelfDependCase();" })
+                                    @Html.ValidationMessageFor(m => m.MLCDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-8">
+                                <label>Health Unit <span class="text-danger">*</span></label>
+                                <div class="form-control">
+                                    @foreach (var type in ViewBag.forwardTypes)
+                                    {
+                                        <label>
+                                            <input type="radio" name="forwardtypeId" id="forwardtypeId" value="@type.forwardtypeId">
+                                            @type.forwardtypeName
+                                        </label>
+                                    }
+                                </div>
+                                <label id="lbltype" class="text-danger" style="display: none;">Select Health Unit</label>
+                            </div>
+                            <div class="col-md-2">
+                                <label>District&nbsp;<span class="text-danger">*</span></label>
+                                @Html.DropDownListFor(m => m.healthUnitDistrictId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                @Html.ValidationMessageFor(m => m.healthUnitDistrictId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>CHC/PHC/DH <span class="text-danger">*</span></label>
+                                @Html.DropDownListFor(m => m.forwardtoId, (IEnumerable<SelectListItem>)ViewBag.forwardTo, "--Select--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.forwardtoId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <a href="@Url.Action("GetCertificateMLC","MLC")" class="btn btn-block btn-danger">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                </div>
+                @*<button type="button" id="btnGetCertificate" class="btn btn-block btn-success" style="display:none;">Get Certificate</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(function () {
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+
+        if ('@TempData["WarningMsg"]' != '') {
+            swal("", "@TempData["WarningMsg"]", "warning");
+        }
+
+        $("#btnSearch").click(function (e) {
+            e.preventDefault();
+            $("#lbltype").hide();
+            var val = $('#frmGetCertificate').validate();
+            val.form();
+            val.showErrors();
+            if (val.valid()) {
+
+                var OPDNumber = $("#OPDNumber").val().trim();
+                var patientName = $("#patientName").val().trim();
+                var patientGender = $('input[name=patientGender]:checked').parent().text().trim();
+                var MLCDate = $("#MLCDate").val().trim();
+                var districtId = $("#healthUnitDistrictId").val();
+                var healthUnitTypeId = $('input[name=forwardtypeId]:checked').val();
+                var healthUnitId = $("#forwardtoId").val();
+                //alert(OPDNumber + "," + patientName + "," + patientGender + "," + MLCDate + "," + districtId + "," + healthUnitTypeId + "," + healthUnitId);
+                bindApplicationList(OPDNumber, patientName, patientGender, MLCDate, districtId, healthUnitTypeId, healthUnitId);
+            }
+            else {
+                if ($('input[name=forwardtypeId]:checked').length == 0) {
+                    $("#lbltype").show();
+                }
+            }
+        });
+
+        $('#btnGetCertificate').click(function () {
+            if ($('input[name=certificate]:checked').length == 0) {
+                swal("", "Kindly select a record.", "warning")
+            }
+            else {
+                var _regisId = $('input[name=certificate]:checked').attr("data-regisId");
+                var url = '@Url.Action("DownloadCertificateMLC", "MLC")?regisId=' + _regisId;
+                window.location = url;
+                //alert($('input[name=certificate]:checked').attr("data-regisId"));
+            }
+        });
+
+    });
+
+    function bindApplicationList(_OPDNumber, _patientName, _patientGender, _MLCDate, _districtId, _healthUnitTypeId, _healthUnitId) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+        //$('#btnGetCertificate').hide();
+        $.ajax({
+            url: '@Url.Action("GetCertificateListMLC", "MLC")',
+            data: { OPDNumber: _OPDNumber, patientName: _patientName, patientGender: _patientGender, MLCDate: _MLCDate, districtId: _districtId, healthUnitTypeId: _healthUnitTypeId, healthUnitId: _healthUnitId },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            if (returndata == "error") {
+                $('#DIV-ApplicationList').html('');
+                swal("","Error to finding Details.","error")
+            }
+            else if (returndata == "empty") {
+                $('#DIV-ApplicationList').html('');
+                swal("", "All fields are Required.", "warning")
+            }
+            else {
+                $('#DIV-ApplicationList').html(returndata);
+                //$('#btnGetCertificate').show();
+            } 
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+
+    $("#healthUnitDistrictId").change(function () {
+        binddropdown($("input[name=forwardtypeId]:checked").val(), $(this).val());
+    });
+
+    $("input[name=forwardtypeId]").change(function () {
+        $("#lbltype").hide();
+        binddropdown($(this).val(), $("#healthUnitDistrictId").val());
+    });
+
+    function binddropdown(Id, distId) {
+
+        $.ajax({
+            url: '@Url.Action("BindForwardDropdownlist", "MLC")',
+            data: { rollId: Id, opdDistrictId: distId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $("#forwardtoId").empty();
+                $("#forwardtoId").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#forwardtoId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+            },
+            error: function (xhr, status) {
+                //alert(status);
+                $("#forwardtoId").empty();
+                $("#forwardtoId").append('<option value="">--Select--</option>');
+            }
+        });
+    }
+
+</script>
+

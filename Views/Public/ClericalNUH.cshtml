@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "ClericalNUH";
+    Layout = "~/Views/Shared/_PublicLayout1.cshtml";
+                        //Layout = null;
+}
+<div style="width: 1000px; margin: 0 auto; padding: 15px; background-color: #fff;">
+    <table border="0" style="width: 100%; border-collapse: collapse; font-family: Arial;">
+        <tbody>
+            <tr>
+                <td style="width: 70px;">
+                    <img src="@Url.Content("~/Images/govt_up.png")" style="width: 100%;" />
+                </td>
+                <td style="text-align: center">
+                    <div style="font-size: 1.35rem; font-weight: 600;">Department of Medical Health & Family Welfare, Uttar Pradesh</div>
+                    <div style="font-size: 1.05rem; font-weight: 600;">Swasthya Bhawan, Kaiserbagh, Lucknow</div>
+                </td>
+                <td style="width: 70px;"></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center; border-bottom: 1px solid #000;">
+                    <div style="font-size: 1.05rem; font-weight: 600;">Verification of Clerical Establishment</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <input id="txtRegisNo" type="text" placeholder="Registration No." style="border: 1px solid #858585; padding: 8px; border-radius: 4px;" />
+                    <button style="margin-left: 8px; border-radius: 4px; border: 1px solid #1270d3; background-color: #1874d3; color: #fff; padding: 8px 15px;" onclick="FilterList()">Search</button>
+                    <a style="margin-left: 8px; border-radius: 4px; border: 1px solid #ef6262; background-color: #ef6262; color: #fff; padding: 8px 15px; display:inline-block" href="@Url.Action("ClericalNUH", "Public")">Reset</a>
+                </td>
+            </tr>
+            <tr>
+                <td id="tdCDByMeeRegisNo" colspan="3">
+                    <div id="divCDByMeeRegisNo"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function FilterList() {
+        $("#divCDByMeeRegisNo").html("");
+        if ($('#txtRegisNo').val() != '') {
+            $("#divLoader").show();
+            var _RegisNo = $('#txtRegisNo').val();
+            $.ajax({
+                async: true,
+                url: '@Url.Action("ViewClericalNUH", "Public")',
+                data: { meeRegisNo: _RegisNo },
+                dataType: 'HTML',
+                success: function (data) {
+                    $("#divLoader").hide();
+                    if (data != null) {
+                        $("#divCDByMeeRegisNo").html(data);
+                    }
+                },
+                error: function () {
+                    $("#divLoader").hide();
+                }
+            });
+        }
+        else {
+            //alert("Enter Registration No.");
+            swal("", "Enter Registration No.", "warning");
+        }
+    }
+</script>

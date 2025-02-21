@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "RejectedApplicationICC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">
+बच्चों के लिए टीकाकरण प्रमाणपत्र का अस्वीकार आवेदन<span class="small display-block">Rejected Application of Immunization Certificate for Children</span></div>
+
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Select Filter</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Application No.</label>
+                                <input type="text" id="txtAppNumber" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Application Date</label>
+                                <input type="text" id="txtAppDate" class="datepicker-here form-control" data-language="en" placeholder="dd/mm/yyyy" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                    @Html.Action("RejectedApplicationListICC", "CHC")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(function () {
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+
+        $("#btnSearch").click(function () {
+            bindApplicationList($("#txtAppNumber").val().trim(), $("#txtAppDate").val().trim(), $("#ddlAppStatus").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#txtAppNumber").val('');
+            $("#ddlAppStatus").val('');
+            $("#txtAppDate").val('');
+
+            bindApplicationList($("#txtAppNumber").val().trim(), $("#txtAppDate").val().trim(), $("#ddlAppStatus").val());
+        });
+
+    });
+
+    function bindApplicationList(_registrationNo, _appDate, _status) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("RejectedApplicationListICC", "CHC")',
+            data: { registrationNo: _registrationNo, appDate: _appDate, status: _status },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+
+</script>

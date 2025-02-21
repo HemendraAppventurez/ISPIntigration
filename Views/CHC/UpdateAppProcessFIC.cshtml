@@ -1,0 +1,568 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FICModel
+@{
+    ViewBag.Title = "UpdateAppProcessFIC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">@if (Model.appStatus <= 0){
+            <div class="col-md-12 text-left">बच्चों के लिए फिटनेस  प्रमाणपत्र के लिए लंबित आवेदन की सूची<span class="small display-block">List Of Pending Application for Fitness Certificate for Children</span></div>
+        }
+        else
+        {
+            <div class="col-md-12 text-left">
+बच्चों के लिए फिटनेस  प्रमाणपत्र में इन-प्रोसेस आवेदन<span class="small display-block">In-Process Application of Fitness Certificate for Children</span></div>
+        }
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12 lessdetail">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Application Form Details</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td style="width: 15%"><strong>Application No.</strong></td>
+                                <td style="width: 15%">@Model.registrationNo</td>
+                                <td style="width: 15%"><strong>Application Date</strong></td>
+                                <td style="width: 15%">@Model.applicationDate</td>
+                                <td style="width: 8%"><strong>Status</strong></td>
+                                <td style="width: 20%">@Model.appliedStatus</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Full Name</strong></td>
+                                <td>@Model.fullName</td>
+                                <td><strong>Date of Birth</strong></td>
+                                <td>@DateTime.Parse(@Model.dob).ToShortDateString()</td>
+                                <td><strong>Mobile</strong></td>
+                                <td>@Model.mobileNo</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("UpdateAppProcessFIC", "CHC", FormMethod.Post, new { @id = "frmUpdateAppProcessFIC" }))
+        {
+            @Html.AntiForgeryToken()
+            if (Model.appStatus == -1)
+            {
+            <div class="col-md-12 scruapp">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="current"><a href="#">Step 1</a></li>
+                       
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 scruapp">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Scrutinize the Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="margin-top-10 bold">View the Application form</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="button" value="View Application" id="btnviewapp" class="btn btn-block btn-info none" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row acprejapp" style="display: none;">
+                    @Html.Action("FitnessDetailFIC", "CHC", new { registration = Model.registrationNo })
+                    <div class="col-md-12 btnsubreg" style="display: none;">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-2 col-md-offset-4">
+                                   <input type="button" id="btnAccept" onclick="return acceptApp();" value="Accept" class="btn btn-block btn-primary none" />
+                                     <button id="bitAppAccept" name="button" type="submit" value="Accept" style="display: none;" class="btn btn-block btn-primary btnAccept">Accept</button>
+                                   </div>
+                                <div class="col-md-2">
+                                    <input type="button" value="Reject" id="btnReject" class="btn btn-block btn-danger reject-rsn" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 appStatushdn" style="display: none;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4>Reject</h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label><b>Remarks <span class="text-danger">*</span></b> </label>
+                                        @Html.TextAreaFor(m => m.rejectedRemarks, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.rejectedRemarks)
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-center">
+                                <input type="submit" value="Reject" id="btnCnfrmReject" class="btn btn-primary btn-md" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            if (Model.appStatus == 1)
+            {
+            @*<div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="#">Step 1</a></li>
+                        <li class="current"><a href="#">Step 2</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Select the Date for Inspection</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Select the Date for Inspection</label>
+                                    @Html.TextBoxFor(m => m.inspectionDate, new { @class = "datepicker-here form-control", tabindex = "2", @data_language = "en", @placeholder = "dd/mm/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.inspectionDate)
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <input type="submit" id="btninspectionsch" value="Schedule Inspection" class="btn btn-primary btn-md" />
+                    </div>
+                </div>
+            </div>*@
+            }
+            if (Model.appStatus == 2)
+            {                            
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                       
+                        <li class="current"><a href="#">Step 2</a></li>
+                        <li class="active"><a href="#">Step 3</a></li>
+                        <li class="active"><a href="#">Step 4</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>View Inspection Report</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="bold">Upload Citizen's Inspection Report</label>
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <div class="fileUpload3 pull-left" style="width: 80%;">
+                                        <span>Upload Report </span>
+                                        @Html.TextBoxFor(m => m.inspectionRpt, new { @type = "file", @class = "upload3", @onchange = "UploadFile(this)" })
+                                        @Html.HiddenFor(m => m.inspectionRptPath)
+                                    </div>
+                                    <div class="form-group margin-top-10 pull-right" id="hdndoc" style="display: none;">
+                                        @if (!string.IsNullOrEmpty(Model.inspectionRptPath))
+                                        {
+                                            <a href="@Url.Content(Model.inspectionRptPath)" id="UploadedDoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" id="UploadedDoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        }
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(m => m.inspectionRpt)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <input type="submit" id="btnupldinsrpt" value="Next" class="btn btn-primary none" />
+                    </div>
+                </div>
+            </div>
+            }
+            if (Model.appStatus == 3)
+            {
+            <div class="col-md-12 PosNegBtn">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        
+                       
+                        <li class="current"><a href="#">Step 2</a></li>
+                        <li class="active"><a href="#">Step 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 PosNegBtn">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Approve /Disapprove Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                             <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Treating Doctor Name<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.certGenerateByDoc, new { @class = "form-control", tabindex = "2", @data_language = "en" })
+                                    @Html.ValidationMessageFor(m => m.certGenerateByDoc)
+                                </div>
+                            </div>
+                               <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Designation<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.certGenerateByDesig, new { @class = "form-control", tabindex = "2", @data_language = "en"})
+                                    @Html.ValidationMessageFor(m => m.certGenerateByDesig)
+                                </div>
+                            </div>
+                               <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Inspection Date(Date of Check-up)<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.inspecttionCompeletionDate, new { @class = "datepicker-here form-control", tabindex = "2", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.inspecttionCompeletionDate)
+                                </div>
+                            </div>
+                           
+                                   <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Mark Of Identification<span class="text-danger">*</span></label>
+                                    @Html.TextAreaFor(m => m.identificationMark, new { @class = "form-control", tabindex = "2", @data_language = "en"})
+                                    @Html.ValidationMessageFor(m => m.identificationMark)
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                             <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Medical History<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.detailsMedicalHistory, new { @class = "form-control",@readonly="readonly" })
+                                    @Html.ValidationMessageFor(m => m.detailsMedicalHistory, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                             <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>OPD Receipt</label><br />
+                                    @if (@Model.opdFilePath == "Submitted By CHC")
+                                    {
+                                        <label></label>
+                                    }else{
+                                    <a href="@Url.Content(@Model.opdFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>}
+                                </div>
+                            </div>
+                             <div class="clearfix"></div>
+                                     <div class="row">
+                            
+                           <div class="col-md-2 col-md-offset-4">
+                                    <input type="submit" id="btnAAccept" value="Approve" class="btn btn-block btn-primary none" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="button" value="Reject" id="btnAReject" class="btn btn-block btn-danger reject-rsn" />
+                                </div>
+                        </div>
+                               
+                           
+                        </div>
+                    </div>
+                   @* <div class="panel-footer text-center">
+                        <input type="button" id="btnnext" value="NEXT" class="btn btn-primary none" />
+                    </div>*@
+                </div>
+            </div>
+            <div class="col-md-12 CertOrReject" style="display: none;">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                       
+                         <li class="completed"><a href="#">Step 2</a></li>
+                        <li class="current"><a href="#">Step 3</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 CertOrReject" style="display: none;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Action On Inspection Report</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row btnCER" style="display: none;">
+                          
+                        </div>
+                        <div class="row appInsStatushdn" style="display: none;">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="margin-top-10 bold">Reject Inspection Report</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <input type="button" value="Reject" id="btnInsRptReject" class="btn btn-block btn-danger reject-rsn" />
+                            </div>
+                            <div class="col-md-7 rsndefine" style="display: none;">
+                                <div class="form-group">
+                                    <label><b>Remarks <span class="text-danger">*</span></b> </label>
+                                    @Html.TextAreaFor(m => m.inspectionRejectedRemark, new { @class = "form-control", @placeholder = "Enter Reason for Rejection" })
+                                    @Html.ValidationMessageFor(m => m.inspectionRejectedRemark)
+                                </div>
+                            </div>
+                            <div class="panel-footer text-center REJ" style="display:none;">
+                         <input type="submit" value="Submit" id="btnCnfrmInsRptReject" class="btn btn-primary reject-rsn" />
+                    </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            }
+             if (Model.appStatus == 5)
+            {
+            <div class="col-md-12 PosNegBtn">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                       
+                      
+                        <li class="completed"><a href="#">Step 2</a></li>
+                        <li class="current"><a href="#">Step 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 PosNegBtn">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Generate Certificate</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                    <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="margin-top-10 bold">Generate Certificate</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="submit" id="btnGenrateCertificate" value="Generate Certificate" class="btn btn-block btn-info" />
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        
+            }
+
+             if (Model.appStatus == 6)
+             {
+            <div class="col-md-12 PosNegBtn">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                       
+                        <li class="completed"><a href="#">Step 2</a></li>
+                        <li class="completed"><a href="#">Step 3</a></li>
+                    
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 PosNegBtn">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Certificate Generated</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group  text-center">
+                                   <h2 class="margin-top-10 text-success"><strong>Certificate Generated</strong> </h2>
+                                    
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        
+             }      
+            <div class="text-center">
+                @Html.HiddenFor(m => m.regisIdFIC)
+                @Html.HiddenFor(m => m.appStatus)
+                @Html.HiddenFor(m => m.registrationNo)
+            @*  //  @Html.HiddenFor(m => m.inspectionDate)*@
+            </div>                    
+        }
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+
+        if ('@TempData["DatSetFIC"]' != '') {
+            var regisId = '@TempData["DatSetFIC"]';
+            var url = '@Url.Action("FICgeneratedCertificate", "CHC")';
+            window.open(url + "?regisId=" + regisId, '_blank');
+        };
+    });
+    $("#btnReject").click(function () {
+        $(".appStatushdn").show();
+        $(".btnsubreg").hide();
+    });
+   
+    $("#btnAReject").click(function () {
+        $('.CertOrReject').show();
+        $('.appInsStatushdn').show();
+        $('.btnCER').hide();
+        $('.btnInssubreg').show();
+        $('.PosNegBtn').hide();
+    });
+
+    $("#btnInsRptReject").click(function () {
+        $(".appInsStatushdn").show();
+        $(".btnCER").hide ();
+        $(".REJ").show();
+    });
+    $("#btnviewapp").click(function () {
+        $(".acprejapp").show();
+        $(".btnsubreg").show();
+        $(".scruapp").hide();
+        $(".lessdetail").hide();
+    });
+    
+  
+    
+    $("#btnInsRptReject").click(function () {
+
+        $(".rsndefine").show();
+
+    });
+    function UploadFile(Obj) {
+        debugger;
+        var ext = Obj.value.match(/\.(.+)$/)[1];
+        var Id = $(Obj).attr("Id");
+        switch (ext) {
+            case 'pdf':
+            case 'jpeg':
+            case 'jpg':
+
+                var fileSize = ($("#" + Id)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + Id).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "CHC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            debugger;
+                            console.log(response.path);
+                            $("#inspectionRptPath").val(response[1]);
+
+                            $("#hdndoc").show();
+                            var Url = response[1].replace('~/', '');
+                            $("#UploadedDoc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+
+
+                            return false;
+                        },
+                        error: function () {
+
+                        }
+                    });
+
+                }
+                break;
+            default:
+                swal("", 'Invalid File Format only pdf and jpg files are allow!', "warning");
+                this.value = '';
+                return false;
+        }
+    }
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    //$('#inspectionDate').datepicker({
+
+    //    minDate: new Date(strDate),
+
+    //    autoClose: true
+    //});
+    //var insdate = $("#inspectionDate").val();
+    //var d = new Date(insdate.split("/").reverse().join("-"));
+    //var dd = d.getDate();
+    //var mm = d.getMonth() + 1;
+    //var yy = d.getFullYear();
+    //var inspdate = yy + "/" + mm + "/" + dd;
+
+    //$('#inspecttionCompeletionDate').datepicker({
+
+    //    minDate: new Date(inspdate),
+
+    //    autoClose: true
+    //});
+    function acceptApp() {
+        debugger;
+        swal({
+            title: "Are you sure you want to Accept this Application?",
+            text: "Once you Accept you will not be able to change it.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, Accept it !",
+            cancelButtonText: "No, Cancel it !",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $('#bitAppAccept').click();
+            }
+        });
+    }
+</script>

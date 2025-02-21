@@ -1,0 +1,48 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.DICModel>
+
+@if (Model != null && Model.Count() > 0)
+{
+<div class="col-md-12 text-right margin-top-25">
+    <div class="row">
+        <label>Total Engagement : @Model.Count()</label>
+    </div>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr class="webgrid-header">
+            <th valign="top">Sl. No. </th>
+            <th valign="top">Inspection Date</th>
+            <th valign="top">Application No</th> 
+            <th valign="top">Disability Type</th>
+            <th valign="top">Full Name</th>
+            <th valign="top">District</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+    int slNo = 1;
+                    }
+        @foreach(var item in Model)
+        {
+           
+        <tr>
+            <td class="white">@slNo</td>
+            <td>@item.inspectionDate</td>
+            <td>@item.registrationNo</td>
+            <td>@item.disabilityType</td>
+            <td>@item.fullName</td>
+            <td>@item.DistrictName</td>
+        </tr>
+            slNo++;
+        } 
+    </tbody>
+</table>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight:600;font-size:18px;">No record found !</span>
+        </div>
+    </div>
+}

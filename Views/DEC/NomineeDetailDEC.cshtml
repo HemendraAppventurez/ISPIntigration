@@ -1,0 +1,234 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DECModel
+@{
+    ViewBag.Title = "NomineeDetailDEC";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">Application Form for Death  <strong>Certificate</strong></h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm("NomineeDetailDEC", "DEC", FormMethod.Post, new { @id = "frmDeathCertificate" }))
+    {
+        @Html.AntiForgeryToken
+  
+@*<div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <b>निम्नलिखित फ़ॉर्म भरकर “Submit” बटन पर क्लिक करें। “Submit” बटन पर क्लिक करने के उपरांत स्क्रीन पर एक पॉप-अप प्रदर्शित होगा, इस पॉप-अप में प्रदर्शित फ़ॉर्म को अच्छी तरह से पढ़ लें तथा “Confirm” बटन पर क्लिक करें। “Confirm” बटन पर क्लिक करने के उपरांत आपका आवेदन संबंधित डीएच (जिला अस्पताल)/ सीएचसी(सामुदायिक स्वास्थ्य केंद्र)/ पीएचसी(प्राथमिक स्वास्थ्य केंद्र) को भेजा जाएगा। अपने आवेदन की स्थिति को देखने हेतु “View Status” बटन पर क्लिक करें। </b>
+                </div>
+            </div>
+        </div>*@
+        <div class="row 1" style="display: none">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Requester Details</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Blood Relation <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.bloodRelationId, (IEnumerable<SelectListItem>)ViewBag.Relation, "--Select--", new { @class = "form-control", tabindex = "6" })
+                                    @Html.ValidationMessageFor(m => m.bloodRelationId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Name<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.nomineeName, new { @class = "form-control", tabindex = 3, @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.nomineeName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mobile Number<span class="star">*</span> </label>
+                                    @Html.TextBoxFor(m => m.NomineeMobileNo, new { @class = "form-control", @maxlength = 10, tabindex = 2, @readonly = "readonly", @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.NomineeMobileNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Id Proof <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.idProofId, (IEnumerable<SelectListItem>)ViewBag.IdProof, "--Select--", new { @class = "form-control", tabindex = "6" })
+                                    @Html.ValidationMessageFor(m => m.idProofId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group3">
+                                    <label>Upload Id Proof<span class="star">*</span></label>
+                                    <div class="fileUpload3">
+                                        <span>Upload </span>
+                                        @Html.TextBoxFor(m => m.idProofFile, new { @type = "file", @class = "upload3", @onchange = "Fileupload(this)" })
+                                        @Html.HiddenFor(m => m.idProofFilePath)
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.idProofFile, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group padding-top-40" id="idProofFileVALUE" style="display: none;">
+                                    @if (Model != null && !string.IsNullOrEmpty(Model.idProofFilePath))
+                                    {
+                                        <a href="@Url.Content(Model.idProofFilePath)" id="idProofFiledoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" id="idProofFiledoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                    }
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2 col-md-offset-4">
+                                    @Html.HiddenFor(m => m.regisIdDEC)
+                                    <button id="btnsubmit" type="submit" class="btn btn-block btn-primary">Proceed </button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button id="btnreset" type="reset" class="btn btn-block btn-warning">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="row 2" style="display: none">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Download Certificate</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-md-1">
+                                <div class="form-group padding-top-40">
+                                    @if (Model != null && !string.IsNullOrEmpty(Model.uploadCertificatePath))
+                                    {
+                                        <a href="@Url.Content(Model.uploadCertificatePath)" id="idProofFiledoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" id="idProofFiledoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                    }
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("Dashboard", "Home")"  class="btn btn-green btn-sm" >Go To Dashboard</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+    }
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+
+        if ('@TempData["uploadCertificatePath"]' != '') {
+            debugger;
+            var FILE = '@TempData["uploadCertificatePath"]';
+            $('#uploadCertificatePath').val(FILE);
+            $
+            $('.2').show();
+            $('.1').hide();
+            $('#uploadCertificatePath').val('nAN');
+        }
+        else {
+            $('.1').show();
+            $('.2').hide();
+        }
+
+    });
+    function Fileupload(Obj) {
+        var ext = Obj.value.match(/\.(.+)$/)[1];
+        var Id = $(Obj).attr("Id");
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+                var fileSize = ($("#" + Id)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + Id).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "DEC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            $("#" + Id + "Path").val(response[1]);
+
+                            $("#" + Id + "VALUE").show();
+                            var Url = response[1].replace('~/', '');
+                            $("#" + Id + "doc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+
+                            return false;
+                        },
+                        error: function () {
+
+                        }
+                    });
+
+                }
+                break;
+            default:
+                swal("", 'Invalid File Format only pdf and jpg files are allow!', "warning");
+                this.value = '';
+                return false;
+        }
+    }
+</script>
+

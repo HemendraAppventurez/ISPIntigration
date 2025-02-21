@@ -1,0 +1,292 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DICModel
+
+@{
+    ViewBag.Title = "DICDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    .stronglbl label
+    {
+        font-weight: 600 !important;
+        display: block;
+    }
+    /*.stronglbl label:after {
+            content:":";
+            float:right;
+            display:block;
+        }*/
+    .form-group
+    {
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Disability Certificate Details
+       
+        <a href="@Url.Action("ViewDICList", "DIC")" class="btn btn-info btn-md pull-right">Back</a>
+    </h3>
+</div>
+
+
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body stronglbl">
+            <h4></h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Applying For</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.ApplyingFor
+                </div>
+                 @if (Model.ApplyingFor != "New Certificate")
+                    {
+                <div class="col-md-3">
+                    <label>Certificate generated this Portal</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.isCertFromPortal
+                </div>}
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+             @if (Model.ApplyingFor != "New Certificate" && Model.isCertFromPortal == "Yes")
+                    {
+             <div class="form-group">
+                <div class="col-md-3">
+                    <label>Old Certificate Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.oldCertificateNumber
+                </div>
+               
+                <div class="clearfix"></div>
+            </div>
+             }
+
+          else if (Model.ApplyingFor != "New Certificate" && Model.isCertFromPortal == "No")
+             {
+             <div class="form-group">
+                <div class="col-md-3">
+                    <label>Previous Certificate</label>
+                </div>
+                <div class="col-md-3">
+                    <a href="@Url.Content(@Model.releventProof)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+               
+                <div class="clearfix"></div>
+            </div>
+             }
+
+
+
+          
+            <div class="clearfix"></div>
+
+            <h4>Personal Details</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Registration No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.registrationNo
+                </div>
+                <div class="col-md-3">
+                    <label>Full Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fullName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Father/Spouse Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fatherName
+                </div>
+                <div class="col-md-3">
+                    <label>Date of Birth</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.dob).ToShortDateString()
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Category</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.categoryName
+                </div>
+                <div class="col-md-3">
+                    <label>Mobile Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.mobileNo
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Email</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.emailId
+                </div>
+                <div class="col-md-3">
+                    <label>Adhar Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.adharNumber
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <h4>Complete Address</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.address
+                </div>
+                <div class="col-md-3">
+                    <label>State</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.StateName
+                    @* <a href="@Url.Content(@Model.addressproofFilePath)" class="btn btn-info btn-md" target="_blank">Download</a>*@
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.DistrictName
+                </div>
+                <div class="col-md-3">
+                    <label>Pin Code </label>
+                </div>
+                <div class="col-md-3">
+                    @Model.pinCode
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Disability Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.disabilityTypeName
+                </div>
+                <div class="col-md-3">
+                    <label>Other Disability Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.disabilityType
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+               
+                <div class="col-md-3">
+                    <label>Disability Details</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.disabilityDetail
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <h4>Uploaded Document</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Photograph as disability proof</label>
+                </div>
+                @if (Model.photoPath==null || Model.photoPath=="")
+                {
+                    <div class="col-md-3">
+                   <label></label>
+                </div>
+                }
+                else
+                {
+                    <div class="col-md-3">
+                    <a href="@Url.Content(@Model.photoPath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+                }
+                
+                <div class="col-md-3">
+                    <label>Profile Photograph</label>
+                </div>
+                <div class="col-md-3">
+                    <a href="@Url.Content(@Model.passportsizephoto)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Photo Id Proof Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.idProofName
+                </div>
+                <div class="col-md-3">
+                    <label>Photo Id Proof</label>
+                </div>
+                <div class="col-md-3">
+                    <a href="@Url.Content(@Model.idProofPath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Address Proof Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.addressProofName
+                </div>
+
+                <div class="col-md-3">
+                    <label>Address Proof</label>
+                </div>
+                <div class="col-md-3">
+                    <a href="@Url.Content(@Model.documentPath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Photo Id No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.photoIdNo
+                </div>
+
+                
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>

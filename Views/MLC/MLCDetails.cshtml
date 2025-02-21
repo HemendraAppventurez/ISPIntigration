@@ -1,0 +1,355 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MLCModel
+
+@{
+    ViewBag.Title = "MLCDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    .stronglbl label {
+        font-weight: 600 !important;
+        display: block;
+    }
+    /*.stronglbl label:after {
+            content:":";
+            float:right;
+            display:block;
+        }*/
+    .form-group {
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Medico - Legal Certificate Details
+        @*<button type="button" class="btn btn-primary pull-right" data-print="modal" onclick="PrintDoc()">Print</button>*@
+        <a href="@Url.Action("ViewMLCList", "MLC")" class="btn btn-info btn-md pull-right">Back</a>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body stronglbl">
+            <h4>Brought By
+                 <label class="pull-right" style="color: #0b8494;"><strong>Application Number:</strong>   @Model.registrationNo</label>
+            </h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Brought By Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fullName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Patient Brought By</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.patientBroughtBy
+                </div>
+                @if (Model.patientBroughtBy == "Relative")
+                {
+                    <div class="col-md-3">
+                        <label>Relation With Patient</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.broughtByPersonrelation
+
+                    </div>
+                }
+                @if (Model.patientBroughtBy == "Police")
+                {
+                    <div class="col-md-3">
+                        <label>Police Id</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.idNo
+                    </div>
+                }
+                <div class="clearfix"></div>
+            </div>
+            @if (Model.patientBroughtBy != "Police")
+            {
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Id Type</label>
+                    </div>
+                    @if (Model.idTypeName != null)
+                    {
+                        <div class="col-md-3">
+                            @Model.idTypeName
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                            <label>NaN</label>
+                        </div>
+                    }
+                    <div class="col-md-3">
+                        <label>Id Number</label>
+                    </div>
+                    @if (Model.idNumber != "")
+                    {
+                        <div class="col-md-3">
+                            @Model.idNumber
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                            <label>NaN</label>
+                        </div>
+                    }
+                    <div class="clearfix"></div>
+                </div>
+            }
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Mobile No</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.mobileNo
+                </div>
+                <div class="col-md-3">
+                    <label>Email Id</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.emailId
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.broughtByaddress
+                </div>
+                <div class="col-md-3">
+                    <label>State</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.broughtBystateName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.broughtBydistrictName
+                </div>
+                <div class="col-md-3">
+                    <label>Pin Code</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.pinCode
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <h4>Patient Detail</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Patient Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.patientName
+                    @* <a href="@Url.Content(@Model.addressproofFilePath)" class="btn btn-info btn-md" target="_blank">Download</a>*@
+                </div>
+                <div class="col-md-3">
+                    <label>Age</label>
+                </div>
+                @if (Model.age != null)
+                {
+                    <div class="col-md-3">
+                        @Model.age
+
+                    </div>}
+                else
+                {
+                    <div class="col-md-3">
+                        <label>NaN</label>
+                    </div>}
+                }
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Patient Gender</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.patientGender
+                </div>
+                <div class="col-md-3">
+                    <label>Occupation</label>
+                </div>
+                @if (Model.occupation != "")
+                {
+                <div class="col-md-3">
+                    @Model.occupation
+                </div>
+                }
+                else
+                {
+                    <div class="col-md-3">
+                   <label>NaN</label>
+                </div>
+                }
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.address
+                </div>
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.DistrictName
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Tehsil</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.tehsilName
+                </div>
+                <div class="col-md-3">
+                    <label>Area/Road</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.areaRoadName
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Police Station</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.policeStation
+                </div>
+                <div class="col-md-3">
+                    <label>Details</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.details
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <h4>Selected Health Unit For Appointment</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Health Unit</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtypeName
+                </div>
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.healthUnitDistrictName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Area</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtoName
+                </div>
+
+                <div class="col-md-3">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="col-md-3">
+                    &nbsp;
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clear-fix"></div>
+            <h4>Injury Detail</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Doctor Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.doctorName
+
+                </div>
+                <div class="col-md-3">
+                    <label>Designation</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.Designation
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="clearfix"></div>
+            <h4>Enquiry Detail</h4>
+            <div id="childlist">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@TempData["reg"]' != '') {
+            debugger;
+            var reg = '@TempData["reg"]';
+
+            ChildList(reg);
+        }
+    });
+    function ChildList(_registrationNo) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindChildList", "MLC")',
+            data: { registrationNo: _registrationNo },
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlist").html(data);
+            },
+        });
+    }
+</script>

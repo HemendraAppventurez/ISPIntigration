@@ -1,0 +1,286 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.NUHDetailsModel>
+@using OTPL_Imp
+
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    
+    int sNo = 0;
+    SessionManager SM = new SessionManager();
+}
+<style>
+    .webgrid-header a {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+<link href="~/js/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $('#tblCountList1').DataTable({
+
+            "ordering": true,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }]
+
+        });
+
+        var table1 = $('#tblCountList1').DataTable();
+
+        //Turning Off ALL event listeners for the Name Table Cell
+        $(".targetHeaderCell1").off();
+
+        //Adding cursor class to testSpan and Removing Cursor class from overall header
+        //$(".targetHeaderCell").css("cursor", "default");
+        $("#testSpan1").css("cursor", "pointer");
+        var booleanSortCol11 = false;
+
+        // Attaching CLICK Event Handler on Name Span
+        $("#testSpan1").on("click", function () {
+
+            if (booleanSortCol11 == false) {
+                table1.order([0, 'desc']).draw();
+                booleanSortCol11 = true;
+            }
+            else {
+                table1.order([0, 'asc']).draw();
+                booleanSortCol11 = false;
+            }
+        });
+
+
+
+        $('#tblCountList').DataTable({
+
+            "ordering": true,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }]
+
+        });
+
+        var table = $('#tblCountList').DataTable();
+
+        //Turning Off ALL event listeners for the Name Table Cell
+        $(".targetHeaderCell").off();
+
+        //Adding cursor class to testSpan and Removing Cursor class from overall header
+        //$(".targetHeaderCell").css("cursor", "default");
+        $("#testSpan").css("cursor", "pointer");
+        var booleanSortCol1 = false;
+
+        // Attaching CLICK Event Handler on Name Span
+        $("#testSpan").on("click", function () {
+
+            if (booleanSortCol1 == false) {
+                table.order([0, 'desc']).draw();
+                booleanSortCol1 = true;
+            }
+            else {
+                table.order([0, 'asc']).draw();
+                booleanSortCol1 = false;
+            }
+        });
+    });
+
+
+</script>
+
+@if (SM.RollID == 8)
+{
+
+    if (Model != null && Model.Count() > 0)
+    {
+        
+    <div class="row">
+        <div style="max-height: 400px; overflow: scroll">
+            <table id="tblCountList1" border="1" class="table-user-information table table-bordered table-striped" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                <thead style="background: #237382; color: #fff; padding: 5px;">
+                    <tr>
+                        <th>Sr.No.</th>
+                        <th class="no-sort"><strong>Application No</strong></th>
+                        @*<th><strong>Application Date</strong></th>*@
+                        <th style="text-align: left;" class="targetHeaderCell1"><span id="testSpan1" style="padding: 0; margin: 0; box-sizing: content-box; cursor: pointer">Application Date</span></th>
+                        <th class="no-sort"><strong>Establishment Name</strong></th>
+                        <th class="no-sort"><strong>Establishment Category</strong></th>
+                        <th class="no-sort"><strong>MCI/SMF No.</strong></th>
+                        <th class="no-sort"><strong>Current Status</strong></th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            sNo++;
+                        <tr>
+                            <td style="text-align: center;">@sNo</td>
+
+                            <td>
+
+                                <a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">@item.registrationNo</a>
+
+                            </td>
+
+
+                            <td>@item.appliedDate</td>
+                            <td>@item.establishmentName</td>
+                            <td>@item.medicalEstablishment</td>
+                            <td>@item.UPMCI_SMF_Number</td>
+                            <td>@item.appliedStatus</td>
+
+
+
+
+                        </tr> 
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>Record Not Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }
+    else
+    {
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+    }
+
+
+}
+else
+{
+
+    if (Model != null && Model.Count() > 0)
+    {
+        
+    <div class="row">
+        <div style="max-height: 400px; overflow: scroll">
+            <table id="tblCountList" border="1" class="table-user-information table table-bordered table-striped" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                <thead style="background: #237382; color: #fff; padding: 5px;">
+                    <tr>
+                        <th>Sr.No.</th>
+                        <th class="no-sort"><strong>Application No</strong></th>
+                        @*<th><strong>Application Date</strong></th>*@
+                        <th style="text-align: left;" class="targetHeaderCell"><span id="testSpan" style="padding: 0; margin: 0; box-sizing: content-box; cursor: pointer">Application Date</span></th>
+                        <th class="no-sort"><strong>Establishment Name</strong></th>
+                        <th class="no-sort"><strong>Establishment Category</strong></th>
+                        <th class="no-sort"><strong>MCI/SMF No.</strong></th>
+                        <th class="no-sort"><strong>Current Status</strong></th>
+                        <th class="no-sort"><strong>Action</strong></th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            sNo++;
+                        <tr>
+                            <td style="text-align: center;">@sNo</td>
+
+                            <td>
+
+                                <a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">@item.registrationNo</a>
+
+                            </td>
+
+
+                            <td>@item.appliedDate</td>
+                            <td>@item.establishmentName</td>
+                            <td>@item.medicalEstablishment</td>
+                            <td>@item.UPMCI_SMF_Number</td>
+                            <td>@item.appliedStatus</td>
+
+                            <td>
+                                <a href="@Url.Action("UpdateAppProcessNUH", "CMO", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()), status = @OTPL_Imp.CustomCryptography.Encrypt(@item.appStatus.ToString()) })" title="Take Action"><i class="icon-grn fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            </td>
+
+
+                        </tr> 
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>Record Not Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }
+    else
+    {
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+    }
+
+}
+
+
+
+
+
+@*if (Model != null && Model.Count() > 0)
+    {
+        WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+             
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("PrintApplicationFormNUH", "CMO", new { regisIdNUH = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()) })"  target="_blank">@item.registrationNo</a></text>),
+            grid.Column("appliedDate", header: "Application Date"),
+            grid.Column("establishmentName", header: "Establishment Name"),
+            grid.Column("medicalEstablishment", header: "Establishment Category"),
+            grid.Column("UPMCI_SMF_Number", header: "MCI/SMF No."),
+            grid.Column("appliedStatus", header: "Current Status"),
+            grid.Column(header: "Action", format: @<text>
+        <a href="@Url.Action("UpdateAppProcessNUH", "CMO", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNUH.ToString()), status = @OTPL_Imp.CustomCryptography.Encrypt(@item.appStatus.ToString()) })" title="Take Action"><i class="icon-grn fa fa-pencil-square-o" aria-hidden="true"></i></a>
+        </text>)
+            ))
+    </div>
+    }
+    else
+    {
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+    }*@

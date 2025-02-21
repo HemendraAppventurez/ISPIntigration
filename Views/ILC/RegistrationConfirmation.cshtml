@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "RegistrationConfirmation";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="content-title">
+    <h3 class="main-title">Registration Confirmation
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <i class="fa fa-check-circle fa-3x text-success"></i>
+                    </div>
+                    @if (@ViewBag.AppType==1)
+                    {
+                    <div class="col-md-12">
+                        <h3 class="text-center">Your Application has been submitted successfully for issuance of Illness Certificate.  <br /> Kindly note your application number. <br /><strong class="text-success">No:- @ViewBag.ILCRegistrationNo</strong> <br /> For Further Use.</h3>
+                    </div>
+                    }
+                    else{
+                        <div class="col-md-12">
+                        <h3 class="text-center">Your Application has been submitted successfully for extension of illness certificate. <br /> Kindly note your application number. <br /><strong class="text-success">No:- @ViewBag.ILCRegistrationNo</strong> <br /> For Further Use.</h3>
+                    </div>
+                    }
+                   @* <div class="col-md-12 text-center">
+                        <hr />
+                        <a href="@Url.Action("ILCDashBoard", "ILC")" class="btn btn-success" >OK</a>
+                    </div>*@\
+                     <div class="col-md-12 text-center">
+                         
+                        <a href="@Url.Action("ILCDashBoard", "ILC")" class="btn btn-success" width="80px" >OK</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        
+                        <a href="@Url.Action("PrintApplicationForm", "ILC",new {regisId= @OTPL_Imp.CustomCryptography.Encrypt(@ViewBag.RegisId.ToString())})"  class="btn btn-info btn-sm" target="_blank">Print form</a>
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

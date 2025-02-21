@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "ApplicationReport";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+}
+@using OTPL_Imp
+@using CCSHealthFamilyWelfareDept.Models
+
+<div class="container">
+    <div class="services-heading" style="margin: 0 0 80px;">
+        <h2>    Drill Down Services Report</h2>
+        <h3>(Services offered under Janhit Guarantee Act)</h3>
+    </div>
+    <div class="row">
+        <ul class="services-box">
+            <li>
+                <a target="_blank" href="@Url.Action("CMOSRVCountReport", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })" title="Drill Down Reports Of CMO Services">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/death-certificate-icon-10.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">1</span>Drill Down Reports Of
+                    <br>
+                    CMO Services
+                </a>
+            </li>
+            <li><a target="_blank" href="@Url.Action("CMOSRVCountReport", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })"  title="Drill Down Reports Of CMS(DH) Services">
+                <div class="block">
+                    <i class="hovicon effect-8">
+                        <img src="@Url.Content("~/Content/Public/images/medico-legal-certificate-icon-9.png")"/>
+                    </i>
+                </div>
+                <span class="badge">2</span>Drill Down Reports Of
+                <br>
+                CMS(DH) Services
+            </a>
+            </li>
+            <li>
+                <a target="_blank" href="@Url.Action("CMOSRVCountReport", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })" title="Drill Down Reports Of CHC Services">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/illness-certificate-icon-3.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">3</span>Drill Down Reports Of
+                    <br>
+                    CHC Services
+                </a>
+            </li>
+             <li>
+                <a target="_blank" href="@Url.Action("ServiceCountReport", "Public")" title="Drill Down Reports Of CHC Services">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/illness-certificate-icon-3.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">4</span>Service Count
+                    <br>
+                    Report
+                </a>
+            </li>
+            @*<li>
+                <a target="_blank" href="/online" title="Issuance of Disability Certificate">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/disabliti-certificate-icon-5.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">3</span> Issuance of
+                    <br>
+                    Disability Certificate
+                </a>
+            </li>
+           <li>
+                <a target="_blank" href="/online" title="Issuance of Immunization Certificate">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/immunazation-certificate-icon-8.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">4</span> Issuance of<br>
+                    Immunization Certificate 
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="/online" title="Issuance of Death Certificate">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/death-certificate-icon-10.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">5</span> Issuance of Death<br>
+                    Certificate 
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="/online" title="Payment for Unsuccessful Family Planning">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/payment-unsussesfull-iocn-2.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">6</span> Payment for<br>
+                    Unsuccessful Family Planning 
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="/online" title="Payment of Medical Reimbursement">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/medical-rainbaisement-icon-7.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">7</span> Payment of Medical<br>
+                    Reimbursement
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="/online" title="Issuance of Medico Legal Certificate">
+                    <div class="block">
+                        <i class="hovicon effect-8">
+                            <img src="@Url.Content("~/Content/Public/images/medico-legal-certificate-icon-9.png")"/>
+                        </i>
+                    </div>
+                    <span class="badge">8</span> Issuance of Medico-<br>
+                    Legal Certificate 
+                </a>
+            </li>*@
+
+        </ul>
+    </div>
+</div>
+
+@*<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12"><strong>पब्लिक डैशबोर्ड <span class="small">Public Dashboard</span></strong></div>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="circle">
+               
+                    
+                     <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. सी.एम.ओ. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CMO Services</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            2. सी.एम.एस. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CMS(DH) Services</span>
+                        </a>
+                    </li>
+                     
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            3. सी.एच.सी. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CHC Services</span>
+                        </a>
+                    </li> 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Public", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("4") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            4. पी.एच.सी. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of PHC Services</span>
+                        </a>
+                    </li>
+                   
+            </ul>
+        </div>
+    </div>
+</div>*@
+<div class="clearfix"></div>

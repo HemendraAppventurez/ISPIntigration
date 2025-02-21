@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="WGetBasicDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ControlID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessIndustryID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passsalt" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WGetBasicDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WGetBasicDetailsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WReturn_CUSID_STATUS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ControlID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessIndustryID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ApplicationID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Status_Code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Pendancy_level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Fee_Amount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Fee_Status" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Transaction_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Transaction_Date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Transaction_Date_Time" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NOC_Certificate_Number" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NOC_URL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ISNOC_URL_ActiveYesNO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passsalt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Request_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Objection_Rejection_Code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Is_Certificate_Valid_Life_Time" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Certificate_EXP_Date_DDMMYYYY" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="D1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="D2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="D3" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="D4" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="D5" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="D6" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="D7" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WReturn_CUSID_STATUSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WReturn_CUSID_STATUSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WReturn_CUSID_PrintApplicationURL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ControlID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PrintApplicationURL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passsalt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Request_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WReturn_CUSID_PrintApplicationURLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WReturn_CUSID_PrintApplicationURLResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WReturn_CUSID_ISLandPurchased">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ControlID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ISLandPurchasedYesNO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passsalt" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WReturn_CUSID_ISLandPurchasedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WReturn_CUSID_ISLandPurchasedResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strControlID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUnitID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strServiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessIndustryID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NOC_Certificate_Number" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="base64" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MimeType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passsalt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Request_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WGetUBPaymentDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ControlID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passsalt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Request_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WGetUBPaymentDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WGetUBPaymentDetailsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="WGetBasicDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:WGetBasicDetails" />
+  </wsdl:message>
+  <wsdl:message name="WGetBasicDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:WGetBasicDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_STATUSSoapIn">
+    <wsdl:part name="parameters" element="tns:WReturn_CUSID_STATUS" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_STATUSSoapOut">
+    <wsdl:part name="parameters" element="tns:WReturn_CUSID_STATUSResponse" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_PrintApplicationURLSoapIn">
+    <wsdl:part name="parameters" element="tns:WReturn_CUSID_PrintApplicationURL" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_PrintApplicationURLSoapOut">
+    <wsdl:part name="parameters" element="tns:WReturn_CUSID_PrintApplicationURLResponse" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_ISLandPurchasedSoapIn">
+    <wsdl:part name="parameters" element="tns:WReturn_CUSID_ISLandPurchased" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_ISLandPurchasedSoapOut">
+    <wsdl:part name="parameters" element="tns:WReturn_CUSID_ISLandPurchasedResponse" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATSoapIn">
+    <wsdl:part name="parameters" element="tns:WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATSoapOut">
+    <wsdl:part name="parameters" element="tns:WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATResponse" />
+  </wsdl:message>
+  <wsdl:message name="WGetUBPaymentDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:WGetUBPaymentDetails" />
+  </wsdl:message>
+  <wsdl:message name="WGetUBPaymentDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:WGetUBPaymentDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="WGetBasicDetailsHttpGetIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="ProcessIndustryID" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WGetBasicDetailsHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_STATUSHttpGetIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="ProcessIndustryID" type="s:string" />
+    <wsdl:part name="ApplicationID" type="s:string" />
+    <wsdl:part name="Status_Code" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+    <wsdl:part name="Pendancy_level" type="s:string" />
+    <wsdl:part name="Fee_Amount" type="s:string" />
+    <wsdl:part name="Fee_Status" type="s:string" />
+    <wsdl:part name="Transaction_ID" type="s:string" />
+    <wsdl:part name="Transaction_Date" type="s:string" />
+    <wsdl:part name="Transaction_Date_Time" type="s:string" />
+    <wsdl:part name="NOC_Certificate_Number" type="s:string" />
+    <wsdl:part name="NOC_URL" type="s:string" />
+    <wsdl:part name="ISNOC_URL_ActiveYesNO" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+    <wsdl:part name="Request_ID" type="s:string" />
+    <wsdl:part name="Objection_Rejection_Code" type="s:string" />
+    <wsdl:part name="Is_Certificate_Valid_Life_Time" type="s:string" />
+    <wsdl:part name="Certificate_EXP_Date_DDMMYYYY" type="s:string" />
+    <wsdl:part name="D1" type="s:string" />
+    <wsdl:part name="D2" type="s:string" />
+    <wsdl:part name="D3" type="s:string" />
+    <wsdl:part name="D4" type="s:string" />
+    <wsdl:part name="D5" type="s:string" />
+    <wsdl:part name="D6" type="s:string" />
+    <wsdl:part name="D7" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_STATUSHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_PrintApplicationURLHttpGetIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="PrintApplicationURL" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+    <wsdl:part name="Request_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_PrintApplicationURLHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_ISLandPurchasedHttpGetIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="ISLandPurchasedYesNO" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_ISLandPurchasedHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATHttpGetIn">
+    <wsdl:part name="strControlID" type="s:string" />
+    <wsdl:part name="strUnitID" type="s:string" />
+    <wsdl:part name="strServiceID" type="s:string" />
+    <wsdl:part name="ProcessIndustryID" type="s:string" />
+    <wsdl:part name="NOC_Certificate_Number" type="s:string" />
+    <wsdl:part name="base64" type="s:string" />
+    <wsdl:part name="MimeType" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+    <wsdl:part name="Request_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="WGetUBPaymentDetailsHttpGetIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+    <wsdl:part name="Request_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WGetUBPaymentDetailsHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="WGetBasicDetailsHttpPostIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="ProcessIndustryID" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WGetBasicDetailsHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_STATUSHttpPostIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="ProcessIndustryID" type="s:string" />
+    <wsdl:part name="ApplicationID" type="s:string" />
+    <wsdl:part name="Status_Code" type="s:string" />
+    <wsdl:part name="Remarks" type="s:string" />
+    <wsdl:part name="Pendancy_level" type="s:string" />
+    <wsdl:part name="Fee_Amount" type="s:string" />
+    <wsdl:part name="Fee_Status" type="s:string" />
+    <wsdl:part name="Transaction_ID" type="s:string" />
+    <wsdl:part name="Transaction_Date" type="s:string" />
+    <wsdl:part name="Transaction_Date_Time" type="s:string" />
+    <wsdl:part name="NOC_Certificate_Number" type="s:string" />
+    <wsdl:part name="NOC_URL" type="s:string" />
+    <wsdl:part name="ISNOC_URL_ActiveYesNO" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+    <wsdl:part name="Request_ID" type="s:string" />
+    <wsdl:part name="Objection_Rejection_Code" type="s:string" />
+    <wsdl:part name="Is_Certificate_Valid_Life_Time" type="s:string" />
+    <wsdl:part name="Certificate_EXP_Date_DDMMYYYY" type="s:string" />
+    <wsdl:part name="D1" type="s:string" />
+    <wsdl:part name="D2" type="s:string" />
+    <wsdl:part name="D3" type="s:string" />
+    <wsdl:part name="D4" type="s:string" />
+    <wsdl:part name="D5" type="s:string" />
+    <wsdl:part name="D6" type="s:string" />
+    <wsdl:part name="D7" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_STATUSHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_PrintApplicationURLHttpPostIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="PrintApplicationURL" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+    <wsdl:part name="Request_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_PrintApplicationURLHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_ISLandPurchasedHttpPostIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="ISLandPurchasedYesNO" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_ISLandPurchasedHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATHttpPostIn">
+    <wsdl:part name="strControlID" type="s:string" />
+    <wsdl:part name="strUnitID" type="s:string" />
+    <wsdl:part name="strServiceID" type="s:string" />
+    <wsdl:part name="ProcessIndustryID" type="s:string" />
+    <wsdl:part name="NOC_Certificate_Number" type="s:string" />
+    <wsdl:part name="base64" type="s:string" />
+    <wsdl:part name="MimeType" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+    <wsdl:part name="Request_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="WGetUBPaymentDetailsHttpPostIn">
+    <wsdl:part name="ControlID" type="s:string" />
+    <wsdl:part name="UnitID" type="s:string" />
+    <wsdl:part name="ServiceID" type="s:string" />
+    <wsdl:part name="passsalt" type="s:string" />
+    <wsdl:part name="Request_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WGetUBPaymentDetailsHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:portType name="upswp_niveshmitraservicesSoap">
+    <wsdl:operation name="WGetBasicDetails">
+      <wsdl:input message="tns:WGetBasicDetailsSoapIn" />
+      <wsdl:output message="tns:WGetBasicDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_STATUS">
+      <wsdl:input message="tns:WReturn_CUSID_STATUSSoapIn" />
+      <wsdl:output message="tns:WReturn_CUSID_STATUSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_PrintApplicationURL">
+      <wsdl:input message="tns:WReturn_CUSID_PrintApplicationURLSoapIn" />
+      <wsdl:output message="tns:WReturn_CUSID_PrintApplicationURLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_ISLandPurchased">
+      <wsdl:input message="tns:WReturn_CUSID_ISLandPurchasedSoapIn" />
+      <wsdl:output message="tns:WReturn_CUSID_ISLandPurchasedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT">
+      <wsdl:input message="tns:WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATSoapIn" />
+      <wsdl:output message="tns:WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WGetUBPaymentDetails">
+      <wsdl:input message="tns:WGetUBPaymentDetailsSoapIn" />
+      <wsdl:output message="tns:WGetUBPaymentDetailsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="upswp_niveshmitraservicesHttpGet">
+    <wsdl:operation name="WGetBasicDetails">
+      <wsdl:input message="tns:WGetBasicDetailsHttpGetIn" />
+      <wsdl:output message="tns:WGetBasicDetailsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_STATUS">
+      <wsdl:input message="tns:WReturn_CUSID_STATUSHttpGetIn" />
+      <wsdl:output message="tns:WReturn_CUSID_STATUSHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_PrintApplicationURL">
+      <wsdl:input message="tns:WReturn_CUSID_PrintApplicationURLHttpGetIn" />
+      <wsdl:output message="tns:WReturn_CUSID_PrintApplicationURLHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_ISLandPurchased">
+      <wsdl:input message="tns:WReturn_CUSID_ISLandPurchasedHttpGetIn" />
+      <wsdl:output message="tns:WReturn_CUSID_ISLandPurchasedHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT">
+      <wsdl:input message="tns:WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATHttpGetIn" />
+      <wsdl:output message="tns:WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WGetUBPaymentDetails">
+      <wsdl:input message="tns:WGetUBPaymentDetailsHttpGetIn" />
+      <wsdl:output message="tns:WGetUBPaymentDetailsHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="upswp_niveshmitraservicesHttpPost">
+    <wsdl:operation name="WGetBasicDetails">
+      <wsdl:input message="tns:WGetBasicDetailsHttpPostIn" />
+      <wsdl:output message="tns:WGetBasicDetailsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_STATUS">
+      <wsdl:input message="tns:WReturn_CUSID_STATUSHttpPostIn" />
+      <wsdl:output message="tns:WReturn_CUSID_STATUSHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_PrintApplicationURL">
+      <wsdl:input message="tns:WReturn_CUSID_PrintApplicationURLHttpPostIn" />
+      <wsdl:output message="tns:WReturn_CUSID_PrintApplicationURLHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_ISLandPurchased">
+      <wsdl:input message="tns:WReturn_CUSID_ISLandPurchasedHttpPostIn" />
+      <wsdl:output message="tns:WReturn_CUSID_ISLandPurchasedHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT">
+      <wsdl:input message="tns:WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATHttpPostIn" />
+      <wsdl:output message="tns:WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMATHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WGetUBPaymentDetails">
+      <wsdl:input message="tns:WGetUBPaymentDetailsHttpPostIn" />
+      <wsdl:output message="tns:WGetUBPaymentDetailsHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="upswp_niveshmitraservicesSoap" type="tns:upswp_niveshmitraservicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="WGetBasicDetails">
+      <soap:operation soapAction="http://tempuri.org/WGetBasicDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_STATUS">
+      <soap:operation soapAction="http://tempuri.org/WReturn_CUSID_STATUS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_PrintApplicationURL">
+      <soap:operation soapAction="http://tempuri.org/WReturn_CUSID_PrintApplicationURL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_ISLandPurchased">
+      <soap:operation soapAction="http://tempuri.org/WReturn_CUSID_ISLandPurchased" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT">
+      <soap:operation soapAction="http://tempuri.org/WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WGetUBPaymentDetails">
+      <soap:operation soapAction="http://tempuri.org/WGetUBPaymentDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="upswp_niveshmitraservicesSoap12" type="tns:upswp_niveshmitraservicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="WGetBasicDetails">
+      <soap12:operation soapAction="http://tempuri.org/WGetBasicDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_STATUS">
+      <soap12:operation soapAction="http://tempuri.org/WReturn_CUSID_STATUS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_PrintApplicationURL">
+      <soap12:operation soapAction="http://tempuri.org/WReturn_CUSID_PrintApplicationURL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_ISLandPurchased">
+      <soap12:operation soapAction="http://tempuri.org/WReturn_CUSID_ISLandPurchased" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT">
+      <soap12:operation soapAction="http://tempuri.org/WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WGetUBPaymentDetails">
+      <soap12:operation soapAction="http://tempuri.org/WGetUBPaymentDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="upswp_niveshmitraservicesHttpGet" type="tns:upswp_niveshmitraservicesHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="WGetBasicDetails">
+      <http:operation location="/WGetBasicDetails" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_STATUS">
+      <http:operation location="/WReturn_CUSID_STATUS" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_PrintApplicationURL">
+      <http:operation location="/WReturn_CUSID_PrintApplicationURL" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_ISLandPurchased">
+      <http:operation location="/WReturn_CUSID_ISLandPurchased" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT">
+      <http:operation location="/WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WGetUBPaymentDetails">
+      <http:operation location="/WGetUBPaymentDetails" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="upswp_niveshmitraservicesHttpPost" type="tns:upswp_niveshmitraservicesHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="WGetBasicDetails">
+      <http:operation location="/WGetBasicDetails" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_STATUS">
+      <http:operation location="/WReturn_CUSID_STATUS" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_PrintApplicationURL">
+      <http:operation location="/WReturn_CUSID_PrintApplicationURL" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_ISLandPurchased">
+      <http:operation location="/WReturn_CUSID_ISLandPurchased" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT">
+      <http:operation location="/WReturn_CUSID_Entrepreneur_NOC_IN_BINARYFORMAT" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WGetUBPaymentDetails">
+      <http:operation location="/WGetUBPaymentDetails" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="upswp_niveshmitraservices">
+    <wsdl:port name="upswp_niveshmitraservicesSoap" binding="tns:upswp_niveshmitraservicesSoap">
+      <soap:address location="http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="upswp_niveshmitraservicesSoap12" binding="tns:upswp_niveshmitraservicesSoap12">
+      <soap12:address location="http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="upswp_niveshmitraservicesHttpGet" binding="tns:upswp_niveshmitraservicesHttpGet">
+      <http:address location="http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="upswp_niveshmitraservicesHttpPost" binding="tns:upswp_niveshmitraservicesHttpPost">
+      <http:address location="http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

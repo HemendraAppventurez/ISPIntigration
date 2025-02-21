@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "CMOSRVCountReportDivisionWise";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+}
+<div class="container">
+    <div class="services-heading" style="margin-bottom: 15px;">
+        @if (string.IsNullOrEmpty(@ViewBag.ServiceId))
+        {
+            <h2>सी.एम.ओ. जिला वार रिपोर्ट की गणना</h2>
+            <h3>CMO District Wise Count Report</h3>
+        }
+        else
+        {
+            <h2>सी.एम.ओ. सर्विस वार रिपोर्ट की गणना</h2>
+            <h3>CMO Service Wise Count Report</h3>
+        }
+        <a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top: -40px;">Back</a>
+    </div>
+    <div class="row">
+        @if (string.IsNullOrEmpty(@ViewBag.ServiceId))
+        {
+            @Html.Action("CMOSRVCountReportDivisionWiseList", "Public", new { zoneId = @ViewBag.ZoneId })
+        }
+        else
+        {
+            @Html.Action("CMOSRVCountReportDivisionWiseList", "Public", new { zoneId = @ViewBag.ZoneId, serviceId = @ViewBag.ServiceId })
+        }
+    </div>
+</div>
+<script>
+    $(function () {
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+
+        $("#btnSearch").click(function () {
+            bindCMOSRVCountReportList($("#zoneId").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#zoneId").val('');
+            bindCMOSRVCountReportList('0');
+        });
+    });
+
+    function bindCMOSRVCountReportList(_zoneId) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("CMOSRVCountReportList", "Public")',
+            data: { zoneId: _zoneId },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+</script>

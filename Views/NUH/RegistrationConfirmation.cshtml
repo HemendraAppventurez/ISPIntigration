@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "RegistrationConfirmation";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="content-title">
+    <h3 class="main-title">Registration Confirmation
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <i class="fa fa-check-circle fa-3x text-success"></i>
+                    </div>
+                    <div class="col-md-12">
+                        <h3 class="text-center">Your application for Registration of Medical Establishments has been saved successfully. 
+                            <br />
+                            Your Application Number is  <strong class="text-success">@ViewBag.NUHRegistrationNo</strong> use this application number for future references. Read the below instructions for further Process.</h3>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <hr />
+
+                        @if (@ViewBag.isRenewal == true)
+                        {
+                       <a href="@Url.Action("Receipt", "NUH", new {regisIdNUH = @ViewBag.NUHRegisId})" aria-hidden="true" class="btn btn-success" target="_blank">Download Receipt</a>
+                        
+                        }
+                        
+      
+                    </div>
+                     <div class="col-md-6 text-center">
+                        <hr />
+                             @*  <a href="@Url.Action("isRegister", "NUH")" class="btn btn-success">Next Step</a>*@
+    
+                          <a href="@Url.Action("NursingDashBoard", "NUH")" class="btn btn-success">Next Step</a>
+
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 page-instraction">
+                        <ul>
+                            <li>Your application form is still <strong>incomplete;</strong>  kindly download the affidavit format by clicking on “Download Affidavit Format” button and get it<strong> Notarized.</strong> Upload the stamped affidavit and click on “Submit” button. </li>
+                            <li>After successful submission of your application form, it will be forwarded to the concerned Chief Medical Officer. You can check the status update by re-login into the dashboard.</li>
+                            <li>Once the Committee meeting is fixed, you need to be physically present at the time of Inspection process with the Committee members. You will be notified by CMO about the Inspection date and other details through SMS notification or you can check the same at your application status on dashboard.</li>
+                            <li>Once your application form is approved by CMO, you can download the Certificate from the Dashboard. Else, Contact the Office of Chief Medical Officer.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

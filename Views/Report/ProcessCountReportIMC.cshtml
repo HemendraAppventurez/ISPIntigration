@@ -1,0 +1,451 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.ReportsModel>
+@{
+    ViewBag.Title = "ProcessCountReportIMC";
+    Layout = null;
+}
+@{int i = 1, totalPage = 1;}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Untitled Document</title>
+    <style type="text/css">
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #f67171;
+            border: 1px solid #ef6262;
+        }
+
+        body {
+            font-family: Arial;
+        }
+         #pageFooter:after {
+            counter-increment: page;
+            content: counter(page);
+        }
+    </style>
+</head>
+
+<body>
+    <div style="text-align: right; padding: 5px;">
+        @if (TempData["RollID"].ToString() == "ADM")
+        {
+            <a href="@Url.Action("ProcessCountReport_AD", "Report")" class="btn btn-danger">Back</a>
+        }
+        else if (TempData["RollID"].ToString() == "admin")
+        {
+            <a href="@Url.Action("ProcessCountReportCMSatAdmin", "Report")" class="btn btn-danger">Back</a>
+        }
+        else
+        {
+            <a href="@Url.Action("ProcessCountReportCMS", "Report")" class="btn btn-danger">Back</a>
+        }
+        <button type="button" class="btn btn-primary" data-print="modal" onclick="PrintDoc()">Print</button>
+    </div>
+    <div id="prodiv" style="text-align: center;">
+        @if (TempData["RollID"].ToString() == "admin")
+        {
+            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                <tr>
+                    <td rowspan="2" style="width: 20%; text-align: left; vertical-align: top;">
+                        <img src="~/Images/up-logo-en.png" alt="logo" style="width: 90px;" />
+                    </td>
+                    <td style="font-size: 26px;"><strong>Department of Medical Health &amp; Family Welfare</strong></td>
+                    <td rowspan="2" style="width: 20%;"></td>
+                </tr>
+                <tr>
+                    <td style="font-size: 16px; padding-bottom: 20px;"><strong>Government of Uttar Pradesh</strong></td>
+                </tr>
+                                 <tr>
+                    <td colspan="3" style="font-size: 16px; text-align:center; padding-bottom: 20px;"><strong>Swasthya Bhawan, Qaiserbagh Lucknow, UP- 226001</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 19px; text-decoration: underline; padding-bottom: 15px; border-top: 2px solid #000;"><strong>Online Application For Issuance of Immunization Certificate</strong></td>
+                </tr>
+               <tr>
+                    <td colspan="3" style="font-size: 13px; text-decoration: underline;"><strong>District Wise    Count Report for @ViewBag.forwardtypeName</strong></td>
+                </tr>
+                     <tr>
+                    <td colspan="3" style="font-size: 13px; padding-bottom: 15px;">
+                        <span style="float: left;"><strong>Login of: </strong>Admin,&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="float: left;"><strong>Health Unit Type: </strong>@ViewBag.forwardtypeName</span>
+                        <span style="float: right;"><strong>Report Code:-</strong>
+                            <label>DWCR(IMC)-01</label></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 13px; padding-bottom: 15px;">
+                        <span style="float: left;"><strong>Report Period: </strong>@Model[0].fromDate <strong>To </strong>@Model[0].toDate</span>
+                        <span style="float: right;"><strong>Report Printed On:-</strong>
+                            <label>@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year</label></span>
+                    </td>
+                </tr>
+               
+            </table>
+                <table border="1" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <td rowspan="3"><strong>S.No</strong></td>
+                        <td rowspan="3"><strong>District</strong></td>
+                        <td colspan="3"><strong>No. of Applications Received Through</strong></td>
+                         <td rowspan="2" align="center"><strong>No. of Applications Pending </strong></td>
+                    <td colspan="2" rowspan="2" align="center"><strong>No. of Applications which are In    process </strong></td>
+
+                    <td colspan="2" rowspan="2" align="center"><strong>No. of Applications Rejected</strong></td>
+                    <td rowspan="2" align="center"><strong>No. of Applications Approved and Certificate Generated</strong></td>
+                       
+                       
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Health    Portal</strong></td>
+                        <td rowspan="2"><strong>E-district</strong>
+                        </td>
+                        <td rowspan="2" style="font-weight: 900; font-size: 15px;"><strong>Total</strong>
+                        </td>
+                       
+                    </tr>
+                    <tr>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+
+                     @foreach (var v in Model)
+                     {
+                    <tr>
+                        <td align="center"><strong>@i</strong></td>
+                        <td align="center"><strong>@v.DistrictName</strong></td>
+                        <td align="center">@v.AppFromPortal</td>
+                        <td align="center">@v.AppNotFromPortal</td>
+                        <td align="center" style="font-weight: 900; font-size: 15px;">@v.total</td>
+                        <td align="center">@v.Pending</td>
+                        @if (@v.ModuleCode == "FAP" || @v.ModuleCode == "DEC" || @v.ModuleCode == "MLC")
+                        {
+                            <td align="center" colspan="2">
+                                <label>NA</label></td>
+                        }
+                        else
+                        {
+                            <td align="center" colspan="2">@v.InProcess</td>
+                        }
+                        @if (@v.ModuleCode == "DEC" || @v.ModuleCode == "MLC")
+                        {
+                            <td align="center" colspan="2">
+                                <label>NA</label></td>
+                        }
+                        else
+                        {
+                            <td align="center" colspan="2">@v.ApplicationRejected</td>
+                        }
+
+                        <td align="center">@v.Application_Accepted</td>
+
+                    </tr>   i++;
+                     }
+                <tr style="font-weight: 900; font-size: 15px;">
+                    <td></td>
+                    <td align="center"><strong>Total</strong></td>
+                    <td align="center">@Model.Sum(m => m.AppFromPortal)</td>
+                    <td align="center">@Model.Sum(m => m.AppNotFromPortal)</td>
+                    <td align="center">@Model.Sum(m => m.total)</td>
+                    <td align="center">@Model.Sum(m => m.Pending)</td>
+                    <td align="center" colspan="2">@Model.Sum(m => m.InProcess)</td>
+
+                    <td align="center" colspan="2">@Model.Sum(m => m.ApplicationRejected)</td>
+                    <td align="center">@Model.Sum(m => m.Application_Accepted)</td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        }
+        else if (TempData["RollID"].ToString() == "ADM")
+        {
+            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                <tr>
+                    <td rowspan="2" style="width: 20%; text-align: left; vertical-align: top;">
+                        <img src="~/Images/up-logo-en.png" alt="logo" style="width: 90px;" />
+                    </td>
+                    <td style="font-size: 26px;"><strong>Department of Medical Health &amp; Family Welfare</strong></td>
+                    <td rowspan="2" style="width: 20%;"></td>
+                </tr>
+                <tr>
+                    <td style="font-size: 16px; padding-bottom: 20px;"><strong>Government of Uttar Pradesh</strong></td>
+                </tr>
+                 <tr>
+                    <td colspan="3" style="font-size: 16px; text-align:center; padding-bottom: 20px;"><strong>Office of Chief Medical superintendent (CMS), @(!string.IsNullOrEmpty(ViewBag.Division) ? ViewBag.Division : ""), <span>@Model[0].DistrictName</span></strong></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 19px; text-decoration: underline; padding-bottom: 15px; border-top: 2px solid #000;"><strong>Online Application For Issuance of Immunization Certificate</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 13px; text-decoration: underline;"><strong> District Wise    Count Report</strong></td>
+                </tr>
+                     <tr>
+                    <td colspan="3" style="font-size: 13px; padding-bottom: 15px;">
+                        <span style="float: left;"><strong>Login of: </strong>Additional Director,&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="float: left;"><strong>Health Unit Type: </strong>@ViewBag.forwardtypeName</span>
+                        <span style="float: right;"><strong>Report Code:-</strong>
+                            <label>DWCR(IMC)-02</label></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 13px; padding-bottom: 15px;">
+                        <span style="float: left;"><strong>Report Period: </strong>@Model[0].fromDate <strong>To </strong>@Model[0].toDate</span>
+                        <span style="float: right;"><strong>Report Printed On:-</strong>
+                            <label>@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year</label></span>
+                    </td>
+                </tr>
+               
+            </table>
+            <table border="1" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <td rowspan="3"><strong>S.No</strong></td>
+                        <td rowspan="3"><strong>District</strong></td>
+                        <td colspan="3"><strong>No. of Applications Received Through</strong></td>
+                         <td rowspan="2" align="center"><strong>No. of Applications Pending </strong></td>
+                    <td colspan="2" rowspan="2" align="center"><strong>No. of Applications which are In    process </strong></td>
+
+                    <td colspan="2" rowspan="2" align="center"><strong>No. of Applications Rejected</strong></td>
+                    <td rowspan="2" align="center"><strong>No. of Applications Approved and Certificate Generated</strong></td>
+                       
+                       
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Health    Portal</strong></td>
+                        <td rowspan="2"><strong>E-district</strong>
+                        </td>
+                        <td rowspan="2" style="font-weight: 900; font-size: 15px;"><strong>Total</strong>
+                        </td>
+                       
+                    </tr>
+                    <tr>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+
+                     @foreach (var v in Model)
+                     {
+                    <tr>
+                        <td align="center"><strong>@i</strong></td>
+                        <td align="center"><strong>@v.DistrictName</strong></td>
+                        <td align="center">@v.AppFromPortal</td>
+                        <td align="center">@v.AppNotFromPortal</td>
+                        <td align="center" style="font-weight: 900; font-size: 15px;">@v.total</td>
+                        <td align="center">@v.Pending</td>
+                        @if (@v.ModuleCode == "FAP" || @v.ModuleCode == "DEC" || @v.ModuleCode == "MLC")
+                        {
+                            <td align="center" colspan="2">
+                                <label>NA</label></td>
+                        }
+                        else
+                        {
+                            <td align="center" colspan="2">@v.InProcess</td>
+                        }
+                        @if (@v.ModuleCode == "DEC" || @v.ModuleCode == "MLC")
+                        {
+                            <td align="center" colspan="2">
+                                <label>NA</label></td>
+                        }
+                        else
+                        {
+                            <td align="center" colspan="2">@v.ApplicationRejected</td>
+                        }
+
+                        <td align="center">@v.Application_Accepted</td>
+
+                    </tr>   i++;
+                     }
+                <tr style="font-weight: 900; font-size: 15px;">
+                    <td></td>
+                    <td align="center"><strong>Total</strong></td>
+                    <td align="center">@Model.Sum(m => m.AppFromPortal)</td>
+                    <td align="center">@Model.Sum(m => m.AppNotFromPortal)</td>
+                    <td align="center">@Model.Sum(m => m.total)</td>
+                    <td align="center">@Model.Sum(m => m.Pending)</td>
+                    <td align="center" colspan="2">@Model.Sum(m => m.InProcess)</td>
+
+                    <td align="center" colspan="2">@Model.Sum(m => m.ApplicationRejected)</td>
+                    <td align="center">@Model.Sum(m => m.Application_Accepted)</td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        }
+        else if (TempData["RollID"].ToString() == "CHC/PHC/DH")
+        {
+            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                <tr>
+                    <td rowspan="2" style="width: 20%; text-align: left; vertical-align: top;">
+                        <img src="~/Images/up-logo-en.png" alt="logo" style="width: 90px;" />
+                    </td>
+                    <td style="font-size: 26px;"><strong>Department of Medical Health &amp; Family Welfare</strong></td>
+                    <td rowspan="2" style="width: 20%;"></td>
+                </tr>
+                <tr>
+                    <td style="font-size: 16px; padding-bottom: 20px;"><strong>Government of Uttar Pradesh</strong></td>
+                </tr>
+                 <tr>
+                    <td colspan="3" style="font-size: 16px; text-align:center; padding-bottom: 20px;"><strong>@if(ViewBag.RollAbbrName=="C.H.C.")
+                    {
+                        <span>Community Health Center,</span>
+                    }
+                    else if (ViewBag.RollAbbrName == "P.H.C.")
+                    {
+                       <span>Primary Health Center,</span>
+                    }
+                    else if (ViewBag.RollAbbrName == "D.H.")
+                    {
+                       <span>Office of Cheif Medical Superintendent,</span>
+                    } @(!string.IsNullOrEmpty(ViewBag.Division) ? ViewBag.Division : ""), <span>@ViewBag.DistrictName</span></strong></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 19px; text-decoration: underline; padding-bottom: 15px; border-top: 2px solid #000;"><strong>Online Application For Issuance of Immunization Certificate</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 13px; text-decoration: underline;"><strong>Count Report</strong></td>
+                </tr>
+                        <tr>
+                    <td colspan="3" style="font-size: 13px; padding-bottom: 15px;">
+                        <span style="float: left;"><strong>Login of: </strong>@ViewBag.RollAbbrName</span>
+                        <span style="float: right;"><strong>Report Code:-</strong>
+                            <label>DWCR(IMC)-02</label></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-size: 13px; padding-bottom: 15px;">
+                        <span style="float: left;"><strong>Report Period: </strong>@Model[0].fromDate <strong>To </strong>@Model[0].toDate</span>
+                        <span style="float: right;"><strong>Report Printed On:-</strong>
+                            <label>@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year</label></span>
+                    </td>
+                </tr>
+          
+            </table>
+            <table border="1" cellpadding="3" cellspacing="0" width="100%" style="font-size: 13px;">
+  
+  
+  <tr>
+    <td>&nbsp;</td>
+   
+    <td colspan="3" align="center"><strong>No.    of Applications Received Through</strong></td>
+    <td rowspan="2" align="center"><strong>No. of Applications Pending </strong></td>
+    <td colspan="2" rowspan="2" align="center"><strong>No. of Applications which are In    process </strong></td>
+   
+    <td colspan="2" rowspan="2" align="center"><strong>No. of Applications Rejected</strong></td>
+       <td rowspan="2" align="center"><strong>No. of Applications Approved and Certificate Generated</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>S. No</strong></td>
+  
+    <td align="center"><strong>Health    Portal</strong></td>
+    <td align="center"><strong>E-district
+     </strong></td>
+    <td align="center" style="font-weight:900; font-size:15px;">Total</td>
+  </tr>
+    
+            @foreach (var v in Model)
+            {
+     <tr>
+    <td align="center"><strong>@i</strong></td>
+    
+    <td align="center">@v.AppFromPortal</td>
+    <td align="center">@v.AppNotFromPortal</td>
+    <td align="center"  style="font-weight:900; font-size:15px;">@v.total</td>
+    <td align="center">@v.Pending</td>     
+         @if (@v.ModuleCode == "FAP" || @v.ModuleCode == "DEC" || @v.ModuleCode == "MLC")
+         {
+          <td align="center" colspan="2"><label>NA</label></td>
+         }
+         else
+         {
+         <td align="center" colspan="2">@v.InProcess</td>
+         } 
+         @if (@v.ModuleCode == "DEC" || @v.ModuleCode == "MLC")
+         {
+          <td align="center" colspan="2"><label>NA</label></td>
+         }
+         else
+         {
+         <td align="center" colspan="2">@v.ApplicationRejected</td>
+         } 
+         
+         <td align="center">@v.Application_Accepted</td>
+   
+  </tr>   i++;
+            }
+   <tr style="font-weight:900; font-size:15px;">
+   
+    <td align="center"><strong>Total</strong></td>
+    <td align="center">@Model.Sum(m => m.AppFromPortal)</td>
+    <td align="center">@Model.Sum(m => m.AppNotFromPortal)</td>
+    <td align="center">@Model.Sum(m => m.total)</td>
+    <td align="center">@Model.Sum(m => m.Pending)</td>         
+    <td align="center" colspan="2">@Model.Sum(m => m.InProcess)</td>
+    
+    <td align="center" colspan="2">@Model.Sum(m => m.ApplicationRejected)</td>
+       <td align="center">@Model.Sum(m => m.Application_Accepted)</td>
+   
+  </tr> 
+ 
+</table>  
+        }
+        else
+        {
+            <label>Some Error Ocuured</label>
+        }
+       <div style="font-size: 12px; text-align: right; position: fixed; bottom: 20px; width: 99%;"><strong id="pageFooter">Page</strong><strong>&nbsp;of&nbsp;@totalPage</strong> </div>
+        <div style="font-size: 12px; text-align: center; position: fixed; bottom: 5px; width: 99%;">** This is a Software Generated Report **</div>
+    </div>
+
+</body>
+</html>
+<script type="text/javascript">
+
+    function PrintDoc() {
+
+        var toPrint = document.getElementById('prodiv');
+
+        var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+        popupWin.document.open();
+
+        popupWin.document.write('<html><title>::Preview::</title> <style>body{font-family: Arial;} table td{padding:2; text-align:center;} .btn{dispaly:none;} #pageFooter:after {counter-increment: page; content: counter(page);}</style></head><body onload="window.print()"> ')
+        popupWin.document.write(toPrint.innerHTML);
+
+        popupWin.document.write('</body></html>');
+
+        popupWin.document.close();
+
+    }
+</script>
+

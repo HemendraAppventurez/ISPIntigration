@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+}
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title Health and Family Welfare Department Uttar Pradesh</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/app.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/essentials.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/extra.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/nanoscroller.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/css/datepicker.css">
+    <link href="~/css/sweetalert.css" rel="stylesheet" />
+    <style>
+        #dvLoader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            background: #000;
+            opacity: 0.7;
+            filter: alpha(opacity=50);
+            display: none;
+            z-index: 99999;
+        }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin: -28px 0 0 -25px;
+            z-index: 99999;
+        }
+
+        .titelFxd {
+            padding-left: 20px !important;
+            position: initial !important;
+        }
+    </style>
+
+    <script type="text/javascript" src="~/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="~/js/app.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.nicescroll.js"></script>
+    <script type="text/javascript" src="~/js/datepicker.js"></script>
+    <script type="text/javascript" src="~/js/datepicker.en.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/sweetalert.min.js"></script>
+    <script src="~/js/md5.js"></script>
+    <script type="text/ecmascript">
+
+    </script>
+    <style>
+        .left_logo_head h2 {
+            padding-top: 0px;
+            font-size: 40px;
+            font-weight: 500;
+            /*font-family: 'Arial Rounded MT','regular';*/
+            color: #02486d;
+            padding-bottom: 5px;
+        }
+
+        .left_logo_head p {
+            font-size: 15px;
+            font-weight: 500;
+            font-family: "Open Sans", sans-serif;
+            font-weight: bold;
+            color: #02486d;
+            margin: 0;
+        }
+
+        a.btnnivesh {
+            color: #fff;
+            padding: 11px 8px;
+            background: #3682b7;
+        }
+    </style>
+</head>
+<body>
+    <div id="app-wrapper" class="app-hide-lpanel">
+        <div id="app-container">
+            <section id="main-content" style="margin-left: 0;">
+                <header id="app-header">
+                    <div class="app-right-header">
+                        <span class="deptname" style="margin-left: 25px;">
+                            <img src="~/images/logo.png" alt="" class="img-responsive" />
+                        </span>
+                    </div>
+                </header>
+                @RenderBody()
+                <div id="dvLoader">
+                    <img src="@Url.Content("~/Images/loadingImg.gif")" alt="not showing" id="loading" />
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@SM.ControlID' != "" && '@SM.UnitID' != "" && '@SM.ServiceID' != "" && '@SM.RequestID' != "") {
+                $("#app-left-panel").hide();
+                $("#main-content").css({ "margin-left": "0" });
+            }
+        });
+
+        $(document).ajaxError(function (xhr, props) {
+            $("#dvLoader").hide();
+            if (props.status === 401) {
+                location.reload();
+            }
+        });
+
+        $(document).ajaxStart(function () {
+            $("#dvLoader").show();
+        });
+        $(document).ajaxComplete(function (event, request, settings) {
+            $("#dvLoader").hide();
+        });
+    </script>
+
+    @*<script type="text/javascript">
+        /*To retain on the same view on Back Click*/
+        history.pushState(null, null, window.location.href);
+        window.addEventListener('popstate', function (event) {
+            history.pushState(null, null, window.location.href);
+            event.preventDefault();
+        });
+    </script>*@
+
+    <script>
+        $(function () {
+            $("#demo").customScroll({ scrollbarWidth: 5 });
+        });
+
+        $(window).scroll(function () {
+            var height = $(window).scrollTop();
+            if (height > 90) {
+                $(".content-title").addClass("titelFxd");
+            }
+            if (height < 90) {
+                $(".content-title").removeClass("titelFxd");
+            }
+        });
+    </script>
+
+</body>
+</html>

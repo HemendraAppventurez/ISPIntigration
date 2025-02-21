@@ -1,0 +1,97 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ForgotPasswordModel
+@{
+    ViewBag.Title = "OTPVarification";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+
+<div class="col-md-6 lg-left">
+    <div class="instruction">
+        <h3>पासवर्ड भूल जाने की स्थिति हेतु निर्देश:</h3>
+        <div class="nano-content" id="demo">
+            <ul>
+                <li>अपना <strong>"Registered Mobile Number"</strong> भरकर <strong>"Send OTP"</strong> बटन पर क्लिक करें।</li>
+                <li>निर्दिष्ट फ़ील्ड में मोबाइल नंबर की जांच करें यदि मोबाइल नंबर सही है, तो <strong>"Send OTP"</strong> बटन पर क्लिक करें, अन्यथा नया <strong>“Mobile Number”</strong> और<strong> “Captcha”</strong> टाइप करें और <strong>"Send OTP"</strong> बटन पर क्लिक करें, जिसके उपरांत ओटीपी आपके पंजीकृत मोबाइल नंबर पर भेजा जाएगा।</li>
+                <li>निर्दिष्ट फ़ील्ड में ओटीपी कोड दर्ज करें और <strong>"Verify OTP"</strong> बटन पर क्लिक करें। इसके बाद आपको <strong>"Reset Password"</strong> पृष्ठ पर पुनः निर्देशित किया जाएगा।</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 bg-color">
+    <div class="row">
+        <div class="lg-right" style="min-height: 435px;">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#Login">Reset Password</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="Login" class="tab-pane fade in active">
+                    @using (Html.BeginForm("OTPVarification", "Account", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken() 
+                        <div class="login-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Mobile Number</label>
+                                        @Html.TextBoxFor(m => m.MobileNo, new { @class = "form-control user-pass", @redonly = "readonly", @autocomplete = "off",@readonly="readonly" })
+                                        @Html.ValidationMessageFor(m => m.MobileNo)
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.otp)
+                                        @Html.TextBoxFor(m => m.otp, new { @class = "form-control captcha-text", @title = "Enter OTP sent to your registered mobile number.", @autocomplete = "off", @onkeypress = "return isNumberKey(event);",@maxlength="6" })
+                                        @Html.ValidationMessageFor(m => m.otp)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="submit" value="Verify OTP " name="otp" class="btn btn-block btn-warning" id="txtotp" />
+                                    </div>
+                                </div>
+                               @* <div class="col-md-5"><input type="submit" value="Resend OTP" ID="btnresend" class="btn-link"/></div>*@
+                                  <div class="col-md-5"><input type="button" id="btnresend" value="Resend OTP" class="btn-link"/></div>
+                                <div class="col-md-7 text-right"><a href="@Url.Action("Login", "Account")">Back to Login</a></div>
+                            </div>
+                            @Html.HiddenFor(m=>m.isResend)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+    });
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+  
+    $("#btnresend").click(function () {
+        $("#otp").rules("remove", "required");
+     
+        Resnd();
+    })
+    function Resnd() {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+       
+
+        $.ajax({
+            url: '@Url.Action("OTPVarification", "Account")',
+            data: { isResend: "yes" },
+        })
+        
+    }
+</script>

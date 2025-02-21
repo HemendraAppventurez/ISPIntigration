@@ -1,0 +1,380 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ICCAppProcessModel
+@{
+    ViewBag.Title = "UpdateAppProcessICC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    string actionName = "";
+    actionName = Model.appStatus < 1 ? "ReceivedApplicationICC" : "InProcessApplicationICC";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        @if (Model.appStatus <= 0)
+        {
+            <div class="col-md-12 text-left">बच्चों के लिए टीकाकरण प्रमाणपत्र का कुल लंबित आवेदन<span class="small display-block">List Of Pending Application for Immunization Certificate for Children</span></div>
+        }
+        else
+        {
+            <div class="col-md-12 text-left">बच्चों के लिए टीकाकरण प्रमाणपत्र में इन-प्रोसेस आवेदन<span class="small display-block">In-Process Application of Immunization Certificate for Children</span></div>
+        }
+        @*<a href="@Url.Action(actionName, "CHC")" class="btn btn-info btn-sm pull-right">Back</a>*@
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="divDetails">
+            @Html.Action("ICCAppDetails", "CHC", new { regisId = Model.regisIdICC })
+        </div>
+        <div class="clearfix"></div>
+        @using (Html.BeginForm("UpdateAppProcessICC", "CHC", FormMethod.Post, new { @id = "frmUpdateAppProcessICC" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.regisIdICC)
+            @Html.HiddenFor(m => m.appStatus)
+            if (Model.appStatus == -1)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="current"><a href="javascript:;" class="none">Step 1</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="divScrutiApplication" class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Scrutinize the Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="margin-top-10 bold">View Application Form</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" id="btnViewAppForm" class="btn btn-block btn-info none">View Application</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                                
+            <div id="divViewAppDetails" style="display: none;">
+                <div class="row">
+                    @Html.Action("ViewAppDetailsICC", "CHC", new { regisId = Model.regisIdICC })
+                </div>
+                <div class="col-md-12" id="divBtnAppAcceptReject">
+                    <div class="panel-body">
+                        <div class="col-md-2 col-md-offset-4">
+                            <button name="button" type="button" value="appAccept" onclick="return acceptApp();" class="btn btn-block btn-primary">Accept</button>
+                            <button id="bitAppAccept" name="button" type="submit" value="appAccept" style="display: none;" class="btn btn-block btn-primary">Accept</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button id="btnAppReject" type="button" class="btn btn-block btn-danger reject-rsn">Reject</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default" id="divAppRejectRemarks" style="display: none;">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Reject</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label><b>Remarks <span class="text-danger">*</span></b> </label>
+                                    @Html.TextAreaFor(m => m.rejectedRemarks, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.rejectedRemarks)
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divBtnSubmitCancel" class="panel-footer" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button id="btnAppRejectCancel" type="button" class="btn btn-danger reject-rsn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            }
+            else if (Model.appStatus == 1)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="current"><a href="javascript:;" class="none">Step 2</a></li>
+                        <li class="active"><a href="javascript:;" class="none">Step 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Update Final Status of Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Uploaded Front Side Scan Copy Of Immunization Book/Card<span class="text-danger">*</span></label>
+                                    @if (Model.immunizationBook == "NaN")
+                                    {
+                                        <label>Submitted By </label>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Content(Model.immunizationBook)" id="immunizationBookdoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                        
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Uploaded Back Side Scan Copy Of Immunization Book/Card<span class="text-danger">*</span></label>
+                                    @if (Model.immunizationBackSideBook == "NaN")
+                                    {
+                                        <label>Submitted By </label>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Content(Model.immunizationBackSideBook)" id="immunizationBackSideBookdoc" target="_blank"  title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <label class="bold">Is the Certificate Be Issued?</label>
+                                <div class="form-group">
+                                    <div class="form-control">
+                                        <label class="radio-inline">
+                                            <input class="disposal2" name="rblReportType" value="1" type="radio">
+                                            Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input class="disposal2" name="rblReportType" value="2" type="radio">
+                                            No
+                                        </label>
+                                    </div>
+                                    <span id="spanReportType" style="display: none" class="text-danger">Select Approve or Reject</span>
+                                </div>
+                            </div>
+                            <div id="divInsRejectRemarks" style="display: none;">
+                                <div class="col-md-5">
+                                    <label><b>Reasons <span class="text-danger">*</span></b> </label>
+                                    <div class="form-group">
+                                        @Html.TextAreaFor(m => m.rejectedRemarks, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.rejectedRemarks)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel-footer text-center" style="margin-bottom: -15px">
+                                            <button type="submit" class="btn btn-primary">Reject</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center" id="divNextButton">
+                        <button name="button" type="submit" value="insAccept" class="btn btn-primary none" onclick="return CheckInsReportTypeSelected();">Next</button>
+                    </div>
+                </div>
+            </div> 
+            }
+            else if (Model.appStatus == 2)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 2</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Generate Certificate</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="margin-top-10"><strong>Generate Certificate</strong> </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button name="button" type="submit" value="genCertificate" class="btn btn-block btn-info none">Generate Certificate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            else if (Model.appStatus == 4)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 2</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Certificate Generated</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <h2 class="margin-top-10 text-success"><strong>Certificate Generated</strong> </h2>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        if ('@ViewBag.msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", '@ViewBag.msg', '@ViewBag.MsgStatus');
+        }
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+
+        $('#btnAppReject').click(function () {
+            $('#divBtnAppAcceptReject').hide();
+            $('#divAppRejectRemarks').show();
+            $('#divBtnSubmitCancel').show();
+        });
+
+        $('#btnAppRejectCancel').click(function () {
+            $('#divBtnAppAcceptReject').show();
+            $('#divAppRejectRemarks').hide();
+            $('#divBtnSubmitCancel').hide();
+        });
+
+        $('#btnInsReject').click(function () {
+            $('#divBtnInsAcceptReject').hide();
+            $('#divInsRejectRemarks').show();
+            $('#divBtnSubmitCancel').show();
+        });
+
+        $('#btnViewAppForm').click(function () {
+            $('#divScrutiApplication').hide();
+            $('#divAppDetails').hide();
+            $('.divDetails').hide();
+            $('#divViewAppDetails').show();
+        });
+
+
+        if ('@TempData["DatSetICC"]' != '') {
+
+            var regisIdICC = '@TempData["DatSetICC"]';
+
+            var url = '@Url.Action("ICCgeneratedCertificate", "CHC")';
+
+            window.open(url + "?regisIdICC=" + regisIdICC, '_blank');
+        };
+
+    });
+
+    function acceptApp() {
+        swal({
+            title: "Are you sure you want to Accept this Application?",
+            text: "Once you Accept you will not be able to change it.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, Accept it !",
+            cancelButtonText: "No, Cancel it !",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $('#bitAppAccept').click();
+            }
+        });
+    }
+
+
+    $(".btncomnext").click(function () {
+
+        var val = $("#frmUpdateAppProcessMLC").validate();
+        val.form();
+        val.showErrors();
+        if (val.valid()) {
+
+            if ($("input[type='checkbox']:checked").length == 0) {
+                $("#spanmember").show();
+                return false;
+            }
+            else {
+                $("#spanmember").hide();
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
+    });
+
+    $("input[name='rblReportType']").change(function () {
+        if ($(this).val() == "2") {
+            $('#divNextButton').hide();
+            $('#divInsRejectRemarks').show();
+        }
+        else if ($(this).val() == "1") {
+            $('#divNextButton').show();
+            $('#divInsRejectRemarks').hide();
+        }
+        $("#spanReportType").hide();
+    });
+
+    function CheckInsReportTypeSelected() {
+        $("#spanReportType").hide();
+        if (!$("input[name='rblReportType']:checked").val()) {
+            $("#spanReportType").show();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+</script>
+
+

@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "MLCDashBoard";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>मेडिको लीगल प्रमाणपत्र डैशबोर्ड<span class="small">Medico-Legal Certificate  Dashboard</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-90 margin-bottom-50">
+    <div class="row"> 
+        <div class="col-md-12">
+            <ul class="circle">
+                <li class="col-md-2 col-sm-6 col-xs-12"></li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("GetCertificateMLC", "MLC")" class="red">
+                        <img src="@Url.Content("~/images/diabetes-education.png")"><br />
+                        Download Certificate
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ViewDownloadedCertificateMLC", "MLC")" class="indigo">
+                         <img src="@Url.Content("~/images/view_icon.png")"><br />
+                        View/Re-Download Certificate
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

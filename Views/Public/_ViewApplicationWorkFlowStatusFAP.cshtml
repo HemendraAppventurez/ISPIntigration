@@ -1,0 +1,976 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ApplicationWorkFlowStepStatusModel
+@{
+    ViewBag.Title = "_ViewApplicationWorkFlowStatusFAP";
+    Layout = "~/Views/Shared/_DarpanLayout.cshtml";
+}
+
+<style>
+    .form-group label {
+        color: #333;
+        font-weight: 600;
+    }
+</style>
+
+<script>
+    function ViewModal(imsgSrc) {
+        debugger;
+        $('.modal').modal('show')
+        $('#viewimg').attr('src', imsgSrc.src)
+        $('#imgDownload').attr('href', imsgSrc.src)
+    }
+</script>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal body -->
+            <div class="modal-body ImgSRc">
+                <img src="" id="viewimg" style="height: 300px; width: 100%; border: 1px solid red; border-radius: 10px;" />
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a href="" id="imgDownload" style="padding: 10px; margin-top: 5px" title="Download" download><i class="fa fa-download fa-2x" style="margin-right: 20px;"></i></a>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="content-title">
+    <h3 class="main-title"><strong>Unsuccessful Family Planning</strong>
+        <span style="text-decoration: underline">Application Process Details</span>
+        @*<a href="javascript:history.back()" id="BtnBack" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top: 7px;">Back</a>*@
+    </h3>
+</div>
+
+
+<div class="col-md-12" style="margin-top: 13px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Application Recieve</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Application No.</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.registrationNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>Application Submitted Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.AppSubmittedDate
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Application Submitted By</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.AppSubmittedBy
+                    </div>
+                    <div class="col-md-3">
+                        <label>Health Unit Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.healthUnitName
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Claiment Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.claimantName
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Claiment Mobile No.</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.claimantMobileNo
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.AppStatus != null)
+{
+    if (Model.AppStatus == 0)
+    {
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Application Rejected </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Application Rejected By</label>
+                        </div>
+                        <div class="col-md-9">
+                            @Model.AppAcceptedBy
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Application Rejected Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.AppAcceptedDate
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Application Rejected Remark</label>
+                        </div>
+                        <div class="col-md-3">
+
+                            @Model.appRejectedRemark
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else if (Model.AppStatus == 4)
+    { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Application Rejected By DH/CHC </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+
+
+                        <div class="col-md-3">
+                            <label>Application Rejected By</label>
+                        </div>
+                        <div class="col-md-9">
+                            @Model.VerifyByUser
+                        </div>
+                        <div class="col-md-3">
+                            <label>Application Rejected Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.VerifyDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>Is Verify</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.IsVerify
+                        </div>
+                        <div class="col-md-3">
+                            <label>Application Rejected Remark</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.appRejectedRemark
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else if (Model.AppStatus == 8)
+    { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Inspection Report Rejected </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Inspection Report Rejected By</label>
+                        </div>
+                        <div class="col-md-9">
+                            @Model.InspectionReportRejectedBy
+                        </div>
+                        <div class="col-md-3">
+                            <label>Inspection Report Rejected Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionRejectedAcceptedDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>Inspection Report Rejected Remark</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.appRejectedRemark
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else
+    {
+
+        if (!string.IsNullOrEmpty(Model.AppAcceptedDate))
+        { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Application Accepted </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Application Accepted By</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.AppAcceptedBy
+                        </div>
+                        <div class="col-md-3">
+                            <label>Application Accepted Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.AppAcceptedDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+
+        //Application Forwarded to DH/CHC for Approval
+        if (!string.IsNullOrEmpty(Model.forwardDate))
+        {
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Application Forwarded to DH/CHC for Approval </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Application No.</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.registrationNo
+                        </div>
+                        <div class="col-md-3">
+                            <label>Forwarded Type</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.ForwardType
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>Forwarded To</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.forwardTo
+                        </div>
+                        <div class="col-md-3">
+                            <label>Forwarded By </label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.forwardByuser
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+
+        // Application Approved
+        if (!string.IsNullOrEmpty(Model.VerifyDate))
+        { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Application Verified </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Is Verify</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.IsVerify
+                        </div>
+                        <div class="col-md-3">
+                            <label>Verify Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.VerifyDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>Verify By</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.VerifyByUser
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+
+        if (!string.IsNullOrEmpty(Model.InspectionSheduleDate))
+        { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Inspection Scheduled </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Inspection Scheduled By</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionSheduleBy
+                        </div>
+                        <div class="col-md-3">
+                            <label>Inspection Scheduled Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionSheduleDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>Inspection Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+
+        //District Committee Report Uploaded
+
+        if (!string.IsNullOrEmpty(Model.DistrictComettiReportUploadedDate))
+        { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>District Committee Report Uploaded </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>District Committee Report Uploaded By</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.districtReportUploadedBy
+                        </div>
+                        <div class="col-md-3">
+                            <label>District Committee Report Uploaded Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.DistrictComettiReportUploadedDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>District Committee Report Uploaded File</label>
+                        </div>
+                        <div class="col-md-3">
+                            @if (!string.IsNullOrEmpty(Model.districtReportFilePath))
+                            {
+                                <a href="@Url.Content(@Model.districtReportFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>  
+                            }
+                            else
+                            {
+                                <label>NA</label>
+                            }
+
+                        </div>
+                        <div class="col-md-3">
+                            <label>Commettee Members</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.ComettiMemberName
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+              @*  <div class="row">
+                    <div class="col-md-12">
+                        <label class="bold">Uploaded Inspection Photo </label>
+                        <div id="photoupload" style="padding-top: 10px;">
+                            @if (Model.inspReportFilePhotoPath != null && Model.inspReportFilePhotoPath.Length != 0)
+                            {
+                                foreach (string item in @Model.inspReportFilePhotoPath)
+                                {
+                                <div class="col-md-3" style="margin-top: 10px;">
+                                    <img src="@Url.Content(item)" style="border: 2px solid red; width: 100%; height: 150px; border-radius: 10px;cursor:pointer" onclick="ViewModal(this)">
+                                </div>
+                                }
+                            }
+                            else
+                            {
+                            
+                                <label>NA</label>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>*@
+            </div>
+        </div>
+    </div>
+        }
+
+        if (!string.IsNullOrEmpty(Model.StateComettiReportUploadedDate))
+        { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>State Committee Report Uploaded </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>State Committee Report Uploaded By</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.stateReportUploadedBy
+                        </div>
+                        <div class="col-md-3">
+                            <label>State Committee Report Uploaded Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.StateComettiReportUploadedDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label>State Committee Report Uploaded File</label>
+                        </div>
+                        <div class="col-md-3">
+                            @if (!string.IsNullOrEmpty(Model.stateReportFilePath))
+                            {
+                                <a href="@Url.Content(@Model.stateReportFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>  
+                            }
+                            else
+                            {
+                                <label>NA</label>
+                            }
+
+                        </div>
+                        <div class="col-md-3">
+                            <label>Commettee Members</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.ComettiMemberName
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+
+                @*<div class="row">
+                    <div class="col-md-12">
+                        <label class="bold">Uploaded Inspection Photo </label>
+                        <div id="photoupload" style="padding-top: 25px;">
+                            @if (Model.inspReportFilePhotoPathCometti != null && Model.inspReportFilePhotoPathCometti.Length != 0)
+                            {
+                                foreach (string item in @Model.inspReportFilePhotoPathCometti)
+                                {
+                                <div class="col-md-3" style="margin-top: 10px;">
+                                    <img src="@Url.Content(item)" style="border: 2px solid red; width: 100%; height: 150px; border-radius: 10px;cursor:pointer" onclick="ViewModal(this)">
+                                </div>
+                                }
+                            }
+                            else
+                            {
+                            
+                                <label>NA</label>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>*@
+            </div>
+        </div>
+    </div>
+        }
+        if (!string.IsNullOrEmpty(Model.InspectionRejectedAcceptedDate))
+        { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Inspection Report Accepted </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Inspection Report Accepted By</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionReportRejectedBy
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Inspection Report Accepted Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionRejectedAcceptedDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Inspection Status</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionStatus
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+
+        if (!string.IsNullOrEmpty(Model.SancationDate))
+        { 
+    
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Sanction Apporved </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Sanction Apporved Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.SancationDate
+                        </div>
+                        <div class="col-md-3">
+                            <label>anction Apporved Transaction Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.sanctiontransDate
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Is Approved</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="text-success"><strong>@Model.isApprove</strong> </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Sanction By</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="text-success"><strong>@Model.SanctionBy</strong> </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+        }
+    }
+    //Pendency Details
+    if (Model.AppStatus != 0 && Model.AppStatus != 4 && Model.AppStatus != 8 && Model.AppStatus != 10)
+    {
+    <div class="col-md-12" style="margin-top: 13px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Application Pendency</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label>Pending At</label>
+                        </div>
+                        @if (Model.AppStatus == -1)
+                        {
+                            <div class="col-md-3">
+                                @Model.AppAcceptedBy,@Model.DistrictName
+                            </div>
+                        }
+                        else if (Model.AppStatus == 1)
+                        {
+                            <div class="col-md-3">
+                                @Model.AppAcceptedBy , @Model.DistrictName
+                            </div>
+                        }
+                        else if (Model.AppStatus == 2)
+                        {
+                            <div class="col-md-3">
+                                @Model.forwardByuser , @Model.DistrictName
+                            </div>
+                        }
+                        else if (Model.AppStatus == 3)
+                        {
+                            <div class="col-md-3">
+                                @Model.VerifyByUser , @Model.DistrictName
+                            </div>
+                        }
+                        else if (Model.AppStatus == 4)
+                        {
+                            <div class="col-md-3">
+                                @Model.VerifyByUser , @Model.DistrictName
+                            </div>
+                        }
+                        else if (Model.AppStatus == 5)
+                        {
+                            <div class="col-md-3">
+                                @Model.InspectionSheduleBy , @Model.DistrictName
+                            </div>
+                        }
+
+                        else if (Model.AppStatus == 6)
+                        {
+                            <div class="col-md-3">
+                                @Model.districtReportUploadedBy , @Model.DistrictName
+                            </div>
+                        }
+                        else if (Model.AppStatus == 7)
+                        {
+                            <div class="col-md-3">
+                                @Model.stateReportUploadedBy , @Model.DistrictName
+                            </div>
+                        }
+                        else if (Model.AppStatus == 9)
+                        {
+                            <div class="col-md-3">
+                                @Model.InspectionReportRejectedBy , @Model.DistrictName
+                            </div>
+                        }
+                        <div class="clearfix"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+}
+
+
+
+@*<div class="form-group">
+
+                     @if (Model.AppStatus == 0)
+                    {
+                        <div class="col-md-3">
+                            <label>Application Rejected Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.AppRejectedDate
+                        </div>
+                    }
+                    @if (Model.AppStatus == 1)
+                    {
+                        <div class="col-md-3">
+                            <label>Application Accepted Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.AppAcceptedDate
+                        </div>
+                    }
+                    @if (Model.AppStatus == 2)
+                    {
+                        <div class="col-md-3">
+                            <label>Application Forwarded Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.forwardDate
+                        </div>
+                    }
+                    @if (Model.AppStatus == 3)
+                    {
+                        <div class="col-md-3">
+                            <label>Application Verified Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.VerifyDate
+                        </div>
+                    }
+                    @if (Model.AppStatus == 4)
+                    {
+                        <div class="col-md-3">
+                            <label>Application Rejected by CHC/DH Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.VerifyDate
+                        </div>
+                    }
+                    @if (Model.AppStatus == 5)
+                    {
+                        <div class="col-md-3">
+                            <label>Inspection Scheduled Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionSheduleDate
+                        </div>
+                    }
+                    @if (Model.AppStatus == 6)
+                    {
+                        <div class="col-md-3">
+                            <label>District Committee Report Uploaded Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.DistrictComettiReportUploadedDate
+                        </div>
+                    }
+
+                     @if (Model.AppStatus == 7)
+                    {
+                        <div class="col-md-3">
+                            <label>State Committee Report Uploaded Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.StateComettiReportUploadedDate
+                        </div>
+                    }
+
+                      @if (Model.AppStatus == 8)
+                    {
+                        <div class="col-md-3">
+                            <label>Inspection Report Rejected Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionRejectedAcceptedDate
+                        </div>
+                    }
+
+                        @if (Model.AppStatus == 9)
+                    {
+                        <div class="col-md-3">
+                            <label>Inspection Report Accepted Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.InspectionRejectedAcceptedDate
+                        </div>
+                    }
+
+                          @if (Model.AppStatus == 10)
+                    {
+                        <div class="col-md-3">
+                            <label>Sanction Apporved Date</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Model.SancationDate
+                        </div>
+                    }
+                    
+
+                    <div class="col-md-3">
+                        <label>Pendency</label>
+                    </div>
+                     @if (Model.AppStatus == -1)
+                    {
+                        <div class="col-md-3">
+                            Pending At :- @Model.AppAcceptedBy,@Model.DistrictName
+                        </div>
+                    }
+                    @if (Model.AppStatus == 0)
+                    {
+                        <div class="col-md-3">
+                             Rejected By :- @Model.AppRejectBy
+                        </div>
+                    }
+                    else if (Model.AppStatus == -1)
+                    {
+                        <div class="col-md-3">
+                            Pending At :- @Model.CMOName , @Model.DistrictName
+                        </div>
+                    }
+                    else if (Model.AppStatus == 1)
+                    {
+                        <div class="col-md-3">
+                             Pending At :- @Model.AppAcceptedBy , @Model.DistrictName
+                        </div>
+                    }
+                    else if (Model.AppStatus == 2)
+                    {
+                        <div class="col-md-3">
+                             Pending At :- @Model.forwardByuser , @Model.DistrictName
+                        </div>
+                    }
+                    else if (Model.AppStatus == 3)
+                    {
+                        <div class="col-md-3">
+                             Pending At :- @Model.VerifyByUser , @Model.DistrictName
+                        </div>
+                    }
+                    else if (Model.AppStatus == 4)
+                    {
+                        <div class="col-md-3">
+                             Pending At :- @Model.VerifyByUser , @Model.DistrictName
+                        </div>
+                    }
+                    else if (Model.AppStatus == 5)
+                    {
+                        <div class="col-md-3">
+                            Pending At :- @Model.InspectionSheduleBy , @Model.DistrictName
+                        </div>
+                    }
+
+                    else if (Model.AppStatus == 6)
+                    {
+                        <div class="col-md-3">
+                            Pending At :- @Model.districtReportUploadedBy , @Model.DistrictName
+                        </div>
+                    }
+                    else if (Model.AppStatus == 7)
+                    {
+                        <div class="col-md-3">
+                            Pending At :- @Model.stateReportUploadedBy , @Model.DistrictName
+                        </div>
+                    }
+                    else if (Model.AppStatus == 8)
+                    {
+                        <div class="col-md-3">
+                            Pending At :- @Model.InspectionReportRejectedBy , @Model.DistrictName
+                        </div>
+                    }
+                     else if (Model.AppStatus == 9)
+                    {
+                        <div class="col-md-3">
+                            Pending At :- @Model.InspectionReportRejectedBy , @Model.DistrictName
+                        </div>
+                    }
+
+                     else if (Model.AppStatus == 10)
+                    {
+                        <div class="col-md-3">
+                           @*Application Pending At :- @Model.SanctionBy , @Model.DistrictName
+                            Pending At :- @Model.SanctionBy , @Model.DistrictName
+                        </div>
+                    }
+                </div>*@

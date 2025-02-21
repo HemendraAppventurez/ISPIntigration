@@ -1,0 +1,128 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.userPolicyModel
+@{
+    ViewBag.Title = "VerifyMobile";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="col-md-6 lg-left">
+    <div class="instruction" style="height: 890px;">
+        <h3>नागरिक पंजीकरण हेतु निर्देश :-</h3>
+        <h4><strong>"Register"</strong> बटन पर क्लिक करने से पहले नीचे दिए गए निर्देशों को अच्छी तरह से पढ़ें:</h4>
+        <div class="nano-content" id="demo">
+            <ul>
+                <li>दिए गए फॉर्म में मूल जानकारी (जैसे कि Full Name, Father`s Name, Date of Birth, Category, Mobile Number आदि) भरकर <strong>"Register"</strong> बटन पर क्लिक करें|</li>
+                <li><strong>"Register"</strong> बटन पर क्लिक करने के बाद एक ओटीपी पंजीकृत मोबाइल नंबर पर भेजा जाएगा।</li>
+                <li>निर्दिष्ट फ़ील्ड में ओटीपी कोड दर्ज करें और <strong>"Verify"</strong> बटन पर क्लिक करें।</li>
+                <li>ओटीपी सत्यापित होने के बाद, आपको <strong>"Login"</strong> पृष्ठ पर पुनः निर्देशित किया जाएगा।</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 bg-color">
+    <div class="row">
+        <div class="lg-right" style="min-height: 435px;">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#Login">Mobile Verification</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="Login" class="tab-pane fade in active">
+                    <div class="login-content">
+                        @using (Html.BeginForm("VerifyMobile", "Account", FormMethod.Post, new { @id = "frmUserLogin", @readonly = "readonly" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        @Html.TextBoxFor(m => m.Displayname, new { @class = "form-control", @readonly = "readonly" })
+
+                                        <span class="focus-border"><i></i></span>
+                                    </div>
+                                </div>
+                                @if (Model != null && !Model.IsMobileVarified)
+                                {
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Mobile Number</label>
+                                            @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @readonly = "readonly" })
+
+                                            <span class="focus-border"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>OTP</label>
+                                            @Html.TextBoxFor(m => m.Opt, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter OTP" , @onkeypress = "return isNumberKey(event);",@maxlength="6" })
+                                            @Html.ValidationMessageFor(m => m.Opt)
+                                        </div>
+                                    </div>
+                                }
+                            </div> 
+                            <div class="row">
+                                @if (Model != null && !Model.IsMobileVarified)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="submit" value="Verify" id="btnVerify" class="btn btn-warning btn-lg btn-block" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="button" value="Resend OTP" id="btnSendOTP" class="btn btn-block btn-info" />
+                                        </div>
+                                    </div>
+                                }
+                            </div> 
+                        }
+                        <div class="row">
+                            <div class="col-md-5">&nbsp;</div>
+                            <div class="col-md-7 text-right">@Html.ActionLink("Back to Login", "Login", "Account", "")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+
+        $("#btnSendOTP").click(function (event) {
+            $.ajax({
+                url: '@Url.Action("SendOTP", "Account")',
+                type: 'GET',
+                dataType: 'html',
+                async: false,
+                success: function (result) {
+                    if (result == "S") {
+                        swal("", "OTP is send to your registered Mobile No.", "success");
+                    }
+                    else if (result == "OCE") {
+                        $("#btnSendOTP").hide();
+                        swal("", "You Reached Max Limit of OTP send please try after 24 hours.", "error");
+                    }
+                    else {
+                        swal("", result, "error");
+                    }
+                },
+                error: function (xhr, status) {
+                    alert(status);
+                }
+            });
+        });
+
+
+    });
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+</script>

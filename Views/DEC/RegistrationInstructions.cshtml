@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "RegistrationInstructions";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>मृत्यु प्रमाणपत्र<span class="small">Death Certificate Instructions</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                         <div class="col-md-6 page-instraction">
+                           <h4>Instruction to Fill Application Form</h4>
+                            <ul>
+                                <li>To  apply for the Age Certificate, applicant needs to first fill the application  form.</li>
+                                <li>The  Application forms will contain the following sections:</li>
+                                <ul>
+                                    <li>Requester Details</li>
+                                    <li>Death Person`s Details</li>
+                                    <li>Cause of Death</li>
+                                </ul>
+                                <li>All  files that will be uploaded should be in .jpg and .pdf format and maximum file  size should be 2080 KB (2 MB).</li>
+                                <li>Before  final submission of the form, you can preview the form and edit the same.</li>
+                                <li>Once  the final submission is done, you will receive the Application Number. You can  use that application number for future references.</li>
+                                <li>Your request will be forwarded to concerned  Community Health Centre/District Hospital. You will receive the notification  while any action performed by Community Health Centre/District Hospital for  your application.</li>
+                                <li>After  approval on your application, you can download the certificate online or you  can contact with the Office of Community Health Centre/District Hospital for  the same.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 page-instraction">
+                            <h4>Terms &amp; Conditions</h4>
+                            <ul>
+                                <li>To  apply for the Age Certificate, applicant needs to first fill the application  form.</li>
+                                <li>The  Application forms will contain the following sections:</li>
+                                <ul>
+                                    <li>Requester Details</li>
+                                    <li>Death Person`s Details</li>
+                                    <li>Cause of Death</li>
+                                </ul>
+                                <li>All  files that will be uploaded should be in .jpg and .pdf format and maximum file  size should be 2080 KB (2 MB).</li>
+                                <li>Before  final submission of the form, you can preview the form and edit the same.</li>
+                                <li>Once  the final submission is done, you will receive the Application Number. You can  use that application number for future references.</li>
+                                <li>Your request will be forwarded to concerned  Community Health Centre/District Hospital. You will receive the notification  while any action performed by Community Health Centre/District Hospital for  your application.</li>
+                                <li>After  approval on your application, you can download the certificate online or you  can contact with the Office of Community Health Centre/District Hospital for  the same.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <b>I have read and Understood all the Terms & Conditions regarding the applications Process.</b><br />
+
+                                <b>
+                                    <label>
+                                        <input id="chkConfirm" name="chkConfirm" type="checkbox" />
+                                        I Agree</label></b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input name="btnProceed" value="Proceed" onclick="return proceedToRegistration();" disabled="disabled" id="btnProceed" class="btn btn-warning btn-block btn-lg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#chkConfirm').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#btnProceed').removeAttr('disabled');
+            } else {
+                $('#btnProceed').attr('disabled', 'disabled');
+            }
+        });
+    });
+
+    function proceedToRegistration() {
+
+        if ($('#chkConfirm').is(':checked')) {
+            var url = '@Url.Action("DeathCertificate", "DEC")';
+            window.location.href = url;
+        } else {
+            swal("", "First select Agree, Then Proceed To Registration !", "warning");
+            return false;
+        }
+    }
+
+</script>
+

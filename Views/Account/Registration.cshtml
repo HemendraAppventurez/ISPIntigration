@@ -1,0 +1,177 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.RegistrationModel
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<style>
+    .login {
+        margin-bottom: 50px;
+    }
+</style>
+
+<div class="col-md-6 lg-left">
+    <div class="instruction" style="height: 890px;">
+        <h3>नागरिक पंजीकरण हेतु निर्देश :-</h3>
+        <h4><strong>"Register"</strong> बटन पर क्लिक करने से पहले नीचे दिए गए निर्देशों को अच्छी तरह से पढ़ें:</h4>
+        <div class="nano-content" id="demo">
+            <ul>
+                <li>दिए गए फॉर्म में मूल जानकारी (जैसे कि Full Name, Father`s Name, Date of Birth, Category, Mobile Number आदि) भरकर <strong>"Register"</strong> बटन पर क्लिक करें|</li>
+                <li><strong>"Register"</strong> बटन पर क्लिक करने के बाद एक ओटीपी पंजीकृत मोबाइल नंबर पर भेजा जाएगा।</li>
+                <li>निर्दिष्ट फ़ील्ड में ओटीपी कोड दर्ज करें और <strong>"Verify"</strong> बटन पर क्लिक करें।</li>
+                <li>ओटीपी सत्यापित होने के बाद, आपको <strong>"Login"</strong> पृष्ठ पर पुनः निर्देशित किया जाएगा।</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 bg-color">
+    <div class="row">
+        <div class="lg-right">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#Login">Citizen Registration</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="Login" class="tab-pane fade in active">
+                    <div class="login-content">
+                        @using (Html.BeginForm("Registration", "Account", FormMethod.Post, new { @id = "frmRegistration" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Full Name <span class="red">*</span></label>
+                                        @Html.TextBoxFor(m => m.fullName, new { @class = "form-control" , @placeholder = "Full Name"})
+                                        @Html.ValidationMessageFor(m => m.fullName)
+                                        @*<input name="name" required type="name" formnovalidate class="form-control" />*@
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Father`s Name <span class="red">*</span></label>
+                                        @Html.TextBoxFor(m => m.fatherName, new { @class = "form-control" , @placeholder = "Father`s Name" })
+                                        @Html.ValidationMessageFor(m => m.fatherName)
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Date Of Birth <span class="red">*</span></label>
+                                        @Html.TextBoxFor(m => m.dob, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy",@readonly="readonly" })
+                                        @Html.ValidationMessageFor(m => m.dob)
+                                        @*<input id="date" class="datepicker-here form-control" data-language="en" placeholder="01/07/1994" type="text" tabindex="3">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Category <span class="red">*</span></label>
+                                        @Html.DropDownListFor(m => m.categoryId, (IEnumerable<SelectListItem>)ViewBag.CategoryDropdownList, "--Select--", new { @class = "form-control select" })
+                                        @Html.ValidationMessageFor(m => m.categoryId)
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Gender <span class="red">*</span></label>
+                                    <div class="form-group">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="rbtnGender" data-gender="Male">Male</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="rbtnGender" data-gender="Female">Female</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="rbtnGender" data-gender="Transgender">Transgender</label>
+                                        @Html.HiddenFor(m => m.gender)
+                                        <br />
+                                        <span id="spanGender" class="field-validation-error" style="display: none;">Select Gender !</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Mobile Number<span class="red">*</span></label>
+                                        @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control orderField", @maxlength = "10", @placeholder = "Mobile Number" , @onkeypress = "return isNumberKey(event);"  })
+                                        @Html.ValidationMessageFor(m => m.mobileNo)
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Email Address </label>
+                                        @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", @placeholder = "Email Address"  })
+                                        @Html.ValidationMessageFor(m => m.emailId)
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Password <span class="red">*</span></label>
+                                        @Html.TextBoxFor(m => m.password, new { @class = "form-control", @type = "password", @placeholder = "Password"  })
+                                        @Html.ValidationMessageFor(m => m.password)
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Confirm Password <span class="red">*</span></label>
+                                        @Html.TextBoxFor(m => m.confirmPassword, new { @class = "form-control", @type = "password", @placeholder = "Confirm Password"  })
+                                        @Html.ValidationMessageFor(m => m.confirmPassword)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="submit" value="Register" onclick="return checkRequired();" class="btn btn-warning btn-lg btn-block" />
+                                        @*<a href="otp-verification.html" class="btn btn-warning btn-lg btn-block">Register</a>*@
+                                    </div>
+                                    <div class="form-group">
+                                     <a href="@Url.Action("Registration", "Account")" class="btn btn-block btn-warning">Reset</a>
+                                        </div>
+                                </div>
+                            </div>
+                        }
+                        <p><a href="@Url.Action("Login", "Account")">Registered Users Click here for Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+    });
+
+    function checkRequired() {
+        debugger;
+        var val = $("#frmRegistration").validate();
+        val.form();
+        val.showErrors();
+        if (val.valid()) {
+            $('#spanGender').hide();
+            if ($("input[name='rbtnGender']:checked").length == 0) {
+                $('#spanGender').show();
+                return false;
+            }
+            else {
+                $('#gender').val($("input[name='rbtnGender']:checked").attr("data-gender"));
+                return true;
+            }
+        }
+    }
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#dob').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function isalphabet(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+
+        if (!(charCode >= 65 && charCode <= 120) && (charCode != 32 && charCode != 0))
+            return false;
+        return true;
+    }
+</script>

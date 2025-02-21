@@ -1,0 +1,401 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.AGCModel
+
+<style>
+    .form-group label
+    {
+        font-weight: 600 !important;
+    }
+</style>
+
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Requester's Details</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Application No.</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.registrationNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>Requested By</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.applicantTypeName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>@Model.applicantTypeName</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.applicantSubTypeName
+
+                    </div>
+                    <div class="col-md-3">
+                        <label>Order Detail</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.orderDetail
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Order Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.orderNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>Order Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.orderDate
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Order File</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (@Model.orderFile == "Submitted By Department")
+                        {
+                            <label>@Model.orderFile</label>
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(Model.orderFile))
+                            {
+                            <a href="@Url.Content(@Model.orderFile)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            }
+                        }
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="clearfix"></div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Brought By Detail</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Brought By Persone Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.fullName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mobile Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.mobileNo
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.emailId
+                        @* <a href="@Url.Content(@Model.addressproofFilePath)" class="btn btn-info btn-md" target="_blank">Download</a>*@
+                    </div>
+                    <div class="col-md-3">
+                        <label>Gender</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.gender
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.address
+                    </div>
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.StateName
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.DistrictName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Pin Code</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.pinCode
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Id Type</label>
+                    </div>
+                    <div class="col-md-3">
+                        @* <a href="@Url.Content(@Model.photoPath)" class="btn btn-info btn-md" target="_blank">Download</a>*@
+                        @Model.idTypeName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Id Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.idNumber
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Document File</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (@Model.documentFile == "Submitted By Department")
+                        {
+                            <label>@Model.documentFile</label>
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(Model.documentFile))
+                            {
+                            <a href="@Url.Content(@Model.documentFile)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            }
+                        }
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Person Detail</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Suspected Person Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.susName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Father's Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.susFatherName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Mother's Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.susMotherName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Father's Age</label>
+                    </div>
+                    <div class="col-md-3">
+                      @if (Model.susFatherAge == 0)
+                        {
+                            <label></label>
+                        }
+                        else
+                        {
+                            @Model.susFatherAge
+                        }   
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Mother's Age</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (Model.susMotherAge == 0)
+                        {
+                            <label></label>
+                        }
+                        else
+                        {
+                            @Model.susMotherAge
+                        }  
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mobile Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.susMobileNo
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Suspected Person Email</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.susEmail
+                    </div>
+                    <div class="col-md-3">
+                        <label>Appointment Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        @DateTime.Parse(@Model.appointmentDate).ToShortDateString()
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.susaddress
+                    </div>
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.susStateName
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.susDistrictName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Pin Code</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.suspinCode
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Mark Of Identification</label>
+                    </div>
+                    <div class="col-md-3">
+
+                        @Model.markOfIdentification
+
+                    </div>
+                    <div class="col-md-3">
+                        <label>Photograph</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (Model.susphotoFile == "Not Uploaded" || Model.susphotoFile == "Submitted By Department")
+                        {
+                            <strong>Submitted By Department</strong>
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(Model.susphotoFile))
+                            {
+                            <a href="@Url.Content(@Model.susphotoFile)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            }
+                        }
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    
+                    <div class="col-md-3">
+                        <label>Thumb Impression</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (Model.susThumbFile == null)
+                        {
+                            <strong>Submitted By Department</strong>
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(Model.susThumbFile))
+                            {
+                            <a href="@Url.Content(@Model.susThumbFile)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                            }
+                        }
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

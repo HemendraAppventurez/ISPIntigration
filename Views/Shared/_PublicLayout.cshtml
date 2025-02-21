@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <title>Department of Health and Family Welfare</title>
+    <meta name="keywords" content="UP, Uttar Pradesh, Department of health and family welfare, uphealth, Registration of medical establishment, illness/ fitness certificate, disability certificate, Immunization certificate,  Death Certificate, Unsuccessful family planning, Medical reimbursement, medico-legal certificate, age certificate, health status, living quality, Provincial Subordinate Medical, Provincial Medical Services" />
+    <meta name="description" content="Department of Medical Health and Family Welfare, Uttar Pradesh is playing a vital role in improving the health status & living quality of the people of Uttar Pradesh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link href="~/Content/Public/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Public/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Public/css/jquery.smartmenus.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Public/css/owl.carousel.css" rel="stylesheet" />
+    <noscript>Your browser does not support JavaScript!</noscript>
+    <link rel="stylesheet" type="text/css" href="~/Content/Public/css/style.css" id="MSS">
+    <link rel="stylesheet" type="text/css" href="~/Content/Public/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Public/css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Public/css/table-fixed-header.css" />
+
+
+         <link rel="stylesheet" type="text/css" href="~/css/datepicker.css">
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap-timepicker.min.css" />
+       
+    <script type="text/javascript" src="~/js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/datepicker.js"></script>
+    <script type="text/javascript" src="~/js/datepicker.en.js"></script>
+    <script src="~/js/bootstrap-timepicker.min.js"></script>
+</head>
+<body class="sizer">
+    <header>
+        <div class="top-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        @*<div class="time" id="datetime"></div>*@
+                        &nbsp;
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        &nbsp;
+                       @* <ul id="textresizer">
+                            <li><a href="#" class="skiper">Skip to Main Content</a></li>
+                            <li><a href="screen-reader-access.html">Screen Reader Access</a></li>
+                            <li><a href="sitemap.html">Sitemap</a></li>
+                            <li class="textresizer"><a accesskey="1" id="decreaseFont" href="#" class="btn-xs small-text" title="Smaller Font">A<sup>-</sup></a></li>
+                            <li class="textresizer"><a accesskey="2" id="resetFont" href="#" class="btn-xs medium-text " title="Medium Font">A</a></li>
+                            <li class="textresizer"><a accesskey="3" id="increaseFont" href="#" class="btn-xs large-text" title="Larger Font">A+</a></li>
+                            <li><a href="~/Content/Public/css/style.css" accesskey="4" title="Default Theme" class="btn-xs defTheme blue-theme">T </a></li>
+                            <li><a href="~/Content/Public/css/contrast.css" accesskey="5" title="Black Theme" class="btn-xs defTheme black-theme">T </a></li>
+                        </ul>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="top-middle-sec">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 logowrap">
+                        <div class="logo">
+                            <a href="@Url.Action("ApplicationReport", "Public")">
+                                <img src="~/Content/Public/images/logo.png" alt="logo" title="logo" /></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="menusection">
+            <div class="col-md-4 col-sm-4">
+                <div class="row">
+                    <div class="logoborder">&nbsp;</div>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-8">
+                <div class="row">
+                    <nav class="navbar navbar-inverse">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="navbar-collapse">
+                            <div class="row">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="@Url.Action("ApplicationReport", "Public")"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="online-services">
+        @RenderBody()
+    </section>
+    <section class="footer-secton">
+        <div class="container">
+            <div class="row ft-bottom">
+                <div class="col-md-8">
+                    <p class="text-left">
+                        This is the Official Website of Department of Medical  Health & Family Welfare, Uttar Pradesh, India.<br>
+                        Content on this website is published and managed by Department of Medical Health & Family Welfare, Uttar Pradesh.<br>
+                        For any query regarding this website, Please contact the <a href="web-information-manager.html">"Web Information Manager"</a>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <p>&nbsp;</p>
+              @*      <p class="text-right">Designed & Developed  by <a target="_blank" href="#">Omninet</a> through <a target="_blank" href="http://uplc.in/">UPLC</a></p>*@
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" src="~/Content/Public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/font-resize.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/jquery.smartmenus.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/jquery.smartmenus.bootstrap.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/tickerme.min.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/news-scroller.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="~/Content/Public/js/table-fixed-header.js"></script>
+    @*<script src="~/Content/Public/js/myscript.js" type="text/javascript"></script>*@
+    <script>
+
+  
+       $(document).ready(function () {
+           $('.table-fixed-header').fixedHeader();
+       });
+
+        $(document).ready(function () {
+            $("#disposal-file-hide").hide();
+            $("#file-hide2").hide();
+            $('a').each(function () {
+                if (location.href === this.href) {
+                    $(this).addClass('active');
+                    $('a').not(this).addClass('none');
+                    return false;
+                }
+            });
+
+            $('.datepicker-here').datepicker({
+                autoClose: true
+            });
+        });
+
+
+        $(".disposal2").on("change", function () {
+            var id = $(this).attr('id');
+            if (id == 'disposalno') {
+                $("#disposal-file-hide").hide();
+            }
+            else {
+                $("#disposal-file-hide").show();
+            }
+
+        });
+
+        $("#death").click(function () {
+            $("#deathnone").toggle();
+        });
+
+        $(window).scroll(function () {
+            var height = $(window).scrollTop();
+            if (height > 90) {
+                $(".content-title").addClass("titelFxd");
+            }
+            if (height < 90) {
+                $(".content-title").removeClass("titelFxd");
+            }
+        });
+
+        $('.timepicker').timepicker({
+            showInputs: false
+        });
+    </script>
+       
+</body>
+</html>

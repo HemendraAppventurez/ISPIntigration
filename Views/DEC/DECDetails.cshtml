@@ -1,0 +1,265 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DECModel
+@{
+    ViewBag.Title = "DECDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    .stronglbl label {
+        font-weight: 600 !important;
+        display: block;
+    }
+    /*.stronglbl label:after {
+            content:":";
+            float:right;
+            display:block;
+        }*/
+    .form-group {
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Death Certificate Details
+       @* <button type="button" class="btn btn-primary pull-right" data-print="modal" onclick="PrintDoc()">Print</button>*@
+        <a href="@Url.Action("ViewDECList", "DEC")" class="btn btn-info btn-md pull-right">Back</a></h3>
+</div>
+
+
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body stronglbl">
+            <h4>Requester Details
+                <label class="pull-right" style="color:#0b8494;"><strong>Application Number:</strong>   @Model.registrationNo</label>
+            </h4>
+            <div class="form-group">
+                
+                <div class="col-md-3">
+                    <label>Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fullName
+                </div>
+                <div class="col-md-3">
+                    <label>Mobile Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.mobileNo
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                
+                <div class="col-md-3">
+                    <label>Email Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.emailId
+                </div>
+
+                  <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.address
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+              
+                <div class="col-md-3">
+                    <label>State</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.StateName
+                </div>
+                 <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.DistrictName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+               
+                <div class="col-md-3">
+                    <label>Pincode</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.pinCode
+                </div>
+                <div class="col-md-3">
+                    <label>Relation with Death Person</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.relationWithDeathPerson
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+         
+            <h4>Death Person's Detail</h4>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Health Unit</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtypeName
+                </div>
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.healthUnitDistrictName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Area</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtoName
+                </div>
+                <div class="col-md-3">
+                    <label>Name of death Person</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.deathPersonName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Aadhar No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.aadhaarNo
+                </div>
+                <div class="col-md-3">
+                    <label>Gender</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.DeathPersonGender
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Marital Status</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.maritalStatusName
+                </div>
+                <div class="col-md-3">
+                    <label>Spouse Name</label>
+                </div>
+                <div class="col-md-3">
+                    @(!string.IsNullOrEmpty(Model.spouseName)?Model.spouseName:"NA")
+                </div> 
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group"> 
+                <div class="col-md-3">
+                    <label>Father Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fathersName
+                </div>
+                <div class="col-md-3">
+                    <label>Mother Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.motherName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group"> 
+                <div class="col-md-3">
+                    <label>Religion</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.religionName
+                </div>
+                <div class="col-md-3">
+                    <label>Dath Of Death</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.dod).ToShortDateString()
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>          
+           
+            <h4>Cause Of Death</h4>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Was the cause of death is medically certified</label>
+                </div>
+                <div class="col-md-3">
+                    @if (@Model.isCauseCertified == true)
+                    {
+                        <label>Yes</label>
+                    }
+                    else
+                    {
+                        <label>No</label>
+                    }
+                </div>
+
+                @if (@Model.isCauseCertified == true)
+                {
+                    <div class="col-md-3">
+
+                        <label>Cause</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.diseaseNameOrCause
+                    </div>
+                }
+                <div class="clearfix"></div>
+            </div>
+           
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+
+
+<script>
+    function PrintDoc() {
+
+        var toPrint = document.getElementById('content');
+
+        var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+        popupWin.document.open();
+
+        popupWin.document.write('<html><title>::Preview::</title><link href="../css/bootstrap.min.css" rel="stylesheet" /><link href="../css/font-awesome.min.css" rel="stylesheet" /> <style>body{font-family:Arial Unicode MS; font-size:12px;} .form-group {border-bottom: 1px solid #ccc;} .form-group:last-child {border-bottom: 0px solid #ccc;} h4{border-bottom: 1px solid #A0A0A0; padding-bottom:5px; font-size: 14px; font-weight:600;} .form-group {margin-bottom: 3px;} .form-group .col-md-3{float: left; width:25%;}a:link:after, a:visited:after {content: normal !important} a[href]:after {content: normal !important;} label{display:block; position: relative;} label:after {content:":"; float:right; display:block; position: absolute; right: 0; top: 0;} </style></head><body onload="window.print()"> <h3 style="text-align:center;">Health and Family Welfare Department Uttar Pradesh</h3> <h4 style="text-align:center; font-size: 18px;">Death Certificate Details</h4>')
+
+        popupWin.document.write(toPrint.innerHTML);
+
+        popupWin.document.write('</body></html>');
+
+        popupWin.document.close();
+
+    }
+</script>

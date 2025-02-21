@@ -1,0 +1,84 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.CommitteeModel>
+@using OTPL_Imp
+<style>
+    .webgrid-header a
+    {
+        color: white;
+        text-decoration: none;
+    }
+    #divDataList .table > thead > tr > th:last-child {
+        width:8%;
+    }
+     #divDataList .table > tbody > tr > td:last-child {
+        text-align:center;
+    }
+</style>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+             
+    <div id="divDataList" class="table-responsive">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "Sl.No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("commMemName", header: "Name"),
+            grid.Column("commMemDesig", header: "Designation"),
+            grid.Column("commMemDept", header: "Department"),
+              grid.Column(header:"Status",format:  @<text>
+                   @if(@item.isActive==false)
+                   {
+                       <span>Activate</span>
+                       
+                       
+                   }
+                       else
+                       {
+                       
+
+                      <span>Deactivate</span>
+                   }
+                        
+                    
+                    </text>),
+           
+            grid.Column(header:"Action",format:  @<text>
+                   @if(@item.isActive==false)
+                   {
+                       
+                       <button data-userId ='@OTPL_Imp.CustomCryptography.Encrypt(@item.commMemId.ToString())' data-active='@OTPL_Imp.CustomCryptography.Encrypt("true")' aria-hidden="true" onclick="ManageActivateDeactivateList(this)" class="btn btn-red btn-sm">Deactivate It</button>
+                   }
+                       else
+                       {
+                       
+                       <button data-userId ='@OTPL_Imp.CustomCryptography.Encrypt(@item.commMemId.ToString())' data-active='@OTPL_Imp.CustomCryptography.Encrypt("false")' aria-hidden="true" onclick="ManageActivateDeactivateList(this)" class="btn btn-green btn-sm">Activate It</button>
+
+                      
+                   }
+                        
+                    
+                    </text>),
+            grid.Column(header:"Edit",format:  @<text>
+                   
+                        <a href="@Url.Action("Committee","UserManagement", new { userId =@OTPL_Imp.CustomCryptography.Encrypt(@item.commMemId.ToString())})" aria-hidden="true" class="fa fa-pencil"></a>
+                    
+                    </text>)
+            ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight:600;font-size:18px;">No record found !</span>
+        </div>
+    </div>
+}

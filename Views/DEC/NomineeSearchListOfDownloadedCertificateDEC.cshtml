@@ -1,0 +1,81 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.DECModel>
+@{
+    ViewBag.Title = "NomineeSearchListOfDownloadedCertificateDEC";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    .webgrid-header {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+<div class="content-title">
+    <h3 class="main-title">Death Certificate Generation List<a href="@Url.Action("DECDashBoard", "DEC")" class="btn btn-info btn-md pull-right">Back</a></h3>
+
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body">
+            @if (Model != null && Model.Count() > 0)
+            {
+                WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                <div id="divDataList" class="table-responsive">
+                    @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+             grid.Column("registrationNo", header: "Application No"),
+            grid.Column("nomineeName", header: "Requester Name"),
+            grid.Column("deathPersonName", header: "Dead Person Name"),
+             grid.Column("transDate", header: "Download Date"),
+            grid.Column("NomineeMobileNo", header: "Mobile Number"),
+            grid.Column("downloadType", header: "Status"),
+            grid.Column(header: "Action", format:
+            @<text>
+
+                    @if (@item.downloadType == "Download" && !string.IsNullOrEmpty(@item.downloadType))
+                    {
+                        <a href="@Url.Action("VerifyMobile", "DEC", new { userName = @OTPL_Imp.CustomCryptography.Encrypt(@item.NomineeMobileNo), type = @OTPL_Imp.CustomCryptography.Encrypt("regen"), RegisIdDEC = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdDEC.ToString()), RegisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdNomineeDEC.ToString()) })"  class="btn btn-green btn-sm" target="_blank">Re-Generate Certificate</a>
+
+                    }
+                    else
+                    {
+                        <label>Re-generated Successfully</label>
+                    }
+
+                    </text>)
+         ))
+                </div>
+            }
+            else
+            {
+    
+                <table class="table table-bordered norecord">
+                    <thead class="bg-info">
+                        <tr>
+                            <th>No Record Found</th>
+                        </tr>
+                    </thead>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+
+

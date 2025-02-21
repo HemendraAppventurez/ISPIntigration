@@ -1,0 +1,34 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FAPModel
+
+@if (Model != null)
+{
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="title elipsis">
+                    <h4>Family Planning Details</h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <table class="table-user-information table table-bordered table-striped" style="margin-bottom: 0;">
+                    <tr>
+                        <td style="width: 16%"><strong>Application No.</strong></td>
+                        <td>@Model.registrationNo</td>
+                        <td style="width: 15%"><strong>Application Date</strong></td>
+                        <td>@Model.requestDate</td>
+                        <td><strong>Claimant Name</strong></td>
+                        <td>@Model.claimantName</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Claimant Mobile No</strong></td>
+                        <td>@Model.claimantMobileNo</td>
+                        <td><strong>Claimant Age</strong></td>
+                        <td>@Model.claimantAge</td>
+                        <td style="width: 15%"><strong>Status</strong></td>
+                        <td style="width: 20%">@Model.appliedStatus</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+}

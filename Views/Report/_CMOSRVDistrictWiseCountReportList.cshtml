@@ -1,0 +1,98 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.CountReportModel>
+@{
+    int rowSpan = 1, rowSpan1 = 1, sNo = 0;
+    string preValue = "", preValue1 = "";
+}
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+}
+<table class="table table-bordered table-striped" style="border-collapse: collapse;" border="1">
+    <thead>
+        <tr>
+            <th style="width: 5%; text-align: center;">Division</th>
+            <th>S.No.</th>
+            <th>District</th>
+            <th>Service Name</th>
+            <th style="width: 12%; text-align: center;">Total Received</th>
+            <th style="width: 5%; text-align: center;">Approved</th>
+            <th style="width: 5%; text-align: center;">Rejected</th>
+            <th style="width: 17%; text-align: center;">Pending In-Time Limit</th>
+            <th style="width: 18%; text-align: center;">Pending After-Time Limit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                
+            <tr>
+                @if (preValue != item.zoneName)
+                {
+                    //sNo++;
+                    rowSpan = Model.Where(m => m.zoneName == item.zoneName).Count();
+                    @*<td rowspan="@rowSpan" style="text-align: center !important; vertical-align:middle !important;">@sNo</td>  *@
+                    <td rowspan="@rowSpan" style="text-align: center !important; vertical-align:middle !important;">
+                        @if (SM.RollID == 13)
+                        {
+                            @item.zoneName
+                        }
+                        else
+                        {
+                            if (item.rollId == 2)
+                            {
+                            <a href="@Url.Action("CMOSRVCountReportDivisionWise", "Report", new { zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()) })">@item.zoneName</a>
+                            }
+                            else
+                            {
+                            <a href="@Url.Action("SRVCountReportDivisionWise", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()) })">@item.zoneName</a>
+                            }
+                        }
+
+                    </td>
+                     
+                }
+
+                @if (preValue1 != item.DistrictName)
+                {
+                    sNo++;
+                    
+                    rowSpan1 = Model.Where(m => m.DistrictName == item.DistrictName).Count();
+                    <td rowspan="@rowSpan1" style="text-align: center !important; vertical-align:middle !important;">@sNo</td>  
+                    <td rowspan="@rowSpan1" style="text-align: center !important; vertical-align:middle !important;">
+                        @item.DistrictName
+                    </td>
+                }
+                <td>
+                    @if (item.rollId == 2)
+                    {
+                        <a href="@Url.Action("CMOSRVCountReportDivisionWise", "Report", new { zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) })">@item.serviceName</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("SRVCountReportDivisionWise", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) })">@item.serviceName</a>
+                    }
+                </td>
+                <td style="text-align: center;">@item.totalReceived</td>
+                <td style="text-align: center;">@item.approved</td>
+                <td style="text-align: center;">@item.rejected</td>
+                <td style="text-align: center;">@item.pendingInTimeLimit</td>
+                <td style="text-align: center;">@item.pendingOverTimeLimit</td>
+
+            </tr>
+                    preValue1 = item.DistrictName;
+                    preValue = item.zoneName;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">Record Not Found</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

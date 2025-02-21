@@ -1,0 +1,217 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ApplicationStatusReportDetailsModel
+@{
+    ViewBag.Title = "CMOfficeAppCountProcessDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    SessionManager SMOBj = new SessionManager();
+}
+
+@using CCSHealthFamilyWelfareDept.Models;
+@{
+    int sNo = 0;
+    SessionManager SM = new SessionManager();
+}
+<div class="content-title">
+    <h3 class="main-title">
+        @if (SM.ReportName == "total")
+        {
+            <strong><span style="color: #0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - कुल प्राप्त आवेदनों की संख्या
+        <span class="small">@ViewBag.RollName - Total No. of Applications Received</span>
+            </strong>
+        }
+        @if (SM.ReportName == "Resolved")
+        {
+            <strong><span style="color: #0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 1 आवेदनों की संख्‍या की कुल संख्‍या
+        <span class="small">@ViewBag.RollName - Step 1 Total No. of Applications Resolved</span>
+            </strong>
+        }
+
+        @if (SM.ReportName == "pending")
+        {
+            <strong><span style="color: #0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - लंबित आवेदनों की कुल संख्या
+        <span class="small">@ViewBag.RollName - Total No. of Applications Pending</span>
+
+            </strong>
+            
+        }
+
+@* @if (SM.ReportName == "Step1Re")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 1 खारिज किए गए आवेदनों की कुल संख्या
+        <span class="small">@ViewBag.RollName - Step 1 Total No. of Applications Rejected</span>
+            </strong>
+        }
+        @if (SM.ReportName == "Step1Accep")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 1 स्वीकृत आवेदनों की कुल संख्या
+        <span class="small">@ViewBag.RollName - Step 1 Total No. of Applications Accepted</span>
+            </strong>
+        }
+        @if (SM.ReportName == "Step2InsSch")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 2 निर्धारित निरीक्षण की कुल संख्या 
+        <span class="small">@ViewBag.RollName - Step 2 Total No. of Inspections Scheduled</span>
+            </strong>
+              
+        }
+        @if (SM.ReportName == "Step3InsRepUp")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 3 अपलोड किए गए निरीक्षण रिपोर्ट की कुल संख्या
+        <span class="small">@ViewBag.RollName - Step 3 Total No. of Inspection Reports Uploaded</span>
+            </strong>
+        }
+
+        @if (SM.ReportName == "Step4Re")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 4 पंजीकरण की अंतिम स्थिति अस्वीकृत की कुल संख्या 
+        <span class="small">@ViewBag.RollName - Step 4 Total No. of Final Status of Registration Rejected</span>
+            </strong>
+        }
+
+        @if (SM.ReportName == "Step4ReAccep")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 4 पंजीकरण की अंतिम स्थिति स्वीकृत की कुल संख्या 
+        <span class="small">@ViewBag.RollName - Step 4 Total No. of Final Status of Registration Approved</span>
+            </strong>
+        }
+
+        @if (SM.ReportName == "Step5CertificateIssue")
+        {
+              <strong><span style="color:#0b8494;">@ViewBag.ServiceName</span></strong>
+            <strong>@ViewBag.RollNameHi - चरण 5 कुल जारी प्रमाणपत्रों की संख्या 
+        <span class="small">@ViewBag.RollName - Step 5 Total No. of Certificates Issued</span>
+            </strong>
+        }*@
+
+        <a href="#" onclick="PDF()" class="btn btn-primary btn-sm pull-right btnHistoryBack">Print</a>
+        <a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack">Back</a>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12" id="PanelSearch" style="display: none;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Application No.</label>
+                                <input type="text" id="txtAppNumber" class="form-control" />
+                                @Html.HiddenFor(m => m.buttonSearchValue, new { @id = "bSearchValueID" })
+                                @Html.HiddenFor(m => m.hdnappCS, new { id = "hdnappCS" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Application Date</label>
+                                <input type="text" id="txtAppDate" class="datepicker-here form-control" data-language="en" placeholder="dd/mm/yyyy" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Application Status</label>
+                                @Html.DropDownList("ddlAppStatus", (IEnumerable<SelectListItem>)ViewBag.DLLAppStatus, "--Select--", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                    @Html.Action("CMOfficeAppCountProcessDetailsList", "Report")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+
+        $("#btnSearch").click(function () {
+            debugger
+            bindApplicationList($("#txtAppNumber").val().trim(), $("#txtAppDate").val().trim(), $("#ddlAppStatus").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#txtAppNumber").val('');
+            $("#ddlAppStatus").val('');
+            $("#txtAppDate").val('');
+
+            bindApplicationList($("#txtAppNumber").val().trim(), $("#txtAppDate").val().trim(), $("#ddlAppStatus").val());
+        });
+
+    });
+
+    function bindApplicationList(_registrationNo, _appDate, _status) {
+        debugger
+
+        var RptName = '@OTPL_Imp.CustomCryptography.Encrypt(SM.ReportName)';
+        var DistrictID = '@OTPL_Imp.CustomCryptography.Encrypt(SM.RDistrictID)';
+        var AppStatus = @ViewBag.AppStatus
+        $.ajax({
+            url: '@Url.Action("CMOfficeAppCountProcessDetailsList", "Report")',
+            data: { appCurrStatus: AppStatus, registrationNo: _registrationNo, appDate: _appDate, status: _status, ReportName: RptName, DistrictID: DistrictID, buttonSearchValue: "100" },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            debugger
+            $('#DIV-ApplicationList').html(returndata);
+            $("#dvLoader").hide();
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+            $("#dvLoader").hide();
+        });
+    }
+
+    function PDF()
+    {
+        debugger;
+        var _registrationNo = $("#txtAppNumber").val().trim();
+        var _appDate = $("#txtAppDate").val().trim();
+        var _status = $("#ddlAppStatus").val();
+        var hdnappCS = $("#hdnappCS").val();
+        var RptName = '@OTPL_Imp.CustomCryptography.Encrypt(SM.ReportName)';
+        var DistrictID = '@OTPL_Imp.CustomCryptography.Encrypt(SM.RDistrictID)';
+        var url = '@Url.Action("CMOfficeCountProcessApplicationRpt", "Report")' + '?hdnappCS=' + hdnappCS + '&&registrationNo=' + _registrationNo + '&&appDate=' + _appDate + '&&status=' + _status + '&&ReportName=' + RptName + '&&DistrictID=' + DistrictID;
+        window.location = url;
+    }
+
+</script>
+

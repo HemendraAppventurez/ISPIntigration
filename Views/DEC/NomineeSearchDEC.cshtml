@@ -1,0 +1,271 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.DECModel
+@{
+    ViewBag.Title = "NomineeSearchDEC";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">मृत्यु प्रमाणपत्र का आवेदन<span class="small display-block">Total Application of Death Certificate</span></div>
+
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                             <div class="form-group">
+                                    <label>Health Unit&nbsp;<span class="text-danger">*</span></label>
+                                    <div class="form-control">
+                                        @foreach (var type in ViewBag.forwardTypes)
+                                        {
+                                            <label>
+                                                <input type="radio" name="forwardtypeId" id="forwardtypeId" value="@type.forwardtypeId">
+                                                @type.forwardtypeName
+                                            </label>
+                                        }
+                                    </div>
+                                    <label id="lbltype" class="text-danger" style="display: none;">Select Health Unit</label>
+                                </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>District&nbsp;<span class="text-danger">*</span></label>
+                                @Html.DropDownListFor(m => m.healthUnitDistrictId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                @Html.ValidationMessageFor(m => m.healthUnitDistrictId, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(m => m.healthUnitDistrictId)
+                              <label id="lblhealthUnitDistrictId" class="text-danger" style="display: none;">Select District</label>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <label>CHC/ PHC/ DH Name&nbsp;<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.forwardtoId, (IEnumerable<SelectListItem>)ViewBag.forwardTo, "--Select--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.forwardtoId, "", new { @class = "text-danger" })
+                                    <label id="lblforwardtoId" class="text-danger" style="display: none;">Select Health Unit</label>
+                                </div>
+                        </div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Name of Death Person<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.deathPersonName, new { @class = "form-control", tabindex = "11" })
+                                    @Html.ValidationMessageFor(m => m.deathPersonName, "", new { @class = "text-danger" })
+                                    <label id="lbldeathPersonName" class="text-danger" style="display: none;">Select Health Unit</label>
+                                </div>
+                            </div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Date of Death<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.dod, new { @class = "datepicker-here form-control", tabindex = "18", @data_language = "en",@readonly="true", @placeholder = "dd/mm/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.dod, "", new { @class = "text-danger" })
+                                    <label id="lbldod" class="text-danger" style="display: none;">Select Health Unit</label>
+                                </div>
+                            </div> 
+                          <div class="clearfix"></div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Gender<span class="star">*</span></label><br>
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.DeathPersonGender, "Male")
+                                        Male
+                                        </label>
+                                        <label class="radio-inline">
+                                        @Html.RadioButtonFor(m => m.DeathPersonGender, "Female")
+                                        Female
+                                            </label>
+                                            <label class="radio-inline">
+                                         @Html.RadioButtonFor(m => m.DeathPersonGender, "Transgender")
+                                        Transgender
+                                    </label>
+                                    
+                                </div>
+                                @Html.ValidationMessageFor(m => m.DeathPersonGender, "", new { @class = "text-danger" })
+                            <label id="lblDeathPersonGender" class="text-danger" style="display: none;">Select Gender</label>
+                            </div>
+                    </div>
+
+                     <div class="row">
+                       
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                       <div class="col-md-2">
+                           <label>&nbsp;</label>
+                           <a href="@Url.Action("NomineeSearchDEC", "DEC")" class="btn btn-block btn-warning">Reset</a>
+
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+             @*       @Html.Action("ReceivedApplicationListDEC", "CHC")*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(function () {
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+
+        $("#btnSearch").click(function () {
+            debugger;
+            if ($('input[name=forwardtypeId]:checked').length == 0) {
+                $("#lbltype").show();              
+                $("#lblhealthUnitDistrictId").hide();
+                $("#lblforwardtoId").hide();
+                $("#lbldeathPersonName").hide();
+                $("#lbldod").hide();
+                $("#lblDeathPersonGender").hide();
+                return false;
+            }
+            else
+                if ($("#healthUnitDistrictId").val() == 0) {
+                    $("#lblhealthUnitDistrictId").show();
+
+                    $("#lbltype").hide();
+                    $("#lblforwardtoId").hide();
+                    $("#lbldeathPersonName").hide();
+                    $("#lbldod").hide();
+                    $("#lblDeathPersonGender").hide();
+                    return false;
+                }
+                else
+                    if ($("#forwardtoId").val() == 0) {
+                        $("#lblforwardtoId").show();
+
+                        $("#lbltype").hide();
+                        $("#lblhealthUnitDistrictId").hide();
+                        $("#lbldeathPersonName").hide();
+                        $("#lbldod").hide();
+                        $("#lblDeathPersonGender").hide();
+                        return false;
+                    }
+                    else
+                        if ($("#deathPersonName").val() =="") {
+                            $("#lbldeathPersonName").show();
+
+                            $("#lbltype").hide();
+                            $("#lblhealthUnitDistrictId").hide();
+                            $("#lblforwardtoId").hide();
+                            $("#lbldod").hide();
+                            $("#lblDeathPersonGender").hide();
+                            return false;
+                        }
+                        else
+                            if ($("#dod").val() == "") {
+                                $("#lbldod").show();
+
+                                $("#lbltype").hide();
+                                $("#lblhealthUnitDistrictId").hide();
+                                $("#lblforwardtoId").hide();
+                                $("#lbldeathPersonName").hide();
+                                $("#lblDeathPersonGender").hide();
+                                return false;
+                            }
+                            else if ($('input[name=DeathPersonGender]:checked').length == 0)
+                            {
+                                $("#lblDeathPersonGender").show();
+
+                                $("#lbltype").hide();
+                                $("#lblhealthUnitDistrictId").hide();
+                                $("#lblforwardtoId").hide();
+                                $("#lbldeathPersonName").hide();
+                                $("#lbldod").hide();
+                                return false;
+                            }
+                            else {
+                                $("#lbltype").hide();
+                                $("#lblhealthUnitDistrictId").hide();
+                                $("#lblforwardtoId").hide();
+                                $("#lbldeathPersonName").hide();
+                                $("#lbldod").hide();
+                                $("#lblDeathPersonGender").hide();
+                             //   alert($("input[name=forwardtypeId]:checked").val());
+                                //bindApplicationList($("#forwardtypeId").val().trim(), $("#healthUnitDistrictId").val().trim(), $("#forwardtoId").val().trim(), $("#deathPersonName").val().trim(), $("#dod").val().trim(), $("input[name=DeathPersonGender]:checked").val());
+                                bindApplicationList($("input[name=forwardtypeId]:checked").val(), $("#healthUnitDistrictId").val().trim(), $("#forwardtoId").val().trim(), $("#deathPersonName").val().trim(), $("#dod").val().trim(), $("input[name=DeathPersonGender]:checked").val());
+            }
+            });
+
+       
+
+    });
+
+    $("#healthUnitDistrictId").change(function () {
+        binddropdown($("input[name=forwardtypeId]:checked").val(), $(this).val());
+    });
+
+    $("input[name=forwardtypeId]").change(function () {
+        binddropdown($(this).val(), $("#healthUnitDistrictId").val());
+    });
+
+    function binddropdown(Id, distId) {
+
+        $.ajax({
+            url: '@Url.Action("BindForwardDropdownlist", "DEC")',
+            data: { rollId: Id, opdDistrictId: distId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $("#forwardtoId").empty();
+                $("#forwardtoId").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#forwardtoId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+            },
+            error: function (xhr, status) {
+                //alert(status);
+                $("#forwardtoId").empty();
+                $("#forwardtoId").append('<option value="">--Select--</option>');
+            }
+        });
+    }
+
+    function bindApplicationList(_forwardtypeId,_healthUnitDistrictId,_forwardtoId,_deathPersonName,_dod,_DeathPersonGender){
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+        //alert(_forwardtypeId);
+        $.ajax({
+            url: '@Url.Action("NomineeSearchListDEC", "DEC")',
+            data: { forwardtypeId: _forwardtypeId,healthUnitDistrictId:_healthUnitDistrictId,forwardtoId:_forwardtoId,deathPersonName:_deathPersonName,dod:_dod,DeathPersonGender:_DeathPersonGender },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+    function showid(obj) {
+        debugger;
+        var _regisId = $(obj).attr("data-regisId");
+
+       
+    }
+ 
+
+</script>

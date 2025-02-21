@@ -1,0 +1,248 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.IMCModel
+
+@{
+    ViewBag.Title = "IMCDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    //int i = @ViewBag.Vaccine.Count;
+}
+<style>
+    .stronglbl label {
+        font-weight: 600 !important;
+        display: block;
+    }
+    /*.stronglbl label:after {
+            content:":";
+            float:right;
+            display:block;
+        }*/
+    .form-group {
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Immunization Certificate Details
+       
+        <a href="@Url.Action("ViewIMCList", "IMC")" class="btn btn-info btn-md pull-right">Back</a></h3>
+</div>
+
+
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body stronglbl">
+            <h4>Are You Already Vaccinated
+                  <label class="pull-right" style="color: #0b8494;"><strong>Application Number:</strong>   @Model.registrationNo</label>
+            </h4>
+            <div class="form-group">
+                
+                <div class="col-md-3">
+                    <label>Are you already Vaccinated?</label>
+                </div>
+                 @if (Model.isVaccined==true)
+                    {
+                <div class="col-md-3">
+                   <label>Yes</label>
+                </div>
+                 }
+                else
+                {
+                   <label>No</label>  
+                 }
+            </div>
+             
+            <h4>OPD Detail</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Reason For Application</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.reason
+
+                </div>
+                 @if (Model.isVaccined==true)
+                    {
+               <div class="col-md-3">
+                    <label>OPD Reciept No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.opdReciept
+                </div>
+                 }
+            </div>
+              @if (Model.isVaccined==true)
+                    {
+             <div class="form-group">
+
+               
+                <div class="col-md-3">
+                    <label>OPD Reciept</label>
+                </div>
+                <div class="col-md-3">
+                   <a href="@Url.Content(@Model.opdFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                </div>
+            </div>
+              }
+            <h4>Personal Details</h4>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fullName
+                </div>
+                <div class="col-md-3">
+                    <label>Father Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fatherName
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Date of Birth</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.dob).ToShortDateString()
+                </div>
+                <div class="col-md-3">
+                    <label>Age</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.age
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Mobile Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.mobileNo
+                </div>
+                @if (@Model.emailId != "")
+                {
+                    <div class="col-md-3">
+                        <label>E-mail</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.emailId
+                    </div>
+                }
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Passport Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.passportNo
+                </div>
+                <div class="col-md-3">
+                    <label>State</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.StateName
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.address
+                </div>
+                <div class="col-md-3">
+                    <label>District </label>
+                </div>
+                <div class="col-md-3">
+                    @Model.DistrictName
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Pin code </label>
+                </div>
+                <div class="col-md-3">
+                    @Model.pinCode
+                </div>
+                <div class="col-md-3">
+                    <label>Mark Of Identification</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.markOfIdentification
+                </div>
+            </div>
+
+            <div id="childlist">
+            </div>
+            <h4>Health Unit</h4>
+          
+            <div class="clearfix">
+            </div>
+            <div class="form-group">
+                 <div class="col-md-3">
+                    <label>Health Unit</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtypeName
+                </div>
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardDistrictName
+                </div>
+                </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+                
+                <div class="col-md-3">
+                    <label>CHC/PHC/DH Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtoName
+                </div>
+
+            </div>
+
+           
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+       
+        IMMlist();
+        
+    });
+    function IMMlist() {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindImmunList", "IMC")',
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlist").html(data);
+            },
+        });
+    }
+    
+
+</script>

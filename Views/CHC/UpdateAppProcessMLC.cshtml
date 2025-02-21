@@ -1,0 +1,661 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MLCAppProcessModel
+@{
+    ViewBag.Title = "UpdateAppProcessMLC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    string actionName = "";
+    actionName = Model.appStatus < 2 ? "ReceivedApplicationMLC" : "InProcessApplicationMLC";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        @if (Model.appStatus <= 1)
+        {
+            <div class="col-md-12 text-left">Total Pending Application of Medico-Legal<span class="small display-block">Total Pending Application of Medico-Legal </span></div>
+        }
+        else
+        {
+            <div class="col-md-12 text-left">In-Process Application of Medico-Legal<span class="small display-block">In-Process Application of Medico-Legal</span></div>
+        }
+        @*<a href="@Url.Action(actionName, "CHC")" class="btn btn-info btn-sm pull-right">Back</a>*@
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="divDetails">
+            @Html.Action("MLCAppDetails", "CHC", new { regisId = Model.regisIdMLC })
+        </div>
+        <div class="clearfix"></div>
+        @using (Html.BeginForm("UpdateAppProcessMLC", "CHC", FormMethod.Post, new { @id = "frmUpdateAppProcessMLC" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.regisIdMLC)
+            @Html.HiddenFor(m => m.appStatus)
+            if (Model.appStatus == -1)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="current"><a href="javascript:;" class="none">Step 1</a></li>
+                        <li class="active"><a href="javascript:;" class="none">Step 2</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="divScrutiApplication" class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Scrutinize the Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="margin-top-10 bold">View the Application Form</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" id="btnViewAppForm" class="btn btn-block btn-info none">View Application</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                                
+            <div id="divViewAppDetails" style="display: none;">
+                @Html.Action("ViewAppDetailsMLC", "CHC", new { regisId = Model.regisIdMLC })
+                <div class="col-md-12" id="divBtnAppAcceptReject">
+                    <div class="panel-body">
+                        <div class="col-md-2 col-md-offset-4">
+                            <button name="button" type="button" value="appAccept" onclick="return acceptApp();" class="btn btn-block btn-primary">Accept</button>
+                            <button id="bitAppAccept" name="button" type="submit" value="appAccept" style="display: none;" class="btn btn-block btn-primary">Accept</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button id="btnAppReject" type="button" class="btn btn-block btn-danger reject-rsn">Reject</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default" id="divAppRejectRemarks" style="display: none;">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4>Reject</h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label><b>Remarks <span class="text-danger">*</span></b> </label>
+                                    @Html.TextAreaFor(m => m.rejectedRemarks, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.rejectedRemarks)
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divBtnSubmitCancel" class="panel-footer" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button id="btnAppRejectCancel" type="button" class="btn btn-danger reject-rsn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            }
+            else if (Model.appStatus == 1)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 1</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 2</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Schedule Date For Committee Inspection</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Select Committee&nbsp;<span class="text-danger">*</span></label>
+                                    @Html.DropDownListFor(m => m.committeeId, (IEnumerable<SelectListItem>)ViewBag.DLLCommittee, "--Select--", new { @class = "form-control", onchange = "ScheduleList();" })
+                                    @Html.ValidationMessageFor(m => m.committeeId)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Schedule Inspection Date&nbsp;<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.inspectionDate, new { @class = "datepicker-here form-control", @data_language = "en",@readonly="true", @placeholder = "dd/mm/yyyy", onblur = "ScheduleList()" })
+                                    @Html.ValidationMessageFor(m => m.inspectionDate)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-primary none">Proceed</button>
+                    </div>
+                </div>
+            </div> 
+            
+            <div id="divScheduleOfCommittee" class="col-md-12" style="display: none;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4 id="hScheComm"></h4>
+                        </span>
+                    </div>
+                    <div id="divScheduledInspection" class="panel-body">
+                    </div>
+                </div>
+            </div> 
+            }
+            else if (Model.appStatus == 2)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="current"><a href="javascript:;" class="none">Step 3</a></li>
+                        <li class="active"><a href="javascript:;" class="none">Step 4</a></li>
+                        <li class="active"><a href="javascript:;" class="none">Step 5</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Upload Inspection Report</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="bold">Upload Citizen's Inspection Report</label>
+                                <div class="form-group">
+                                    <div class="fileUpload3 pull-left" style="width: 80%;">
+                                        <span><i class="fa fa-upload fa-lg" aria-hidden="true"></i>&nbsp;Upload Report</span>
+                                        @Html.TextBoxFor(m => m.inspReportFile, new { @class = "upload3", @type = "file", @onchange = "Fileupload(this);" })
+                                    </div>
+                                    <a href="#" id="inspReportFileAnchor" target="_blank" class="pull-right margin-top-10" style="display: none;"><i class="fa fa-download fa-2x"></i></a>
+                                    <br />
+                                    @Html.HiddenFor(m => m.inspReportFilePath)
+                                </div>
+                                @Html.ValidationMessageFor(m => m.inspReportFile, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-8">
+                                <label class="bold">Committee Members</label>
+                                <div class="form-group">
+                                    <div class="form-control" style="height: auto;">
+                                        @foreach (var chk in ViewBag.designation)
+                                        { 
+                                            <label class="margin-right-10">
+                                                <input type="checkbox"  value="@chk.Id" name="chkdesig" id="chdesig"/>
+                                                @chk.Name
+                                            </label>                                                                                                 
+                                        }
+                                    </div>
+                                </div>
+                                <span id="spanmember" style="display: none" class="text-danger">Please select committee Member</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-primary btncomnext">Next</button>
+                    </div>
+                </div>
+            </div> 
+            }
+            else if (Model.appStatus == 3)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 3</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 4</a></li>
+                        <li class="active"><a href="javascript:;" class="none">Step 5</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Update Final Status of Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <label class="bold">On the basis of the report, do you want to approve or reject the request?</label>
+                                <div class="form-group">
+                                    <div class="form-control">
+                                        <label class="radio-inline">
+                                            <input class="disposal2" name="rblReportType" value="1" type="radio">
+                                            Approve Request
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input class="disposal2" name="rblReportType" value="2" type="radio">
+                                            Reject Request
+                                        </label>
+                                    </div>
+                                    <span id="spanReportType" style="display: none" class="text-danger">Select Approve or Reject</span>
+                                </div>
+                            </div>
+                            <div id="divInsRejectRemarks" style="display: none;">
+                                <div class="col-md-5">
+                                    <label><b>Reasons <span class="text-danger">*</span></b> </label>
+                                    <div class="form-group">
+                                        @Html.TextAreaFor(m => m.rejectedRemarks, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.rejectedRemarks)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel-footer text-center" style="margin-bottom: -15px">
+                                            <button type="submit" class="btn btn-primary">Reject</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center" id="divNextButton">
+                        <button name="button" type="submit" value="insAccept" class="btn btn-primary none" onclick="return CheckInsReportTypeSelected();">Next</button>
+                    </div>
+                </div>
+            </div> 
+            }
+            else if (Model.appStatus == 5)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 3</a></li>
+                        <li class="completed"><a href="javascript:;" class="none">Step 4</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 5</a></li>
+                    </ul>
+                </div>
+            </div>
+               <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Generate Certificate</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Treatment From&nbsp;<span class="text-danger">*</span></label>
+                                   @Html.TextBoxFor(m => m.treatmentFrom, new { @class = "datepicker-here form-control", @data_language = "en",@readonly="true", @placeholder = "dd/mm/yyyy"})
+                                    @Html.ValidationMessageFor(m => m.treatmentFrom)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Treatment To&nbsp;<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.treatmentto, new { @class = "datepicker-here form-control", @data_language = "en",@readonly="true", @placeholder = "dd/mm/yyyy"})
+                                    @Html.ValidationMessageFor(m => m.treatmentto)
+                                </div>
+                            </div>
+                             <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Rest For&nbsp;<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.restFor, "{0:#.#}", new { @class = "form-control", @placeholder = "In Days" })
+                                    @Html.ValidationMessageFor(m => m.restFor)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="margin-top-10"><strong>Generate Certificate</strong> </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button name="button" type="submit" value="genCertificate" class="btn btn-block btn-info none">Generate Certificate</button>
+                            </div>
+                            @* <div class="col-md-12 text-center">
+                        <hr />
+                        <a href="@Url.Action("NUHgeneratedCertificate", "CHC", new { regisIdNUH=Model.regisIdNUH})" class="btn btn-success" id="rpt" target="_blank">Download Certificate</a>
+
+                       
+                    </div>*@
+
+                        </div>
+                    </div>
+                    
+                </div>
+            </div> 
+           
+            }
+            else if (Model.appStatus == 6)
+            {
+            <div class="col-md-12">
+                <div class="panel-body process">
+                    <ul class="breadcrumb">
+                        <li class="completed"><a href="javascript:;" class="none">Step 3</a></li>
+                        <li class="completed"><a href="javascript:;" class="none">Step 4</a></li>
+                        <li class="current"><a href="javascript:;" class="none">Step 5</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Certificate Generated</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <h2 class="margin-top-10 text-success"><strong>Certificate Generated</strong> </h2>
+                                </div>
+                            </div>
+                            @* <div class="col-md-3">
+                                <button name="button" type="submit" value="genCertificate" class="btn btn-block btn-info none">Generate Certificate</button>
+                            </div>*@
+                            @* <div class="col-md-12 text-center">
+                        <hr />
+                        <a href="@Url.Action("NUHgeneratedCertificate", "CHC", new { regisIdNUH=Model.regisIdNUH})" class="btn btn-success" id="rpt" target="_blank">Download Certificate</a>
+
+                       
+                    </div>*@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+        }
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        if ('@ViewBag.msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", '@ViewBag.msg', '@ViewBag.MsgStatus');
+        }
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        } 
+        if ('@TempData["DatSetMLC"]' != '') {
+
+            var regisIdMLC = '@TempData["DatSetMLC"]';
+
+            var url = '@Url.Action("MLCgeneratedCertificate", "CHC")';
+
+            window.open(url + "?regisIdMLC=" + regisIdMLC, '_blank');
+        };
+
+        $('#btnAppReject').click(function () {
+            $('#divBtnAppAcceptReject').hide();
+            $('#divAppRejectRemarks').show();
+            $('#divBtnSubmitCancel').show();
+        });
+
+        $('#btnAppRejectCancel').click(function () {
+            $('#divBtnAppAcceptReject').show();
+            $('#divAppRejectRemarks').hide();
+            $('#divBtnSubmitCancel').hide();
+        });
+
+        $('#btnInsReject').click(function () {
+            $('#divBtnInsAcceptReject').hide();
+            $('#divInsRejectRemarks').show();
+            $('#divBtnSubmitCancel').show();
+        });
+
+        $('#btnViewAppForm').click(function () {
+            $('#divScrutiApplication').hide();
+            $('#divAppDetails').hide();
+            $('.divDetails').hide();
+            $('#divViewAppDetails').show();
+        });
+
+
+        if ('@TempData["DatSetSec"]' != '') {
+
+            var regisIdNUH = '@TempData["DatSetSec"]';
+
+            var url = '@Url.Action("MLCGeneratedCertificate", "CHC")';
+
+            //window.location = url + "?regisIdMLC=" + regisIdMLC;  
+        };
+
+    });
+
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    $('#inspectionDate').datepicker({
+        minDate: new Date(strDate),
+        autoClose: true
+    });
+
+    function acceptApp() {
+        swal({
+            title: "Are you sure you want to Accept this Application?",
+            text: "Once you Accept you will not be able to change it.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, Accept it !",
+            cancelButtonText: "No, Cancel it !",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $('#bitAppAccept').click();
+            }
+        });
+    }
+
+
+    $(".btncomnext").click(function () {
+
+        var val = $("#frmUpdateAppProcessMLC").validate();
+        val.form();
+        val.showErrors();
+        if (val.valid()) {
+
+            if ($("input[type='checkbox']:checked").length == 0) {
+                $("#spanmember").show();
+                return false;
+            }
+            else {
+                $("#spanmember").hide();
+                return true;
+            }
+
+        }
+        else {
+            return false;
+
+        }
+    });
+    function ScheduleList() {
+        if ($("#committeeId").val() != "" && $("#inspectionDate").val() != "") {
+            bindScheduleOfCommittee($("#committeeId").val(), $("#inspectionDate").val());
+        }
+
+
+    }
+    @*function bindScheduleOfCommittee(_committeeId) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#divScheduledInspection').html(img);
+
+        $.ajax({
+            url: '@Url.Action("BindScheduleOfCommitteeMLC", "CHC")',
+            data: { committeeId: _committeeId },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            if (returndata == "NF") {
+                swal("", "Please Select Committee", "warning");
+            }
+            else {
+                $('#divScheduledInspection').html(returndata);
+                $('#divScheduleOfCommittee').show();
+                $('#hScheComm').text('Schedule of ' + $('#committeeId option:selected').text());
+            }
+        })
+        .error(function (xhr, status) {
+            $('#divScheduledInspection').html('');
+        });
+    }*@
+    function bindScheduleOfCommittee(_committeeId, _inspectiondate) {
+        //alert();
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#divScheduledInspection').html(img);
+
+        $.ajax({
+            url: '@Url.Action("BindScheduleOfCommitteeMLC", "CHC")',
+            data: { committeeId: _committeeId, inspectiondate: _inspectiondate },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            if (returndata == "NF") {
+                swal("", "Please Select Committee", "warning");
+            }
+            else {
+                $('#divScheduledInspection').html(returndata);
+                $('#divScheduleOfCommittee').show();
+                $('#hScheComm').text('Schedule of ' + $('#committeeId option:selected').text());
+            }
+        })
+        .error(function (xhr, status) {
+            $('#divScheduledInspection').html('');
+        });
+    }
+
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#inspectionDate').datepicker({
+        minDate: new Date(strDate),
+        autoClose: true
+    });
+
+    function Fileupload(obj) {
+        debugger;
+        var fileId = $(obj).attr("id");
+        var ext = obj.value.match(/\.(.+)$/)[1];
+
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+
+                var fileSize = ($("#" + fileId)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + fileId).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFileMLC", "CHC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            if (response[1] == 'SNV') {
+                                swal("", 'Maximum 2 MB file size are allowed !', "warning");
+                            }
+                            else if (response[1] == 'TNV') {
+                                swal("", 'File type not Valid, Only .pdf and .jpg file types are allowed !', "warning");
+                            }
+                            else {
+                                var url = '@Url.Content("~/Content/writereaddata/MLC/InspectionReport/")' + response[0];
+                                $("#" + fileId + "Anchor").removeAttr('href');
+                                $("#" + fileId + "Anchor").attr('href', url);
+                                $("#" + fileId + "Anchor").show();
+                                $("#" + fileId + "Path").val(response[1]);
+                            }
+                            return false;
+                        },
+                        error: function () {
+                        }
+                    });
+
+            }
+            break;
+        default:
+            swal("", 'File type not Valid, Only .pdf and .jpg file types are allowed !', "warning");
+            this.value = '';
+            return false;
+    }
+
+}
+
+$("input[name='rblReportType']").change(function () {
+    if ($(this).val() == "2") {
+        $('#divNextButton').hide();
+        $('#divInsRejectRemarks').show();
+    }
+    else if ($(this).val() == "1") {
+        $('#divNextButton').show();
+        $('#divInsRejectRemarks').hide();
+    }
+    $("#spanReportType").hide();
+});
+
+function CheckInsReportTypeSelected() {
+    $("#spanReportType").hide();
+    if (!$("input[name='rblReportType']:checked").val()) {
+        $("#spanReportType").show();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+
+$('#treatmentFrom').datepicker({
+    maxDate: new Date(strDate),
+    onSelect: function (selectedDate) {
+        var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+        selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+        var mindate = new Date(selectedDate);
+        mindate.setDate(mindate.getDate() + 1);
+        $("#treatmentto").datepicker({ minDate: mindate, autoClose: true });
+    },
+    autoClose: true
+});
+$('#treatmentto').datepicker({
+    maxDate: new Date(strDate),
+    onSelect: function (selectedDate) {
+        var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+        selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+        var maxdate = new Date(selectedDate);
+        maxdate.setDate(maxdate.getDate() - 1);
+        $("#treatmentFrom").datepicker({ maxDate: maxdate, autoClose: true });
+    },
+    autoClose: true
+});
+
+</script>
+

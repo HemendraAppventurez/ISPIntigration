@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "ViewDownloadedCertificateMLC";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">Medico-Legal Certificate <a href="@Url.Action("ApprovedApplicationMLC", "CHC")" class="btn btn-info pull-right">Back</a></h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="divDetails">
+            @Html.Action("MLCAppDetails", "CHC", new { regisId = @ViewBag.RegisId })
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Details of Downloaded By</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div id="DIV-ApplicationList">
+                        @Html.Action("ViewDownloadedCertificateListMLC", "CHC", new { regisId = @ViewBag.RegisId })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

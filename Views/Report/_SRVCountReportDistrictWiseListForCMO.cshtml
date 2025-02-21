@@ -1,0 +1,84 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.CountReportModel>
+@{
+    int rowSpan = 1, sNo = 0;
+    string preValue = "";
+}
+
+<div class="col-md-12">
+    <div class="panel-body">
+        <div style="border-bottom: 1px solid #333; margin-bottom: 15px;">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="bold">District Name : </label>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            <label>@Model.Select(m => m.DistrictName).FirstOrDefault()</label>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="bold">Service Name : </label>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            <label>@Model.Select(m => m.serviceName).FirstOrDefault()</label>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                          <th style="width: 5%; text-align: center;">S.No.</th>
+                            <th>Hospital Type\Name</th>
+                            <th style="width: 5%; text-align: center;">Total Received</th>
+                            <th style="width: 5%; text-align: center;">Approved</th>
+                            <th style="width: 5%; text-align: center;">Rejected</th>
+                            <th style="width: 5%; text-align: center;">Pending In-Time Limit</th>
+                            <th style="width: 5%; text-align: center;">Pending After-Time Limit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            { 
+                            <tr>
+                                
+                                @if (preValue != item.fullName)
+                                {
+                                sNo++;
+                                rowSpan = Model.Where(m => m.fullName == item.fullName).Count();
+
+                                  <td style="text-align: center;">@sNo</td>
+                            
+                                <td  rowspan="@rowSpan">@item.fullName</td>
+                                }
+                                <td style="text-align: center;">@Html.Raw(item.totalReceived > 0 ? "<a href=" + @Url.Action("ApplicationDetails", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()),appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("0"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()), isLessFiftyThousan = @OTPL_Imp.CustomCryptography.Encrypt("1"), userId = @OTPL_Imp.CustomCryptography.Encrypt(@item.profileId.ToString()) }) + ">" + item.totalReceived + "</a>" : item.totalReceived.ToString())</td>
+                                <td style="text-align: center;">@Html.Raw(item.approved > 0 ? "<a href=" + @Url.Action("ApplicationDetails", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()),appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("1"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()), isLessFiftyThousan = @OTPL_Imp.CustomCryptography.Encrypt("1"), userId = @OTPL_Imp.CustomCryptography.Encrypt(@item.profileId.ToString()) }) + ">" + item.approved + "</a>" : item.approved.ToString())</td>
+                                <td style="text-align: center;">@Html.Raw(item.rejected > 0 ? "<a href=" + @Url.Action("ApplicationDetails", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()),appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("2"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()), isLessFiftyThousan = @OTPL_Imp.CustomCryptography.Encrypt("1"), userId = @OTPL_Imp.CustomCryptography.Encrypt(@item.profileId.ToString()) }) + ">" + item.rejected + "</a>" : item.rejected.ToString())</td>
+                                <td style="text-align: center;">@Html.Raw(item.pendingInTimeLimit > 0 ? "<a href=" + @Url.Action("ApplicationDetails", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()),appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("3"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()), isLessFiftyThousan = @OTPL_Imp.CustomCryptography.Encrypt("1"), userId = @OTPL_Imp.CustomCryptography.Encrypt(@item.profileId.ToString()) }) + ">" + item.pendingInTimeLimit + "</a>" : item.pendingInTimeLimit.ToString())</td>
+                                <td style="text-align: center;">@Html.Raw(item.pendingOverTimeLimit > 0 ? "<a href=" + @Url.Action("ApplicationDetails", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@item.rollId.ToString()),appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("4"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()), isLessFiftyThousan = @OTPL_Imp.CustomCryptography.Encrypt("1"), userId = @OTPL_Imp.CustomCryptography.Encrypt(@item.profileId.ToString()) }) + ">" + item.pendingOverTimeLimit + "</a>" : item.pendingOverTimeLimit.ToString())</td>
+                            </tr>
+                                preValue = item.fullName;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8">Record Not Found</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

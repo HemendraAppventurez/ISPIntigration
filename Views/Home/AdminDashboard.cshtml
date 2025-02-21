@@ -1,0 +1,444 @@
+﻿@{
+    ViewBag.Title = "AdminDashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using CCSHealthFamilyWelfareDept.Models
+
+@{
+    SessionManager SM = new SessionManager();
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12"><strong>@SM.RollAbbrNameHi डैशबोर्ड <span class="small">@SM.RollAbbrName Dashboard</span></strong></div>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="circle">
+                @if (SM.RollID == 2 || SM.RollID == 20)
+                {
+                    if (SM.RollID == 2)
+                    {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationNUH", "CMO")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            1. चिकित्सा प्रतिष्ठानों का पंजीकरण
+                                   <span class="nmicon2">Registration of Medical Establishments</span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12"><a href="@Url.Action("AppliedApplicationFAP", "CMO")" class="indigo">
+                        <img src="@Url.Content("~/images/immunizations.png")">
+                        2.  असफल परिवार नियोजन के भुगतान हेतु अनुरोध 
+                                     <span class="nmicon2">Request for the Payment of Unsuccessful Family Planning </span>
+
+                    </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationDIC", "CMO")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            3. विकलांगता प्रमाणपत्र हेतु अनुरोध 
+                                    <span class="nmicon2">Request for Disability Certificate </span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationAGC", "CMO")" class="green">
+                            <img src="@Url.Content("~/images/medical-records.png")">
+                            4. आयु प्रमाणपत्र हेतु अनुरोध 
+                                    <span class="nmicon2">Request for Age Certificate</span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationMER", "CMO")" class="brown">
+                            <img src="@Url.Content("~/images/mammography.png")">
+                            5. चिकित्सा प्रतिपूर्ति हेतु अनुरोध
+                                     <span class="nmicon2">Request for Medical Reimbursement</span>
+
+                        </a>
+                    </li>
+                    
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("UserManagement", "UserManagement")" class="brown">
+                            <img src="@Url.Content("~/images/mammography.png")">
+                            6. User Management
+                                     <span class="nmicon2">User Management</span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                         <a href="@Url.Action("CMOReportDashboard", "Report")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            7. रिपोर्ट
+                        <span class="nmicon2">Reports</span>
+                        </a>
+                    </li>
+                    }
+                    else
+                    {
+                        PermissionModel objPerm = new PermissionModel();
+                        objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.MEE));
+                        if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                        {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationNUH", "CMO")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            1. चिकित्सा प्रतिष्ठानों का पंजीकरण
+                                   <span class="nmicon2">Registration of Medical Establishments</span>
+
+                        </a>
+                    </li>
+                        }
+
+                        objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.FAP));
+                        if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                        {
+                    <li class="col-md-3 col-sm-6 col-xs-12"><a href="@Url.Action("AppliedApplicationFAP", "CMO")" class="indigo">
+                        <img src="@Url.Content("~/images/immunizations.png")">
+                        2.  असफल परिवार नियोजन के भुगतान हेतु अनुरोध 
+                                     <span class="nmicon2">Request for the Payment of Unsuccessful Family Planning </span>
+
+                    </a></li>
+                        }
+                        objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.DIC));
+                        if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                        {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationDIC", "CMO")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            3. विकलांगता प्रमाणपत्र हेतु अनुरोध 
+                                    <span class="nmicon2">Request for Disability Certificate </span>
+
+                        </a>
+                    </li>
+                        }
+                        objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.AGC));
+                        if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                        {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationAGC", "CMO")" class="green">
+                            <img src="@Url.Content("~/images/medical-records.png")">
+                            4. आयु प्रमाणपत्र हेतु अनुरोध 
+                                    <span class="nmicon2">Request for Age Certificate</span>
+
+                        </a>
+                    </li>
+                        }
+                        objPerm = PermissionLinks.LinkPermission(Session["UserPermission"] as List<PermissionModel>, Convert.ToInt32(AbbrServiceName.MER));
+                        if (objPerm.IsSrvApplyPer || objPerm.IsSrvProcessPer || objPerm.IsSrvReportPer)
+                        {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationMER", "CMO")" class="brown">
+                            <img src="@Url.Content("~/images/mammography.png")">
+                            5. चिकित्सा प्रतिपूर्ति हेतु अनुरोध
+                                     <span class="nmicon2">Request for Medical Reimbursement</span>
+
+                        </a>
+                    </li>
+                        }
+                    }
+                }
+                else if (SM.RollID == 3 || SM.RollID == 4 || SM.RollID == 5)
+                {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationILC", "CHC")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. बीमारी प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Illness Certificate </span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationFIC", "CHC")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            2. स्वास्थ्य प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Fitness Certificates</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ReceivedForwardApp", "CMO")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            3. असफल परिवार नियोजन के भुगतान हेतु अनुरोध 
+                        <span class="nmicon2">Request for the Payment of Unsuccessful Family Planning</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationIMC", "CHC")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            4. टीकाकरण प्रमाणपत्र का निर्गमन 
+                        <span class="nmicon2">Request for Immunization Certificate </span>
+                        </a>
+                    </li>
+                    
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationDEC", "CHC")" class="yellow">
+                            <img src="@Url.Content("~/images/emergency.png")">
+                            5. मृत्यु प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Death Certificate</span>
+                        </a>
+                    </li> 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationMLC", "CHC")" class="cyan">
+                            <img src="@Url.Content("~/images/diabetes-education.png")">
+                            6. मेडिको लीगल प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Medico-Legal Certificate</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationICC", "CHC")" class="cyan">
+                            <img src="@Url.Content("~/images/labor-delivery.png")">
+                            7. बच्चों के टीकाकरण प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Immunization Certificate for Children</span>
+                        </a>
+                    </li>
+                    
+                    if (SM.RollID == 5)
+                    {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationMER", "CMO")" class="brown">
+                            <img src="@Url.Content("~/images/mammography.png")">
+                            8. चिकित्सा प्रतिपूर्ति हेतु अनुरोध
+                                     <span class="nmicon2">Request for Medical Reimbursement</span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportCMS", "Report")" class="yellow">
+                            <img src="@Url.Content("~/images/labor-delivery.png")">
+                            9. रिपोर्ट
+                        <span class="nmicon2">Rports</span>
+                        </a>
+                    </li>
+                    
+                        <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReportDistrictSeviceWise", "Report" , new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })" class="yellow">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            10. दर्पण सर्विस रिपोर्ट
+
+                                   <span class="nmicon2">Darpan Services Report</span>
+
+                        </a>
+                    </li>
+                    }
+                    else
+                    {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportCMS", "Report")" class="yellow">
+                            <img src="@Url.Content("~/images/labor-delivery.png")">
+                            8. रिपोर्ट
+                        <span class="nmicon2">Rports</span>
+                        </a>
+                    </li>
+                    
+                        <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReportDistrictSeviceWise", "Report" , new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })" class="yellow">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            9. दर्पण सी.एम.ओ. सर्विस रिपोर्ट
+
+                                   <span class="nmicon2">Darpan Services Report</span>
+
+                        </a>
+                    </li>
+                    }
+                }
+                else if (SM.RollID == 8)
+                {
+                    
+                     <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationNUH", "CMO")" class="red">
+                            <img src="@Url.Content("~/images/womens-health.png")">
+                            1. चिकित्सा प्रतिष्ठानों का पंजीकरण
+                                   <span class="nmicon2">Registration of Medical Establishments</span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12"><a href="@Url.Action("AppliedApplicationFAP", "CMO")" class="indigo">
+                        <img src="@Url.Content("~/images/immunizations.png")">
+                        2.  असफल परिवार नियोजन के भुगतान हेतु अनुरोध 
+                                     <span class="nmicon2">Request for the Payment of Unsuccessful Family Planning </span>
+
+                    </a></li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationDIC", "CMO")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            3. विकलांगता प्रमाणपत्र हेतु अनुरोध 
+                                    <span class="nmicon2">Request for Disability Certificate </span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationAGC", "CMO")" class="green">
+                            <img src="@Url.Content("~/images/medical-records.png")">
+                            4. आयु प्रमाणपत्र हेतु अनुरोध 
+                                    <span class="nmicon2">Request for Age Certificate</span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationMER", "CMO")" class="brown">
+                            <img src="@Url.Content("~/images/mammography.png")">
+                            5. चिकित्सा प्रतिपूर्ति हेतु अनुरोध
+                                     <span class="nmicon2">Request for Medical Reimbursement</span>
+
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationILC", "CHC")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            6. बीमारी प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Illness Certificate </span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationFIC", "CHC")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            7. स्वास्थ्य प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Fitness Certificates</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationIMC", "CHC")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            8. टीकाकरण प्रमाणपत्र का निर्गमन 
+                        <span class="nmicon2">Request for Immunization Certificate </span>
+                        </a>
+                    </li>
+                    
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationDEC", "CHC")" class="yellow">
+                            <img src="@Url.Content("~/images/emergency.png")">
+                            9. मृत्यु प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Death Certificate</span>
+                        </a>
+                    </li> 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationMLC", "CHC")" class="cyan">
+                            <img src="@Url.Content("~/images/diabetes-education.png")">
+                            10. मेडिको लीगल प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Medico-Legal Certificate</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("AppliedApplicationICC", "CHC")" class="cyan">
+                            <img src="@Url.Content("~/images/labor-delivery.png")">
+                            11. बच्चों के टीकाकरण प्रमाणपत्र का निर्गमन
+                        <span class="nmicon2">Request for Immunization Certificate for Children</span>
+                        </a>
+                    </li>
+                    
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ApplicationReport", "Report", new { RptType = "2" })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. रिपोर्ट
+                        <span class="nmicon2">Reports</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("UserManagement", "UserManagement")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            2. उपयोगकर्ता प्रबंधन
+                        <span class="nmicon2">User Managment</span>
+                        </a>
+                    </li>
+                    
+                 
+@*<li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportAdmin", "Report", new {RptType="2"})" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. रिपोर्ट
+                        <span class="nmicon2">Reports Of CMO Services</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="javascript:;" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            2. उपयोगकर्ता प्रबंधन
+                        <span class="nmicon2">User Managment</span>
+                        </a>
+                    </li>
+                    
+                   <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportAdmin", "Report", new {RptType="1"})" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            3. सी.एम. ऑफिस रिपोर्ट  
+                        <span class="nmicon2">CM Office Report</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportAdmin", "Report", new {RptType="2"})" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. रिपोर्ट
+                        <span class="nmicon2">Reports Of CHC/PHC/DH Services</span>
+                        </a>
+                    </li>*@
+                   
+                }
+                else if (SM.RollID == 18)
+                {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ApplicationReport", "Report")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. रिपोर्ट
+                        <span class="nmicon2">Reports</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("UserManagement", "UserManagement")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            2. उपयोगकर्ता प्रबंधन
+                        <span class="nmicon2">User Managment</span>
+                        </a>
+                    </li>
+                }
+                else if (SM.RollID == 13)
+                {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ApplicationReport", "Report")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. रिपोर्ट
+                        <span class="nmicon2">Reports</span>
+                        </a>
+                    </li>
+                }
+
+                @if (SM.RollID == 2 || SM.RollID == 3 || SM.RollID == 4 || SM.RollID == 5)
+                {
+                    <li class="col-md-12 col-sm-12 col-xs-12">
+                        <h4 style="border-bottom: 1px solid #ccc; padding: 15px 0 10px; text-align: left;">Digital Signature Software & Process Tutorial
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default" style="margin-bottom: 5px;">
+                                    <div class="panel-body" style="padding: 3px 10px">
+                                        <div class="row">
+                                            <div class="col-md-12" style="text-align:left;">
+                                                <strong>Note :-  <span class="text-danger" style="font-size:15px !important;">Kindly download digital signature software. Watch video tutorial to install the software and generate certificate using digital signature software.</span></strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("DownloadFileByPath", "Home", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt("~/Content/DigitalSignAppDoc/HealthSigningApplication.rar")) })" class="yellow" target="_blank">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. डिजिटल सिग्नेचर सॉफ्टवेयर डाउनलोड करें
+                        <span class="nmicon2">Download Digital Signature Software</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("DigitalSignatureVideo", "Home")" class="cyan" target="_blank">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            2. डिजिटल हस्ताक्षर स्थापना और प्रक्रिया के लिए वीडियो ट्यूटोरियल
+                        <span class="nmicon2">Video Tutorial For Digital Signature Installation and Process</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

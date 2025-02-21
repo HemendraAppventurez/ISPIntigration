@@ -1,0 +1,26 @@
+.phancy-scrollbar {
+width: 5px;
+border-radius: 4px;
+top: 0;
+position: absolute;
+background: #ccc;
+-moz-transition: opacity .2s;
+-webkit-transition: opacity .2s;
+-o-transition: opacity .2s;
+-ms-transition: opacity .2s;
+transition: opacity .2s;
+-webkit-transition-delay: 1s;
+opacity: 0;
+}
+.phancy-scroller .phancy-scrollbar:active, .phancy-scroller:hover .phancy-scrollbar {
+opacity: 1;
+-webkit-transition-delay: 0s;
+}
+.phancy-scrollbarbutton {
+width: 100%;
+border-radius: 4px;
+top: 0;
+position: absolute;
+background-color:#0990a2;
+}
+.phancy-scroller{ width:auto !important;}

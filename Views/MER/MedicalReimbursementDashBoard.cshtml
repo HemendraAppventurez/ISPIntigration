@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "MedicalReimbursementDashBoard";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>चिकित्सा प्रतिपूर्ति भुगतान डैशबोर्ड<span class="small">Medical Reimbursement Dashboard</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-90 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="circle">
+                <li class="col-md-2 col-sm-6 col-xs-12"></li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("RegistrationInstructions", "MER")" class="red" >
+                        <img src="@Url.Content("~/images/womens-health.png")">                      
+                        <br />
+                        Submit New Application
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ViewMERList", "MER")" class="indigo">
+                        <img src="@Url.Content("~/images/view_icon.png")"><br />
+                         View Submitted Application Status
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

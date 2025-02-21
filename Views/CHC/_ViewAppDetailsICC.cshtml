@@ -1,0 +1,242 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ICCModel
+
+<style>
+    .form-group label
+    {
+        color: #333;
+        font-weight: 600;
+    }
+</style>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Personal Information</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Registration No.</label>
+                    </div>
+                    <div class="col-md-3">@Model.registrationNo</div>
+                    <div class="col-md-3">
+                        <label>Baby of (Father Name)</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.fatherName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Baby of (Mother Name)</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.motherName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Child Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.fullName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Mobile No Of Parent</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.mobileNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>Email Id Of Parent</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.emailId
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>DOB Of Child</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.dob
+                    </div>
+                    <div class="col-md-3">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.address
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.StateName
+                    </div>
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.DistrictName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Pin Code</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.pinCode
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Immunization Detail of Children</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group" id="childlist">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Immunization Book/Immunization Card</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Scan Copy of Front side Immunization Book/Card</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (Model.immunizationBook == "NaN")
+                        {
+                            <label>Submitted By</label>
+                        }
+                        else
+                        {
+                            <a href="@Url.Content(@Model.immunizationBook)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        <label>Scan Copy of Back side Immunization Book/Card</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (Model.immunizationBackSideBook == "NaN")
+                        {
+                            <label>Submitted By</label>
+                        }
+                        else
+                        {
+                            <a href="@Url.Content(@Model.immunizationBackSideBook)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="title elipsis">
+                <h4>Selected Health Unit</h4>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Health Unit Type</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.forwardtypeName
+                    </div>
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.healthUnitDistrictName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>CHC/PHC/DH Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.forwardtoName
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>&nbsp;</label>
+                    </div>
+                    <div class="col-md-3">
+                        &nbsp;
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+<script>
+    $(document).ready(function () {
+        ChildList('@Model.registrationNo');
+    });
+    function ChildList(_registrationNo) {
+
+        $.ajax({
+            url: '@Url.Action("BindICCChildList", "CHC")',
+            data: { registrationNo: _registrationNo },
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlist").html(data);
+            },
+        });
+    }
+</script>
+
+

@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "ApplicationReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using OTPL_Imp
+@using CCSHealthFamilyWelfareDept.Models
+
+@{
+    SessionManager SM = new SessionManager();
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12"><strong>@SM.RollAbbrNameHi डैशबोर्ड <span class="small">@SM.RollAbbrName Dashboard</span></strong></div>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="circle">
+                @if (SM.RollID == 8)
+                {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportAdmin", "Report", new {RptType="2"})" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. सी.एम.ओ. सर्विस रिपोर्ट
+                        <span class="nmicon2">Process Count Reports Of CMO Services</span>
+                        </a>
+                    </li> 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportCMSatAdmin", "Report", new {RptType="2"})" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            2. सी.एम.एस सर्विस रिपोर्ट
+                        <span class="nmicon2">Process Count Reports Of CMS(DH)/CHC/PHC Services</span>
+                        </a>
+                    </li> 
+                     <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            3. सी.एम.ओ. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CMO Services</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            4. सी.एम.एस. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CMS(DH) Services</span>
+                        </a>
+                    </li>
+                     
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            5. सी.एच.सी. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CHC Services</span>
+                        </a>
+                    </li> 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("4") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            6. पी.एच.सी. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of PHC Services</span>
+                        </a>
+                    </li>
+                   <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportAdmin", "Report", new {RptType="1"})" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            7. सी.एम. ऑफिस रिपोर्ट  
+                        <span class="nmicon2">CM Office Report</span>
+                        </a>
+                    </li> 
+                     <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVDistrictWiseCountReport", "Report", new {rollId=@OTPL_Imp.CustomCryptography.Encrypt("2")})" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                           8. सी.एम.ओ. मंडल जिला वाइज गणना रिपोर्ट
+                        <span class="nmicon2">CMO Service Division District Wise Count Report</span>
+                        </a>
+                    </li> 
+                }
+               else if (SM.RollID == 18)
+                {
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReport_AD", "Report")" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. रिपोर्ट
+                        <span class="nmicon2">Reports Of CMO Services</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("ProcessCountReportCMSatAD", "Report")" class="cyan">
+                            <img src="@Url.Content("~/images/registration.png")">
+                            2. सी.एम.एस/सी.एच.सी/पी.एच.सी
+                        <span class="nmicon2">Reports Of CMS/CHC/PHC Services</span>
+                        </a>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            3. सी.एम.ओ. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CMO Services</span>
+                        </a>
+                    </li>  
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            4. सी.एम.एस. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CMS(DH) Services</span>
+                        </a>
+                    </li> 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            5. सी.एच.सी. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CHC Services</span>
+                        </a>
+                    </li> 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("4") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            6. पी.एच.सी. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of PHC Services</span>
+                        </a>
+                    </li>
+                }
+                else if (SM.RollID == 13)
+                { 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("2") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            1. सी.एम.ओ. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CMO Services</span>
+                        </a>
+                    </li>  
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("5") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            2. सी.एम.एस. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CMS(DH) Services</span>
+                        </a>
+                    </li> 
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("3") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            3. सी.एच.सी. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of CHC Services</span>
+                        </a>
+                    </li> 
+                    @*<li class="col-md-3 col-sm-6 col-xs-12">
+                        <a href="@Url.Action("CMOSRVCountReport", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt("4") })" class="yellow">
+                            <img src="@Url.Content("~/images/immunizations.png")">
+                            4. पी.एच.सी. सर्विस की ड्रिल डाउन रिपोर्ट
+                        <span class="nmicon2">Drill Down Reports Of PHC Services</span>
+                        </a>
+                    </li>*@
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

@@ -1,0 +1,179 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.CountReportModel>
+@{
+    int rowSpan = 1, sNo = 0;
+    string preValue = "";
+}
+<style>
+    .Cusbutton {
+    display: inline-block;
+    width: 103px;
+    height: 26px;
+    background: #c6d2d5;
+    padding: 0px;
+    text-align: center;
+    border-radius: 5px;
+    /* color: white; */
+    font-weight: bold;
+    line-height: 25px;
+}
+</style>
+<link href="~/js/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#tblCountList').DataTable({
+
+            "ordering": true,
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }]
+
+        });
+   
+        var table = $('#tblCountList').DataTable();
+       
+        $(".targetHeaderCell").off();
+
+      
+        //$(".targetHeaderCell").css("cursor", "default");
+        $("#testSpan").css("cursor", "pointer");
+        var booleanSortCol1 = false;
+
+       
+        $("#testSpan").on("click", function () {
+
+            if (booleanSortCol1 == false) {
+                table.order([0, 'desc']).draw();
+                booleanSortCol1 = true;
+            }
+            else {
+                table.order([0, 'asc']).draw();
+                booleanSortCol1 = false;
+            }
+        });
+     
+    });
+</script>
+<div class="col-md-12">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group" padding-bottom: 5px;">
+                    <label class="bold">Service Name : </label>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <label>@Model.Select(m => m.serviceName).FirstOrDefault()</label>
+                    }
+                </div>
+            </div>
+             <div class="col-md-6">
+                  <a href="@Url.Action("ExportoExcelDistrictWiseList", "Public", new { serviceId = @OTPL_Imp.CustomCryptography.Encrypt(Model.Select(m => m.serviceId).FirstOrDefault().ToString()) })" class="btn btn-primary" style="margin-left: 316px;margin-bottom: 10px">Export To Excel</a>
+                  <a href="@Url.Action("ExportToPDFDistrictWiseList", "Public", new { serviceId = @OTPL_Imp.CustomCryptography.Encrypt(Model.Select(m => m.serviceId).FirstOrDefault().ToString()) })" class="btn btn-primary" style="margin-left: 20px;margin-bottom: 10px">Export To PDF</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table id="tblCountList" border="1" class="table-user-information table table-bordered table-striped" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%; text-align: center;">S.No.</th>
+                             <th style="width: 5%; text-align: center;" class="targetHeaderCell"><span id="testSpan" style="padding: 0; margin: 0; box-sizing: content-box; cursor: pointer">District Name</span></th>
+                            @*<th style="width: 5%; text-align: center;">District Name</th>*@
+                            @*  @if (ViewBag.ServiceId == 0)
+                            {
+                                <th>CMO District</th>
+                                <th>Service Name</th>
+                            }
+                            else
+                            { 
+                                <th>Service Name</th>
+                                <th>CMO District</th>
+                            }*@
+                            <th style="width: 5%; text-align: center;">Total Received</th>
+                            <th style="width: 5%; text-align: center;">Approved</th>
+                            <th style="width: 5%; text-align: center;">Rejected</th>
+                            <th style="width: 5%; text-align: center;">Pending In-Time Limit</th>
+                            <th style="width: 5%; text-align: center;">Pending After-Time Limit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            int iCount = 0;
+                            foreach (var item in Model)
+                            {
+                                iCount++;
+                            <tr>
+
+                                @* @if (ViewBag.ServiceId == 0)
+                                {
+                                    if (preValue != item.DistrictName)
+                                    {
+                                        sNo++;
+                                        rowSpan = Model.Where(m => m.DistrictName == item.DistrictName).Count();
+                                    <td rowspan="@rowSpan" style="text-align: center;">@sNo</td>  
+                                    <td rowspan="@rowSpan">@item.DistrictName</td> 
+                                    }
+                                    <td>@item.serviceName</td>
+                                } 
+                                else
+                                {
+                                    if (preValue != item.serviceName)
+                                    {
+                                        sNo++;
+                                        rowSpan = Model.Where(m => m.serviceName == item.serviceName).Count();
+                                    <td rowspan="@rowSpan" style="text-align: center;">@sNo</td>  
+                                    <td rowspan="@rowSpan">@item.serviceName</td> 
+                                    }
+                                    <td>@item.DistrictName</td>
+                                }*@
+                                <td style="text-align: center;">@iCount</td>
+                                <td style="text-align: center;">@item.DistrictName</td>
+                                <td style="text-align: center;">@Html.Raw(item.totalReceived > 0 ? "<a href=" + @Url.Action("ApplicationDetailsNew", "public", new { appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("0"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.totalReceived + "</a>" : item.totalReceived.ToString())</td>
+                                <td style="text-align: center;">@Html.Raw(item.approved > 0 ? "<a href=" + @Url.Action("ApplicationDetailsNew", "public", new { appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("1"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.approved + "</a>" : item.approved.ToString())</td>
+                                <td style="text-align: center;">@Html.Raw(item.rejected > 0 ? "<a href=" + @Url.Action("ApplicationDetailsNew", "public", new { appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("2"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.rejected + "</a>" : item.rejected.ToString())</td>
+                                <td style="text-align: center;">@Html.Raw(item.pendingInTimeLimit > 0 ? "<a href=" + @Url.Action("ApplicationDetailsNew", "public", new { appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("3"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.pendingInTimeLimit + "</a>" : item.pendingInTimeLimit.ToString())</td>
+                                <td style="text-align: center;">@Html.Raw(item.pendingOverTimeLimit > 0 ? "<a href=" + @Url.Action("ApplicationDetailsNew", "public", new { appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("4"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@item.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@item.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@item.serviceId.ToString()) }) + ">" + item.pendingOverTimeLimit + "</a>" : item.pendingOverTimeLimit.ToString())</td>
+                            </tr>
+                                if (ViewBag.ServiceId == 0)
+                                {
+                                    preValue = item.DistrictName;
+                                }
+                                else
+                                {
+                                    preValue = item.serviceName;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8">Record Not Found</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" style="text-align: center;"><b>Total</b></td>
+                            <td style="text-align: center;"><b>@Model.Sum(m => m.totalReceived)</b></td>
+                            <td style="text-align: center;"><b>@Model.Sum(m => m.approved)</b></td>
+                            <td style="text-align: center;"><b>@Model.Sum(m => m.rejected)</b></td>
+                            <td style="text-align: center;"><b>@Model.Sum(m => m.pendingInTimeLimit)</b></td>
+                            <td style="text-align: center;"><b>@Model.Sum(m => m.pendingOverTimeLimit)</b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

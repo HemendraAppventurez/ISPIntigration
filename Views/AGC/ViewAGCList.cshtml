@@ -1,0 +1,97 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.AGCModel>
+@{
+    ViewBag.Title = "ViewAGCList";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    .webgrid-header {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+<div class="content-title">
+    <h3 class="main-title">Age Certificate List <a href="@Url.Action("AGCDashBoard", "AGC")" class="btn btn-info pull-right">Back</a></h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                Once your application form is approved by the Chief Medical Officer CMO, you can download the certification of Registration from <b>Download Certificate</b> column.
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                    <div id="divDataList" class="table-responsive">
+                        @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column(columnName: "registrationNo", header: "Application No.", format: @<text><a href="@Url.Action("AGCDetails", "AGC", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(@item.registrationNo), regisIdAGC = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdAGC.ToString()) })">@item.registrationNo</a></text>),
+            grid.Column("appliedDate", header: "Application Date"),
+            grid.Column("fullName", header: "Name"),
+
+            grid.Column("mobileNo", header: "Mobile Number"),
+            
+            grid.Column("appliedStatus", header: "Status"),
+            grid.Column("RejectRemark", header: "Reject Remark"),
+            grid.Column(header: "Print", format: @<text><a href="@Url.Action("PrintApplicationForm", "AGC", new { registrationNo = @OTPL_Imp.CustomCryptography.Encrypt(@item.registrationNo), regisIdAGC = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdAGC.ToString()) })"  class="btn btn-green btn-sm" target="_blank">Print form</a></text>),
+            grid.Column(columnName: "regisIdAGC", header: "Certificate", format: @<text>
+                        @if (@item.appliedStatus == "Certificate Generated")
+                        {
+                            if (@item.isUpload && !string.IsNullOrEmpty(@item.uploadCertificatePath))
+                            {
+                                <a href="@Url.Action("DownloadFileByPath", "AGC", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt(@item.uploadCertificatePath)) })" aria-hidden="true" class="fa fa-download icon-grn" target="_blank"></a>
+                            }
+                            else
+                            {
+                                <label>Pending</label>
+                                @*<a href="@Url.Action("GeneratedCertificateAGC", "AGC", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdAGC.ToString()), certGenrBy = @OTPL_Imp.CustomCryptography.Encrypt(@item.certGenrBy.ToString()) })" target="_blank" title="Download Certificate"><i class="fa fa-download fa-2x"></i></a>*@
+                            }
+                        }
+                        else
+                        {
+                            <label>Pending</label>    
+                        }
+
+                        </text>)
+            ))
+                    </div>
+                }
+                else
+                {
+    
+                    <table class="table table-bordered norecord">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>No Record Found</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "CMOUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">Manage CMO<span class="small display-block">Manage CMO</span></div>
+
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>District</label>
+                                @Html.DropDownList("ddlDistrict", (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" id="txtUserId" class="form-control"  />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-UserList">
+                    @Html.Action("CMOUserList", "UserManagement")
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(function () {
+
+        if ('@TempData["SuccessMsg"]' != '') {
+            swal("", "@TempData["SuccessMsg"]", "success");
+        }
+        if ('@TempData["Message"]' != '') {
+            swal("", "@TempData["Message"]", "success");
+        }
+        $("#btnSearch").click(function () {
+            bindUserList($("#ddlDistrict").val(), $("#txtUserId").val().trim());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#ddlDistrict").val('');
+            $("#txtUserId").val('');
+
+            bindUserList($("#ddlDistrict").val(), $("#txtUserId").val().trim());
+        });
+
+    });
+
+    function bindUserList(_districtId, _userName) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-UserList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("CMOUserList", "UserManagement")',
+            data: { districtId: _districtId, userName: _userName },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            if (returndata == "TO") {
+                window.location.reload();
+            }
+            else {
+                $('#DIV-UserList').html(returndata);
+            } 
+        })
+        .error(function (xhr, status) {
+            $('#DIV-UserList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+
+</script>

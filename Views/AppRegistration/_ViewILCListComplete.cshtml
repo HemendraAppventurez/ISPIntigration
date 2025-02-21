@@ -1,0 +1,66 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.ILCModel>
+@using OTPL_Imp
+<style>
+    .webgrid-header a
+    {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+ <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                    <div id="divDataList" class="table-responsive">
+                        @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+
+                         grid.Column(columnName: "registrationNo", header: "Application No."),
+                         grid.Column("fullName", header: "Name"),
+                         grid.Column("fatherName", header: "Father Name"),
+                         grid.Column("dob", header: "Date of Birth"),
+                         grid.Column("certificateNo", header: "Certificate Number"),
+                        grid.Column(header: "Extend Registration", format:
+
+                        @<text>
+                        @if (@item.extented == "Extend")
+                        {
+                            <a href="@Url.Action("ILCRegistration", "AppRegistration",
+                        new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdILC.ToString()), AppType = @OTPL_Imp.CustomCryptography.Encrypt("Old") })"
+                             aria-hidden="true" class="btn btn-green btn-sm">Extend Certificate</a>
+                        }
+                        else
+                        {
+                            <label>@item.extented</label>
+                        }
+                        </text>)
+
+                     ))
+
+                    </div>
+                }
+                else
+                {
+    
+                    <table class="table table-bordered norecord">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>No Record Found</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>

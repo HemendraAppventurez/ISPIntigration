@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "RegistrationInstructionsRenew";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .page-instraction {
+        min-height:850px;
+    }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>चिकित्सा प्रतिष्ठान <span class="small">Medical Establishment Instructions</span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 page-instraction">
+                            <h4>Procedure to Fill Application Form</h4>
+                            <ul>
+                                <li>Before filling this form, Kindly arrange the Scan Copy of following documents ready with you:-
+                                    <ul>
+                                        <li>Scan copy of old certificate</li>
+                                        <li>Structural Layout of Building</li>
+                                        <li>Address Proof of the Establishment</li>
+                                        <li>Passport Size Photograph of Person In-charge  </li>
+                                        <li>Certificate from Medical Council of India/State Medical Council </li>
+                                        <li>Self Attested Documents of Relevant Qualification for Doctor & Paramedical Staff.</li>
+                                        <li>NOC Certificate from Pollution Control Board</li>
+                                        <li>NOC Certificate for Disposal of Medical Waste</li>
+                                        <li>Photo for Proof of Fire Fighting System Installed In the Premises of Establishment </li>
+                                        <li>Notarized Affidavit on Stamp paper of Rs. 10. </li>
+                                    </ul>
+                                    <strong>Note:- </strong>
+                                    <ul>
+                                        <li>All files should be uploaded in jpg/pdf format and maximum file size allowed up to (2MB)</li>
+                                        <li>Fields marked with * are mandatory.</li>
+                                    </ul>
+                                </li>
+                                <li>Fill all the required fields & attached the relevant documents then click on “Save” button. </li>
+                                <li>A preview page will appear, now check all the details carefully filled by you.</li>
+                                <li>If every details is correct & no change is required then click on “Submit” button</li>
+                                <li>Note down your Application Reference number for future use.</li>
+                                <li>Download Formats with content of Affidavit and  get it printed on the Stamp Paper of Rs. 10/-</li>
+                                <li>Now, re login & upload the notarized affidavit as required & click on “Final Submit” button to submit the application finally.</li>
+                                <li>You will be redirected to the new window, Now Click on the “Print Your Submitted Application” tab to get the printout. </li>
+                                <li>You can check the current status of your application by clicking on the “View Submitted Application Status” </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 page-instraction">
+                            <h4>Terms &amp; Conditions</h4>
+                            <ul>
+                                <li>It is the right of nodal officer to accept or reject the application form by mentioning the “cause of rejection.”</li>
+                                <li>Nodal officer will appoint the inspection committee & schedule the date of Inspection, applicants need to be physically present in the establishment on the date of inspection.</li>
+                                <li>Applicants should help the inspection committee & will show the originals of the document attached during submission of application form.</li>
+                                <li>Applicant should also handover the original Affidavit to the inspection committee with all copy of all attached documents.</li>
+                                <li>Inspection committee should upload its inspection report in the portal.</li>
+                                <li>Based on the inspection report CMO is free to approve or reject the application </li>
+                                <li>If application will be approved then Computer Generated Registration Certificate will be made available on the dashboard of applicants.</li>
+                                <li>Applicants can also collect their computer generate registration certificate from the office of Chief Medical Officer.</li>
+                                <li>Validity of Certificate will be 30th April of the next year from the date of Issuance.</li>
+                                <li>Applicant can apply for renewal of registration certificate through their login but before the 30th April of next financial year.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <b>I have read and Understood all the Terms & Conditions regarding the applications Process.</b><br />
+
+                                <b>
+                                    <label>
+                                        <input id="chkConfirm" name="chkConfirm" type="checkbox" />
+                                        I Agree</label></b>
+                            </div>
+                        </div>
+                    </div>
+                   @* <div class="row">
+                         <div class="col-md-6 page-instraction">
+                            <h4>Instruction to Fill Application Form</h4>
+                            <ul>
+                                <li>All such  applications with required information shall be submitted for registration by  on or before 30th April, 2018 to the CMO of the district where the  establishment is situated. CMO of the district will return one copy mentioning  registration number along with seal and signature of the applicant.</li>
+                                <li>Any change  or addition in the particulars submitted shall be notified within 30 days and  that the registration shall be renewed every year before 30th April  of the year.</li>
+                                <li>All those  medical practitioners who desire to offer medical services in the state in future  shall be required to submit the details in the aforesaid proforma for  registration as the above with the Chief Medical Officer of the district before  they want to start the medical practice/ establishment.</li>
+                                <li>All the  medical establishments whether run privately or by firms, societies, trust,  private limited, public limited companies in the state shall register  themselves with the CMO of the district where these establishments are  situated, giving full details of medical facilities they offer, the name of the  registered and authorized medical personnel practicing, employed or engaged by  them, their qualification with proof of their registrations. The paramedical  staff employed or engaged and their qualification. The prescribed proforma with  true and accurate information shall be submitted, supported by an affidavit of  the person providing such medical services or the person in charge of such  establishment, sworn before notary public.   The required information shall be submitted for registration by all  these persons, on or all before 30th April. </li>
+                                <li>On and from  1st May, 2018, all those persons who have not furnished the information and  obtained registration with the CMO of the district, shall be taken to the  practicing in an unauthorized way and that the CMO shall scrutinize and  forthwith report the matter to the Superintendent/ Senior Superintendent of the  Police of the district with information to the Hon&rsquo;ble High Court to conduct  raids and seal unauthorized premises/ establishments. All the authorized persons  / establishments, who fail to obtain registration, will have liberty to apply  only to the Hon&rsquo;ble High Court to explain the delay and seek permission to  continue with their medical practice/ profession. </li>
+                                <li>All  concerned are requested to get themselves registered by 30th April,  2018 in compliance of orders of Hon&rsquo;ble High Court and help in identifying  unauthorized/ non-registered medical practitioners.  </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 page-instraction">
+                            <h4>Terms &amp; Conditions</h4>
+                            <ul>
+                                <li>All such  applications with required information shall be submitted for registration by  on or before 30th April, 2018 to the CMO of the district where the  establishment is situated. CMO of the district will return one copy mentioning  registration number along with seal and signature of the applicant.</li>
+                                <li>Any change  or addition in the particulars submitted shall be notified within 30 days and  that the registration shall be renewed every year before 30th April  of the year.</li>
+                                <li>All those  medical practitioners who desire to offer medical services in the state in future  shall be required to submit the details in the aforesaid proforma for  registration as the above with the Chief Medical Officer of the district before  they want to start the medical practice/ establishment.</li>
+                                <li>All the  medical establishments whether run privately or by firms, societies, trust,  private limited, public limited companies in the state shall register  themselves with the CMO of the district where these establishments are  situated, giving full details of medical facilities they offer, the name of the  registered and authorized medical personnel practicing, employed or engaged by  them, their qualification with proof of their registrations. The paramedical  staff employed or engaged and their qualification. The prescribed proforma with  true and accurate information shall be submitted, supported by an affidavit of  the person providing such medical services or the person in charge of such  establishment, sworn before notary public.   The required information shall be submitted for registration by all  these persons, on or all before 30th April. </li>
+                                <li>On and from  1st May, 2018, all those persons who have not furnished the information and  obtained registration with the CMO of the district, shall be taken to the  practicing in an unauthorized way and that the CMO shall scrutinize and  forthwith report the matter to the Superintendent/ Senior Superintendent of the  Police of the district with information to the Hon&rsquo;ble High Court to conduct  raids and seal unauthorized premises/ establishments. All the authorized persons  / establishments, who fail to obtain registration, will have liberty to apply  only to the Hon&rsquo;ble High Court to explain the delay and seek permission to  continue with their medical practice/ profession. </li>
+                                <li>All  concerned are requested to get themselves registered by 30th April,  2018 in compliance of orders of Hon&rsquo;ble High Court and help in identifying  unauthorized/ non-registered medical practitioners.  </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <b>I have read and Understood all the Terms & Conditions regarding the applications Process.</b><br />
+
+                                <b>
+                                    <label>
+                                        <input id="chkConfirm" name="chkConfirm" type="checkbox" />
+                                        I Agree</label></b>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input name="btnProceed" value="Proceed" onclick="return proceedToRegistration();" disabled="disabled" id="btnProceed" class="btn btn-warning btn-block btn-lg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#chkConfirm').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#btnProceed').removeAttr('disabled');
+            } else {
+                $('#btnProceed').attr('disabled', 'disabled');
+            }
+        });
+    });
+
+    function proceedToRegistration() {
+
+        if ($('#chkConfirm').is(':checked')) {
+            var url = '@Url.Action("SearchDetails", "NUH")';
+            window.location.href = url;
+        } else {
+            swal("", "First select Agree, Then Proceed To Registration !", "warning");
+            return false;
+        }
+    }
+
+</script>

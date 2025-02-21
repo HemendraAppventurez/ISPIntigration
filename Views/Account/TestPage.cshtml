@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Test Page";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-ui-1.8.20.min.js"></script>
+<script type="text/javascript">
+
+    function PostData() {
+        debugger;
+        var posturl = "http://72.167.225.87/Testing_NMSWP/upswp_niveshmitraservices.asmx";
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("TestPage", "Account")",
+            dataType: "json",
+            data: JSON.stringify({ Url: posturl }),
+            contentType: "application/json; charset=utf-8",
+            success: function (res) {
+
+                // alert(res);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log("XML: not working! " + xhr.statusText);
+            }
+        });
+
+    }
+</script>
+
+@using (Html.BeginForm("TestPage", "Account", FormMethod.Post, new { @id = "frmTestPage",@style="height:220px;" }))
+{
+    @Html.AntiForgeryToken()
+
+    @*<div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Control ID:</label>
+                <input type="text" id="TxtControlID" name="TxtControlID" value="UPSWP200001747" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Unit ID:</label>
+                <input type="text" id="TxtUnitID" name="TxtUnitID" value="UPSWP20000174701" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Service ID:</label>
+                <input type="text" id="TxtServiceID" name="TxtServiceID" value="SC33001" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>ProcessIndustry ID:</label>
+                <input type="text" id="TxtProcessIndustryID" name="TxtProcessIndustryID" value="20000174701330010001" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+    
+    *@<div class="row">
+
+        <div class="col-md-4">
+            <input type="submit" id="btnSubmit" value="User Register" class="btn btn-primary" />
+            @* <ul>
+                <li><a href="@Url.Action("niveshmitraregistration", "Account")" class="btn btn-primary" onclick="PostData();">Send User Detail</a></li>
+            </ul>*@
+        </div>
+    </div>
+    
+}

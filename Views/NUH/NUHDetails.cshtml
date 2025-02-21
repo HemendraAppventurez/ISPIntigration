@@ -1,0 +1,890 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.NUHmodel
+
+@{
+    ViewBag.Title = "NUHDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    int io = @ViewBag.VBoutpateint.Count;
+    int il = @ViewBag.VBolaboratory.Count;
+    int ii = @ViewBag.VBimaging.Count;
+    
+}
+<style>
+    .stronglbl label {
+        font-weight: 600 !important;
+        display: block;
+    }
+
+    .form-group {
+        border-bottom: 1px solid #ccc;
+    }
+
+        .form-group:last-child {
+            border-bottom: 0px solid #ccc;
+        }
+
+    .hed {
+        font-weight: bold;
+        margin: 0 0 8px;
+        padding: 0;
+    }
+
+    #childlistPartner h3, #childlistDOC h3, #childlist h3 {
+        border-bottom: 1px solid #e4e4e4 !important;
+        padding-bottom: 10px !important;
+        font-size: 17px !important;
+        color: #0dc0d8 !important;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+        #childlistPartner h3 span, #childlistDOC h3 span, #childlist h3 span {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+</style>
+
+<div class="content-title">
+    <h3 class="main-title">Medical Establishment Details       
+        <a href="@Url.Action("ViewNUHList", "NUH")" class="btn btn-info btn-md pull-right">Back</a>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body stronglbl">
+            @if (Model.isCertificateFromPortal == false && Model.isRenewal == true)
+            {
+                <h4 class="hed">Details of Previous Certificate</h4>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Old Registration Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.outerRegistrationNo
+                    </div>
+                    <div class="col-md-3">
+                        <label>Old Certificate Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.outerCertificateNo
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Old Certificate</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (!string.IsNullOrEmpty(Model.outerCertificateFile))
+                        {
+                            <a href="@Url.Content(@Model.outerCertificateFile)" target="_blank"><i class="fa fa-download fa-2x"></i></a>  
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        <label></label>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            <div class="clearfix"></div>
+            <h4 class="hed">Details of Medical Establishment </h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Application No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.registrationNo
+                </div>
+                <div class="col-md-3">
+                    <label>Area of Establishment </label>
+                </div>
+                <div class="col-md-3">
+                    @Model.establishmentArea
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Place Of Establishment</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.establishmentPlace
+                </div>
+                <div class="col-md-3">
+                    <label>Type Of Land</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.landType
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Establishment Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.establishmentName
+                </div>
+                <div class="col-md-3">
+                    <label>Category</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.medicalEstablishmentName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Operated By</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.operatedBy
+                </div>
+
+                 <div class="col-md-3">
+                    <label>HFR ID No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.HfrNo
+                </div>
+
+                
+                <div class="clearfix"></div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Name Of  @Model.operatedBy</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.operatedName
+                </div>
+
+                <div class="col-md-3">
+                    <label>Building Structural Layout</label>
+                </div>
+                <div class="col-md-3">
+                    @if (!string.IsNullOrEmpty(Model.structuralLyoutFile))
+                    {
+                        <a href="@Url.Content(@Model.structuralLyoutFile)" target="_blank"><i class="fa fa-download fa-2x"></i></a>  
+                    }
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+
+
+            <div class="clearfix"></div>
+            <h4 class="hed">Address of Medical Establishment </h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Telephone No./ Mob. No.</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.telephoneNo
+                </div>
+                <div class="col-md-3">
+                    <label>Website</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.website
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.address
+                </div>
+                <div class="col-md-3">
+                    <label>State</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.StateName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.DistrictName
+                </div>
+                <div class="col-md-3">
+                    <label>Pincode</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.pinCode
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Address Proof</label>
+                </div>
+                <div class="col-md-3">
+                    @if (!string.IsNullOrEmpty(Model.addressproofFilePath))
+                    {
+                        <a href="@Url.Content(@Model.addressproofFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                    }
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <h4 class="hed">Medical Services</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Details of Medical Services Offered</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.medicalFacilities
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            @if (Model.operatedBy != "Firm")
+            {
+                <h4 class="hed">Details of Owner</h4>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownerName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Age</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownerAge
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Father</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownerFatherName
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mobile</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownerMobileNo
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Email Id</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownerEmailId
+                    </div>
+                    <div class="col-md-3">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownerAddress
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>State</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownernStateName
+                    </div>
+                    <div class="col-md-3">
+                        <label>District</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownernDistrictName
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Pincode</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.ownerPincode
+                    </div>
+                    <div class="col-md-3">
+                        <label>Photograph</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (!string.IsNullOrEmpty(Model.ownerPhotograph))
+                        {
+                            <a href="@Url.Content(@Model.ownerPhotograph)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Signature</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (!string.IsNullOrEmpty(Model.ownerSignature))
+                        {
+                            <a href="@Url.Content(@Model.ownerSignature)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        <label>Owner & Person in charge are same?</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (Model.isBelongToMedical == true)
+                        {
+                            <label>Yes</label>
+                        }
+                        else
+                        {
+                            <label>No</label>
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>  
+            }
+            else
+            {
+                <div id="childlistPartner">
+                </div>
+            }
+            <h4 class="hed">Details of Person In Charge</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.applicantName
+                </div>
+                <div class="col-md-3">
+                    <label>Mobile No</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.applicantMobileNo
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Email Id</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.applicantEmailId
+                </div>
+                <div class="col-md-3">
+                    <label>Relevant Qualification</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.qualification
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Institution</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.institution
+                </div>
+                <div class="col-md-3">
+                    <label>Name Of Central/State Council</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.Central_StateCouncilName
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Registration Number(MCI/SMF)</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.registrationNumber
+                </div>
+                <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.applicantAddress
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>State</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.applicantStateName
+                </div>
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.applicantDistrictName
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Pincode</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.pinCode
+                </div>
+                <div class="col-md-3">
+                    <label>Photo</label>
+                </div>
+                <div class="col-md-3">
+                    @if (!string.IsNullOrEmpty(Model.piPhotograph))
+                    {
+                        <a href="@Url.Content(@Model.piPhotograph)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                    }
+                </div>
+
+
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Upload MCI/SMF Certificate</label>
+                </div>
+                <div class="col-md-3">
+                    @if (!string.IsNullOrEmpty(Model.upmci_smfCertificateFilePath))
+                    {
+                        <a href="@Url.Content(@Model.upmci_smfCertificateFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                    }
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div id="childlistDOC">
+            </div>
+            <div id="childlist">
+            </div>
+            <h4 class="hed">Type of Facilities Offered</h4>
+            @if (Model.isInPatient == true)
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>InPatient</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Yes</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>No. of Bed</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.numberofBed
+                    </div>
+
+
+
+                    <div class="clearfix"></div>
+                </div>
+                
+            }
+            else
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>InPatient</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>No</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            @if (Model.isOutPatient == true)
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>OutPatient</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Yes</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Other OutPatient</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.otherOutPatient
+                    </div>
+
+
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>OutPatient type </label>
+                    </div>
+                    <div class="col-md-6">
+
+
+                        @foreach (var v in ViewBag.VBoutpateint)
+                        {                    
+              
+                            <span>@v.outPatientName
+                                @if (io > 1)
+                                { 
+                                    <span>,</span>
+                                }
+
+                            </span>
+                                io--;
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>OutPatient</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>No</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            @if (Model.isLaboratory == true)
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Laboratory</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Yes</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Other Laboratory</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.otherLaboratory
+                    </div>
+
+
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Laboratory  type </label>
+                    </div>
+                    <div class="col-md-6">
+
+
+                        @foreach (var v in ViewBag.VBolaboratory)
+                        {                    
+              
+                            <span>@v.laboratoryName
+                                @if (il > 1)
+                                { 
+                                    <span>,</span>
+                                }
+
+                            </span>
+                                il--;
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Laboratory</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>No</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            @if (Model.isImaging == true)
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Imaging</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Yes</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Other Imaging</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.otherImaging
+                    </div>
+
+
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Imaging  type </label>
+                    </div>
+                    <div class="col-md-6">
+
+
+                        @foreach (var v in ViewBag.VBimaging)
+                        {                    
+              
+                            <span>@v.imagingName
+                                @if (ii > 1)
+                                { 
+                                    <span>,</span>
+                                }
+
+                            </span>
+                                ii--;
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Imaging</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>No</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            <h4></h4>
+            @if (Model.isNOC == true)
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>NOC from Pollution control Board</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Yes</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Certificate Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.nocCertificationNo
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>NOC from Pollution control Board Certificate</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (!string.IsNullOrEmpty(Model.nOCFilePath))
+                        {
+                            <a href="@Url.Content(@Model.nOCFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>NOC from Pollution control Board</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>No</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            @if (Model.isDispose == true)
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Certificate from agency to Disposal of Medical Waste</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Yes</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Certificate Number</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.disposedNo
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Certificate from agency to Disposal of Medical Waste Certificate</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (!string.IsNullOrEmpty(Model.disposedFile))
+                        {
+                            <a href="@Url.Content(@Model.disposedFile)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Certificate from agency to Disposal of Medical Waste</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>No</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            @if (Model.isFirefightingSystem == true)
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Firefighting System in the Establishment</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Yes</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Firefighting System in the Establishment Certificate</label>
+                    </div>
+                    <div class="col-md-3">
+                        @if (!string.IsNullOrEmpty(Model.firefightingSystemFilePath))
+                        {
+                            <a href="@Url.Content(@Model.firefightingSystemFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                        }
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+             
+            }
+            else
+            {
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        <label>Firefighting System in the Establishment</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>No</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<script>
+    $(document).ready(function () {
+        ChildListPartner();
+        DOClist();
+        ChildList();
+    });
+    function ChildListPartner() {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindChildPartner", "NUH")',
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlistPartner").html(data);
+            },
+        });
+    }
+    function DOClist() {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindDOCList", "NUH")',
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlistDOC").html(data);
+            },
+        });
+    }
+    function ChildList() {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("BindChildList", "NUH")',
+            datatype: 'html',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                $("#childlist").html(data);
+            },
+        });
+    }
+
+</script>

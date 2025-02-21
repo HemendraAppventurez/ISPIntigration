@@ -1,0 +1,405 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FAPModel
+@{
+    ViewBag.Title = "PrintApplicationForm";
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link type="text/css" href="~/css/reportstyle.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <title>FAP Details</title>
+</head>
+<body id="content" style="margin: 0px 0px; padding: 15px 0px">
+    <div class="pbtn" style="width: 1170px; margin: 0 auto;">
+        <button type="button" class="btn btn-warning pull-right" style="border-radius: 0; width: 80px; margin-bottom: 8px;" onclick="PrintDoc()">Print</button>
+    </div>
+    <div class="form-wrap2">
+        <table class="tbl-head" style="border-top: 6px solid #666; border-bottom: 6px solid #666; border-left: 1px dashed #666; border-right: 1px dashed #666; font-size: 15px; border-collapse: collapse" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td width="20%">
+                        <img class="logo" style="margin-left: 15px; margin-top: 10px; margin-bottom: 10px" alt="Logo" title="Logo" src="../images/up-logo-en.png"></td>
+                    <td align="left" width="80%">
+                        <h2 style="padding: 0px; margin: 8px 0px 0px 0px; font-size: 22px; font-weight: bold;"><strong>Department of Medical Health and Family Welfare</strong></h2>
+                        <h4 style="padding: 0px; margin: 0px; text-align: left; font-size: 14px; font-weight: bold">Government  of Uttar Pradesh</h4>
+                        <h3 class="headinf-print" style="padding: 0px; margin: 17px 0px 0px 0px; text-align: left; text-decoration: underline; font-size: 16px; font-weight: bold;">Online Application Form for Registration of Payment for Unsuccessful Family Planning  </h3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-wrap">
+        <p style="margin: 0px; padding: 0px; font-size: 18px; font-weight: bold">To, <span style="float: right">Registration Number : @Model.registrationNo</span></p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>The Chief Medical Office,</strong></p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Distt :</strong>@Model.healthunitDistrictName</p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Uttar Pradesh</strong></p>
+        <p style="margin: 0px; padding: 0px; font-size: 18px; font-weight: bold">Sir,</p>
+        <p style="margin: 0px 0px 0px 50px; padding: 0px;"><strong>Kindly Register my Family Planning details of which are given as below</strong></p>
+        <p>&nbsp;</p>
+    <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">1</span>Compensation Category : </h3>
+         <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse; margin-bottom: 8px;">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Compensation Category </td>
+                    <td width="25%">
+                        @Model.compensationCategoryName
+                    </td>
+                   
+                        <td width="25%" style="font-weight: 600;">Date of Released </td>
+                        <td width="25%">
+                            @Model.dateofReleased
+                        </td>
+                    
+                </tr>
+               
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Date when Admitted</td>
+                        <td width="25%">
+                            @Model.admittedDate
+                        </td>
+                         @if (@Model.dateofDeath != null)
+                {
+                        
+                             <td width="25%" style="font-weight: 600;">Date of Death </td>
+                        <td width="25%">
+                            @Model.dateofDeath
+                        </td>
+                         }
+                    </tr>
+                
+
+            </tbody>
+        </table>
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">2</span>Surgery Details : </h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Name of Health Unit <small>(where surgery was conducted)</small></td>
+                    <td width="25%">@Model.heathUnitName</td>
+                    <td width="25%" style="font-weight: 600;">Name of Doctor <small>(who operated)</small></td>
+                    <td width="25%">@Model.doctorName</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Date of Operataion  </td>
+                    <td width="25%">@Model.operationDate</td>
+                    <td width="25%" style="font-weight: 600;">Details of Complications </td>
+                    <td width="25%">@Model.complicationsDetails</td>                   
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Address</td>
+                    <td width="25%">@Model.heathUnitAddress</td>
+                    <td width="25%" style="font-weight: 600;">State</td>
+                    <td width="25%">@Model.stateName</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">District</td>
+                    <td width="25%">@Model.sterlizedDistrictName</td>
+                    <td width="25%" style="font-weight: 600;">Type of Surgery</td>
+                    <td width="25%">@Model.operationTypeName</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">3</span>Details of Sterilized Person:</h3>
+       <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Full Name</td>
+                    <td width="25%">@Model.sterilizedName</td>
+                    <td width="25%" style="font-weight: 600;">Date of Birth</td>
+                    <td width="25%">@Model.sterilizedDob</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Age</td>
+                    <td width="25%">@Model.sterilizedName</td>
+                    <td width="25%" style="font-weight: 600;">Gender</td>
+                    <td width="25%">@Model.sterilizedGender</td>
+                </tr>
+                <tr>
+                     <td width="25%" style="font-weight: 600;">Father's Name </td>
+                    <td width="25%">@Model.fatherName</td>
+                    <td width="25%" style="font-weight: 600;">Spouse Name</td>
+                    <td width="25%">@Model.spouseName</td>
+                    
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Spouse Age</td>
+                    <td width="25%">@Model.spouseAge</td>
+                    <td width="25%" style="font-weight: 600;">Mobile No</td>
+                   
+                    <td width="25%">@Model.claimantMobileNo</td>
+                    
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Employment type</td>
+                    @if (@Model.emplomentName == "" || @Model.emplomentName == null)
+                    {
+                         <td width="25%"><label>NaN</label></td>
+                    }
+                    else
+                    {
+                    <td width="25%">@Model.emplomentName</td>
+                    }
+                    <td width="25%" style="font-weight: 600;">Address</td>
+                    <td width="25%">@Model.sterilizedAddress</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">State</td>
+                    <td width="25%">@Model.stateName</td>
+                    <td width="25%" style="font-weight: 600;">District</td>
+                    <td width="25%">@Model.sterlizedDistrictName</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Claim Amount</td>
+                    <td width="25%" colspan="3">@Model.claimAmount</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">4</span>Realization for Failure of Sterilization:</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped owner" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Date of issue reported at health unit</td>
+                    <td width="25%">@Model.informationDate</td>
+                    <td width="25%" style="font-weight: 600;">Confirmation Date of Failure</td>
+                    <td width="25%">@Model.confirmationDate</td>
+                    
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Name of Health Unit</td>
+                    <td width="25%">@Model.sevakendraName</td>
+                    <td width="25%" style="font-weight: 600;">Doctor's Name </td>
+                    <td width="25%">@Model.sevadoctorName</td>
+                </tr>
+            </tbody>
+        </table>
+        @if (Model.compensationCategoryName == "Death due to Sterilization")
+                    {
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">5</span>Details of Claimant :</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Name</td>
+                    <td width="25%">@Model.claimantName</td>
+                    <td width="25%" style="font-weight: 600;">Date of Birth</td>
+                    <td width="25%">@Model.claimantDob</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Present Age</td>
+                    <td width="25%">@Model.claimantAge</td>
+                    <td width="25%" style="font-weight: 600;">Relation with Sterilized Person</td>
+                    <td width="25%">@Model.relationName</td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Address</td>
+                    <td width="25%">@Model.claimantAddress</td>
+                    
+                </tr>
+                
+            </tbody>
+        </table>
+        }
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">6</span>@(Model.compensationCategoryId==3?"Spouse Bank Details:":"Bank Details:") </h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Account Holder Name</td>
+                    <td align="center">
+                        @Model.accountHolderName
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Bank Name</td>
+                    <td align="center">
+                        @Model.bankName
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">Branch Name</td>
+                    <td align="center">
+                        @Model.branchName
+                    </td>
+                    <td width="25%" style="font-weight: 600;">Account Number</td>
+                    <td align="center">
+                        @Model.accountNo
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">IFSC Code</td>
+                    <td align="center">
+                        @Model.ifscCode
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">7</span>Uploaded Documents:</h3>
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">OPD Reciept of Health Unit</td>
+                    <td align="center"> <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div></td>
+                    <td width="25%" style="font-weight: 600;">USG report & black films by Chief Medical Officer </td>
+                    <td align="center"> <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div></td>
+                </tr>
+                <tr>
+                    <td width="25%" style="font-weight: 600;">UPT report by Chief Medical Officer </td>
+                    <td align="center"> <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div></td>
+                    <td width="25%" style="font-weight: 600;">Antenatal Card by Chief Medical Officer </td>
+                    <td align="center"> <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div></td>
+                </tr>
+                <tr>
+
+                    <td width="25%" style="font-weight: 600;">Notarized  Affidavit from person incharg of establisment </td>
+                    <td align="center"> <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div></td>
+                    <td width="25%" style="font-weight: 600;">Certificate of Sterilization </td>
+                    <td align="center"> <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div></td>
+                </tr>
+
+                @if (Model.compensationCategoryId == 3)
+                {
+                    <tr>
+                        <td width="25%" style="font-weight: 600;">Death Certificate</td>
+                        <td  align="center">
+                            @if (!string.IsNullOrEmpty(Model.deathCertificateFilePath))
+                            {
+                                <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div>
+                            }
+                        </td>
+                        <td width="25%" style="font-weight: 600;">Discharge Summary</td>
+                        <td align="center"> <div style="width: 25px; height: 25px; border: 1px solid #bdbdbd;"></div></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="childlist">
+            <h3 style="margin: 10px 0px 10px 0px; font-size: 16px; font-weight: bold; padding: 10px 0px; border-bottom: 1px dashed #000"><span style="margin: 0px 15px 0px 0px; padding: 0px;">8</span>Details of Paramedical staff :</h3>
+        </div>
+      
+        <table cellpadding="0" cellspacing="0" width="100%" class="table-user-information table table-bordered table-striped" style="font-size: 15px; border-collapse: collapse">
+            <tbody>
+                <tr>
+                    <td width="25%">
+                        <p style="text-align: left;">&nbsp;</p>
+                        <p><strong>Date</strong></p>
+                    </td>
+                    <td width="25%">
+                        <p style="text-align: left;">&nbsp;</p>
+                        <p style="text-align: left;"><strong>Place</strong></p>
+                    </td>
+                    <td width="50%">
+                        <p style="text-align: center;">
+                            <strong>&nbsp;</strong>
+                        </p>
+                        <p style="text-align: center; font-weight: 600;">Signature of Person Incharge </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        @*<p style="margin: 0px; padding: 0px;"><strong>Note :</strong></p>
+        <p style="margin: 0px 0px 10px 0px; padding: 0px 0px;"><span style="margin: 0px 15px 0px 0px; padding: 0px;">1.</span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is </p>
+        <p style="margin: 0px 0px 10px 0px; padding: 0px 0px;"><span style="margin: 0px 15px 0px 0px; padding: 0px;">2.</span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is </p>
+        <p style="margin: 0px 0px 10px 0px; padding: 0px 0px;"><span style="margin: 0px 15px 0px 0px; padding: 0px;">3.</span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is </p>*@
+    </div>
+    <style>
+        .form-wrap {
+            width: 1170px;
+            margin: auto !important;
+            padding: 15px !important;
+            border: 1px dashed #000 !important;
+        }
+
+        .form-wrap2 {
+            width: 1170px;
+            margin: 0 auto;
+        }
+
+        #childlist th a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        @@media print {
+            .form-wrap {
+                width: 700px !important;
+                margin: auto !important;
+                padding: 15px !important;
+                border: 1px dashed #000 !important;
+            }
+
+            .form-wrap2 {
+                width: 700px !important;
+                margin: auto !important;
+            }
+
+            .tbl-head {
+                width: 700px !important;
+                /*margin-left: 9px;*/
+            }
+
+            #childlist th a {
+                color: #000;
+                text-decoration: none;
+            }
+
+            .table td, .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+                padding: 1px 4px !important;
+            }
+            .table {
+                margin-bottom:2px;
+            }
+        }
+    </style>
+
+    <script src="~/js/jquery-1.11.3.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            ChildList();
+        });
+        function ChildList() {
+            debugger;
+            $.ajax({
+                url: '@Url.Action("BindChildListFAP", "CMO")',
+                datatype: 'html',
+                type: 'GET',
+                async: false,
+                success: function (data) {
+
+                    $("#childlist").html(data);
+                },
+            });
+        }
+    </script>
+
+    <script>
+
+        function PrintDoc() {
+
+            var toPrint = document.getElementById('content');
+
+            var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+            popupWin.document.open();
+
+            popupWin.document.write('<html><title>Department of Health and Family Welfare</title><link href="../css/bootstrap.min.css" rel="stylesheet" /><link type="text/css" href="../css/font-awesome.min.css" rel="stylesheet" /><link href="../css/reportstyle.css" rel="stylesheet" /> <style>.pbtn{display:none;} a:link:after, a:visited:after {content: normal !important} a[href]:after {content: normal !important;} .owner{margin-bottom: 45px !important;} .table{margin-bottom: 8px !important;}</style> </head><body onload="window.print()">')
+
+            popupWin.document.write(toPrint.innerHTML);
+
+            popupWin.document.write('</body></html>');
+
+            popupWin.document.close();
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "InProcessApplicationMER";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left"> चिकित्सा प्रतिपूर्ति पत्र जारी करने के लिए अनुरोध का प्रक्रिया आवेदन<span class="small display-block">In process application for issuance of Medical reimbursement</span></div>
+    </h3>
+</div>
+
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Application No.</label>
+                                <input type="text" id="txtAppNumber" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Application Status</label>
+                                @Html.DropDownList("ddlAppStatus", (IEnumerable<SelectListItem>)ViewBag.DLLAppStatus, "--Select--", new { @class = "form-control select" })
+                            </div>
+                        </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Application Date</label>
+                                <input type="text" id="txtRequestdate" placeholder="dd/mm/yyyy" class="form-control datepicker-here" data-language="en" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                    @Html.Action("InProcessApplicationListMER", "CMO")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+    });
+    $(function () {
+
+        $("#btnSearch").click(function () {
+            bindApplicationList($("#txtAppNumber").val(), $("#ddlAppStatus").val(), $("#txtRequestdate").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#txtAppNumber").val('');
+            $("#ddlAppStatus").val('');
+            $("#txtRequestdate").val('');
+            bindApplicationList('', '');
+        });
+
+    });
+    function bindApplicationList(_registrationNo, _status, _requestdate) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("InProcessApplicationListMER", "CMO")',
+            data: { registrationNo: _registrationNo, status: _status, requestDate: _requestdate },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+
+</script>

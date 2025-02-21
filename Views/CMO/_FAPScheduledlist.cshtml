@@ -1,0 +1,44 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.FAPModel>
+@using OTPL_Imp
+<style>
+    .webgrid-header a {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+    <div id="divDataList" class="table-responsive">
+        @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column(columnName: "registrationNo", header: "Registration No"),
+            grid.Column("claimantName", header: "Claimant Name"),
+             grid.Column("claimantMobileNo", header: "Mobile Number"),
+              grid.Column("claimAmount", header: "Claim Amount"),
+            grid.Column("requestDate", header: "Request Date"),
+            grid.Column(columnName: "affidavit", header: "Affidavit", format: @<text>
+        <a href="@Url.Content(item.affidavitfilePath)" target="_blank" title="Download Affidavit"><i class="fa fa-download fa-2x"></i></a>
+        </text>)
+                     ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+}
+

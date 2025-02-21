@@ -1,0 +1,187 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.CountReportModel
+@{
+    ViewBag.Title = "CMOSRVCountReportDistrictSeviceWise";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+}
+
+ <script src="Client_script/jquery-3.6.4.min.js"></script>
+    <script src="Client_script/RemoveQueryString.js"></script>
+@using CCSHealthFamilyWelfareDept.Models
+@{
+    SessionManager SM = new SessionManager();
+}
+<style>
+    @@media print {
+        a:link:after, a:visited:after {
+            content: normal !important;
+        }
+
+        a[href]:after {
+            content: normal !important;
+        }
+    }
+
+
+    /*#pageFooter:after {
+        counter-increment: page;
+        content: counter(page);
+    }*/
+    .dn {display:none;} 
+</style>
+
+<div class="container">
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">
+            @ViewBag.RollNameHi सर्विस विभाग वार रिपोर्ट की गणना
+        <span class="small display-block">@ViewBag.RollName Service, District Wise Count Report</span>
+        </div>
+    </h3>
+</div>
+
+
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+   <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Filter Criteria</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Services</label>
+                                    @Html.DropDownList("ServiceId", (IEnumerable<SelectListItem>)ViewBag.DLLServices, new { @class = "form-control select",@readonly = "true" })
+                                </div>
+                            </div>
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>District</label>
+                                    @Html.DropDownList("districtId", (IEnumerable<SelectListItem>)ViewBag.DLLDistrict, "--Select All--", new { @class = "form-control select" })
+                                </div>
+                            </div>
+
+                             <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>From<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fromDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.fromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>To <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.toDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.toDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Refresh</button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button type="button" class="btn btn-block btn-primary" data-print="modal" onclick="PrintDoc()">Print</button>
+                            </div>
+  <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button type="button" class="btn btn-block btn-warning" id="btnExportExcel">Export Excel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                    @Html.Action("CMOSRVCountReportDistrictServiceList", "Public", new { rollId =0, districtId = 0 , ServiceId =  ViewBag.SeriviceId,fromDate=ViewBag.fromDate, toDate=ViewBag.toDate})
+
+@*                    <div class="dn" style="font-size: 12px; text-align: right; position: fixed; bottom: -5px; width: 99%;"><strong id="pageFooter">Page</strong><strong>&nbsp;of&nbsp;@totalPage</strong> </div>*@
+
+                    <div class="dn" style="font-size: 12px; text-align: center; margin-top:100%; bottom: 0px; width: 99%;">** This is a Software Generated Report **</div>
+                </div>
+                <input type="hidden" id="hdnRollId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    
+    $(function () {
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+        $("#btnExportExcel").click(function () {
+
+            window.location.href = '@Url.Action("ExportToExcelDistrictService", "Public")';
+
+         })
+        $("#btnSearch").click(function () {
+            bindCMOSRVCountReportList($("#districtId").val(), $("#ServiceId").val(), $("#hdnRollId").val(), $("#fromDate").val(), $("#toDate").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#ServiceId").val('');
+            $("#DistrictId").val('');
+            bindCMOSRVCountReportList('0','0', $("#hdnRollId").val(),'','');
+        });
+    });
+
+    function bindCMOSRVCountReportList(_DistrictId, _ServiceId, _rollId, _fromDate, _toDate) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("CMOSRVCountReportDistrictServiceList", "Public")',
+            data: { districtId: _DistrictId, ServiceId: _ServiceId, rollId: _rollId, fromDate: _fromDate, toDate: _toDate },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);   
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+</script>
+
+<script>
+
+    function PrintDoc() {
+
+        var toPrint = document.getElementById('DIV-ApplicationList');
+
+        var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+        popupWin.document.open();
+
+        popupWin.document.write('<html><title>::Preview::</title> <style>body{font-family:Arial} table tr td, table tr th{font-size:14px; padding:5px;} a:link:after, a:visited:after{content: normal !important;} a[href]:after{content: normal !important;} a{text-decoration: none; color: #000; cursor: default;} #pageFooter:after {counter-increment: page; content: counter(page);} .dnc{display: table-cell; border: 0 !important} .dn {display:block;}</style></head><body onload="window.print()"><h2 style="text-align:center; margin:0px 0 3px 0; padding-right:50px;"><img src="../Images/logo.jpg" style="float:left;" />Department of Medical Health & Family Welfare <br> <span style="font-size:20px;"> Government of Uttar Pradesh</span></h2><h3 style="border-top:1px solid #333; margin:10px 0 10px 0; padding-top:5px; text-align:center; font-size:16px; text-decoration: underline;">Status of Application Received For Services Under Janhit Guarantee Adhiniyam, 2011</h3><table style="width:100%"><tr><td align="center" colspan="2"><b>Division Wise Count Report for ' + '@ViewBag.FullRollName' + '</b></td></tr><tr><td><b>Login of: </b> @SM.RollName</td><td align="right"><b>Report Code: </b>' + '@ViewBag.RollName' + '-DIWCR-01</td></tr><td><b>Report Period: </b>' + '@ViewBag.fromDate' + ' <b>to</b> ' + '@ViewBag.toDate' + ' </td><td align="right"><b>Report Printed On: </b> @System.DateTime.Today.ToShortDateString() </td></tr></table> ')
+
+        popupWin.document.write(toPrint.innerHTML);
+
+        popupWin.document.write('</body></html>');
+
+        popupWin.document.close();
+
+    }
+</script>
+

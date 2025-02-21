@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "CMOSRVCountReportDivisionWise";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        @if (string.IsNullOrEmpty(@ViewBag.ServiceId))
+        {
+            <strong>
+                सी.एम.ओ. जिला वार रिपोर्ट की गणना
+        <span class="small">CMO District Wise Count Report</span>
+            </strong>
+        }
+        else
+        {
+            <strong>
+                सी.एम.ओ. सर्विस वार रिपोर्ट की गणना
+        <span class="small">Service Wise Count Report</span>
+            </strong>
+        }
+        <a href="javascript:history.back()" class="btn btn-primary btn-sm pull-right btnHistoryBack" style="margin-top:-40px;">Back</a>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @*<div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Filter Criteria</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Division</label>
+                                 
+                            </div>
+                        </div> 
+                        <div class="col-md-4">
+                            <label>&nbsp;</label>
+                            <button type="button" id="btnSearch" class="btn btn-block btn-success">Search</button>
+                        </div>
+                        <div class="col-md-4">
+                             <label>&nbsp;</label>
+                            <button type="button" id="btnRefresh" class="btn btn-block btn-danger">Refresh</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div class="row"> 
+        
+                 
+                    @if (string.IsNullOrEmpty(@ViewBag.ServiceId))
+                    {
+                        @Html.Action("CMOSRVCountReportDivisionWiseList", "Report", new { zoneId = @ViewBag.ZoneId })
+                    }
+                    else
+                    {
+                        @Html.Action("CMOSRVCountReportDivisionWiseList", "Report", new { zoneId = @ViewBag.ZoneId, serviceId = @ViewBag.ServiceId })
+                    }
+                 
+            
+    </div>
+</div>
+
+<script>
+    $(function () {
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+
+        $("#btnSearch").click(function () {
+            bindCMOSRVCountReportList($("#zoneId").val());
+        });
+
+        $("#btnRefresh").click(function () {
+            $("#zoneId").val('');
+            bindCMOSRVCountReportList('0');
+        });
+    });
+
+    function bindCMOSRVCountReportList(_zoneId) {
+        var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+        $('#DIV-ApplicationList').html(img);
+
+        $.ajax({
+            url: '@Url.Action("CMOSRVCountReportList", "Report")',
+            data: { zoneId: _zoneId },
+            type: 'GET',
+            dataType: 'HTML'
+        })
+        .success(function (returndata) {
+            $('#DIV-ApplicationList').html(returndata);
+        })
+        .error(function (xhr, status) {
+            $('#DIV-ApplicationList').html('');
+            swal("", 'Details Not Found !', "warning");
+        });
+    }
+</script>

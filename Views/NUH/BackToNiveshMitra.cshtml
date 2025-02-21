@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "BackToNiveshMitra";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<h2 style="padding-top:10px;">Loading...</h2>
+
+<form id="PostForm" name="PostForm" action="@ViewBag.ActionURL" method="post">
+    <input type="hidden" name="Dept_Code" value="@ViewBag.Dept_Code">
+    <input type="hidden" name="ControlID" value="@ViewBag.ControlID"> 
+    <input type="hidden" name="UnitID" value="@ViewBag.UnitID"> 
+    <input type="hidden" name="ServiceID" value="@ViewBag.ServiceID">
+    <input type="hidden" name="PassSalt" value="@ViewBag.PassSalt">    
+</form> 
+<script language="javascript">var vPostForm = document.PostForm; vPostForm.submit();</script>

@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "RegistrationInstructions";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .page-instraction {
+        min-height: 520px;
+    }
+</style>
+<div class="content-title">
+    <h3 class="main-title">
+        <strong>आवेदन पत्र भरने के दिशा निर्देश <span class="small">Instruction To Fill Application Form </span></strong>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 page-instraction">
+                            <h4>Procedure to Fill Application Form</h4>
+                            <ul>
+                                <li>Before filling this form, Kindly arrange the Scan Copy of following documents ready with you:-
+                                    <ul>
+                                        <li>SCAN COPY OF IMMUNIZATION BOOK</li>
+                                    </ul>
+                                    <strong>Note:- </strong>
+                                    <ul>
+                                        <li>All files should be uploaded in jpg/pdf format and maximum file size allowed up to (2MB)</li>
+                                        <li>Fields marked with * are mandatory.</li>
+                                    </ul>
+                                </li>
+                                <li>Fill all the required fields & attached the relevant documents then click on “Save” button.</li>
+                                <li>A preview page will appear, now check all the details carefully filled by you</li>
+                                <li>If every details is correct & no change is required then click on “Submit” button</li>
+                                <li>Note down your Application Reference number for future use.</li>
+                                <li>You will be redirected to the new window. You have two options in New Window, one is “New Registration Application Form” and “View application form Status” tab.</li>
+                                <li>You can use “New Registration Application Form” tab to fill a new form.</li>
+                                <li>You can check the current status of your application by clicking on the “View Submitted Application Status” </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 page-instraction">
+                            <h4>Terms &amp; Conditions</h4>
+                            <ul>
+                                <li>It is the right of assigned authority to accept or reject the application form. If he/she rejects the application, will mention the “cause of rejection.”</li>
+                                <li>After acceptance of application, CMS will schedule an inspection date.</li>
+                                <li>It is mandatory to reach at assigned date in hospital for verification. </li>
+                                <li>If application will be accepted after verification, a Computer Generated Registration Certificate will be made available on the dashboard of applicants.</li>
+                                <li>Applicants can also collect their computer generated certificate from the office of CMO.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <b>I have read and Understood all the Terms & Conditions regarding the applications Process.</b><br />
+                                <br />
+                                <b>
+                                    <input id="chkConfirm" name="chkConfirm" type="checkbox" />
+                                    I Agree</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input name="btnProceed" value="Proceed" onclick="return proceedToRegistration();" disabled="disabled" id="btnProceed" class="btn btn-warning btn-block btn-lg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#chkConfirm').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#btnProceed').removeAttr('disabled');
+            } else {
+                $('#btnProceed').attr('disabled', 'disabled');
+            }
+        });
+    });
+
+    function proceedToRegistration() {
+
+        if ($('#chkConfirm').is(':checked')) {
+            var url = '@Url.Action("ImmunizationChildrenCertificate", "ICC")';
+            window.location.href = url;
+        } else {
+            swal("", "First select Agree, Then Proceed To Registration !", "warning");
+            return false;
+        }
+    }
+
+</script>
+
+
+

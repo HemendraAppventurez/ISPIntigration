@@ -1,0 +1,45 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ProcessType
+@{
+    ViewBag.Title = "ReceivedForwardApp";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">असफल परिवार नियोजन के भुगतान हेतु अनुरोध <span class="small display-block">Request for the Payment of Unsuccessful Family Planning </span></div>
+    </h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="circle">
+                <li class="col-md-3 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ForwardedApplicationFAP", "CMO")" class="red">
+                        <img src="@Url.Content("~/images/womens-health.png")">
+                        1. कुल लंबित आवेदन 
+                      <span class="nmicon2">Total Pending Application</span>
+                        <span class="nmicon badge">@Model.totalAppReceived</span>
+                    </a>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ForwardedAppApprovedFAP", "CMO")" class="red">
+                        <img src="@Url.Content("~/images/womens-health.png")">
+                        2. स्वीकृत आवेदन  
+                      <span class="nmicon2">Approved Application</span>
+                        <span class="nmicon badge">@Model.totalAppApproved</span>
+                    </a>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12">
+                    <a href="@Url.Action("ForwardedAppRejectedFAP", "CMO")" class="red">
+                        <img src="@Url.Content("~/images/womens-health.png")">
+                        3. अस्वीकृत आवेदन
+                      <span class="nmicon2">Disapproved Application</span>
+                        <span class="nmicon badge">@Model.totalAppRejected</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "CMOSRVCountReportForCMO";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    @@media print
+    {
+        a:link:after, a:visited:after
+        {
+            content: normal !important;
+        }
+
+        a[href]:after
+        {
+            content: normal !important;
+        }
+    }
+</style>
+<div class="content-title">
+    <h3 class="main-title">
+        <div class="col-md-12 text-left">
+           @ViewBag.RollNameHi सर्विस विभाग वार रिपोर्ट की गणना
+        <span class="small display-block">@ViewBag.RollName Service Division Wise Count Report</span>
+        </div>
+    </h3>
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+  
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div id="DIV-ApplicationList">
+                    @Html.Action("CMOSRVCountReportListForCMO", "Report", new { rollId = ViewBag.RollId, districtId = ViewBag.DistrictId })
+                </div>
+                <input type="hidden" id="hdnRollId" value="@ViewBag.RollId" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        if ('@TempData["Msg"]' != "" && '@TempData["MsgStatus"]' != "") {
+
+            swal("", '@TempData["Msg"]', '@TempData["MsgStatus"]');
+
+        }
+
+       
+    });
+
+  
+</script>
+
+<script>
+
+    function PrintDoc() {
+
+        var toPrint = document.getElementById('DIV-ApplicationList');
+
+        var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+        popupWin.document.open();
+
+        popupWin.document.write('<html><title>::Preview::</title> <style>body{font-family:Arial} table tr td, table tr th{font-size:14px; padding:5px;} a:link:after, a:visited:after{content: normal !important;} a[href]:after{content: normal !important;} a{text-decoration: none; color: #000; cursor: default;}</style></head><body onload="window.print()"><h2 style="text-align:center; margin:0px 0 3px 0; padding-right:50px;"><img src="../Images/logo.jpg" style="float:left;" />Department of Medical Health & Family Welfare <br> <span style="font-size:20px;"> Government of Uttar Pradesh</span></h2><h3 style="border-bottom:1px solid #333; margin:0px 0 10px 0; padding-bottom:5px; text-align:center; font-size:16px;">Division Wise Count Report</h3> ')
+
+        popupWin.document.write(toPrint.innerHTML);
+
+        popupWin.document.write('</body></html>');
+
+        popupWin.document.close();
+
+    }
+</script>

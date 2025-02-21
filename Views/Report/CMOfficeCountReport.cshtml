@@ -1,0 +1,283 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ReportsModel
+@{
+    ViewBag.Title = "CMOfficeCountReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    SessionManager SMOBj = new SessionManager();
+}
+
+
+@using CCSHealthFamilyWelfareDept.Models;
+@{
+
+    int i = 1, totalPage = 1;
+}
+
+@using (Html.BeginForm("CMOfficeCountReport", "Report", FormMethod.Post))
+{
+    <section>
+        <div class="content-title">
+            <h3 class="main-title">Count Process <strong>Report</strong></h3>
+        </div>
+        @*<a @Url.Action("CMOfficeCountProcessRpt", "Report")" class="btn btn-block btn-success" >Print</a>*@
+        <div id="content" class="dashboard padding-20 margin-bottom-50">
+            <div class="row">
+
+                <div class="col-md-12" id="FilterDiv">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="title elipsis">
+                                <h4></h4>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                                @*<div class="col-md-3 a" style="display: none">
+                                        <div class="form-group">
+                                            <label>Application <span class="star">*</span></label>
+                                            @Html.DropDownListFor(m => m.appTypeId, (IEnumerable<SelectListItem>)ViewBag.Application, "--select--", new { @class = "form-control", tabindex = "1" })
+                                            @Html.ValidationMessageFor(m => m.appTypeId, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(m => m.appTypeId)
+                                        </div>
+                                    </div>*@
+
+                                @*<div class="col-md-3 d" style="display: none">
+                                        <div class="">
+                                            <label>District <span class="star">*</span></label>
+                                            <span id="spanmember" style="display: none" class="text-danger">Please select Atleast One DIstrict</span>
+                                            <div class="example">
+                                                @Html.DropDownListFor(m => m.DistrictIds, (IEnumerable<SelectListItem>)ViewBag.District, new { @multiple = "multiple", @class = "reasondropdown ddlmultiple" })
+                                                @Html.ValidationMessageFor(m => m.DistrictId)
+                                            </div>
+                                        </div>
+                                    </div>*@
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>From<span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.fromDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.fromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>To <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.toDate, new { @class = "datepicker-here form-control", @data_language = "en", @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.toDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" id="FilterDivButton">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <input type="submit" id="btnsearch" value="Search" class="btn btn-block btn-success" />
+                                        @Html.HiddenFor(m => m.RptType)
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("CMOfficeCountReport", "Report")" class="btn btn-block btn-warning">Reset</a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("CMOfficeCountProcessRpt", "Report")" class="btn btn-block btn-warning">Print</a>
+                                        @*   <input type="submit" id="btnSubmit" value="Print" class="btn btn-block btn-success" />*@
+                                        @Html.HiddenFor(m => SMOBj.FromDate)
+                                        @Html.HiddenFor(m => SMOBj.ToDate)
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="@Url.Action("CMOfficeCountProcessExcel", "Report")" class="btn btn-block btn-warning">Export To Excel</a>
+                                        @*   <input type="submit" id="btnSubmit" value="Print" class="btn btn-block btn-success" />*@
+                                        @Html.HiddenFor(m => SMOBj.FromDate)
+                                        @Html.HiddenFor(m => SMOBj.ToDate)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                @{
+    List<ReportsModel> rows = ViewData["CMOfficeCountReportList"] as List<ReportsModel>;
+
+    if (rows != null && rows.Count > 0)
+    {
+                    <div class="col-md-12" id="FilterDivTotalList">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="title elipsis">
+                                    <h4></h4>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <table border="1" cellpadding="2" cellspacing="0" width="100%" style="font-size: 13px;">
+                                        <thead>
+                                            <tr>
+                                                <td align="center" style="width: 5%;"><strong>S. No</strong></td>
+                                                <td align="center"><strong>Service Name</strong></td>
+                                                <td align="center"><strong>Health Portal</strong></td>
+                                                <td align="center"><strong>E-District</strong></td>
+                                                <td align="center" style="font-weight: 900; font-size: 11pt;"><strong>Total</strong></td>
+                                                <td align="center"><strong>Resolved</strong></td>
+                                                <td align="center"><strong>Pending</strong></td>
+                                                <td align="center" style="width: 10%;"><strong>Pending Percentage</strong></td>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            @foreach (var r in rows)
+                                            {
+                                                <tr>
+                                                    <td align="center">@i</td>
+                                                    <td style="text-align: left;">@r.Module</td>
+                                                    <td style="text-align: center;">@r.AppFromPortal</td>
+                                                    <td style="text-align: center;">@r.AppNotFromPortal</td>
+
+                                                     @*<td style="text-align: center;">@Html.Raw(r.total > 0 ? "<a href=" + @Url.Action("ApplicationDetails", "Report", new { rollId = @OTPL_Imp.CustomCryptography.Encrypt(@r.rollId.ToString()),appCurrStatus = @OTPL_Imp.CustomCryptography.Encrypt("0"), zoneId = @OTPL_Imp.CustomCryptography.Encrypt(@r.zoneId.ToString()), districtId = @OTPL_Imp.CustomCryptography.Encrypt(@r.DistrictId.ToString()), serviceId = @OTPL_Imp.CustomCryptography.Encrypt(@r.serviceId.ToString()), isLessFiftyThousan = @OTPL_Imp.CustomCryptography.Encrypt("1"), userId = @OTPL_Imp.CustomCryptography.Encrypt(@r.profileId.ToString()) }) + ">" + r.total + "</a>" : r.total.ToString())</td>*@
+                                                    <td style="text-align: center;" style="font-weight: 900; font-size: 11pt;">@Html.Raw(r.total > 0 ? "<a target='_blank' href=" + @Url.Action("CMOfficeCountProcessDetailsList", "Report", new { ModuleId = @OTPL_Imp.CustomCryptography.Encrypt(r.ModuleId.ToString()), FromDate = @OTPL_Imp.CustomCryptography.Encrypt(r.fromDate), ToDate = @OTPL_Imp.CustomCryptography.Encrypt(r.toDate), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("total") }) + ">" + r.total + "</a>" : r.total.ToString())</td>
+                                                    <td style="text-align: center;">@Html.Raw(r.total > 0 ? "<a target='_blank' href=" + @Url.Action("CMOfficeCountProcessDetailsList", "Report", new { ModuleId = @OTPL_Imp.CustomCryptography.Encrypt(r.ModuleId.ToString()), FromDate = @OTPL_Imp.CustomCryptography.Encrypt(r.fromDate), ToDate = @OTPL_Imp.CustomCryptography.Encrypt(r.toDate), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("Resolved") }) + ">" + r.Nistarit + "</a>" : r.Nistarit.ToString())</td>
+
+                                                    <td style="text-align: center;">@Html.Raw(r.total > 0 ? "<a target='_blank' href=" + @Url.Action("CMOfficeCountProcessDetailsList", "Report", new { ModuleId = @OTPL_Imp.CustomCryptography.Encrypt(r.ModuleId.ToString()), FromDate = @OTPL_Imp.CustomCryptography.Encrypt(r.fromDate), ToDate = @OTPL_Imp.CustomCryptography.Encrypt(r.toDate), ReportName = @OTPL_Imp.CustomCryptography.Encrypt("pending") }) + ">" + r.Lambit + "</a>" : r.Lambit.ToString())</td>
+                                                    <td style="text-align: center;">@r.Percentage</td>
+                                                </tr>
+                                                i++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    }
+
+                }
+            </div>
+        </div>
+    </section>
+
+}
+<script src="~/js/bootstrap-multiselect.js"></script>
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+
+<script>
+
+    $(document).ready(function () {
+       
+        debugger
+        if ('@TempData["RptType"]' == '1') {
+
+            $('.d').hide();
+            $('.a').hide();
+        }
+        else {
+            $('.d').show();
+            $('.a').show();
+        }
+    });
+    $('#DistrictIds').hide();
+    $('.ddlmultiple').multiselect({
+
+        includeSelectAllOption: true,
+        enableClickableOptGroups: true,
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        nSelectedText: 'Reason Selected'
+    });
+
+    $("#btnRefresh").click(function () {
+        $("#txtAppNumber").val('');
+        $("#ddlAppStatus").val('');
+        $("#txtAppDate").val('');
+    });
+
+    $("btnSubmit").click(function () {
+
+        debugger;
+        var FromDate = $("fromDate").val();
+        var ToDate = $("tomDate").val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CMOfficeCountProcessRpt", "Report")",
+            data: { FromDate: FromDate, ToDate: ToDate },
+            success: function (r) {
+                debugger;
+
+            }
+        })
+
+    });
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+    $('#fromDate').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var mindate = new Date(selectedDate);
+            mindate.setDate(mindate.getDate() + 1);
+            $("#toDate").datepicker({ minDate: mindate, autoClose: true });
+        },
+        autoClose: true
+    });
+
+    $('#toDate').datepicker({
+        maxDate: new Date(strDate),
+        onSelect: function (selectedDate) {
+            var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+            selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+            var maxdate = new Date(selectedDate);
+            maxdate.setDate(maxdate.getDate() - 1);
+            $("#fromDate").datepicker({ maxDate: maxdate, autoClose: true });
+        },
+        autoClose: true
+    });
+
+    @*$("#btnsearch").click(function () {
+        debugger;
+        $("#dvLoader").show();
+
+        if ('@TempData["RptType"]' != '1') {
+            if ($('#DistrictIds').val() == null || $('#DistrictIds').val() == '') {
+                $("#spanmember").show();
+                return false;
+            }
+            else {
+                $("#spanmember").hide();
+                return true;
+            }
+        }
+        $("#dvLoader").hide();
+    });*@
+
+    function SubmitForm() {
+        debugger
+        localStorage.setItem('back', 1);
+        localStorage.setItem('reportName', localStorage.getItem('reportName'));
+        if ('@SMOBj.AppTypeID' != "" && '@SMOBj.AppTypeID' != 0) {
+                //debugger
+                var ApptypeId = '@SMOBj.AppTypeID';
+                var fromDate = '@SMOBj.FromDate';
+                var toDate = '@SMOBj.ToDate';
+                $("#appTypeId").val(ApptypeId);
+                $("#fromDate").val(fromDate);
+                $("#toDate").val(toDate);
+
+                $('#frmCountCertificate').submit(function () {
+                    // debugger
+                    bindApplicationList(localStorage.getItem('reportName'), "");
+                    //$("#dvLoader").show();
+                });
+
+            }
+        }
+
+
+</script>

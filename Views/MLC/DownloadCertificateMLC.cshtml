@@ -1,0 +1,253 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.MLCNomineeModel
+@{
+    ViewBag.Title = "DownloadCertificateMLC";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    #btnDive
+    {
+        position: static !important;
+    }
+
+    #Loader
+    {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+
+        #Loader img
+        {
+            margin: 20% 50% !important;
+            position: absolute;
+            z-index: 9999;
+        }
+</style>
+<div class="content-title">
+
+    <h3 class="main-title">Medico-Legal Certificate<a href="@Url.Action("MLCDashBoard", "MLC")" class="btn btn-info pull-right">Back</a></h3>
+
+</div>
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div id="Loader"></div>
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="title elipsis">
+                        <h4>Download Certificate</h4>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("DownloadCertificateMLC", "MLC", FormMethod.Post, new { @id = "frmGetCertificate" }))
+                    {
+                        @Html.HiddenFor(m => m.nomineeId)
+                        @Html.HiddenFor(m => m.regisIdMLC)
+                        @Html.HiddenFor(m => m.downloadStep)
+                        @Html.HiddenFor(m => m.mobileNumber)
+                        <div class="row">
+                            @if (Model.downloadStep == 0 || Model.downloadStep == 1)
+                            {
+                                if (Model.downloadStep == 0)
+                                {
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Name <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.nomineeName, new { @class = "form-control", @readonly = "true" })
+                                        @Html.HiddenFor(m => m.nomineeName)
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Mobile Number <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.mobileNumber, new { @class = "form-control", @readonly = "true" })
+                                        @Html.HiddenFor(m => m.mobileNumber)
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Photo Identity Proof&nbsp;<span class="text-danger">*</span></label>
+                                    @Html.DropDownListFor(m => m.idProof, (IEnumerable<SelectListItem>)ViewBag.IdentityProof, "--Select--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.idProof, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Upload Photo Identity <span class="text-danger">*</span></label>
+                                    <div class="fileUpload3">
+                                        <span>Upload </span>
+                                        @Html.TextBoxFor(m => m.idProofFile, new { @class = "upload3", @type = "file", @onchange = "UploadFile(this);" })
+                                        @Html.HiddenFor(m => m.idProofFilePath)
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.idProofFile, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-1">
+                                    <label>&nbsp;</label>
+                                    <a href="#" id="idProofFileDoc" target="_blank" title="Download" style="display: none;"><i class="fa fa-2x fa-download"></i></a>
+                                </div>
+                                <div class="clearfix"></div>
+                                }
+                                else if (Model.downloadStep == 1)
+                                {
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>OTP <span class="star">*</span></label>
+                                        @Html.TextBoxFor(m => m.OTP, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.OTP, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <input type="button" class="btn-link" onclick="resendOTP()" value="Re-Send OTP" style="margin-top:30px;" />
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                }
+                                
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" class="btn btn-block btn-success">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <a href="@Url.Action("GetCertificateMLC", "MLC")" class="btn btn-block btn-danger">Cancel</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        @if (Model.isUpload && !string.IsNullOrEmpty(Model.uploadCertificatePath))
+                                        {
+                                            <a href="@Url.Action("DownloadFileByPath", "MLC", new { filePath = Server.UrlEncode(@OTPL_Imp.CustomCryptography.Encrypt(Model.uploadCertificatePath)) })" aria-hidden="true" class="btn btn-block btn-info" target="_blank">Download Certificate</a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#Loader").html('');
+        $("#Loader").hide();
+
+        if ('@ViewBag.Msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", "@ViewBag.Msg", "@ViewBag.MsgStatus");
+        }
+
+        if ('@TempData["WarningMsg"]' != '') {
+            swal("", "@TempData["WarningMsg"]", "warning");
+        }
+    });
+
+    function UploadFile(Obj) {
+        var ext = Obj.value.match(/\.(.+)$/)[1];
+        var Id = $(Obj).attr("Id");
+
+        switch (ext) {
+            case 'pdf':
+            case 'jpg':
+                var fileSize = ($("#" + Id)[0].files[0].size / 1024 / 1024);
+                if (fileSize > 2) {
+                    swal("", "Maximum 2MB file size are allowed", "warning");
+                    return false;
+                }
+                else {
+                    var data = new FormData();
+                    var files = $("#" + Id).get(0).files;
+                    if (files.length > 0) {
+                        data.append("File", files[0]);
+                    }
+                    $.ajax({
+                        url: '@Url.Action("UploadFile", "MLC")',
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            $("#" + Id + "Path").val(response[1]);
+                            var Url = response[1].replace('~/', '');
+
+                            $("#" + Id + "Doc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+                            $("#" + Id + "Doc").show();
+                            return false;
+                        },
+                        error: function () {
+
+                        }
+                    });
+
+                }
+                break;
+            default:
+                swal("", 'Invalid File Format only pdf and jpg files are allowed!', "warning");
+                this.value = '';
+                return false;
+        }
+    }
+
+    function resendOTP() {
+
+        if ($('#mobileNumber').val() != '') {
+
+            var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+            $("#Loader").html(img);
+            $("#Loader").show();
+
+            $.ajax({
+                url: '@Url.Action("ResendOTP", "MLC")',
+                data: { mobileNo: $('#mobileNumber').val() },
+                type: 'POST',
+                dataType: 'HTML'
+            }).success(function (returndata) {
+                $("#Loader").html('');
+                $("#Loader").hide();
+                if (returndata.split('_')[0] == "error") {
+                    swal("", returndata.split('_')[1], returndata.split('_')[0]);
+                }
+                else if (returndata.split('_')[0] == "warning") {
+                    swal("", returndata.split('_')[1], returndata.split('_')[0]);
+                }
+                else if (returndata.split('_')[0] == "EXIT") {
+                    swal({
+                        title: "",
+                        text: returndata.split('_')[1],
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true
+                    }, function () {
+                        var url = '@Url.Action("GetCertificateMLC", "MLC")';
+                        window.location.href = url;
+                    });
+                }
+                else if (returndata.split('_')[0] == "success") {
+                    swal("", returndata.split('_')[1], returndata.split('_')[0]);
+                }
+
+            }).error(function (xhr, status) {
+                //alert(status);
+            })
+}
+}
+
+</script>

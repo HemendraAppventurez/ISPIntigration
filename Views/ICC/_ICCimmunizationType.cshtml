@@ -1,0 +1,60 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ICCModel
+@{
+    Layout = null;
+}
+@*<link rel="stylesheet" type="text/css" href="~/css/datepicker.css">*@
+@*@Styles.Render("~/css/datepicker.css")*@
+
+<div>
+    @if (Model.appImmunList != null && Model.appImmunList.Count() > 0)
+    {
+        WebGrid grid = new WebGrid(Model.appImmunList, canPage: true, canSort: true, rowsPerPage: 20, ajaxUpdateContainerId: "divTTList");
+        
+        <div class="clearfix"></div>@*
+        <div id="divTTList" class="table-responsive" style="margin-top: 5px;">
+            @grid.GetHtml(
+                htmlAttributes: new { id = "QualifiGrid" },
+                tableStyle: "table table-bordered",
+                headerStyle: "active2",
+                fillEmptyRows: false,
+                mode: WebGridPagerModes.All,
+                firstText: "<< First",
+                previousText: "< Prev",
+                nextText: "Next >",
+                lastText: "Last >>",
+                columns: grid.Columns(
+                grid.Column(header: "S.No", style: "actionclm", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+                grid.Column(header: "Immunization Name", format: @<text><span>@item.immuName</span></text>, style: "color:Red"),
+            grid.Column(null, null, format: @<input type="hidden" name="immuId" value="@item.immuId" />),
+                grid.Column(header: "", format: @<text><span>
+                    @Html.CheckBoxFor(m => m.isExsist, new { tabindex = "20", @onclick = "validate(this)" })
+                    @Html.ValidationMessageFor(m => m.isExsist)</span></text>),
+                    grid.Column(header: "Date", format: @<text><span>
+                        @Html.TextBoxFor(m => m.dateOfImmunization, new { @class = "datepicker-here form-control", tabindex = "3", @data_language = "en",@disabled="disabled",@placeholder="DD/MM/YYYY" })
+                        @Html.ValidationMessageFor(m => m.dateOfImmunization)</span></text>)
+                ))
+        </div> 
+    }
+    else
+    {
+        *@<table class="table table-bordered">
+            <thead class="bg-info">
+                <tr>
+                    <th>No Record Found</th>
+                </tr>
+            </thead>
+        </table> 
+    }
+</div>
+@*@Scripts.Render("~/js/jquery-1.11.3.min.js")
+@Scripts.Render("~/js/datepicker.js")
+@Scripts.Render("~/js/datepicker.en.js")*@
+
+@*<script type="text/javascript" src="~/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="~/js/datepicker.js"></script>
+<script type="text/javascript" src="~/js/datepicker.en.js"></script>
+<script>
+    $('.datepicker-here').datepicker({
+        autoClose: true
+    });
+</script>*@

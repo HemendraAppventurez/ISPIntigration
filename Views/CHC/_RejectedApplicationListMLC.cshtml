@@ -1,0 +1,43 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.MLCDetailsModel>
+@using OTPL_Imp
+<style>
+    .webgrid-header a {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10, ajaxUpdateContainerId: "divDataList");
+             
+    <div id="divDataList">
+        @grid.GetHtml(tableStyle: "table-user-information table table-bordered table-striped",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+            grid.Column("registrationNo", header: "Application No.",format: @<text><a href="@Url.Action("PrintApplicationFormMLC", "CHC",new {regisIdMLC= @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdMLC.ToString())})"  target="_blank">@item.registrationNo</a></text>),
+            grid.Column("appliedDate", header: "Application Date"),
+            grid.Column("fullName", header: "Brought By Name"),
+            grid.Column("mobileNo", header: "Mobile No."),            
+            grid.Column("patientName", header: "Patient Name"),
+            grid.Column("appliedStatus", header: "Current Status")
+
+            ))
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <span class="text-danger form-control" style="font-weight: 600; font-size: 18px;">No record found !</span>
+        </div>
+    </div>
+}

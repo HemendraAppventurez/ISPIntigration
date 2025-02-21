@@ -1,0 +1,365 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.ILCModel
+
+@{
+    ViewBag.Title = "ILCDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    .stronglbl label {
+        font-weight: 600 !important;
+        display: block;
+    }
+    /*.stronglbl label:after {
+            content:":";
+            float:right;
+            display:block;
+        }*/
+    .form-group {
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+@*<div class="content-title">
+    <h3 class="main-title">Illness Certificate Details<a href="@Url.Action("ViewILC", "ILC")" class="btn btn-info btn-md pull-right">Back</a></h3>
+
+</div>*@
+
+<div class="content-title">
+    <h3 class="main-title">Illness Certificate Details
+   
+        <a href="@Url.Action("ViewILC", "ILC")" class="btn btn-info btn-md pull-right">Back</a></h3>
+</div>
+
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="col-md-12">
+        <div class="panel-body stronglbl">
+
+            <h4>Reason For Application
+                <label class="pull-right" style="color: #0b8494;"><strong>Application Number :</strong> @Model.registrationNo</label></h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Reason</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.reason
+                </div>
+                  <div class="col-md-3">
+                    <label>OPD Receipt Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.opdReceiptno
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+               <div class="form-group">
+              
+               @if (Model.opdFilePath != "")
+                {
+                    <div class="col-md-3">
+                        <label>OPD Reciept</label>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="@Url.Content(Model.opdFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                    </div>
+                }
+                <div class="clearfix"></div>
+            </div>
+            <h4>Select Health Unit
+            </h4>
+            <div class="form-group">
+
+              
+                <div class="col-md-3">
+                    <label>Health Unit</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtypeName
+                </div>
+                  <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.healthUnitDistrictName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+              
+                <div class="col-md-3">
+                    <label>Hospital Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.forwardtoName
+                </div>
+                 <div class="col-md-3">
+                    <label>Doctor Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.doctorName
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+               
+                <div class="col-md-3">
+                    <label>Date of Check-up</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.opdDate).ToShortDateString()
+                </div>
+                 <div class="col-md-3">
+                    <label>Treatment From</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.treatmentFrom).ToShortDateString()
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+               
+
+                <div class="col-md-3">
+                    <label>Treatment To</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.treatmentto).ToShortDateString()
+                </div>
+                 <div class="col-md-3">
+                    <label>Number Of Days For Rest</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.NoOfDays
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+
+            <div class="form-group">
+
+               
+                <div class="col-md-3">
+                    <label>Illness Details</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.illnessDetail
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            
+            <h4>Personal Details</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Full Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fullName
+                </div>
+                <div class="col-md-3">
+                    <label>Father Name</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.fatherName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>DOB</label>
+                </div>
+                <div class="col-md-3">
+                    @DateTime.Parse(@Model.dob).ToShortDateString()
+
+                </div>
+                <div class="col-md-3">
+                    <label>Gender</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.gender
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Category</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.categoryName
+                </div>
+
+                <div class="col-md-3">
+                    <label>Mobile No. </label>
+                </div>
+                <div class="col-md-3">
+                    @Model.mobileNo
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Email Id</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.emailId
+                </div>
+
+                <div class="col-md-3">
+                    <label>Address</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.opdAddress
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clear-fix"></div>
+
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>State</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.StateName
+                </div>
+                <div class="col-md-3">
+                    <label>District</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.DistrictName
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <label>Pincode</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.opdPincode
+                </div>
+                <div class="col-md-3">
+                    <label>Mark Of Identification</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.markOfIdentification
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+
+            <h4>Documents</h4>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label>Photo Id Type</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.idTypeName
+                </div>
+                <div class="col-md-3">
+                    <label>Photo Id Number</label>
+                </div>
+                <div class="col-md-3">
+                    @Model.idNumber
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                @if (Model.idFilePath != "" && Model.idFilePath != null)
+                {
+                    <div class="col-md-3">
+                        <label>Photo Id</label>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="@Url.Content(Model.idFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                    </div>
+                }
+            </div>
+            <div class="clearfix"></div>
+            @if (Model.oldCertificateNumber != "" && Model.oldCertificateNumber != null)
+            {
+                <h4>Detail For Extended Days</h4>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>OPD Receipt Number </label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.extOpdReceiptno
+                    </div>
+                    <div class="col-md-3">
+                        <label>New Inspected Date </label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.extInspectedDate
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+
+                    @if (Model.extOpdFilePath != "" && Model.extOpdFilePath != null)
+                    {
+                        <div class="col-md-3">
+                            <label>OPD Reciept </label>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="@Url.Content(Model.extOpdFilePath)" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                        </div>
+                    }
+                    <div class="col-md-3">
+                        <label>Doctor's Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.extDoctorName
+                    </div>
+                </div>
+                  
+                <div class="clearfix"></div>
+                  
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Treatment From</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.extTreatmentFrom
+                    </div>
+                    <div class="col-md-3">
+                        <label>Treatment To</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.extTreatmentto
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>  
+                  
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>No Of Days</label>
+                    </div>
+                    <div class="col-md-3">
+                        @Model.extNoOfDays
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>  
+            }
+        </div>
+    </div>
+</div>

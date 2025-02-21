@@ -1,0 +1,1423 @@
+﻿@model CCSHealthFamilyWelfareDept.Models.FICModel
+@{
+    ViewBag.Title = "FitnessCertificate";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+
+<div class="content-title" id="FormDisplayheading" style="display: none">
+    <h3 class="main-title">Application Form For Fitness Certificate</h3>
+
+</div>
+<div class="content-title" id="FormSearchheading" style="display: none">
+    <h3 class="main-title">Application Form For Illness to Fitness Certificate</h3>
+
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    @using (Html.BeginForm("FitnessCertificate", "FIC", FormMethod.Post, new { @id = "frmFitnessCertificate" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.AppType)
+
+        <div class="row" id="FormSearch" style="display: none">
+             <div class="col-md-12">
+                <div class="panel panel-default" style="margin-bottom: 5px;">
+                    <div class="panel-body" style="padding: 3px 10px">
+                        <div class="row">
+                            <div class="col-md-12">
+                               <strong>Note :-  <span class="text-danger" style="white-space: pre-line">Illness to Fitness Certificate will be issued only to those applicant who have been treated at Government Hospital/CHC/PHC & having Online Illness &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Certificate issued by system.</span>
+                                    
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Provide Illness Certificate No.</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Illness Certificate No. <span class="star">*</span></label>
+                                    <input id="certificateNo_display" class = "form-control" placeholder = "Enter Certificate Number"  type="text" />
+                                     @*@Html.TextBoxFor(m => m.certificateNo, new { @class = "form-control", @placeholder = "Enter Certificate Number" })*@
+                                     @Html.HiddenFor(m => m.certificateNo)
+                                    @Html.ValidationMessageFor(m => m.certificateNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label></label>
+                                    <button id="btnSearch" name="btnSearch" type="button" class="btn btn-block btn-primary">Proceed</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="display: none">
+                                <div class="form-group">
+                                    <button id="btnreset" name="btnreset" type="submit" class="btn btn-block btn-warning">Reset</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="FormDisplay" style="display: none">
+            <!-- InstanceBeginEditable name="content" -->
+            <div class="col-md-12">
+                <div class="panel panel-default" style="margin-bottom: 5px;">
+                    <div class="panel-body" style="padding: 3px 10px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong>Note :-  <span class="text-danger" style="white-space: pre-line">(i). All files that will be uploaded should be in .jpg and .pdf format and maximum file size should be 2080 KB (2 MB).</span>
+                                    
+                                </strong>
+                                <div class="clearfix"></div>
+                                <strong>
+                                    <span class="text-danger">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ii). Only those applicant can apply for General Certificate who have already get inspected earlier at Government Hospital/CHC/PHC & having old &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receipt.</span>
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Reason For Application</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Reason <span class="star">*</span></label>
+                                    @Html.TextAreaFor(m => m.applicationReason, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.applicationReason, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>OPD Receipt Number <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.opdRecNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.opdRecNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Upload Document <span class="text-danger">*</span></label>
+                                    <div class="fileUpload3">
+                                        <span>Upload </span>
+                                        @Html.TextBoxFor(m => m.opdFile, new { @type = "file", @class = "upload3", @onchange = "UploadFile(this)" })
+                                        @Html.HiddenFor(m => m.opdFilePath)
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.opdFile, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group padding-top-30" id="opdFilehdndoc" style="display: none;">
+                                    <a href="#" id="opdFileUploadedDoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Select Health Unit</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Health Unit&nbsp;<span class="text-danger">*</span></label>
+                                    <div class="form-control">
+                                        @foreach (var type in ViewBag.forwardTypes)
+                                        {
+                                            <label>
+                                                <input type="radio" name="forwardtypeId" id="forwardtypeId" value="@type.forwardtypeId">
+                                                @type.forwardtypeName
+                                            </label>
+                                        }
+                                    </div>
+                                    <label id="lbltype" class="text-danger" style="display: none;">Select Health Unit</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>District&nbsp;<span class="text-danger">*</span></label>
+                                @Html.DropDownListFor(m => m.healthUnitDistrictId, (IEnumerable<SelectListItem>)ViewBag.UPDistrict, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                @Html.ValidationMessageFor(m => m.healthUnitDistrictId, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(m => m.healthUnitDistrictId)
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Health Unit Name&nbsp;<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.forwardtoId, (IEnumerable<SelectListItem>)ViewBag.forwardTo, "--Select--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.forwardtoId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Doctor Name</label>
+                                    @Html.TextBoxFor(m => m.fitnessAdvicedBy, new { @class = "form-control", @placeholder = "Doctor Name" })
+                                    @Html.ValidationMessageFor(m => m.fitnessAdvicedBy, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Date of Check-up <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.opdDate, new { @class = "datepicker-here form-control", tabindex = "2", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+
+                                    @Html.ValidationMessageFor(m => m.opdDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                           <div class="col-md-3 ItoF" style="display:none">
+                                <div class="form-group">
+                                    <label>Treatment From <span class="star">*</span></label>
+                                    @*@Html.TextBoxFor(m => m.treatmentFrom, new { @class = "datepicker-here form-control F", tabindex = 9, @data_language = "en", @readonly = "true", @onblur = "calDay();", @placeholder = "dd/mm/yyyy" })*@
+                                    @Html.TextBoxFor(m => m.treatmentFrom, new { @class = "form-control F", tabindex = 9, @readonly = "true" })
+                                    @Html.ValidationMessageFor(m => m.treatmentFrom, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3 ItoF" style="display:none">
+                                <div class="form-group">
+                                    <label>Treatment To <span class="star">*</span></label>
+                                    @*@Html.TextBoxFor(m => m.treatmentto, new { @class = "datepicker-here form-control T", tabindex = 10, @data_language = "en", @onblur = "calDay();", @readonly = "true", @placeholder = "dd/mm/yyyy" })*@
+                                    @Html.TextBoxFor(m => m.treatmentto, new { @class = "form-control T", tabindex = 9, @readonly = "true" })
+                                    @Html.ValidationMessageFor(m => m.treatmentto, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3 ItoF" style="display:none">
+                                <div class="form-group">
+                                    <label>No Of Days<span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.NoOfDays, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(m => m.NoOfDays, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3 ItoF" style="display:none">
+                                <div class="form-group">
+                                    <label>Illness Details <span class="star">*</span></label>
+                                    @Html.TextAreaFor(m => m.illnessDetail, new { @class = "form-control", @readonly = "readonly"})
+                                    @Html.ValidationMessageFor(m => m.illnessDetail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Personal Details</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Full Name <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.fullName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.fullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Father’s name <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.fatherName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.fatherName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>DOB <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.dob, new { @class = "datepicker-here form-control", @data_language = "en", @readonly = "true", @placeholder = "dd/mm/yyyy" })
+                                    @Html.ValidationMessageFor(m => m.dob, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Gender <span class="star">*</span></label>
+                                    <div class="form-control" style="padding: 6px 3px">
+                                        <label>
+                                            <input type="radio" name="rbtnGender" value="Male">Male</label>
+                                        <label>
+                                            <input type="radio" name="rbtnGender" value="Female">Female</label>
+                                        <label>
+                                            <input type="radio" name="rbtnGender" value="Transgender">Transgender</label>
+                                    </div>
+                                    @Html.HiddenFor(m => m.gender)
+                                    @Html.HiddenFor(m => m.rbtnGender)
+                                    <span id="spanGender" class="text-danger" style="display: none;">Select Gender</span>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Category <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.categoryId, (IEnumerable<SelectListItem>)ViewBag.Category, "--Select--", new { @class = "form-control select" })
+                                    @Html.ValidationMessageFor(m => m.categoryId, "", new { @class = "text-danger" })
+
+                                    @*@Html.TextBoxFor(m => m.categoryName, new { @class = "form-control" })
+                                    @Html.HiddenFor(m => m.categoryId)*@
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Mobile No. <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @maxlength = "10", @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.mobileNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Email Address </label>
+                                    @Html.TextBoxFor(m => m.emailId, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.emailId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Address <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.opdAddress, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.opdAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>State <span class="star">*</span> </label>
+
+                                    @Html.DropDownListFor(m => m.opdStateId, (IEnumerable<SelectListItem>)ViewBag.State,"--Select--", new { tabindex = 7, @class = "form-control"})
+                                    @Html.ValidationMessageFor(m => m.opdStateId, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.opdStateId)
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>District <span class="star">*</span></label>
+                                    @Html.DropDownListFor(m => m.opdDistrictId, (IEnumerable<SelectListItem>)ViewBag.District, "--Select--", new { @class = "form-control", tabindex = "1" })
+                                    @Html.ValidationMessageFor(m => m.opdDistrictId, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.opdDistrictId)
+                                    <input type="hidden" id="hdnDistId" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Pincode</label>
+                                    @Html.TextBoxFor(m => m.opdPinCode, new { @class = "form-control", @maxlength = "6", @onkeypress = "return isNumberKey(event);" })
+                                    @Html.ValidationMessageFor(m => m.opdPinCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Mark Of Identification <span class="text-danger">*</span></label>
+                                    @Html.TextAreaFor(m => m.markOfIdentification, new { @class = "form-control", tabindex = 6 })
+                                    @Html.ValidationMessageFor(m => m.markOfIdentification, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Upload Documents</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                          
+
+                            <div class="col-md-4" style="margin-bottom: 10px;">
+                                <div class="form-group">
+                                  
+                                    <label>Photo Id Type <span class="text-danger">*</span></label>
+                                    @Html.DropDownListFor(m => m.idTypeId, (IEnumerable<SelectListItem>)ViewBag.IdType, "--Select--", new { @class = "form-control", tabindex = 4 })
+                                    @Html.HiddenFor(m => m.idTypeId)
+                                    @Html.ValidationMessageFor(m => m.idTypeId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4" style="margin-bottom: 10px;">
+                                <div class="form-group">
+                                    <label>Photo Id No.<span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(m => m.idNumber, new { @class = "form-control", tabindex = 8 })
+                                    @Html.ValidationMessageFor(m => m.idNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-2 U" style="margin-bottom: 10px; display:none">
+                                <label>Photo Id File <span class="text-danger">*</span></label>
+                                <div class="fileUpload3">
+                                    <span>Upload </span>
+                                    @* <input type="file" class="upload3" id="sterilizationcertificatefile" name="sterilizationcertificatefile" onchange="UploadFile(this);">*@
+                                    @Html.TextBoxFor(m => m.idFile, new { @class = "upload3", @type = "file", @onchange = "UploadFile(this);" })
+                                    @Html.HiddenFor(m => m.idFilePath)
+                                </div>
+                                @Html.ValidationMessageFor(m => m.idFile, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group padding-top-30" id="idFilehdndoc" style="display: none;">
+                                    <a href="#" id="idFileUploadedDoc" target="_blank" title="Download"><i class="fa fa-2x fa-download"></i></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 NewDiv">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Medical History(if Any)</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>DO You Have Any Medical History?<span class="star">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label>@Html.RadioButtonFor(m => m.isMedicalHistory, "Yes") Yes</label>&nbsp;&nbsp;&nbsp;
+                                    <label>@Html.RadioButtonFor(m => m.isMedicalHistory, "No") No</label>
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.isMedicalHistory, "", new { @class = "text-danger" })
+                                    @*<input type="hidden" id="hdnMeHistory" />*@
+                                    @Html.HiddenFor(m => m.hdnMeHistory)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="divMHDetails" style="display: none;">
+                            @*<div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Hospital Name <span class="star">*</span></label>
+                                    @Html.TextBoxFor(m => m.opdName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.opdName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Details of Medical History <span class="star">*</span></label>
+                                    @Html.TextAreaFor(m => m.detailsMedicalHistory, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.detailsMedicalHistory, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="title elipsis">
+                            <h4>Undertaking</h4>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>
+                                    <input id="chkConfirm" name="chkConfirm" type="checkbox" />
+                                    <b>I hereby declare that the details furnished above are true and correct to the best of my knowledge and belief and I undertake to inform you of any changes therein, immediately. In case any of the above information is found to be false or untrue or misleading or misrepresenting, I am aware that I may be held liable for it.</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+
+
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2 col-md-offset-4">
+                                    <button id="btnsubmit" type="button" class="btn btn-block btn-primary">Preview</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("FitnessCertificate", "FIC")" class="btn btn-block btn-warning">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+      
+@*popup*@
+        <button id="btnShowPopup" type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none;"></button>
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Preview Application Form</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 470px; overflow-y: auto;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-default">
+                                    <div class="panel-body">
+                                         <div class="row">
+                                            <div class="col-md-6 popItoF" style="display:none">
+                                                <label>Old Certificate No.</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spancertificateNo"></span>
+                                            </div>
+                                        </div>
+                                        <h4>Reason For Application</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Reason</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanReason"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>OPD Reciept Number</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanopdRecNo"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Uploaded OPD Receipt</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" id="spanopdFilePath" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                            </div>
+                                        </div>
+                                         <h4>Select Health Unit</h4>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Health Unit</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanType"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>District</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanHUDistrict"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>CHC/PHC/DH Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanDC"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Treating Doctor Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanfitnessAdvicedBy"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Date of Check-up</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanopdDate"></span>
+                                            </div>
+                                        </div>
+                                      @*  <div class="row popItoF" style="display:none">
+                                            <div class="col-md-6">
+                                                <label>Treatment From</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spantreatmentFrom"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row popItoF" style="display:none">
+                                            <div class="col-md-6">
+                                                <label>Treatment To</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spantreatmentto"></span>
+                                            </div>
+                                        </div>*@
+                                         <div class="row popItoF" style="display:none">
+                                            <div class="col-md-6">
+                                                <label>Illness Detail</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanillnessDetail"></span>
+                                            </div>
+                                        </div>
+
+                                        <h4>Personal Details</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Full Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanfullName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Father Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanfatherName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Date Of Birth</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spandob"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Gender</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spangender"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Cast Category</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spancategoryName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Mobile No</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanmobileNo"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Email Id</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanemailId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanopdAddress"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>State</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanopdStateId"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>District</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanopdDistrictId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Pin Code</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanopdPinCode"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Mark Of Identification</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanmarkOfIdentification"></span>
+                                            </div>
+                                        </div>
+                                         <h4>Upload Documents</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Id Type</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanidTypeId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Id No.</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanidNumber"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Id File </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" id="spanidFilePath" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <h4 class="NewDiv">Medical History(if Any)</h4>
+                                        <div class="row NewDiv">
+                                            <div class="col-md-6">
+                                                <label>DO You Have Any Medical History?</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spanIsMH"></span>
+                                            </div>
+                                        </div>
+                                        <div id="divMHDetailsPrv" class="NewDiv" style="display: none;">
+                                            @*<div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Hospital Name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spanopdName"></span>
+                                                </div>
+                                            </div>*@
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Details of Medical History</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spandetailsMedicalHistory"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2 col-md-offset-4">
+                                    <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+@*popup*@
+    }
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["msg"]' != '' && '@TempData["msgstatus"]' != '') {
+            swal("", '@TempData["msg"]', '@TempData["msgstatus"]');
+        }
+
+        if ('@ViewBag.msg' != '' && '@ViewBag.MsgStatus' != '') {
+            swal("", '@ViewBag.msg', '@ViewBag.MsgStatus');
+        }
+
+        if ('@Model.AppType' == 'Old') {
+            $('#hdnMeHistory').val('1');
+            $('.OldDiv').show();
+            $('.NewDiv').hide();
+            $('#FormDisplay').hide
+            $('#FormDisplayheading').hide
+            $('#FormSearch').show();
+            $('#FormSearchheading').show();
+            $("input[name=forwardtypeId]").prop('disabled', true);
+            $('#healthUnitDistrictId').prop('disabled', true);
+            $('#forwardtoId').prop('disabled', true);
+            $("input[name=rbtnGender]").prop('disabled', true);
+
+            $('#fullName').attr('readonly', true);
+            $('#fullName').addClass('input-disabled');
+            $('#fatherName').attr('readonly', true);
+            $('#fatherName').addClass('input-disabled');
+            $("input[name=rbtnGender]").prop('disabled', true);
+            $("#categoryId").prop("disabled", true);
+            $('#opdAddress').attr('readonly', true);
+            $('#opdAddress').addClass('input-disabled');
+            $('#opdStateId').prop('disabled', true);
+            $('#opdDistrictId').prop('disabled', true);
+            $('#opdPinCode').attr('readonly', true);
+            $('#opdPinCode').addClass('input-disabled');
+            $('#markOfIdentification').attr('readonly', true);
+            $('#markOfIdentification').addClass('input-disabled');
+            $('#idTypeId').prop('disabled', true);
+            $('#idNumber').attr('readonly', true);
+            $('#idNumber').addClass('input-disabled');
+
+            $('.U').hide();
+        }
+        else {
+            $('.NewDiv').show();
+            $('.OldDiv').hide();
+            $('#FormSearch').hide();
+            $('#FormSearchheading').hide();
+            $('#FormDisplay').show();
+            $('#FormDisplayheading').show();
+            $('.U').show();
+        }
+
+        //------------------Serach Old Certificate
+        $("#btnSearch").click(function () {
+
+
+            if ($("#certificateNo_display").val().trim() != '' && $("#certificateNo_display").val().trim() != null) {
+                bindDataForRevisedCertificate($("#certificateNo_display").val());
+            }
+            else {
+                swal("", 'Enter Certificate Number!', "warning");
+            }
+        });
+
+        function bindDataForRevisedCertificate(_oldCertificateNumber) {
+            debugger;
+            var img = "<img src='@Url.Content("~/Images/loadingImg.gif")' alt='Loading..' style='margin-left:40%; margin-top:25px' />";
+            $('#DIV-ApplicationList').html(img);
+
+            $.ajax({
+                url: '@Url.Action("GetLatestILCDetailByCrtificateNo", "FIC")',
+                data: { oldCertificateNumber: _oldCertificateNumber },
+                type: 'GET',
+                dataType: 'json'
+            })
+        .success(function (returndata) {
+            debugger;
+            if (returndata != null && returndata != '') {
+                if (returndata.regisIdILC == "4") {
+                    swal("", 'Details not found for given Certificate Number!', "warning");
+                    $("#FormDisplay").hide();
+                    $("#FormDisplayheading").hide();
+                    $('#FormSearch').show();
+                    $('#FormSearchheading').show();
+                }
+                else if (returndata.Msg == "3") {
+                    swal("", 'Given Certificate Number is already used for Illness to Fitness Certificate!', "warning");
+                    $("#FormDisplay").hide();
+                    $("#FormDisplayheading").hide();
+                    $('#FormSearch').show();
+                    $('#FormSearchheading').show();
+                }
+                else if (returndata.Msg == "2") {
+                    swal("", 'Please Enter Your Latest Certificate Number!', "warning");
+                    $("#FormDisplay").hide();
+                    $("#FormDisplayheading").hide();
+                    $('#FormSearch').show();
+                    $('#FormSearchheading').show();
+                }
+                else {
+                    $("#FormDisplay").show();
+                    $("#FormDisplayheading").hide();
+                    $('#FormSearch').show();
+                    $('#FormSearchheading').show();
+                    $("#certificateNo").val($("#certificateNo_display").val())
+                    $('#regisIdILC ').val(returndata.regisIdILC);
+                    $('#regByUser').val(returndata.regByUser);
+                    $('#applicationReason').val(returndata.reason);
+                    $('#opdRecNo').val(returndata.opdReceiptno);
+                    $("input[name=forwardtypeId][value=" + returndata.forwardtypeId + "]").prop('checked', true);
+                    $('#fitnessAdvicedBy').val(returndata.doctorName);
+                    $('#healthUnitDistrictId ').val(returndata.healthUnitDistrictId);
+                    $('#opdDate').val(returndata.opdDate);
+                    $('#treatmentFrom').val(returndata.treatmentFrom);
+                    $('#treatmentto').val(returndata.treatmentto);
+                    $('#NoOfDays').val(returndata.NoOfDays);
+
+
+                    $('#illnessDetail').val(returndata.illnessDetail);
+                    debugger;
+                    var Url = returndata.opdFilePath;
+                    //$('#opdFile').val(Url);
+                    $("#opdFilePath").val(Url);
+                    $(".ItoF").show();
+                    var Url = Url.replace('~/', '');
+                    $("#opdFileUploadedDoc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+
+
+                    $('#fullName').val(returndata.fullName);
+                    $('#fatherName').val(returndata.fatherName);
+                    $('#dob').val(returndata.dob);
+                    debugger;
+                    
+                    $("input[name=rbtnGender][value=" + returndata.gender + "]").prop('checked', true);
+                    $('#categoryId ').val(returndata.categoryId);
+                    $('#mobileNo').val(returndata.mobileNo);
+                    $('#emailId').val(returndata.emailId);
+                    $('#opdAddress').val(returndata.opdAddress);
+                    $('#opdStateId').val(returndata.opdStateId);
+                    $('#opdDistrictId ').val(returndata.opdDistrictId);
+                    $('#opdPinCode').val(returndata.opdPincode);
+
+                    $('#markOfIdentification').val(returndata.markOfIdentification);
+                    $('#idTypeId ').val(returndata.idTypeId);
+                    $('#idNumber').val(returndata.idNumber);
+                    $("#idFilehdndoc").show();
+                    var Url = returndata.opdFilePath.replace('~/', '');
+                    $("#idFileUploadedDoc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+                    $("#idFilePath").val(returndata.opdFilePath);
+                    var isMedicalHistory = "Yes";
+                    $("input[name=isMedicalHistory][value=" + isMedicalHistory + "]").attr('checked', true);
+                    $('#divMHDetails').show();
+                    $('#hdnDistId').val(returndata.opdDistrictId);
+                    binddropdown(returndata.forwardtypeId, returndata.healthUnitDistrictId);
+                    $("#forwardtoId ").val(returndata.forwardtoId);
+                    if (returndata.opdDistrictId != '') {
+                        binddist(returndata.opdStateId);
+                    }
+
+                }
+
+            }
+            else {
+                swal("", 'Details not found for given Certificate Number!', "warning");
+                $(".oldnew").hide();
+
+            }
+        })
+        .error(function (xhr, status) {
+            swal("", 'Details not found for given Certificate Number!', "warning");
+            $(".oldnew").hide();
+        });
+    }
+
+        //-------------------------
+        if ($('#hdnMeHistory').val() == '1') {
+            $('#divMHDetails').show();
+        }
+    });
+
+$("input[name=isMedicalHistory]").change(function () {
+    if ($(this).val().toLowerCase() == 'yes') {
+        $('#divMHDetails').show();
+        //$('#opdName').val('');
+        $('#detailsMedicalHistory').val('');
+        $('#hdnMeHistory').val('1');
+    }
+    else {
+        $('#divMHDetails').hide();
+        //$('#opdName').val('');
+        $('#detailsMedicalHistory').val('');
+        $('#hdnMeHistory').val('2');
+    }
+});
+
+$('input[name=forwardtypeId]').click(function () {
+    $("#lbltype").hide();
+});
+$("#btnsubmit").click(function () {
+    debugger;
+    $('#spanGender').hide();
+    $("#lbltype").hide();
+    var isShowPopup = true;
+    var val = $("#frmFitnessCertificate").validate();
+    val.form();
+    val.showErrors();
+
+    if (!val.valid()) {
+        swal("", "Some mandatory fields are Empty, Kindly check Application Form and fill the required Data.", "warning");
+        isShowPopup = false;
+        if ($('input[name=forwardtypeId]:checked').length == 0) {
+            $("#lbltype").show();
+        }
+
+        if ($("input[name='rbtnGender']:checked").length == 0) {
+            $('#spanGender').show();
+            isShowPopup = false;
+        }
+    }
+    else {
+        if ($("input[name='rbtnGender']:checked").length == 0) {
+            $('#spanGender').show();
+            isShowPopup = false;
+           
+        }
+        if (!$('#chkConfirm').is(':checked')) {
+            isShowPopup = false;
+            swal("", "Please check undertaking !", "warning");
+        }
+    }
+
+
+    if (isShowPopup) {
+        
+        
+
+        if ('@Model.AppType' == 'Old') {
+            $(".popItoF").show();
+            var cerno = $("#certificateNo_display").val();
+
+            $("#spancertificateNo").text(cerno);
+            $('#spantreatmentFrom').text($('#treatmentFrom').val());
+            $('#spantreatmentto').text($('#treatmentto').val());
+            
+            $("#spanillnessDetail").val($("#illnessDetail").val());
+        }
+        else {
+            $(".popItoF").hide();
+        }
+        $('#gender').val($("input[name='rbtnGender']:checked").attr("data-gender"));
+
+        $('#spanReason').text($('#applicationReason').val());
+        $('#spanfullName').text($('#fullName').val());
+        $('#spanfatherName').text($('#fatherName').val());
+        $('#spandob').text($('#dob').val());
+        $("#spangender").text($("input[type='radio'][name='rbtnGender']:checked").val());
+       
+        $('#spancategoryName').text($("#categoryId option:selected").text());
+        $('#spanmobileNo').text($('#mobileNo').val());
+        if ($('#emailId').val()=='')
+        {
+            $('#spanemailId').text('NaN');
+        }
+        else
+        {
+            $('#spanemailId').text($('#emailId').val());
+        }
+        
+        $("#spaninsttype").text($("#institutionTypeId option:selected").text());
+        $('#spanIsMH').text($('input[name=isMedicalHistory]:checked').parent().text());
+        if ($('#hdnMeHistory').val() == '1') {
+            $('#divMHDetailsPrv').show();
+        }
+        else {
+            $('#divMHDetailsPrv').hide();
+        }
+
+        //$('#spanopdName').text($('#opdName').val());
+        $('#spanopdRecNo').text($('#opdRecNo').val());
+        $('#spanopdDate').text($('#opdDate').val());
+        $('#spanopdStateId').text($('#opdStateId option:selected').text());//($('#opdStateId').text());
+        $('#spanopdAddress').text($('#opdAddress').val());
+        $("#spanopdPinCode").text(($("#opdPinCode").val() == '') ? 'NaN' : ($("#opdPinCode").val()));
+        
+        $('#spanopdDistrictId').text($('#opdDistrictId option:selected').text());
+
+        var opdfile = $('#opdFilePath').val().split('/');
+        var url = '@Url.Content("~/Content/writereaddata/FIC/")' + opdfile[opdfile.length - 1];
+        $('#spanopdFilePath').removeAttr('href');
+        $('#spanopdFilePath').attr('href', url);
+
+        $('#spanidTypeId').text($("#idTypeId option:selected").text());
+        if ($('#idNumber').val()=='')
+        {
+            $('#spanidNumber').text('NaN');
+        }
+        else
+        {
+            $('#spanidNumber').text($('#idNumber').val());
+        }
+        
+        var idFile = $('#idFilePath').val().split('/');
+        if ('@Model.AppType' == 'Old') {
+            var url2 = '@Url.Content("~/Content/writereaddata/ILC/")' + idFile[idFile.length - 1];
+        }
+        else {
+            var url2 = '@Url.Content("~/Content/writereaddata/FIC/")' + idFile[idFile.length - 1];
+        }
+        
+        $('#spanidFilePath').removeAttr('href');
+        $('#spanidFilePath').attr('href', url2);
+
+        $('#spanType').text($('input[name=forwardtypeId]:checked').parent().text());
+
+        $("#spanHUDistrict").text($("#healthUnitDistrictId option:selected").text());
+
+        $("#spanDC").text($("#forwardtoId option:selected").text());
+        if ($('#fitnessAdvicedBy').val() == '') {
+            $('#spanfitnessAdvicedBy').text('NaN');
+        }
+        else {
+            $('#spanfitnessAdvicedBy').text($('#fitnessAdvicedBy').val());
+        }
+       
+        //$('#spantreatmentFrom').text($('#treatmentFrom').val());
+        //$('#spantreatmentto').text($('#treatmentto').val());
+        $('#spanapplicationReason').text($('#applicationReason').val());
+        $('#spanillnessDetail').text($('#illnessDetail').val());
+        $('#spanremarks').text($('#remarks').val());
+        $('#spanmarkOfIdentification').text($('#markOfIdentification').val());
+        if ($('#detailsMedicalHistory').val()=="")
+        {
+             $('#spandetailsMedicalHistory').text('NaN');
+        }
+    else
+    {
+        $('#spandetailsMedicalHistory').text($('#detailsMedicalHistory').val());
+    }
+       
+
+        $('#btnShowPopup').click();
+        setTimeout(function () {
+            $('.modal-body').scrollTop(0);
+        }, 300);
+    }
+});
+
+
+function UploadFile(Obj) {
+    debugger;
+    var ext = Obj.value.match(/\.(.+)$/)[1];
+    var Id = $(Obj).attr("Id");
+
+    switch (ext) {
+        case 'pdf':
+        case 'jpg':
+            var fileSize = ($("#" + Id)[0].files[0].size / 1024 / 1024);
+            if (fileSize > 2) {
+                swal("", "Maximum 2MB file size are allowed", "warning");
+                return false;
+            }
+            else {
+                var data = new FormData();
+                var files = $("#" + Id).get(0).files;
+                if (files.length > 0) {
+                    data.append("File", files[0]);
+                }
+                $.ajax({
+                    url: '@Url.Action("UploadFile", "FIC")',
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    success: function (response) {
+                        $("#" + Id + "Path").val(response[1]);
+                        $("#" + Id + "hdndoc").show();
+                        var Url = response[1].replace('~/', '');
+                        $("#" + Id + "UploadedDoc").prop('href', '@Url.Content("~/")' + Url + '?' + new Date().getTime().toString());
+                            return false;
+                        },
+                    error: function () {
+
+                    }
+                });
+
+                }
+                break;
+            default:
+                swal("", 'Invalid File Format only pdf and jpg files are allowed!', "warning");
+                this.value = '';
+                return false;
+        }
+    }
+
+    var strDate = @DateTime.Now.Year + "/" + @DateTime.Now.Month + "/" + @DateTime.Now.Day + "";
+
+    $('#dob').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    $('#opdDate').datepicker({
+        maxDate: new Date(strDate),
+        autoClose: true
+    });
+
+    //$('#treatmentFrom').datepicker({
+    //    maxDate: new Date(strDate),
+    //    onSelect: function (selectedDate) {
+    //        var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+    //        selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+    //        var mindate = new Date(selectedDate);
+    //        mindate.setDate(mindate.getDate() + 1);
+    //        $("#treatmentto").datepicker({ minDate: mindate, autoClose: true });
+    //    },
+    //    autoClose: true
+    //});
+    //$('#treatmentto').datepicker({
+    //    maxDate: new Date(strDate),
+    //    onSelect: function (selectedDate) {
+    //        var mydatematch = selectedDate.match(/(\d+)\/(\d+)\/(\d+)/);
+    //        selectedDate = new Date(mydatematch[3], mydatematch[2] - 1, mydatematch[1]);
+    //        var maxdate = new Date(selectedDate);
+    //        maxdate.setDate(maxdate.getDate() - 1);
+    //        $("#treatmentFrom").datepicker({ maxDate: maxdate, autoClose: true });
+    //    },
+    //    autoClose: true
+    //});
+
+
+
+    $("#healthUnitDistrictId").change(function () {
+        binddropdown($("input[name=forwardtypeId]:checked").val(), $(this).val());
+    });
+
+    $("input[name=forwardtypeId]").change(function () {
+        binddropdown($(this).val(), $("#healthUnitDistrictId").val());
+    });
+
+    function binddropdown(Id, distId) {
+
+        $.ajax({
+            url: '@Url.Action("BindForwardDropdownlist", "FIC")',
+            data: { rollId: Id, opdDistrictId: distId },
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $("#forwardtoId").empty();
+                $("#forwardtoId").append('<option value="">--Select--</option>');
+                $.each(data, function (id, result) {
+                    $("#forwardtoId").append('<option value="' + result.Value + '">' + result.Text + '</option>');
+                })
+            },
+            error: function (xhr, status) {
+                //alert(status);
+                $("#forwardtoId").empty();
+                $("#forwardtoId").append('<option value="">--Select--</option>');
+            }
+        });
+    }
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function isalphabet(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+
+        if (!(charCode >= 65 && charCode <= 120) && (charCode != 32 && charCode != 0))
+            return false;
+        return true;
+    }
+
+    function calDay() {
+        debugger;
+
+        to = $('.T').val();
+        frm = $('.F').val();
+
+        if (frm != '' && to != '') {
+
+            calDays(frm, to);
+
+        }
+    };
+    function calDayDiff() {
+        debugger;
+
+        to = $('.tt').val();
+        frm = $('.tf').val();
+
+        if (frm != '' && to != '') {
+
+            calDaysdiff(frm, to);
+
+        }
+    };
+    function calDays(date1, date2) {
+        debugger;
+        if (date1 != '' && date2 != '') {
+
+            var d = new Date(date1.split("/").reverse().join("/"));
+
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1;
+            var yy = d.getFullYear();
+            var edate = yy + "-" + mm + "-" + dd;
+
+
+            var d2 = new Date(date2.split("/").reverse().join("/"));
+            var dd = d2.getDate();
+            var mm = d2.getMonth() + 1;
+            var yy = d2.getFullYear();
+            var sdate = yy + "-" + mm + "-" + dd;
+
+            var startDate = Date.parse(sdate);
+            var endDate = Date.parse(edate);
+
+            var timeDiff = startDate - endDate;
+            daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            //alert(daysDiff)
+
+
+            $("#NoOfDays").val(daysDiff + 1);
+
+        }
+        else {
+            //alert();
+            $("#NoOfDays").val('');
+
+        }
+    }
+    function calDaysdiff(date1, date2) {
+        debugger;
+        if (date1 != '' && date2 != '') {
+
+            var d = new Date(date1.split("/").reverse().join("/"));
+
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1;
+            var yy = d.getFullYear();
+            var edate = yy + "-" + mm + "-" + dd;
+
+
+            var d2 = new Date(date2.split("/").reverse().join("/"));
+            var dd = d2.getDate();
+            var mm = d2.getMonth() + 1;
+            var yy = d2.getFullYear();
+            var sdate = yy + "-" + mm + "-" + dd;
+
+            var startDate = Date.parse(sdate);
+            var endDate = Date.parse(edate);
+
+            var timeDiff = startDate - endDate;
+            daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            //alert(daysDiff)
+
+
+            $("#NoOfDays").val(daysDiff + 1);
+
+        }
+        else {
+            //alert();
+            $("#NoOfDays").val('');
+
+        }
+    }
+    $("#opdStateId").change(function () {
+        binddist($("#opdStateId").val());
+    })
+    function binddist(opdStateId) {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("binddist","ILC")',
+            data: { opdStateId: opdStateId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#opdDistrictId").empty();
+                $("#opdDistrictId").append("<option value=''>--Select--</option>")
+                $.each(data, function (i, result) {
+                    $("#opdDistrictId").append("<option value='" + result.Value + "'>" + result.Text + "</option>")
+                });
+                $("#opdDistrictId").val($('#hdnDistId').val());
+            },
+            failure: function () {
+                alert("Failed!");
+            }
+        });
+    }
+
+    @*ISP START*@
+
+    $(document).ready(function () {
+        if ('@TempData["ApplicantCommanDetails1"] ' != '' && '@TempData["ApplicantCommanDetails1"]' != '') {
+             readonlyControlles();
+         }
+
+
+     });
+
+     function readonlyControlles() {
+
+
+         $('#fullName').attr("readonly", true);
+         $('#fatherName').attr("readonly", true);
+         $('#mobileNo').attr("readonly", true);
+         $('#emailId').attr("readonly", true);
+         $('#opdAddress').attr("readonly", true);
+         $('#opdPinCode').attr("readonly", true);
+         var data = '@TempData["Gender"]';
+
+        if (data == "Male") {
+            $('input:radio[name="rbtnGender"]').filter('[value="Male"]').attr('checked', true);
+        }
+        if (data == "Female") {
+            $('input:radio[name="rbtnGender"]').filter('[value="Female"]').attr('checked', true);
+        }
+        if (data == "Transgender") {
+            $('input:radio[name="rbtnGender"]').filter('[value="Transgender"]').attr('checked', true);
+        }
+        //jQuery("input[name='rbtnGender']").each(function (i) {
+        //    jQuery(this).attr('disabled', 'disabled');
+        //}
+        $('#categoryId').attr("style", "pointer-events: none;");
+        /* $('#markOfIdentification').attr("disabled", true);*/
+
+     }
+      @*ISP END*@
+
+</script>

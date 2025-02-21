@@ -1,0 +1,75 @@
+﻿@model List<CCSHealthFamilyWelfareDept.Models.DECModel>
+@{
+    ViewBag.Title = "ViewDECInComplete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using OTPL_Imp
+
+<style>
+    .webgrid-header
+    {
+        color: white;
+        background-color: #00FF00;
+        white-space: nowrap;
+        height: 40px;
+    }
+
+        .webgrid-header a
+        {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+<div class="content-title">
+    <h3 class="main-title">In-Completed Registration List
+        <a href="@Url.Action("DECRegistration", "AppRegistration")" class="btn btn-info pull-right">New Registration</a>
+        <a href="@Url.Action("ViewDECInComplete", "AppRegistration")" class="btn btn-info pull-right">View In-Completed</a></h3>
+</div>
+
+<div id="content" class="dashboard padding-20 margin-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    WebGrid grid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 5, ajaxUpdateContainerId: "divDataList");
+                    <div id="divDataList" class="table-responsive">
+                        @grid.GetHtml(tableStyle: "table table-bordered",
+            headerStyle: "webgrid-header",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: grid.Columns(
+            grid.Column(header: "S No.", style: "white", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+
+                     grid.Column(columnName: "registrationNo", header: "Application No."),
+                         grid.Column("fullName", header: "Name"),
+                         grid.Column("address", header: "Address"),
+                         grid.Column("mobileNo", header: "Mobile No"),
+                         grid.Column("appliedStatus", header: "Status"),
+                         grid.Column(header: "Complete Registration", format: @<text><a href="@Url.Action("DECRegistration", "AppRegistration", new { regisId = @OTPL_Imp.CustomCryptography.Encrypt(@item.regisIdDEC.ToString()) })" aria-hidden="true" class="icon-grn fa fa-pencil-square-o"></a></text>)
+
+                     ))
+                    </div>
+                }
+                else
+                {
+    
+                    <table class="table table-bordered norecord">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>No Record Found</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
